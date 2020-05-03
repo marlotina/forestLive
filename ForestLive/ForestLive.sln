@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FL.WebAPI.Core.Users", "FL.WebAPI.Core.Users\FL.WebAPI.Core.Users.csproj", "{7F7462AB-DAC9-4364-9852-C6A4AFE00BDB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{AC160241-C0C5-4D7E-8E4B-A4BEDCB1D039}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FL.User.EF.Migration", "FL.User.EF.Migration\FL.User.EF.Migration.csproj", "{3633208C-8F3D-4482-B7E1-37D7E898694F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F7462AB-DAC9-4364-9852-C6A4AFE00BDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F7462AB-DAC9-4364-9852-C6A4AFE00BDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F7462AB-DAC9-4364-9852-C6A4AFE00BDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F7462AB-DAC9-4364-9852-C6A4AFE00BDB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3633208C-8F3D-4482-B7E1-37D7E898694F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3633208C-8F3D-4482-B7E1-37D7E898694F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3633208C-8F3D-4482-B7E1-37D7E898694F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3633208C-8F3D-4482-B7E1-37D7E898694F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7F7462AB-DAC9-4364-9852-C6A4AFE00BDB} = {AC160241-C0C5-4D7E-8E4B-A4BEDCB1D039}
+		{3633208C-8F3D-4482-B7E1-37D7E898694F} = {AC160241-C0C5-4D7E-8E4B-A4BEDCB1D039}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {26B071A6-FCA6-49C2-AFAC-46EA6DF6003F}
+	EndGlobalSection
+EndGlobal
