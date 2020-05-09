@@ -90,15 +90,28 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         }
 
         [AllowAnonymous]
-        [HttpPost("authenticate")]
+        [HttpPost("login")]
         public IActionResult Login([FromBody]LoginRequest model)
         {
-            var user = this.accountService.Authenticate(model.Email, model.Password);
+            try
+            {
+                var user = this.accountService.Authenticate(model.Email, model.Password);
 
-            if (user == null)
-                return BadRequest(new { message = "Username or password is incorrect" });
+                if (user == null)
+                    return BadRequest("EMAIL_PASS");
 
-            return Ok(user);
+                return Ok(user);
+            }
+            catch (UserNotEmailConfirm ex)
+            {
+                this.logger.LogError("", ex);
+                return this.Conflict();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError("", ex);
+                return BadRequest();
+            }
         }
 
         [HttpPost]

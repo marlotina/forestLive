@@ -104,36 +104,47 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             {
                 var user = userManager.FindByEmailAsync(username).Result;
 
-                // return null if user not found
                 if (user == null)
                     return null;
 
-                // authentication successful so generate jwt token
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var key = Encoding.ASCII.GetBytes(this.iUserConfiguration.Secret);
-                var tokenDescriptor = new SecurityTokenDescriptor
+                if (!user.EmailConfirmed)
+                    throw new UserNotEmailConfirm();
+
+                var result = userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+
+                if (result == PasswordVerificationResult.Success)
                 {
-                    Subject = new ClaimsIdentity(new Claim[]
+                    // authentication successful so generate jwt token
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var key = Encoding.ASCII.GetBytes(this.iUserConfiguration.Secret);
+                    var tokenDescriptor = new SecurityTokenDescriptor
                     {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
-                    }),
-                    Expires = DateTime.UtcNow.AddDays(7),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
+                        Subject = new ClaimsIdentity(new Claim[]
+                            {
+                                new Claim(ClaimTypes.Name, user.Id.ToString())
+                            }),
+                        Expires = DateTime.UtcNow.AddDays(7),
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                    };
 
-                var token = tokenHandler.CreateToken(tokenDescriptor);
+                    var token = tokenHandler.CreateToken(tokenDescriptor);
 
-                return new AuthResponse
-                {
-                    Username = user.UserName,
-                    Email = user.Email,
-                    FirstName = user.Name,
-                    LastName = user.Surname,
-                    Token = tokenHandler.WriteToken(token),
-                    Photo = user.Photo
-                };
+                    return new AuthResponse
+                    {
+                        Id = user.Id,
+                        Username = user.UserName,
+                        Email = user.Email,
+                        FirstName = user.Name,
+                        LastName = user.Surname,
+                        Token = tokenHandler.WriteToken(token),
+                        Photo = user.Photo
+                    };
+                }
+
+                return null;
             }
-            catch (Exception ex) {
+            catch (Exception ex) 
+            {
                 return null;
             }
             
