@@ -29,7 +29,10 @@ namespace FL.WebAPI.Core.Users
         {
             IoCApi.AddInjection(services);
 
+            services.AddCors();
             services.AddControllers();
+
+            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Get<string>());
 
             services.AddAuthentication(x =>
             {
@@ -43,16 +46,14 @@ namespace FL.WebAPI.Core.Users
                x.TokenValidationParameters = new TokenValidationParameters
                {
                    ValidateIssuerSigningKey = true,
-                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration["Jwt:Key"])),
+                   IssuerSigningKey = new SymmetricSecurityKey(key),
                    ValidateIssuer = false,
-                   ValidateAudience = false,
+                   ValidateAudience = false
                };
            });
 
            AddIdentity(services, Configuration.GetSection("ConnectionStringUsersSite").Get<string>());
         }
-
-        
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -97,8 +98,8 @@ namespace FL.WebAPI.Core.Users
                 options.Password.RequireNonAlphanumeric = false;
                 options.Password.RequireLowercase = false;
             })
-            .AddEntityFrameworkStores<UserDbContext>();
-            //.AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<UserDbContext>()
+            .AddDefaultTokenProviders();
 
             services.TryAddScoped<SignInManager<Domain.Entities.User>>();
 

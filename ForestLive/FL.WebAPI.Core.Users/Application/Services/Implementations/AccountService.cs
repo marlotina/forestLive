@@ -3,6 +3,13 @@ using System;
 using System.Threading.Tasks;
 using FL.WebAPI.Core.Users.Application.Exceptions;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
+using System.Linq;
+using FL.WebAPI.Core.Users.Models.v1.Response;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
+using FL.WebAPI.Core.Users.Configuration.Contracts;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
@@ -10,13 +17,16 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
     {
         private readonly UserManager<Domain.Entities.User> userManager;
         private readonly IEmailAccountService iEmailAccountService;
+        private readonly IUserConfiguration iUserConfiguration;
 
         public AccountService(
             UserManager<Domain.Entities.User> userManager,
-            IEmailAccountService iEmailAccountService)
+            IEmailAccountService iEmailAccountService,
+            IUserConfiguration iUserConfiguration)
         {
             this.userManager = userManager;
             this.iEmailAccountService = iEmailAccountService;
+            this.iUserConfiguration = iUserConfiguration;
         }
 
         public async Task ConfirmEmailAsync(Guid userId, string code)
@@ -62,30 +72,71 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public async Task<string> RegisterAsync(Domain.Entities.User user, string password = null)
         {
-            var entityUser = await this.userManager.FindByEmailAsync(user.Email);
-            if (entityUser == null)
+            var identityResult = string.IsNullOrWhiteSpace(password)
+                    ? await this.userManager.CreateAsync(user)
+                    : await this.userManager.CreateAsync(user, password);
+
+            string token = string.Empty;
+            if (identityResult.Succeeded)
             {
-                var identityResult = string.IsNullOrWhiteSpace(password)
-                     ? await this.userManager.CreateAsync(user)
-                     : await this.userManager.CreateAsync(user, password);
-
-                string token;
-                if (identityResult.Succeeded)
-                {
-                    token = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
-                    await this.iEmailAccountService.SendConfirmEmail(user.Id, user.Email, token);
-                }
-                else
-                {
-                    throw new Exception("INVALID_REGISTRATION");
-                }
-
-                return token;
+                token = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+                await this.iEmailAccountService.SendConfirmEmail(user.Id, user.Email, token);
             }
             else
             {
-                throw new UserDuplicatedException();
+                if (identityResult.Errors.Any(x => x.Code == nameof(IdentityErrorDescriber.DuplicateEmail)))
+                {
+                    throw new EmailDuplicatedException();
+                }
+
+                if (identityResult.Errors.Any(x => x.Code == nameof(IdentityErrorDescriber.DuplicateUserName)))
+                {
+                    throw new UserDuplicatedException();
+                }
             }
+
+            return token;
+        }
+
+        public AuthResponse Authenticate(string username, string password)
+        {
+            try
+            {
+                var user = userManager.FindByEmailAsync(username).Result;
+
+                // return null if user not found
+                if (user == null)
+                    return null;
+
+                // authentication successful so generate jwt token
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(this.iUserConfiguration.Secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[]
+                    {
+                    new Claim(ClaimTypes.Name, user.Id.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
+
+                var token = tokenHandler.CreateToken(tokenDescriptor);
+
+                return new AuthResponse
+                {
+                    Username = user.UserName,
+                    Email = user.Email,
+                    FirstName = user.Name,
+                    LastName = user.Surname,
+                    Token = tokenHandler.WriteToken(token),
+                    Photo = user.Photo
+                };
+            }
+            catch (Exception ex) {
+                return null;
+            }
+            
         }
 
         public async Task ResetPasswordAsync(Guid userId, string code, string newPassword)

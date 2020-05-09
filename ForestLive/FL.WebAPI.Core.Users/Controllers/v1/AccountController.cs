@@ -52,7 +52,16 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             catch (UserDuplicatedException ex)
             {
                 this.logger.LogError("", ex);
-                return this.Conflict();
+                return this.Conflict("CONFLICT_USERNAME");
+            }
+            catch (EmailDuplicatedException ex)
+            {
+                this.logger.LogError("", ex);
+                return this.Conflict("CONFLICT_EMAIL");
+            }
+            catch (Exception ex)
+            {
+                return this.BadRequest();
             }
         }
 
@@ -73,16 +82,23 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
 
                 return BadRequest();
             }
-            catch (UserNotFoundException ex)
-            {
-                this.logger.LogError("User not exist.", ex);
-                return this.NotFound();
-            }
             catch (Exception ex)
             {
                 this.logger.LogError("Internal error.", ex);
                 return this.BadRequest();
             }
+        }
+
+        [AllowAnonymous]
+        [HttpPost("authenticate")]
+        public IActionResult Login([FromBody]LoginRequest model)
+        {
+            var user = this.accountService.Authenticate(model.Email, model.Password);
+
+            if (user == null)
+                return BadRequest(new { message = "Username or password is incorrect" });
+
+            return Ok(user);
         }
 
         [HttpPost]
