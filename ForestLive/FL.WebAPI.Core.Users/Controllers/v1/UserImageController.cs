@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -29,7 +30,8 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             this.userMapper = userMapper;
             this.userImageService = userImageService;
         }
-        
+
+        [Authorize]
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> Post([FromForm(Name = "file")] IFormFile formFile, Guid userId)
         {
@@ -58,6 +60,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             return this.BadRequest();
         }
 
+        [Authorize]
         [HttpDelete, Route("DeleteImage")]
         public async Task<IActionResult> DeleteImage([FromQuery] Guid userId)
         {

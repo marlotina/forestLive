@@ -100,54 +100,45 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public AuthResponse Authenticate(string username, string password)
         {
-            try
+            var user = userManager.FindByEmailAsync(username).Result;
+
+            if (user == null)
+                return null;
+
+            if (!user.EmailConfirmed)
+                throw new UserNotEmailConfirm();
+
+            var result = userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+
+            if (result == PasswordVerificationResult.Success)
             {
-                var user = userManager.FindByEmailAsync(username).Result;
-
-                if (user == null)
-                    return null;
-
-                if (!user.EmailConfirmed)
-                    throw new UserNotEmailConfirm();
-
-                var result = userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
-
-                if (result == PasswordVerificationResult.Success)
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var key = Encoding.ASCII.GetBytes(this.iUserConfiguration.Secret);
+                var tokenDescriptor = new SecurityTokenDescriptor
                 {
-                    // authentication successful so generate jwt token
-                    var tokenHandler = new JwtSecurityTokenHandler();
-                    var key = Encoding.ASCII.GetBytes(this.iUserConfiguration.Secret);
-                    var tokenDescriptor = new SecurityTokenDescriptor
-                    {
-                        Subject = new ClaimsIdentity(new Claim[]
-                            {
-                                new Claim(ClaimTypes.Name, user.Id.ToString())
-                            }),
-                        Expires = DateTime.UtcNow.AddDays(7),
-                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                    };
+                    Subject = new ClaimsIdentity(new Claim[]
+                        {
+                            new Claim(ClaimTypes.Name, user.Id.ToString())
+                        }),
+                    Expires = DateTime.UtcNow.AddDays(7),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+                };
 
-                    var token = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.CreateToken(tokenDescriptor);
 
-                    return new AuthResponse
-                    {
-                        Id = user.Id,
-                        Username = user.UserName,
-                        Email = user.Email,
-                        FirstName = user.Name,
-                        LastName = user.Surname,
-                        Token = tokenHandler.WriteToken(token),
-                        Photo = user.Photo
-                    };
-                }
-
-                return null;
+                return new AuthResponse
+                {
+                    Id = user.Id,
+                    Username = user.UserName,
+                    Email = user.Email,
+                    FirstName = user.Name,
+                    LastName = user.Surname,
+                    Token = tokenHandler.WriteToken(token),
+                    Photo = user.Photo
+                };
             }
-            catch (Exception ex) 
-            {
-                return null;
-            }
-            
+
+            return null;
         }
 
         public async Task ResetPasswordAsync(Guid userId, string code, string newPassword)

@@ -60,6 +60,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 user.LanguageId = newUserData.LanguageId;
                 user.Photo = newUserData.Photo;
                 user.UrlWebSite = newUserData.UrlWebSite;
+                user.Location = newUserData.Location;
                 user.AcceptedConditions = newUserData.AcceptedConditions;
                 
                  result = await this.UpdateUser(user);

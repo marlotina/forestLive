@@ -42,6 +42,7 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
                     UrlWebSite = source.UrlWebSite,
                     IsCompany = source.IsCompany,
                     RegistrationDate = source.RegistrationDate,
+                    LastModification = source.LastModification,
                     LanguageId = source.LanguageId,
                     Description = source.Description,
                     Photo = source.Photo,
