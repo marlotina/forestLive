@@ -13,5 +13,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
         Task<bool> UpdateAsync(Domain.Entities.User user);
 
         Task<bool> DeleteAsync(Guid userId);
+
+        Task<bool> UpdatePhotoAsync(Guid userId, string photo);
     }
 }

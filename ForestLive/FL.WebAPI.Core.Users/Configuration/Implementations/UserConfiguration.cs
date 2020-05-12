@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.Users.Configuration.Implementations
 
         public string AccountKey => this.configuration.GetSection("AccountKey").Get<string>();
 
-        public string ImageContainer => "images";
+        public string ImageProfileContainer => this.configuration.GetSection("ImageProfileContainer").Get<string>();
 
         public string SendgridApiKey => this.configuration.GetSection("SendgridApiKey").Get<string>();
 

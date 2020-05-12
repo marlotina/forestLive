@@ -6,7 +6,7 @@
 
         string AccountKey { get; }
 
-        string ImageContainer { get; }
+        string ImageProfileContainer { get; }
 
         string SendgridApiKey { get; }
 

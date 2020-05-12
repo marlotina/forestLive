@@ -33,7 +33,7 @@ namespace FL.WebAPI.Core.Users.Infrastructure.AzureStorage
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
                 // Get reference to the blob container by passing the name by reading the value from the configuration (appsettings.json)
-                CloudBlobContainer container = blobClient.GetContainerReference(this.userConfiguration.ImageContainer);
+                CloudBlobContainer container = blobClient.GetContainerReference(this.userConfiguration.ImageProfileContainer);
 
                 // Get the reference to the block blob from the container
                 CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
@@ -63,7 +63,7 @@ namespace FL.WebAPI.Core.Users.Infrastructure.AzureStorage
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
                 // Get reference to the blob container by passing the name by reading the value from the configuration (appsettings.json)
-                CloudBlobContainer container = blobClient.GetContainerReference(this.userConfiguration.ImageContainer);
+                CloudBlobContainer container = blobClient.GetContainerReference(this.userConfiguration.ImageProfileContainer);
                 
                 // Get the reference to the block blob from the container
                 CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);

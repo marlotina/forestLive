@@ -47,6 +47,20 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             return result;
         }
 
+        public async Task<bool> UpdatePhotoAsync(Guid userId, string photo)
+        {
+            var result = default(bool);
+            var user = await this.GetUser(userId);
+            
+            if (user != null)
+            {
+                user.Photo = photo;
+                result = await this.UpdateUser(user);
+            }
+
+            return result;
+        }
+
         public async Task<bool> UpdateAsync(Domain.Entities.User newUserData)
         {
             var result = default(bool);

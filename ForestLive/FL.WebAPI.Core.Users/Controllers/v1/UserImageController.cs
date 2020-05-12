@@ -31,7 +31,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             this.userImageService = userImageService;
         }
 
-        [Authorize]
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> Post([FromForm(Name = "file")] IFormFile formFile, Guid userId)
         {
@@ -43,7 +42,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (Request.Form.Files.Any())
                 {
                     var fileExtension = Request.Form.Files[0].FileName.Split('.')[1];
-                    var name = $"{userId}.jpg";
+                    var name = $"{userId}.{fileExtension}";
                     var result = await this.userImageService.UploadImageAsync(Request.Form.Files[0].OpenReadStream(), name, userId);
                     if (result)
                     {
@@ -60,7 +59,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             return this.BadRequest();
         }
 
-        [Authorize]
+
         [HttpDelete, Route("DeleteImage")]
         public async Task<IActionResult> DeleteImage([FromQuery] Guid userId)
         {

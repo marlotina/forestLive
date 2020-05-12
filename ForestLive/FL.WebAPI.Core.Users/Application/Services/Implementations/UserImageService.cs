@@ -49,7 +49,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             {
                 result = await this.uploadImageRepository.UploadFileToStorage(fileStream, fileName);
                 if (result) {
-                    result = await this.UpdateImageAsync(userId, "");
+                    result = await this.UpdateImageAsync(userId, $"profiles/{fileName}");
                 }
             }
             catch (Exception ex)
@@ -64,9 +64,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         {
             try
             {
-                var user = await this.userService.GetByIdAsync(userId);
-                user.Photo = photo;
-                if (await this.userService.UpdateAsync(user))
+                if (await this.userService.UpdatePhotoAsync(userId, photo))
                 {
                     return true;
                 }
