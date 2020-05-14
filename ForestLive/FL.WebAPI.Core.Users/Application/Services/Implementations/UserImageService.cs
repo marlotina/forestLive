@@ -91,10 +91,9 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                             return await this.UpdateImageAsync(userId, string.Empty);
                         }
                     }
-
-                    return true;
-                    
                 }
+
+                return true;
             }
             catch (Exception ex)
             {
