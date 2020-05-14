@@ -25,20 +25,15 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public async Task<bool> DeleteImageAsync(Guid userId)
         {
-            var result = false;
             try
             {
-                var fileName = $"{userId}.jpg";
-                result = await this.uploadImageRepository.DeleteFileToStorage(fileName);
-                if (result)
-                {
-                    return await this.UpdateImageAsync(userId, string.Empty);
-                }
+                return await this.DeleteImageAsync(userId, string.Empty);
             }
             catch (Exception ex)
             {
                 this.logger.LogError("DeleteImageAsync", ex);
             }
+
             return false;
         }
         
@@ -47,9 +42,12 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             var result = false;
             try
             {
-                result = await this.uploadImageRepository.UploadFileToStorage(fileStream, fileName);
-                if (result) {
-                    result = await this.UpdateImageAsync(userId, $"profiles/{fileName}");
+                if (await this.DeleteImageAsync(userId, fileName)) {
+                    result = await this.uploadImageRepository.UploadFileToStorage(fileStream, fileName);
+                    if (result)
+                    {
+                        result = await this.UpdateImageAsync(userId, fileName);
+                    }
                 }
             }
             catch (Exception ex)
@@ -73,6 +71,36 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             {
                 this.logger.LogError("AddImageAsync", ex);
             }
+            return false;
+        }
+
+        private async Task<bool> DeleteImageAsync(Guid userId, string fileName)
+        {
+            var result = false;
+            try
+            {
+                var user = await this.userService.GetByIdAsync(userId);
+
+                if (user != null && !string.IsNullOrEmpty(user.Photo))
+                {
+                    if (string.IsNullOrEmpty(fileName) || fileName != user.Photo)
+                    {
+                        result = await this.uploadImageRepository.DeleteFileToStorage(user.Photo);
+                        if (result)
+                        {
+                            return await this.UpdateImageAsync(userId, string.Empty);
+                        }
+                    }
+
+                    return true;
+                    
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError("DeleteImageAsync", ex);
+            }
+
             return false;
         }
     }

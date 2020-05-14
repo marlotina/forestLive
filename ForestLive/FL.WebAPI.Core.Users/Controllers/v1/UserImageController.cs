@@ -7,6 +7,9 @@ using Microsoft.Extensions.Logging;
 using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
+using System.IO;
+using FL.WebAPI.Core.Users.Api.Models.v1.Request;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -15,40 +18,41 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
     public class UserImageController : ControllerBase
     {
         private readonly ILogger<UserController> iLogger;
-        private readonly IUserService usersService;
-        private readonly IUserMapper userMapper;
         private readonly IUserImageService userImageService;
 
         public UserImageController(
-            IUserService usersService,
             IUserImageService userImageService,
-            IUserMapper userMapper,
             ILogger<UserController> iLogger)
         {
             this.iLogger = iLogger;
-            this.usersService = usersService;
-            this.userMapper = userMapper;
             this.userImageService = userImageService;
         }
 
+
         [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post([FromForm(Name = "file")] IFormFile formFile, Guid userId)
+        public async Task<IActionResult> Post(ImageProfileRequest request)
         {
-            if (userId == null || userId == Guid.Empty || !Request.Form.Files.Any())
+            if (request == null)
+                return null;
+
+            if (request.UserId == null || request.UserId == Guid.Empty || string.IsNullOrWhiteSpace(request.ImageBase64) || string.IsNullOrWhiteSpace(request.ImageName))
                 return this.BadRequest();
 
             try
             {
-                if (Request.Form.Files.Any())
+                var fileExtension = request.ImageName.Split('.')[1];
+                var name = $"{request.UserId}.{fileExtension}";
+
+                var bytes = Convert.FromBase64String(request.ImageBase64.Split(',')[1]);
+                var contents = new StreamContent(new MemoryStream(bytes));
+                var imageStream = await contents.ReadAsStreamAsync();
+
+                var result = await this.userImageService.UploadImageAsync(imageStream, name, request.UserId);
+                if (result)
                 {
-                    var fileExtension = Request.Form.Files[0].FileName.Split('.')[1];
-                    var name = $"{userId}.{fileExtension}";
-                    var result = await this.userImageService.UploadImageAsync(Request.Form.Files[0].OpenReadStream(), name, userId);
-                    if (result)
-                    {
-                        return this.Ok();
-                    }
+                    return this.Ok();
                 }
+                
             }
             catch (Exception ex)
             {
@@ -58,7 +62,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
 
             return this.BadRequest();
         }
-
 
         [HttpDelete, Route("DeleteImage")]
         public async Task<IActionResult> DeleteImage([FromQuery] Guid userId)
