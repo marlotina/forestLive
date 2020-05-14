@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using SendGrid;
+﻿using SendGrid;
 using SendGrid.Helpers.Mail;
 using System;
 using System.Net;
@@ -12,18 +11,11 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
     public class EmailAccountService : IEmailAccountService
     {
-        private readonly UserManager<Domain.Entities.User> userManager;
         private readonly IUserConfiguration iUserConfiguration;
-        private readonly IUserService userService;
 
-        public EmailAccountService(
-            UserManager<Domain.Entities.User> userManager,
-            IUserConfiguration iUserConfiguration,
-            IUserService userService)
+        public EmailAccountService(IUserConfiguration iUserConfiguration)
         {
-            this.userManager = userManager;
             this.iUserConfiguration = iUserConfiguration;
-            this.userService = userService;
         }
         public async Task SendConfirmEmail(Guid userId, string email, string token)
         {

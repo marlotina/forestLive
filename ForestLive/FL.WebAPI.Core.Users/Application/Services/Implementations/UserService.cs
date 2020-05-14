@@ -72,7 +72,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 user.Description = newUserData.Description;
                 user.IsCompany = newUserData.IsCompany;
                 user.LanguageId = newUserData.LanguageId;
-                user.Photo = newUserData.Photo;
+                user.Photo = user.Photo;
                 user.UrlWebSite = newUserData.UrlWebSite;
                 user.Location = newUserData.Location;
                 user.AcceptedConditions = newUserData.AcceptedConditions;
