@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -78,8 +79,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 return this.NotFound();
             }
         }
-
-        [Authorize]
+        
         [HttpDelete, Route("")]
         public async Task<IActionResult> Delete([FromQuery] Guid userId)
         {

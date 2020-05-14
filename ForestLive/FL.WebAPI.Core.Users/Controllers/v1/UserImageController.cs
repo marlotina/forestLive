@@ -13,6 +13,7 @@ using FL.WebAPI.Core.Users.Api.Models.v1.Request;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class UserImageController : ControllerBase
