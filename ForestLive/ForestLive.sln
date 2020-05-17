@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FL.WebAPI.Core.Users", "FL.WebAPI.Core.Users\FL.WebAPI.Core.Users.csproj", "{7F7462AB-DAC9-4364-9852-C6A4AFE00BDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.WebAPI.Core.Users", "FL.WebAPI.Core.Users\FL.WebAPI.Core.Users.csproj", "{7F7462AB-DAC9-4364-9852-C6A4AFE00BDB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Users", "Users", "{AC160241-C0C5-4D7E-8E4B-A4BEDCB1D039}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FL.User.EF.Migration", "FL.User.EF.Migration\FL.User.EF.Migration.csproj", "{3633208C-8F3D-4482-B7E1-37D7E898694F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.User.EF.Migration", "FL.User.EF.Migration\FL.User.EF.Migration.csproj", "{3633208C-8F3D-4482-B7E1-37D7E898694F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Items", "Items", "{B8617FEF-46DE-4971-BBC4-7D1390FB12E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

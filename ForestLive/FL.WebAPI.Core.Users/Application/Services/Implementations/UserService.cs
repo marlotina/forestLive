@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FL.WebAPI.Core.Users.Application.Exceptions;
 using FL.WebAPI.Core.Users.Configuration.Contracts;
+using FL.WebAPI.Core.Users.Domain.Entities;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
@@ -47,6 +48,12 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             return result;
         }
 
+        public async Task<User> GetByUserNameAsync(string userName)
+        {
+            var result = await this.iUserRepository.GetByUserNameAsync(userName);
+            return result;
+        }
+
         public async Task<bool> UpdatePhotoAsync(Guid userId, string photo)
         {
             var result = default(bool);
@@ -76,6 +83,10 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 user.UrlWebSite = newUserData.UrlWebSite;
                 user.Location = newUserData.Location;
                 user.AcceptedConditions = newUserData.AcceptedConditions;
+                user.TwitterUrl = newUserData.TwitterUrl;
+                user.FacebookUrl = newUserData.FacebookUrl;
+                user.InstagramUrl = newUserData.InstagramUrl;
+                user.LinkedlinUrl = newUserData.LinkedlinUrl;
                 
                  result = await this.UpdateUser(user);
             }

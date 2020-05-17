@@ -29,5 +29,13 @@ namespace FL.WebAPI.Core.Users.Models.v1.Response
         public string Photo { get; set; }
 
         public string Location { get; set; }
+
+        public string LinkedlinUrl { get; set; }
+
+        public string InstagramUrl { get; set; }
+
+        public string TwitterUrl { get; set; }
+
+        public string FacebookUrl { get; set; }
     }
 }

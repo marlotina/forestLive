@@ -10,6 +10,8 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
 
         Task<Domain.Entities.User> GetByIdAsync(Guid userId);
 
+        Task<Domain.Entities.User> GetByUserNameAsync(string userName);
+
         Task<bool> UpdateAsync(Domain.Entities.User user);
 
         Task<bool> DeleteAsync(Guid userId);

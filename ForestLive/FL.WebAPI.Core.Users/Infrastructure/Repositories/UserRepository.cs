@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Users.Domain.Repositories;
+﻿using FL.WebAPI.Core.Users.Domain.Entities;
+using FL.WebAPI.Core.Users.Domain.Repositories;
 using FL.WebAPI.Core.Users.Infrastructure.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -58,6 +59,18 @@ namespace FL.WebAPI.Core.Users.Infrastructure.Repositories
             {
                 context.Users.Remove(context.Users.Find(id));
                 var result = await context.SaveChangesAsync() > 0;
+                return result;
+            }
+        }
+
+        public async Task<User> GetByUserNameAsync(string userName)
+        {
+            using (var context = this.iDataBaseFactory.GetUserDbContext())
+            {
+                var result = await context.Users
+                        .Where(x => x.UserName == userName)
+                        .FirstOrDefaultAsync();
+
                 return result;
             }
         }

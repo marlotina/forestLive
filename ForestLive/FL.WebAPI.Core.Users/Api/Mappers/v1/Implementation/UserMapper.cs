@@ -23,7 +23,11 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
                     Photo = source.Photo,
                     Location = source.Location,
                     Email = source.Email,
-                    UserName = source.UserName
+                    UserName = source.UserName,
+                    FacebookUrl = source.FacebookUrl,
+                    InstagramUrl = source.InstagramUrl,
+                    TwitterUrl = source.TwitterUrl,
+                    LinkedlinUrl = source.LinkedlinUrl
                 };
             }
             return result;
@@ -48,7 +52,11 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
                     Photo = source.Photo,
                     Location = source.Location,
                     Email = source.Email,
-                    UserName = source.UserName
+                    UserName = source.UserName,
+                    FacebookUrl = source.FacebookUrl,
+                    InstagramUrl = source.InstagramUrl,
+                    TwitterUrl = source.TwitterUrl,
+                    LinkedlinUrl = source.LinkedlinUrl
                 };
             }
             return result;

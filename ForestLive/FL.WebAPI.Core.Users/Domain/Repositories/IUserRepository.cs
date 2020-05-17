@@ -13,5 +13,6 @@ namespace FL.WebAPI.Core.Users.Domain.Repositories
         Task<bool> UpdateAsync(Entities.User user);
 
         Task<bool> DeleteAsync(Guid id);
+        Task<Entities.User> GetByUserNameAsync(string userName);
     }
 }
