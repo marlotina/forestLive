@@ -10,6 +10,8 @@ using FL.WebAPI.Core.Users.Infrastructure.Services.Contracts;
 using FL.WebAPI.Core.Users.Infrastructure.Services.Implementations;
 using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Users.Mappers.v1.Implementation;
+using FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation;
+using FL.WebAPI.Core.Users.Api.Mappers.v1.Contracts;
 
 namespace FL.WebAPI.Core.Users.IoC
 {
@@ -18,6 +20,7 @@ namespace FL.WebAPI.Core.Users.IoC
         public static void AddInjection(IServiceCollection services)
         {
             services.AddTransient<IUserMapper, UserMapper>();
+            services.AddTransient<IUserPageMapper, UserPageMapper>();
             services.AddTransient<IRegisterMapper, RegisterMapper>();
 
             services.AddTransient<IUserConfiguration, UserConfiguration>();
