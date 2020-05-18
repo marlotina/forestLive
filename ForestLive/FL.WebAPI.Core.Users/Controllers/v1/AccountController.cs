@@ -61,7 +61,8 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (Exception ex)
             {
-                return this.BadRequest();
+                this.logger.LogError("", ex);
+                return this.Problem();
             }
         }
 
@@ -85,7 +86,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             catch (Exception ex)
             {
                 this.logger.LogError("Internal error.", ex);
-                return this.BadRequest();
+                return this.Problem();
             }
         }
 
@@ -110,7 +111,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             catch (Exception ex)
             {
                 this.logger.LogError("", ex);
-                return BadRequest();
+                return this.Problem();
             }
         }
 
@@ -132,7 +133,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             catch (Exception ex)
             {
                 this.logger.LogError("", ex);
-                return this.BadRequest();
+                return this.Problem();
             }
         }
 
@@ -143,6 +144,11 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
+
+                if (string.IsNullOrWhiteSpace(request.Code) 
+                    || string.IsNullOrWhiteSpace(request.NewPassword) || request.UserId == null)
+                    return this.BadRequest();
+
                 await this.accountService.ResetPasswordAsync(request.UserId, request.Code, request.NewPassword);
                 return this.Ok();
             }
@@ -150,6 +156,11 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             {
                 this.logger.LogError("", ex);
                 return this.NotFound();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError("", ex);
+                return this.Problem();
             }
         }
     }

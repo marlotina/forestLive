@@ -7,6 +7,6 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
     {
         Task SendConfirmEmail(Guid userId, string email, string token);
 
-        Task SendForgotPasswordEmail(string email, string code);
+        Task SendForgotPasswordEmail(string email, Guid userId, string code);
     }
 }

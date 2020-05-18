@@ -27,12 +27,12 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             var to = new EmailAddress(email);
             var plainTextContent = Regex.Replace(htmlContent, "<[^>]*>", "");
             var msg = MailHelper.CreateSingleEmail(from, to, "LABEL_Confirm email", plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
+            await client.SendEmailAsync(msg);
         }
 
-        public async Task SendForgotPasswordEmail(string email, string code)
+        public async Task SendForgotPasswordEmail(string email, Guid userId, string code)
         {
-            var htmlContent = $"{this.iUserConfiguration.UrlForgotPasswordEmail}<br/> {WebUtility.UrlEncode(code)}";
+            var htmlContent = $"{this.iUserConfiguration.UrlForgotPasswordEmail}?code={WebUtility.UrlEncode(code)}&userId={userId}";
 
             var apiKey = this.iUserConfiguration.SendgridApiKey;
             var client = new SendGridClient(apiKey);
@@ -40,7 +40,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             var to = new EmailAddress(email);
             var plainTextContent = Regex.Replace(htmlContent, "<[^>]*>", "");
             var msg = MailHelper.CreateSingleEmail(from, to, "LABEL_Recover password", plainTextContent, htmlContent);
-            var response = await client.SendEmailAsync(msg);
+            await client.SendEmailAsync(msg);
         }
     }
 }

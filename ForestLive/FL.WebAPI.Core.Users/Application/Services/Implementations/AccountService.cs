@@ -61,7 +61,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             if (await this.userManager.IsEmailConfirmedAsync(user))
             {
                 var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
-                await this.iEmailAccountService.SendForgotPasswordEmail(user.Email, token);
+                await this.iEmailAccountService.SendForgotPasswordEmail(user.Email, user.Id, token);
                 return token;
             }
             else
@@ -143,9 +143,6 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public async Task ResetPasswordAsync(Guid userId, string code, string newPassword)
         {
-            if (string.IsNullOrWhiteSpace(code) || string.IsNullOrWhiteSpace(newPassword))
-                throw new Exception("NO_CODE");
-
             var user = await this.userManager.FindByIdAsync(userId.ToString());
             if (user == null)
             {
