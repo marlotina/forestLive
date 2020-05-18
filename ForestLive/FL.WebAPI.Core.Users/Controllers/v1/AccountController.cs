@@ -128,7 +128,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             catch (UserNotFoundException ex)
             {
                 this.logger.LogError("", ex);
-                return this.BadRequest();
+                return this.NotFound();
             }
             catch (Exception ex)
             {
