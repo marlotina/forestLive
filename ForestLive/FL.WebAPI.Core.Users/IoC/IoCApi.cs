@@ -19,12 +19,11 @@ namespace FL.WebAPI.Core.Users.IoC
     {
         public static void AddInjection(IServiceCollection services)
         {
-            services.AddTransient<IUserMapper, UserMapper>();
-            services.AddTransient<IUserPageMapper, UserPageMapper>();
-            services.AddTransient<IRegisterMapper, RegisterMapper>();
+            services.AddSingleton<IUserMapper, UserMapper>();
+            services.AddSingleton<IUserPageMapper, UserPageMapper>();
+            services.AddSingleton<IRegisterMapper, RegisterMapper>();
 
-            services.AddTransient<IUserConfiguration, UserConfiguration>();
-            services.AddTransient<IUserImageRepository, UserImageRepository>();
+            services.AddSingleton<IUserConfiguration, UserConfiguration>();
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserImageService, UserImageService>();
@@ -32,6 +31,7 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddTransient<IEmailAccountService, EmailAccountService>();
 
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserImageRepository, UserImageRepository>();
 
             services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
         }
