@@ -348,3 +348,8 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+ForestLive/FL.WebAPI.Core.Users/nlog.Prod.config
+ForestLive/FL.WebAPI.Core.Users/nlog.QA.config
+ForestLive/FL.WebAPI.Core.Users/nlog.Development.config
+ForestLive/FL.WebAPI.Core.Users/appsettings.QA.json
+ForestLive/FL.WebAPI.Core.Users/appsettings.Prod.json
