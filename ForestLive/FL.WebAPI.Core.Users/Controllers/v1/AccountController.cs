@@ -96,7 +96,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
-                this.logger.LogError("sadsdasdasdasd");
                 var user = this.accountService.Authenticate(model.Email, model.Password);
 
                 if (user == null)
