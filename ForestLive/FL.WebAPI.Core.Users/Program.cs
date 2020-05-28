@@ -10,7 +10,8 @@ namespace FL.WebAPI.Core.Users
     {
         public static void Main(string[] args)
         {
-            var logger = NLog.Web.NLogBuilder.ConfigureNLog("nlog.config").GetCurrentClassLogger();
+            var logger = NLogBuilder.ConfigureNLog($"nlog.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.config").GetCurrentClassLogger();
+
             try
             {
                 logger.Debug("init main");
