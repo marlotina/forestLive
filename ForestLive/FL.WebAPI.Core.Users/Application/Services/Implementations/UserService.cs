@@ -3,8 +3,9 @@ using FL.WebAPI.Core.Users.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FL.WebAPI.Core.Users.Application.Exceptions;
 using FL.WebAPI.Core.Users.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
+using FL.WebAPI.Core.Users.Application.Exceptions;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
@@ -20,16 +21,14 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public async Task<bool> DeleteAsync(Guid userId)
         {
+            var result = false;
             var entityUser = await this.GetByIdAsync(userId);
             if (entityUser != null)
             {
-                var result = await this.iUserRepository.DeleteAsync(entityUser.Id);
-                return result;
+                result = await this.iUserRepository.DeleteAsync(entityUser.Id);
             }
-            else
-            {
-                throw new UserNotFoundException();
-            }
+
+            return result;
         }
         
         public async Task<IEnumerable<User>> FindByEmailAsync(string email)
@@ -66,10 +65,21 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public async Task<bool> UpdateAsync(Domain.Entities.User newUserData)
         {
-            var result = default(bool);
+            var result = false;
+
+            var newNormalizeUserName = newUserData.UserName.ToUpperInvariant();
             var user = await this.GetUser(newUserData.Id);
+
+            var userExits = await this.GetUserByUserName(newNormalizeUserName);
+
+            if (userExits != null) {
+                throw new UserDuplicatedException();
+            }
+
             if (user != null)
             {
+                user.UserName = newUserData.UserName;
+                user.NormalizedUserName = newNormalizeUserName;
                 user.Name = newUserData.Name;
                 user.Surname = newUserData.Surname;
                 user.Description = newUserData.Description;
@@ -83,16 +93,22 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 user.FacebookUrl = newUserData.FacebookUrl;
                 user.InstagramUrl = newUserData.InstagramUrl;
                 user.LinkedlinUrl = newUserData.LinkedlinUrl;
-                
-                 result = await this.UpdateUser(user);
+
+                result = await this.UpdateUser(user);
             }
+
             return result;
         }
-
+        
         private async Task<bool> UpdateUser(User user)
         {
             var result = await this.iUserRepository.UpdateAsync(user);
             return result;
+        }
+
+        private async Task<User> GetUserByUserName(string userName)
+        {
+            return await this.iUserRepository.GetByUserNameAsync(userName);
         }
 
         private async Task<User> GetUser(Guid id)

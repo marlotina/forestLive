@@ -68,7 +68,7 @@ namespace FL.WebAPI.Core.Users.Infrastructure.Repositories
             using (var context = this.iDataBaseFactory.GetUserDbContext())
             {
                 var result = await context.Users
-                        .Where(x => x.UserName == userName)
+                        .Where(x => x.NormalizedUserName == userName.ToUpperInvariant())
                         .FirstOrDefaultAsync();
 
                 return result;

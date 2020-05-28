@@ -90,12 +90,17 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (await this.usersService.UpdateAsync(user))
                     return Ok();
                 else
-                    return this.BadRequest();
+                    return this.NotFound(); ;
             }
-            catch (UserNotFoundException ex)
+            catch (UserDuplicatedException ex)
+            {
+                this.logger.LogInfo(ex);
+                return this.Conflict();
+            }
+            catch (Exception ex)
             {
                 this.logger.LogError(ex);
-                return this.NotFound();
+                return this.Problem();
             }
         }
         
@@ -106,13 +111,13 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             {
                 if (await this.usersService.DeleteAsync(userId))
                     return NoContent();
-                else
-                    return this.BadRequest();
+
+                return this.NotFound();
             }
-            catch (UserNotFoundException ex)
+            catch (Exception ex)
             {
                 this.logger.LogError(ex);
-                return this.NotFound();
+                return this.Problem();
             }
         }
     }
