@@ -12,6 +12,8 @@ using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Users.Mappers.v1.Implementation;
 using FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation;
 using FL.WebAPI.Core.Users.Api.Mappers.v1.Contracts;
+using FL.LogTrace.Contracts.Standard;
+using FL.Logging.Implementation.Standard;
 
 namespace FL.WebAPI.Core.Users.IoC
 {
@@ -34,6 +36,8 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddTransient<IUserImageRepository, UserImageRepository>();
 
             services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
+
+            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }

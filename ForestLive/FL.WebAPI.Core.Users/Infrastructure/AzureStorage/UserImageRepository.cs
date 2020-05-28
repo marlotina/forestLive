@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Users.Configuration.Contracts;
+﻿using FL.LogTrace.Contracts.Standard;
+using FL.WebAPI.Core.Users.Configuration.Contracts;
 using FL.WebAPI.Core.Users.Domain.Repositories;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Auth;
@@ -11,10 +12,12 @@ namespace FL.WebAPI.Core.Users.Infrastructure.AzureStorage
 {
     public class UserImageRepository : IUserImageRepository
     {
+        readonly ILogger<UserImageRepository> logger;
         private readonly IUserConfiguration userConfiguration;
 
         public UserImageRepository(
-            IUserConfiguration userConfiguration)
+            IUserConfiguration userConfiguration,
+            ILogger<UserImageRepository> logger)
         {
             this.userConfiguration = userConfiguration;
         }
@@ -45,6 +48,7 @@ namespace FL.WebAPI.Core.Users.Infrastructure.AzureStorage
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex);
                 return await Task.FromResult(false);
             }
         }
@@ -73,6 +77,7 @@ namespace FL.WebAPI.Core.Users.Infrastructure.AzureStorage
             }
             catch (Exception ex)
             {
+                this.logger.LogError(ex);
                 return await Task.FromResult(false);
             }
         }

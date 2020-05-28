@@ -1,13 +1,12 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Users.Models.v1.Request;
 using FL.WebAPI.Core.Users.Application.Exceptions;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
+using FL.LogTrace.Contracts.Standard;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -20,11 +19,11 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         readonly IRegisterMapper registerMapper;
 
         public AccountController(
-            ILogger<AccountController> iLogger,
+            ILogger<AccountController> logger,
             IAccountService accountService,
             IRegisterMapper registerMapper)
         {
-            this.logger = iLogger;
+            this.logger = logger;
             this.accountService = accountService;
             this.registerMapper = registerMapper;
         }
@@ -36,6 +35,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
+
                 var user = this.registerMapper.Convert(request);
                 if (user == null)
                     return BadRequest();
@@ -51,17 +51,17 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserDuplicatedException ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.Conflict("CONFLICT_USERNAME");
             }
             catch (EmailDuplicatedException ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.Conflict("CONFLICT_EMAIL");
             }
             catch (Exception ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.Problem();
             }
         }
@@ -85,7 +85,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.logger.LogError("Internal error.", ex);
+                this.logger.LogError(ex);
                 return this.Problem();
             }
         }
@@ -105,12 +105,12 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserNotEmailConfirm ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.Conflict();
             }
             catch (Exception ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.Problem();
             }
         }
@@ -127,12 +127,12 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserNotFoundException ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.NotFound();
             }
             catch (Exception ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.Problem();
             }
         }
@@ -154,12 +154,12 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserNotFoundException ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.NotFound();
             }
             catch (Exception ex)
             {
-                this.logger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.Problem();
             }
         }

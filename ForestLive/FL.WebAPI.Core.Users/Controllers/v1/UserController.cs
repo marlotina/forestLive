@@ -2,12 +2,12 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Users.Models.v1.Request;
 using FL.WebAPI.Core.Users.Application.Exceptions;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
+using FL.LogTrace.Contracts.Standard;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -16,16 +16,16 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
     [ApiController]
     public class UserController : ControllerBase
     {
-        private readonly ILogger<UserController> iLogger;
+        private readonly ILogger<UserController> logger;
         private readonly IUserService usersService;
         private readonly IUserMapper userMapper;
 
         public UserController(
             IUserService usersService,
             IUserMapper userMapper,
-            ILogger<UserController> iLogger)
+            ILogger<UserController> logger)
         {
-            this.iLogger = iLogger;
+            this.logger = logger;
             this.usersService = usersService;            
             this.userMapper = userMapper;
         }
@@ -33,12 +33,23 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         [HttpGet, Route("UserGetById", Name = "UserGetById")]
         public async Task<IActionResult> Get(Guid id)
         {
-            var result = await this.usersService.GetByIdAsync(id);
-
-            if (result != null)
+            try
             {
-                var response = this.userMapper.Convert(result);
-                return Ok(response);
+                if (id == null || id == Guid.Empty)
+                    return this.BadRequest();
+
+                var result = await this.usersService.GetByIdAsync(id);
+
+                if (result != null)
+                {
+                    var response = this.userMapper.Convert(result);
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
             }
 
             return NotFound();
@@ -48,15 +59,23 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         [HttpGet, Route("UserFindByEmail", Name = "UserFindByEmail")]
         public async Task<IActionResult> Find(string email)
         {
-            if (string.IsNullOrWhiteSpace(email))
-                return this.BadRequest();
-
-            var result = await this.usersService.FindByEmailAsync(email);
-
-            if (result != null && result.Any())
+            try
             {
-                var response = result.Select(x => this.userMapper.Convert(x)).ToList();
-                return Ok(response);
+                if (string.IsNullOrWhiteSpace(email))
+                    return this.BadRequest();
+
+                var result = await this.usersService.FindByEmailAsync(email);
+
+                if (result != null && result.Any())
+                {
+                    var response = result.Select(x => this.userMapper.Convert(x)).ToList();
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
             }
 
             return NotFound();
@@ -75,7 +94,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserNotFoundException ex)
             {
-                this.iLogger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.NotFound();
             }
         }
@@ -92,7 +111,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserNotFoundException ex)
             {
-                this.iLogger.LogError("", ex);
+                this.logger.LogError(ex);
                 return this.NotFound();
             }
         }

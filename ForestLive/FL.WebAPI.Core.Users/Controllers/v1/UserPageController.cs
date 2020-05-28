@@ -1,14 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
-using FL.WebAPI.Core.Users.Models.v1.Request;
-using FL.WebAPI.Core.Users.Application.Exceptions;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using FL.WebAPI.Core.Users.Api.Mappers.v1.Contracts;
+using FL.LogTrace.Contracts.Standard;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -16,17 +11,16 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
     [ApiController]
     public class UserPageController : ControllerBase
     {
-        private readonly ILogger<UserController> iLogger;
+        private readonly ILogger<UserController> logger;
         private readonly IUserService usersService;
         private readonly IUserPageMapper userPageMapper;
 
         public UserPageController(
             IUserService usersService,
-            IUserMapper userMapper,
-            ILogger<UserController> iLogger,
+            ILogger<UserController> logger,
             IUserPageMapper userPageMapper)
         {
-            this.iLogger = iLogger;
+            this.logger = logger;
             this.usersService = usersService;
             this.userPageMapper = userPageMapper;
         }
@@ -51,10 +45,9 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.iLogger.LogError("", ex);
-                return this.BadRequest();
+                this.logger.LogError( ex);
+                return this.Problem();
             }
-            
         }
     }
 }
