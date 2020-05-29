@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FL.Sendgrid.Implementation.Standard.Configuration.Contracts;
 using FL.Mailing.Contracts.Standard;
 using FL.LogTrace.Contracts.Standard;
+using FL.Mailing.Contracts.Standard.Models;
 
 namespace FL.Sendgrid.Implementation.Standard.Implementations
 {
@@ -21,19 +22,19 @@ namespace FL.Sendgrid.Implementation.Standard.Implementations
             this.mailConfiguration = mailConfiguration;
             this.logger = logger;
         }
-        public async Task<bool> SendConfirmEmail(Guid userId, string email, string userName, string token)
+        public async Task<bool> SendConfirmEmail(AccountEmailModel accountEmailMode)
         {
             try 
             {
                 var msg = new SendGridMessage();
                 msg.SetFrom(this.mailConfiguration.SupportEmail, this.mailConfiguration.SupportName);
-                msg.AddTo(email);
+                msg.AddTo(accountEmailMode.Email);
                 msg.SetTemplateId(this.mailConfiguration.ConfirmAccountTemplate);
                 msg.SetTemplateData(new
                 {
-                    UserName = userName,
-                    Token = WebUtility.UrlEncode(token),
-                    UserId = userId
+                    UserName = accountEmailMode.UserName,
+                    Token = WebUtility.UrlEncode(accountEmailMode.Code),
+                    UserId = accountEmailMode.UserId
                 });
 
                 await this.SendTransactionalMail(msg);
@@ -47,19 +48,19 @@ namespace FL.Sendgrid.Implementation.Standard.Implementations
             return false;
         }
 
-        public async Task<bool> SendForgotPasswordEmail(string email, Guid userId, string userName, string code)
+        public async Task<bool> SendForgotPasswordEmail(AccountEmailModel accountEmailMode)
         {
             try
             {
                 var msg = new SendGridMessage();
                 msg.SetFrom(this.mailConfiguration.SupportEmail, this.mailConfiguration.SupportName);
-                msg.AddTo(email);
+                msg.AddTo(accountEmailMode.Email);
                 msg.SetTemplateId(this.mailConfiguration.ForgotPasswordTemplate);
                 msg.SetTemplateData(new
                 {
-                    UserName = userName,
-                    Token = WebUtility.UrlEncode(code),
-                    UserId = userId
+                    UserName = accountEmailMode.UserName,
+                    Token = WebUtility.UrlEncode(accountEmailMode.Code),
+                    UserId = accountEmailMode.UserId
                 });
 
                 await this.SendTransactionalMail(msg);
