@@ -14,6 +14,6 @@ namespace FL.WebAPI.Core.Users.Models.v1.Request
         [Required]
         public string UserName { get; set; }
 
-        public Guid LanguageId { get; set; }
+        public string LanguageCode { get; set; }
     }
 }

@@ -21,9 +21,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logger", "Logger", "{FFDFF5
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Email", "Email", "{FA887AF0-62B9-42B4-9732-A757A987C948}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FL.Sendgrid.Implementation.Standard", "..\Framework\FL.Sendgrid.Implementation.Standard\FL.Sendgrid.Implementation.Standard.csproj", "{F62CA349-7519-4E83-A54C-96C0CC86525F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.Sendgrid.Implementation.Standard", "..\Framework\FL.Sendgrid.Implementation.Standard\FL.Sendgrid.Implementation.Standard.csproj", "{F62CA349-7519-4E83-A54C-96C0CC86525F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FL.Mailing.Contracts.Standard", "..\Framework\FL.Mailing.Contracts.Standard\FL.Mailing.Contracts.Standard.csproj", "{B366015E-A3AA-491B-A56F-6217E8FE8AB4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.Mailing.Contracts.Standard", "..\Framework\FL.Mailing.Contracts.Standard\FL.Mailing.Contracts.Standard.csproj", "{B366015E-A3AA-491B-A56F-6217E8FE8AB4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FL.Pereza.Helpers.Standard", "..\FL.Pereza.Helpers.Standard\FL.Pereza.Helpers.Standard.csproj", "{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -94,6 +96,16 @@ Global
 		{B366015E-A3AA-491B-A56F-6217E8FE8AB4}.QA|Any CPU.Build.0 = Debug|Any CPU
 		{B366015E-A3AA-491B-A56F-6217E8FE8AB4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B366015E-A3AA-491B-A56F-6217E8FE8AB4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.Development|Any CPU.ActiveCfg = Debug|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.Development|Any CPU.Build.0 = Debug|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.Prod|Any CPU.ActiveCfg = Debug|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.Prod|Any CPU.Build.0 = Debug|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.QA|Any CPU.ActiveCfg = Debug|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.QA|Any CPU.Build.0 = Debug|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -107,6 +119,7 @@ Global
 		{FA887AF0-62B9-42B4-9732-A757A987C948} = {97D84D59-7D02-4CD9-BE5B-A3445E3C4BEC}
 		{F62CA349-7519-4E83-A54C-96C0CC86525F} = {FA887AF0-62B9-42B4-9732-A757A987C948}
 		{B366015E-A3AA-491B-A56F-6217E8FE8AB4} = {FA887AF0-62B9-42B4-9732-A757A987C948}
+		{6337355D-B2FA-47AE-B5A5-4DAE77DEB5BC} = {97D84D59-7D02-4CD9-BE5B-A3445E3C4BEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {26B071A6-FCA6-49C2-AFAC-46EA6DF6003F}

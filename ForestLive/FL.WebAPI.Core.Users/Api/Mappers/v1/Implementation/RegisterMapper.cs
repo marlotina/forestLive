@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
+﻿using FL.Pereza.Helpers.Standard.Language;
+using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Users.Models.v1.Request;
 using FL.WebAPI.Core.Users.Models.v1.Response;
 
@@ -15,7 +16,7 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
                 {
                     Email = source.Email,
                     UserName = source.UserName,
-                    LanguageId = source.LanguageId
+                    LanguageId = LanguageHelper.GetLanguageByCode(source.LanguageCode)
                 };
             }
             return result;

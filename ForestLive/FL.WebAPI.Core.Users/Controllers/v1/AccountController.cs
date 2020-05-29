@@ -35,7 +35,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
-
                 var user = this.registerMapper.Convert(request);
                 if (user == null)
                     return BadRequest();
