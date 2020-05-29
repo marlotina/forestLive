@@ -10,6 +10,8 @@ using System.Text;
 using FL.WebAPI.Core.Users.Configuration.Contracts;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using FL.Sendgrid.Implementation.Standard;
+using FL.Mailing.Contracts.Standard;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
@@ -61,7 +63,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             if (await this.userManager.IsEmailConfirmedAsync(user))
             {
                 var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
-                await this.iEmailAccountService.SendForgotPasswordEmail(user.Email, user.Id, token);
+                await this.iEmailAccountService.SendForgotPasswordEmail(user.Email, user.Id, user.UserName, token);
                 return token;
             }
             else
@@ -80,7 +82,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             if (identityResult.Succeeded)
             {
                 token = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
-                await this.iEmailAccountService.SendConfirmEmail(user.Id, user.Email, token);
+                await this.iEmailAccountService.SendConfirmEmail(user.Id, user.Email, user.UserName, token);
             }
             else
             {

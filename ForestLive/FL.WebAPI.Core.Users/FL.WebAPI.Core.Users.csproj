@@ -34,6 +34,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Framework\FL.Logging.Implementation.Standard\FL.Logging.Implementation.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.LogTrace.Contracts.Standard\FL.LogTrace.Contracts.Standard.csproj" />
+    <ProjectReference Include="..\..\Framework\FL.Mailing.Contracts.Standard\FL.Mailing.Contracts.Standard.csproj" />
+    <ProjectReference Include="..\..\Framework\FL.Sendgrid.Implementation.Standard\FL.Sendgrid.Implementation.Standard.csproj" />
   </ItemGroup>
 
   <ItemGroup>

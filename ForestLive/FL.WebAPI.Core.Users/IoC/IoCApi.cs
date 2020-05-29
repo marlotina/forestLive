@@ -14,6 +14,10 @@ using FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation;
 using FL.WebAPI.Core.Users.Api.Mappers.v1.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.Logging.Implementation.Standard;
+using FL.Mailing.Contracts.Standard;
+using FL.Sendgrid.Implementation.Standard.Configuration.Contracts;
+using FL.Sendgrid.Implementation.Standard.Implementations;
+using FL.Sendgrid.Implementation.Standard.Configuration.Implementations;
 
 namespace FL.WebAPI.Core.Users.IoC
 {
@@ -30,14 +34,18 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserImageService, UserImageService>();
             services.AddTransient<IAccountService, AccountService>();
-            services.AddTransient<IEmailAccountService, EmailAccountService>();
 
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserImageRepository, UserImageRepository>();
 
             services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
 
+            //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
+
+            //mailing
+            services.AddTransient<IMailConfiguration, MailConfiguration>();
+            services.AddTransient<IEmailAccountService, EmailAccountService>();
         }
     }
 }
