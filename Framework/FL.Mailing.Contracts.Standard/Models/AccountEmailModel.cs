@@ -13,5 +13,7 @@ namespace FL.Mailing.Contracts.Standard.Models
         public string UserName { get; set; }
 
         public string Code { get; set; }
+
+        public Guid LanguageId { get; set; }
     }
 }

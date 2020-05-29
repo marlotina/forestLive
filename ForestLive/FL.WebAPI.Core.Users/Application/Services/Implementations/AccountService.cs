@@ -67,8 +67,9 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                     Email = user.Email, 
                     UserId = user.Id, 
                     UserName = user.UserName, 
-                    Code = token }
-                );
+                    Code = token,
+                    LanguageId = user.LanguageId 
+                });
                 return token;
             }
             else
@@ -92,9 +93,9 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                     Email = user.Email,
                     UserId = user.Id,
                     UserName = user.UserName,
-                    Code = token
-                }
-                );
+                    Code = token,
+                    LanguageId = user.LanguageId
+                });
             }
             else
             {

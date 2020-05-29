@@ -1,5 +1,7 @@
 ﻿using FL.Sendgrid.Implementation.Standard.Configuration.Contracts;
+using FL.Sendgrid.Implementation.Standard.Configuration.Models;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace FL.Sendgrid.Implementation.Standard.Configuration.Implementations
 {
@@ -14,13 +16,6 @@ namespace FL.Sendgrid.Implementation.Standard.Configuration.Implementations
 
         public string SendgridApiKey => this.configuration.GetSection("SendgridApiKey").Get<string>();
 
-        public string SupportName => this.configuration.GetSection("SupportName").Get<string>();
-
-        public string SupportEmail => this.configuration.GetSection("SupportEmail").Get<string>();
-
-        public string ForgotPasswordTemplate => this.configuration.GetSection("ForgotPasswordTemplate").Get<string>();
-
-        public string ConfirmAccountTemplate => this.configuration.GetSection("ConfirmAccountTemplate").Get<string>();
-
+        public List<EmailItemConfiguration> EmailTemaplateList => this.configuration.GetSection("EmailTemaplateList").Get<List<EmailItemConfiguration>>();
     }
 }
