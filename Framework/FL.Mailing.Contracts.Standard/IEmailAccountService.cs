@@ -5,8 +5,8 @@ namespace FL.Mailing.Contracts.Standard
 {
     public interface IEmailAccountService
     {
-        Task SendConfirmEmail(Guid userId, string email, string userName, string token);
+        Task<bool> SendConfirmEmail(Guid userId, string email, string userName, string token);
 
-        Task SendForgotPasswordEmail(string email, Guid userId, string userName, string code);
+        Task<bool> SendForgotPasswordEmail(string email, Guid userId, string userName, string code);
     }
 }
