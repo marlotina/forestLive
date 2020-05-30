@@ -19,12 +19,12 @@ namespace User.WebApi.Core.Integration.Tets.v1.Account
         public void LoginOk()
         {
             var client = new RestClient(UserHelper.API_URL_USER);
-            var request = new RestRequest("api/v1/UserAuth/authenticate", Method.POST);
+            var request = new RestRequest("api/v1/Account/login", Method.POST);
 
             var registerRequest = new RegisterRequest
             {
                 Email = UserHelper.USER_EMAIL,
-                Password = UserHelper.USER_PASS
+                Password = "123qwe"
             };
 
             request.AddJsonBody(registerRequest);

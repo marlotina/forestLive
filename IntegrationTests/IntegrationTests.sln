@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "User.WebApi.Core.Integration.Tets", "User.WebApi.Core.Integration.Tets\User.WebApi.Core.Integration.Tets.csproj", "{2A28CC04-17A5-42A9-9941-0F58982A8475}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2A28CC04-17A5-42A9-9941-0F58982A8475}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2A28CC04-17A5-42A9-9941-0F58982A8475}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2A28CC04-17A5-42A9-9941-0F58982A8475}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2A28CC04-17A5-42A9-9941-0F58982A8475}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {FAE82ACE-7304-4153-BD37-729E1EB62011}
+	EndGlobalSection
+EndGlobal

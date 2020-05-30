@@ -14,7 +14,7 @@
       "launchBrowser": true,
       "launchUrl": "weatherforecast",
       "environmentVariables": {
-        "ASPNETCORE_ENVIRONMENT": "QA"
+        "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "FL.WebAPI.Core.Users": {
