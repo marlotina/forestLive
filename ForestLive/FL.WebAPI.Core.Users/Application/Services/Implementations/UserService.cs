@@ -63,18 +63,17 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             return result;
         }
 
-        public async Task<bool> UpdateAsync(Domain.Entities.User newUserData)
+        public async Task<bool> UpdateAsync(User newUserData)
         {
             var result = false;
 
             var newNormalizeUserName = newUserData.UserName.ToUpperInvariant();
             var user = await this.GetUser(newUserData.Id);
 
-            var userExits = await this.GetUserByUserName(newNormalizeUserName);
+            var isValidUserName = await IsValidUserName(newNormalizeUserName, user.NormalizedUserName);
 
-            if (userExits != null) {
+            if(isValidUserName)
                 throw new UserDuplicatedException();
-            }
 
             if (user != null)
             {
@@ -99,7 +98,22 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
             return result;
         }
-        
+
+        private async Task<bool> IsValidUserName(string newNormalizeUserName, string userName)
+        {
+            if (newNormalizeUserName != userName)
+            {
+                var userExits = await this.GetUserByUserName(newNormalizeUserName);
+
+                if (userExits != null)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         private async Task<bool> UpdateUser(User user)
         {
             var result = await this.iUserRepository.UpdateAsync(user);
