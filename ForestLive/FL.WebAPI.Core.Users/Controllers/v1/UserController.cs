@@ -55,7 +55,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             return NotFound();
         }
 
-        [Authorize]
         [HttpGet, Route("UserFindByEmail", Name = "UserFindByEmail")]
         public async Task<IActionResult> Find(string email)
         {

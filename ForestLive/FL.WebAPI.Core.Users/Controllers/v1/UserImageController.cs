@@ -56,7 +56,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             catch (Exception ex)
             {
                 this.logger.LogError(ex);
-                return this.BadRequest();
+                return this.Problem();
             }
 
             return this.BadRequest();
@@ -78,7 +78,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             catch (Exception ex)
             {
                 this.logger.LogError(ex);
-                return this.BadRequest();
+                return this.Problem();
             }
         }
     }

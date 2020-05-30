@@ -50,12 +50,12 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserDuplicatedException ex)
             {
-                this.logger.LogError(ex);
+                this.logger.LogInfo(ex);
                 return this.Conflict("CONFLICT_USERNAME");
             }
             catch (EmailDuplicatedException ex)
             {
-                this.logger.LogError(ex);
+                this.logger.LogInfo(ex);
                 return this.Conflict("CONFLICT_EMAIL");
             }
             catch (Exception ex)
@@ -104,7 +104,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserNotEmailConfirm ex)
             {
-                this.logger.LogError(ex);
+                this.logger.LogInfo(ex);
                 return this.Conflict();
             }
             catch (Exception ex)
@@ -126,7 +126,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserNotFoundException ex)
             {
-                this.logger.LogError(ex);
+                this.logger.LogInfo(ex);
                 return this.NotFound();
             }
             catch (Exception ex)
@@ -153,7 +153,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (UserNotFoundException ex)
             {
-                this.logger.LogError(ex);
+                this.logger.LogInfo(ex);
                 return this.NotFound();
             }
             catch (Exception ex)
