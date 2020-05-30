@@ -4,6 +4,7 @@ using RestSharp;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using User.WebApi.Core.Integration.Tets.Helper;
 using User.WebApi.Core.Integration.Tets.v1.Model.Response;
 
 namespace User.WebApi.Core.Integration.Tets.v1.User
@@ -14,7 +15,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Test]
         public void AddImageOK()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/UploadFiles", Method.POST);
             request.AddQueryParameter("userId", "CB72A74C-87DE-4FF2-AA0B-08D76D426E04");
 
@@ -28,7 +29,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Test]
         public void AddImageWithoutUserId()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/UploadFiles", Method.POST);
 
             var path = System.IO.Directory.GetCurrentDirectory();
@@ -41,7 +42,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Test]
         public void AddImageEmpty()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/UploadFiles", Method.POST);
             
             var response = client.Execute<UserResponse>(request);
@@ -51,7 +52,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Test]
         public void AddImageBadGuid()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/UploadFiles", Method.POST);
             request.AddQueryParameter("userId", "CB72A74C-87DE-4FF2-AA0B-0826E04");
 
@@ -62,7 +63,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Test]
         public void DeleteImageOk()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/DeleteImage", Method.DELETE);
             request.AddQueryParameter("userId", "CB72A74C-87DE-4FF2-AA0B-08D76D426E04");
 
@@ -73,7 +74,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Test]
         public void DeleteImageWithoutId()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/DeleteImage", Method.DELETE);
 
             var response = client.Execute<UserResponse>(request);
@@ -83,7 +84,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Test]
         public void DeleteImageBadId()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/DeleteImage", Method.DELETE);
             request.AddQueryParameter("userId", "CB72A74C-87DE-4FF2-AA0B-08D6E04");
 
@@ -95,7 +96,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Ignore("")]
         public void DeleteImageNotExistId()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/DeleteImage", Method.DELETE);
             request.AddQueryParameter("userId", "1d134297-b070-4149-a2e0-c2643de48f95");
 

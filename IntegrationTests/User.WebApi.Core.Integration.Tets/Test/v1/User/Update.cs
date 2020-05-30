@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using User.WebApi.Core.Integration.Tets.Helper;
 using User.WebApi.Core.Integration.Tets.v1.Model.Requests;
 using User.WebApi.Core.Integration.Tets.v1.Model.Response;
 
@@ -66,7 +67,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
                 Email = user.Email
             };
 
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/User/", Method.PUT);
             request.AddJsonBody(requestUpdate);
 
@@ -95,7 +96,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
                 UserName = user.UserName
             };
 
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/User/", Method.PUT);
             request.AddJsonBody(requestUpdate);
 
@@ -124,7 +125,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
                 UserName = user.UserName
             };
 
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/User/", Method.PUT);
             request.AddJsonBody(requestUpdate);
 
@@ -135,7 +136,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         [Test]
         public void UpdateUserWithoutData()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/User/", Method.PUT);
             request.AddJsonBody(null);
 
@@ -145,7 +146,7 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
 
         private UserResponse GetUser()
         {
-            var client = new RestClient("http://localhost:50027/");
+            var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/User/UserGetById?id=CB72A74C-87DE-4FF2-AA0B-08D76D426E04", Method.GET);
 
             var response = client.Execute<UserResponse>(request);
