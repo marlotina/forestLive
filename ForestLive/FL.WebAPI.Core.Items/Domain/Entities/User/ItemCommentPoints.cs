@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Entities.User
 {
-    public class UserPoint
+    public class ItemCommentPoints
     {
         public Guid Id { get; set; }
 
-        public Guid PostId { get; set; }
+        public Guid CommentId { get; set; }
 
         public Guid UserId { get; set; }
 
-        public int Point { get; set; } //1 - 2 - 3
+        public string Type { get; set; }
     }
 }

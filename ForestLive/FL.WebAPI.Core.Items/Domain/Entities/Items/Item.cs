@@ -19,8 +19,6 @@ namespace FL.WebAPI.Core.Items.Domain.Entities.Items
 
         public int LikesCount { get; set; }
 
-        public int PointsCount { get; set; }
-
         public string UserName { get; set; }
 
         public string[] Labels { get; set; }

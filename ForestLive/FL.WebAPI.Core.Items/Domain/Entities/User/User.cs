@@ -35,7 +35,7 @@ namespace FL.WebAPI.Core.Items.Domain.Entities.User
 
         public Guid LanguageId { get; set; }
 
-        public DateTime RegistrationDate { get; set; 
+        public DateTime RegistrationDate { get; set; }
 
         public string Type { get; set; }
     }
