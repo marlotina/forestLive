@@ -11,10 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Api\Models\v1\Response\" />
-    <Folder Include="Api\Models\v1\Request\" />
-    <Folder Include="Application\Services\Contracts\" />
-    <Folder Include="Application\Services\Implementations\" />
     <Folder Include="Infrastructure\cosmosdb\" />
   </ItemGroup>
 
