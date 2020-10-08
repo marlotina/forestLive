@@ -41,7 +41,7 @@ namespace FL.Sendgrid.Implementation.Standard.Implementations
                     UserId = accountEmailModel.UserId.ToString()
                 });
 
-                await this.SendTransactionalMail(msg);
+                //await this.SendTransactionalMail(msg);
                 return true;
             }
             catch (Exception ex) 
@@ -57,19 +57,45 @@ namespace FL.Sendgrid.Implementation.Standard.Implementations
             try
             {
                 var template = this.GetEmailTemplate(accountEmailModel.LanguageId, EmailTypes.ForgotPassword);
-
+                var client = new SendGridClient(this.mailConfiguration.SendgridApiKey);
                 var msg = new SendGridMessage();
-                msg.SetFrom(template.SupportEmail, template.SupportName);
-                msg.AddTo(accountEmailModel.Email);
+                msg.SetFrom(new EmailAddress(template.SupportEmail, template.SupportEmail));
+                msg.AddTo(new EmailAddress(accountEmailModel.Email));
                 msg.SetTemplateId(template.TemplateId);
-                msg.SetTemplateData(new AccountTemplateModel
+
+                var dynamicTemplateData = new AccountTemplateModel
                 {
                     UserName = accountEmailModel.UserName,
                     Token = WebUtility.UrlEncode(accountEmailModel.Code),
                     UserId = accountEmailModel.UserId.ToString()
-                });
+                };
 
-                await this.SendTransactionalMail(msg);
+                msg.SetTemplateData(dynamicTemplateData);
+                var response = await client.SendEmailAsync(msg);
+
+                //var template = this.GetEmailTemplate(accountEmailModel.LanguageId, EmailTypes.ForgotPassword);
+
+                //var msg = new SendGridMessage();
+                //msg.SetFrom(template.SupportEmail, template.SupportEmail);
+                //msg.AddTo(accountEmailModel.Email);
+                //msg.SetTemplateId(template.TemplateId);
+                //msg.SetTemplateData(new AccountTemplateModel
+                //{
+                //    UserName = accountEmailModel.UserName,
+                //    Token = WebUtility.UrlEncode(accountEmailModel.Code),
+                //    UserId = accountEmailModel.UserId.ToString()
+                //});
+
+                //var dataTemplate = new AccountTemplateModel
+                //{
+                //    UserName = accountEmailModel.UserName,
+                //    Token = WebUtility.UrlEncode(accountEmailModel.Code),
+                //    UserId = accountEmailModel.UserId.ToString()
+                //};
+
+
+                //await this.SendTransactionalMail(template.SupportEmail, accountEmailModel.Email, template.TemplateId, dataTemplate, msg);
+                ////await this.SendTransactionalMail(msg);
                 return true;
             }
             catch (Exception ex)
@@ -81,10 +107,22 @@ namespace FL.Sendgrid.Implementation.Standard.Implementations
 
         }
 
-        private async Task SendTransactionalMail(SendGridMessage sendGridMessage) 
+        private async Task SendTransactionalMail(string from, string to, string templateId, object data, SendGridMessage emial) 
         {
+            var client = new SendGridClient(this.mailConfiguration.SendgridApiKey);
+            var from1 = new EmailAddress(from, "Example User");
+            var subject = "Sending with SendGrid is Fun";
+            var to1 = new EmailAddress(to, "Example User");
+            var plainTextContent = "and easy to do anywhere, even with C#";
+            var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
+            var msg = MailHelper.CreateSingleEmail(from1, to1, subject, plainTextContent, htmlContent);
+            //var response = await client.SendEmailAsync(msg);
+
             var sendGridClient = new SendGridClient(this.mailConfiguration.SendgridApiKey);
-            await sendGridClient.SendEmailAsync(sendGridMessage);
+            var msg3 = MailHelper.CreateSingleTemplateEmail(from1, to1, templateId, data);
+            //var responsse = await sendGridClient.SendEmailAsync(msg3);
+
+            var responsssse = await sendGridClient.SendEmailAsync(emial);
         }
 
         private EmailItemConfiguration GetEmailTemplate(Guid languageId, string type)

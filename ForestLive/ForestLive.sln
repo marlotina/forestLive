@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.WebAPI.Core.Items", "FL.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Functions", "Functions", "{2C887A36-C61E-41F6-846A-92C4A0BA1790}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Functions.BirdPhoto", "Functions.BirdPhoto\Functions.BirdPhoto.csproj", "{271715F5-33AF-47A3-A211-409D47F8F39D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Functions.BirdPhoto", "Functions.BirdPhoto\Functions.BirdPhoto.csproj", "{271715F5-33AF-47A3-A211-409D47F8F39D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

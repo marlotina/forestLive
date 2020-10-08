@@ -8,11 +8,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace Functions.BirdPhoto
+namespace AddBIrd
 {
-    public static class FunctionAddPhoto
+    public static class Function1
     {
-        [FunctionName("AddPhoto")]
+        [FunctionName("Function1")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)] HttpRequest req,
             ILogger log)
