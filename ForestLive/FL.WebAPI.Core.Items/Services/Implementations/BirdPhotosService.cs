@@ -1,22 +1,42 @@
-﻿using FL.WebAPI.Core.Items.Domain.Entities.Items;
+﻿using FL.Infrastructure.Implementations.Domain.Repository;
+using FL.Logging.Implementation.Standard;
+using FL.WebAPI.Core.Items.Configuration.Contracts;
+using FL.WebAPI.Core.Items.Domain.Entities.Items;
 using FL.WebAPI.Core.Items.Services.Contracts;
 using System;
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Services.Implementations
 {
     public class BirdPhotosService : IBirdPhotosService
     {
-        public async Task<bool> AddBirdPhoto(Item birdPhoto)
+        private readonly IItemConfiguration itemConfiguration;
+        private readonly IBlobContainerRepository blobContainerRepository;
+        private readonly Logger<BirdPhotosService> logger;
+        public BirdPhotosService(IItemConfiguration itemConfiguration,
+            IBlobContainerRepository blobContainerRepository,
+            Logger<BirdPhotosService> logger)
+        {
+            this.blobContainerRepository = blobContainerRepository;
+            this.itemConfiguration = itemConfiguration;
+            this.logger = logger;
+        }
+        public async Task<bool> AddBirdInfo(Item birdPhoto)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<bool> UpdateBirdPhoto(Item birdPhoto)
+        public async Task<bool> UpdateBirdPhoto(Stream fileStream, string fileName)
         {
-            throw new NotImplementedException();
+            try
+            {
+
+            }
+            catch
+            { 
+            
+            }
         }
     }
 }

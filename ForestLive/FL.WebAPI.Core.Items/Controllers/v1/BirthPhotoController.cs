@@ -47,7 +47,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.userImageService.UploadImageAsync(imageStream, name, request.UserId);
+                var result = await this.birdPhotosService.UpdateBirdPhoto(imageStream, name, request.UserId);
                 if (result)
                 {
                     return this.Ok();
@@ -84,7 +84,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 var birdPhoto = this.birdPhotoMapper.Convert(request);
                 if (birdPhoto == null)
                     return BadRequest();
-                var result = await this.birdPhotosService.AddBirdPhoto(birdPhoto);
+                var result = await this.birdPhotosService.AddBirdInfo(birdPhoto);
 
                 if (result)
                 {

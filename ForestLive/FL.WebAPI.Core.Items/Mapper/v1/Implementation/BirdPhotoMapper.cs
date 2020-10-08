@@ -25,7 +25,6 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     UserId = source.UserId,
                     UserName = source.UserName, //???
                     Labels = source.Labels,
-                    TreeName = source.TreeName,
                     Type = source.Type,
                     Latitude = source.Latitude,
                     Longitude = source.Longitude
