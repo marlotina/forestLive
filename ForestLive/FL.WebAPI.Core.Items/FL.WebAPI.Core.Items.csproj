@@ -11,10 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\cosmosdb\" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\FL.Infrastructure.Standard\FL.Infrastructure.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.Logging.Implementation.Standard\FL.Logging.Implementation.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.LogTrace.Contracts.Standard\FL.LogTrace.Contracts.Standard.csproj" />
   </ItemGroup>

@@ -1,16 +1,20 @@
 ﻿using FL.WebAPI.Core.Items.Configuration.Contracts;
+using Microsoft.Extensions.Configuration;
 using System;
 
 namespace FL.WebAPI.Core.Items.Configuration.Implementations
 {
     public class ItemConfiguration : IItemConfiguration
     {
-        public string AccountName => throw new NotImplementedException();
+        private readonly IConfiguration configuration;
 
-        public string AccountKey => throw new NotImplementedException();
+        public ItemConfiguration(IConfiguration configuration)
+        {
+            this.configuration = configuration;
+        }
 
-        public string ImageProfileContainer => throw new NotImplementedException();
+        public string BirthPhotoContainer => this.configuration.GetSection("BirthPhotoContainer").Get<string>();
 
-        public string Secret => throw new NotImplementedException();
+        public string Secret => this.configuration.GetSection("Secret").Get<string>();
     }
 }

@@ -2,11 +2,7 @@
 {
     public interface IItemConfiguration
     {
-        string AccountName { get; }
-
-        string AccountKey { get; }
-
-        string ImageProfileContainer { get; }
+        string BirthPhotoContainer { get; }
 
         string Secret { get; }
     }
