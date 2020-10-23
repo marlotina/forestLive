@@ -11,12 +11,12 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
 {
     public class BirdPhotoMapper : IBirdPhotoMapper
     {
-        public Item Convert(BirdPhotoRequest source)
+        public BirdData Convert(BirdPhotoRequest source)
         {
-            var result = default(Item);
+            var result = default(BirdData);
             if (source != null)
             {
-                result = new Item()
+                result = new BirdData()
                 {
                     //Id = request
                     Title = source.Title,
@@ -33,7 +33,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public BirdPhotoResponse Convert(Item source)
+        public BirdPhotoResponse Convert(BirdData source)
         {
             var result = default(BirdPhotoResponse);
             if (source != null)

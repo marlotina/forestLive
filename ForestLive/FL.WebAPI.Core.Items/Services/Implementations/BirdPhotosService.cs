@@ -22,7 +22,7 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             this.itemConfiguration = itemConfiguration;
             this.logger = logger;
         }
-        public async Task<bool> AddBirdInfo(Item birdPhoto)
+        public async Task<bool> AddBirdInfo(BirdData birdPhoto)
         {
             throw new NotImplementedException();
         }
@@ -31,12 +31,19 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
         {
             try
             {
+                var result = await this.blobContainerRepository.UploadFileToStorage(fileStream, fileName, this.itemConfiguration.BirthPhotoContainer);
+                return result;
+            }
+            catch(Exception ex)
+            {
+                this.logger.LogError(ex);
+                return false;
+            }
+        }
 
-            }
-            catch
-            { 
-            
-            }
+        public Task<bool> DeleteBird(Guid BirdItemId)
+        {
+            throw new NotImplementedException();
         }
     }
 }
