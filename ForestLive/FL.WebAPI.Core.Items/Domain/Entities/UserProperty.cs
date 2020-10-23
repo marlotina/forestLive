@@ -9,5 +9,9 @@
         public string Photo { get; set; }
 
         public string Name { get; set; }
+
+        public int FollowCount { get; set; }
+
+        public int FollowersCount { get; set; }
     }
 }

@@ -5,5 +5,13 @@
         string BirthPhotoContainer { get; }
 
         string Secret { get; }
+
+        string Host { get; }
+
+        string PrimaryKey { get; }
+
+        string Database { get; }
+
+        string Container { get; }
     }
 }

@@ -1,4 +1,4 @@
-﻿using FL.WebAPI.Core.Items.Domain.Entities.Items;
+﻿using FL.WebAPI.Core.Items.Domain.Entities;
 using System;
 using System.IO;
 using System.Threading.Tasks;

@@ -1,7 +1,7 @@
 ﻿using FL.Infrastructure.Implementations.Domain.Repository;
 using FL.Logging.Implementation.Standard;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
-using FL.WebAPI.Core.Items.Domain.Entities.Items;
+using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Services.Contracts;
 using System;
 using System.IO;
