@@ -22,7 +22,7 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             this.itemConfiguration = itemConfiguration;
             this.logger = logger;
         }
-        public async Task<bool> AddBirdInfo(BirdData birdPhoto)
+        public async Task<bool> AddBirdInfo(BirdPost birdPhoto)
         {
             throw new NotImplementedException();
         }

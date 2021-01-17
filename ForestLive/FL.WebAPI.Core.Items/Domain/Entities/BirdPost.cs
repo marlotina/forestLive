@@ -1,19 +1,25 @@
-﻿using System;
-using System.Drawing;
+﻿using Microsoft.Azure.Cosmos.Spatial;
+using System;
 
 namespace FL.WebAPI.Core.Items.Domain.Entities
 {
-    public class BirdDataProperty
+    public class BirdPost
     {
+        public Guid Id { get; set; }
+
+        public string Type { get; set; }
+
         public string Title { get; set; }
 
         public string Text { get; set; }
+
+        public Point Location { get; set; }
 
         public string SpecieName { get; set; }
 
         public string ImageUrl { get; set; }
 
-        public string[] LabelsData { get; set; }
+        public string[] Labels { get; set; }
 
         public DateTime CreateDate { get; set; }
 

@@ -8,6 +8,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
 
         public string Name { get; set; }
 
-        public string BirdSpecieId { get; set; }
+        public string SciencieName { get; set; }
+
+        public string ParentBirdSpecieId { get; set; }
     }
 }

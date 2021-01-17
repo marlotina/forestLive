@@ -27,9 +27,9 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 
         public string[] Labels { get; set; }
 
-        public string TreeName { get; set; }
+        public string BirdSpecie { get; set; }
 
-        public string Type { get; set; }
+        //public string Type { get; set; }
 
         public string ItemUrl { get; set; }
 

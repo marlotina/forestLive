@@ -12,58 +12,23 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BirthPhotoController : ControllerBase
+    public class BirthPostController : ControllerBase
     {
-        private readonly ILogger<BirthPhotoController> logger;
+        private readonly ILogger<BirthPostController> logger;
         private readonly IBirdPhotosService birdPhotosService;
-        private readonly IBirdPhotoMapper birdPhotoMapper;
+        private readonly IBirdPostMapper birdPhotoMapper;
 
-        public BirthPhotoController(IBirdPhotosService birdPhotosService,
-            IBirdPhotoMapper birdPhotoMapper,
-            ILogger<BirthPhotoController> logger)
+        public BirthPostController(IBirdPhotosService birdPhotosService,
+            IBirdPostMapper birdPhotoMapper,
+            ILogger<BirthPostController> logger)
         {
             this.logger = logger;
             this.birdPhotosService = birdPhotosService ?? throw new ArgumentNullException(nameof(birdPhotosService));
             this.birdPhotoMapper = birdPhotoMapper;
         }
 
-        [HttpPost("UploadFiles")]
-        public async Task<IActionResult> Post(NewBirdPhotoRequest request)
-        {
-
-            try
-            {
-                if (request == null)
-                    return null;
-
-                if (request.UserId == null || request.UserId == Guid.Empty
-                    || string.IsNullOrWhiteSpace(request.ImageBase64) || string.IsNullOrWhiteSpace(request.ImageName))
-                    return this.BadRequest();
-
-                var fileExtension = request.ImageName.Split('.')[1];
-                var name = $"{request.UserId}.{fileExtension}";
-
-                var bytes = Convert.FromBase64String(request.ImageBase64.Split(',')[1]);
-                var contents = new StreamContent(new MemoryStream(bytes));
-                var imageStream = await contents.ReadAsStreamAsync();
-
-                var result = await this.birdPhotosService.UpdateBirdPhoto(imageStream, name, request.UserId);
-                if (result)
-                {
-                    return this.Ok();
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex);
-                return this.Problem();
-            }
-
-            return this.BadRequest();
-        }
-
         [HttpPost]
-        public async Task<IActionResult> AddPhoto([FromBody] BirdPhotoRequest request)
+        public async Task<IActionResult> AddPhoto([FromBody] BirdPostRequest request)
         {
             try
             {
@@ -101,16 +66,12 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             }
         }
 
-        [HttpPut]
-        public async Task<IActionResult> EditPhoto([FromBody] BirdPhotoRequest request)
+        [HttpDelete]
+        public async Task<IActionResult> DeletePost([FromBody] BirdPostRequest request)
         {
             try
             {
-                var birdPhoto = this.birdPhotoMapper.Convert(request);
-                if (birdPhoto == null)
-                    return BadRequest();
-
-                var result = await this.birdPhotosService.UpdateBirdPhoto(birdPhoto);
+                var result;
 
                 if (result)
                 {

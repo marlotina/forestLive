@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Entities.User
 {
@@ -9,12 +6,14 @@ namespace FL.WebAPI.Core.Items.Domain.Entities.User
     {
         public Guid Id { get; set; }
 
-        public string Label { get; set; }
-
         public string Type { get; set; }
 
-        public UserProperty Properties { get; set; } 
+        public string Photo { get; set; }
 
-        
+        public string Name { get; set; }
+
+        public int FollowCount { get; set; }
+
+        public int FollowersCount { get; set; }
     }
 }
