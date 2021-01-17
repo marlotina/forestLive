@@ -24,6 +24,10 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
 
         public string Longitude { get; set; }
 
+        public string SpecieName { get; set; }
+
+        public Guid SpecieId { get; set; }
+
         public string[] Labels { get; set; }
 
         //public string Type { get; set; }

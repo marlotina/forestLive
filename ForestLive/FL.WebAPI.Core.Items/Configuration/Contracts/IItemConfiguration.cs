@@ -13,5 +13,11 @@
         string Database { get; }
 
         string Container { get; }
+
+        string CosmosdbConnectionstring { get; }
+
+        string CosmosDatabaseId { get; }
+
+        string CosmosContainerId { get; }
     }
 }

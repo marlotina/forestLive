@@ -5,11 +5,9 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Services.Contracts
 {
-    public interface IBirdPhotosService
+    public interface IBirdPostService
     {
-        Task<bool> AddBirdInfo(BirdPost birdPhoto);
-
-        Task<bool> UpdateBirdPhoto(Stream fileStream, string fileName);
+        Task<bool> AddBirdPost(BirdPost birdPhoto, Stream fileStream);
 
         Task<bool> DeleteBird(Guid BirdItemId);
     }

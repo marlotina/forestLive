@@ -7,6 +7,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
     {
         public Guid Id { get; set; }
 
+        public Guid PostId { get; set; }
+
         public string Type { get; set; }
 
         public string Title { get; set; }
@@ -16,6 +18,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
         public Point Location { get; set; }
 
         public string SpecieName { get; set; }
+
+        public Guid SpecieId { get; set; }
 
         public string ImageUrl { get; set; }
 

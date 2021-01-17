@@ -18,11 +18,11 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     //Id = request
                     Title = source.Title,
                     Text = source.Text,
-                    //CreateDate = request.ce
                     UserId = source.UserId,
-                    UserName = source.UserName, //???
+                    UserName = source.UserName,
+                    SpecieName = source.SpecieName,
+                    SpecieId = source.SpecieId,
                     Labels = source.Labels,
-                    Type = source.Type,
                     Location = new Point(double.Parse(source.Longitude), double.Parse(source.Latitude))
                 };
             }
@@ -36,14 +36,17 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             {
                 result = new BirdPhotoResponse()
                 {
-                    //Id = request
+                    Id = source.Id,
                     Title = source.Title,
                     Text = source.Text,
-                    //CreateDate = request.cre
+                    CreateDate = source.CreateDate,
                     UserId = source.UserId,
-                    UserName = source.UserName, //???
+                    UserName = source.UserName,
+                    BirdSpecie = source.SpecieName,
+                    SpecieId = source.SpecieId,
                     Labels = source.Labels,
-                    Type = source.Type,
+                    LikesCount = source.LikesCount,
+                    CommentsCount = source.CommentsCount,
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString()
                 };

@@ -15,10 +15,10 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     public class BirthPostController : ControllerBase
     {
         private readonly ILogger<BirthPostController> logger;
-        private readonly IBirdPhotosService birdPhotosService;
+        private readonly IBirdPostService birdPhotosService;
         private readonly IBirdPostMapper birdPhotoMapper;
 
-        public BirthPostController(IBirdPhotosService birdPhotosService,
+        public BirthPostController(IBirdPostService birdPhotosService,
             IBirdPostMapper birdPhotoMapper,
             ILogger<BirthPostController> logger)
         {
@@ -36,24 +36,20 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     return null;
 
                 if (request.UserId == null || request.UserId == Guid.Empty
-                    || string.IsNullOrWhiteSpace(request.ImageBase64) || string.IsNullOrWhiteSpace(request.ImageName))
+                    || string.IsNullOrWhiteSpace(request.ImageData))
                     return this.BadRequest();
 
-                var fileExtension = request.ImageName.Split('.')[1];
-                var name = $"{request.UserId}.{fileExtension}";
+                var post = this.birdPhotoMapper.Convert(request);
 
-                var bytes = Convert.FromBase64String(request.ImageBase64.Split(',')[1]);
+                var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
-                var birdPhoto = this.birdPhotoMapper.Convert(request);
-                if (birdPhoto == null)
-                    return BadRequest();
-                var result = await this.birdPhotosService.AddBirdInfo(birdPhoto);
+                var result = await this.birdPhotosService.AddBirdPost(post, imageStream);
 
                 if (result)
                 {
-                    var userResponse = this.birdPhotoMapper.Convert(birdPhoto);
+                    var postReponse = this.birdPhotoMapper.Convert(birdPhoto);
                     return this.CreatedAtRoute("GetPhotoById", new { id = userResponse.Id }, userResponse);
                 }
                 else
