@@ -1,11 +1,16 @@
 ﻿using Newtonsoft.Json;
 using NUnit.Framework;
 using RestSharp;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Net.Http;
 using User.WebApi.Core.Integration.Tets.Helper;
+using User.WebApi.Core.Integration.Tets.Test.v1.Model.Requests;
 using User.WebApi.Core.Integration.Tets.v1.Model.Response;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace User.WebApi.Core.Integration.Tets.v1.User
 {
@@ -17,10 +22,24 @@ namespace User.WebApi.Core.Integration.Tets.v1.User
         {
             var client = new RestClient(UserHelper.API_URL_USER);
             var request = new RestRequest("api/v1/UserImage/UploadFiles", Method.POST);
+            request.AddHeader("Accept", "application/json");
             request.AddQueryParameter("userId", "CB72A74C-87DE-4FF2-AA0B-08D76D426E04");
 
             var path = System.IO.Directory.GetCurrentDirectory();
-            request.AddFile("rick.jpg", path + "/images/Rick_Sanchez.png");
+            //request.AddFile("rick.jpg", path + "/images/Rick_Sanchez.png");
+
+            byte[] imageArray = System.IO.File.ReadAllBytes(path + "/images/Rick_Sanchez.png");
+            string base64ImageRepresentation = Convert.ToBase64String(imageArray);
+
+            var registerRequest = new ImageProfileRequest
+            {
+                ImageBase64 = base64ImageRepresentation,
+                ImageName = "test",
+                UserId = new System.Guid("CB72A74C-87DE-4FF2-AA0B-08D76D426E04")
+            };
+
+            request.AddJsonBody(registerRequest);
+
 
             var response = client.Execute<UserResponse>(request);
             Assert.IsTrue(response.StatusCode == HttpStatusCode.OK);

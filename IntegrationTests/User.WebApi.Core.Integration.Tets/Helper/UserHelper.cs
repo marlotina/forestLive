@@ -2,7 +2,7 @@
 {
     public static class UserHelper
     {
-        public const string API_URL_USER = "https://fluserqa.azurewebsites.net";
+        public const string API_URL_USER = "https://localhost:44374";
         //"https://localhost:44374/";
         //"https://fluserqa.azurewebsites.net";
 
