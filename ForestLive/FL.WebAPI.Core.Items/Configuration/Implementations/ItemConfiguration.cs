@@ -13,7 +13,7 @@ namespace FL.WebAPI.Core.Items.Configuration.Implementations
             this.configuration = configuration;
         }
 
-        public string BirthPhotoContainer => this.configuration.GetSection("BirthPhotoContainer").Get<string>();
+        public string BirdPhotoContainer => this.configuration.GetSection("BirthPhotoContainer").Get<string>();
 
         public string Secret => this.configuration.GetSection("Secret").Get<string>();
 

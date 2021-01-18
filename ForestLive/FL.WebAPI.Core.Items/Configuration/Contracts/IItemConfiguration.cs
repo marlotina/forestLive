@@ -2,7 +2,7 @@
 {
     public interface IItemConfiguration
     {
-        string BirthPhotoContainer { get; }
+        string BirdPhotoContainer { get; }
 
         string Secret { get; }
 
