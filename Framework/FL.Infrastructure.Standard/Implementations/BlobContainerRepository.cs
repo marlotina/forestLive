@@ -23,7 +23,7 @@ namespace FL.Infrastructure.Implementations.Implementations
             this.logger = logger;
         }
 
-        public async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, string containerName)
+        public async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, string containerName, string folder = null)
         {
             try
             {
@@ -37,7 +37,8 @@ namespace FL.Infrastructure.Implementations.Implementations
                 CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
 
                 // Get reference to the blob container by passing the name by reading the value from the configuration (appsettings.json)
-                CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+                string containerRoute = string.IsNullOrEmpty(folder) ? containerName : containerName + "/" + folder;
+                CloudBlobContainer container = blobClient.GetContainerReference(containerRoute);
 
                 // Get the reference to the block blob from the container
                 CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
