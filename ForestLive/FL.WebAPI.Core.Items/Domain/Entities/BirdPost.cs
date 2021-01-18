@@ -23,6 +23,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
 
         public string ImageUrl { get; set; }
 
+        public string AltImage { get; set; }
+
         public string[] Labels { get; set; }
 
         public DateTime CreateDate { get; set; }

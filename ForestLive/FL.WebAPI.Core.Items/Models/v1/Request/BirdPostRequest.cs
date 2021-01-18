@@ -10,6 +10,8 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
         //public Guid Id { get; set; }
         public string ImageData { get; set; }
 
+        public string AltImage { get; set; }
+
         //public string ImageName { get; set; }
 
         public string Title { get; set; }

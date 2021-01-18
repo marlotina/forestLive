@@ -6,21 +6,22 @@ using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
-    public class BirthPostController : ControllerBase
+    public class BirdPostController : ControllerBase
     {
-        private readonly ILogger<BirthPostController> logger;
+        private readonly ILogger<BirdPostController> logger;
         private readonly IBirdPostService birdPhotosService;
         private readonly IBirdPostMapper birdPhotoMapper;
 
-        public BirthPostController(IBirdPostService birdPhotosService,
+        public BirdPostController(IBirdPostService birdPhotosService,
             IBirdPostMapper birdPhotoMapper,
-            ILogger<BirthPostController> logger)
+            ILogger<BirdPostController> logger)
         {
             this.logger = logger;
             this.birdPhotosService = birdPhotosService ?? throw new ArgumentNullException(nameof(birdPhotosService));
@@ -28,7 +29,8 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddPhoto([FromBody] BirdPostRequest request)
+        [Route("AddPost", Name = "AddPost")]
+        public async Task<IActionResult> AddPost([FromBody] BirdPostRequest request)
         {
             try
             {
@@ -41,16 +43,16 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
                 var post = this.birdPhotoMapper.Convert(request);
 
-                var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
+                var bytes = Convert.FromBase64String(request.ImageData);
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
                 var result = await this.birdPhotosService.AddBirdPost(post, imageStream);
 
-                if (result)
+                if (result != null)
                 {
-                    var postReponse = this.birdPhotoMapper.Convert(birdPhoto);
-                    return this.CreatedAtRoute("GetPhotoById", new { id = userResponse.Id }, userResponse);
+                    var postResponse = this.birdPhotoMapper.Convert(result);
+                    return this.CreatedAtRoute("GetPostById", new { id = postResponse.Id }, postResponse);
                 }
                 else
                     return this.BadRequest();
@@ -67,7 +69,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         {
             try
             {
-                var result;
+                var result = false;
 
                 if (result)
                 {

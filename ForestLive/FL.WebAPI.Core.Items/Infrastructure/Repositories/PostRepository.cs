@@ -3,6 +3,7 @@ using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
+using System;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
@@ -17,17 +18,26 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task<BirdPost> AddBirdPost(BirdPost birdPost)
         {
-            var connectionString = this.itemConfiguration.CosmosdbConnectionstring;
+            try
+            {
+                var connectionString = this.itemConfiguration.CosmosdbConnectionstring;
 
-            var client = new CosmosClientBuilder(connectionString)
-                                .WithSerializerOptions(new CosmosSerializationOptions
-                                {
-                                    PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
-                                })
-                                .Build();
+                var client = new CosmosClientBuilder(connectionString)
+                                    .WithSerializerOptions(new CosmosSerializationOptions
+                                    {
+                                        PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase
+                                    })
+                                    .Build();
 
-            var postContainer = client.GetContainer(this.itemConfiguration.CosmosDatabaseId, this.itemConfiguration.CosmosContainerId);
-            return await postContainer.CreateItemAsync(birdPost);
+                var postContainer = client.GetContainer(this.itemConfiguration.CosmosDatabaseId, this.itemConfiguration.CosmosContainerId);
+                return await postContainer.CreateItemAsync(birdPost);
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogError(ex);
+            }
+
+            return birdPost;
         }
     }
 }
