@@ -12,7 +12,7 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
 
         public string AltImage { get; set; }
 
-        //public string ImageName { get; set; }
+        public string ImageName { get; set; }
 
         public string Title { get; set; }
 
@@ -31,6 +31,8 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
         public Guid SpecieId { get; set; }
 
         public string[] Labels { get; set; }
+
+        public DateTime ObservationDate { get; set; }
 
         //public string Type { get; set; }
     }

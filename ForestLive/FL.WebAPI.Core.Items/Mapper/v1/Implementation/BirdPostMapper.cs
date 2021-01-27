@@ -23,7 +23,8 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     SpecieName = source.SpecieName,
                     SpecieId = source.SpecieId,
                     Labels = source.Labels,
-                    Location = new Point(double.Parse(source.Longitude), double.Parse(source.Latitude))
+                    Location = new Point(double.Parse(source.Longitude), double.Parse(source.Latitude)),
+                    ObservationDate = source.ObservationDate
                 };
             }
             return result;
@@ -48,7 +49,8 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     LikesCount = source.LikesCount,
                     CommentsCount = source.CommentsCount,
                     Latitude = source.Location.Position.Latitude.ToString(),
-                    Longitude = source.Location.Position.Longitude.ToString()
+                    Longitude = source.Location.Position.Longitude.ToString(),
+                    ObservationDate = source.ObservationDate
                 };
             }
             return result;

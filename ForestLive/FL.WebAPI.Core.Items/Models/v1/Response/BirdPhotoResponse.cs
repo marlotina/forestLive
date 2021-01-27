@@ -33,5 +33,7 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
         public string ItemUrl { get; set; }
 
         public string UserUrl { get; set; }
+
+        public DateTime ObservationDate { get; set; }
     }
 }

@@ -1,5 +1,4 @@
 ﻿using FL.Infrastructure.Implementations.Domain.Repository;
-using FL.Logging.Implementation.Standard;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
@@ -29,9 +28,9 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             //this.logger = logger;
         }
         
-        public Task<bool> DeleteBird(Guid BirdItemId)
+        public async Task<bool> DeleteBird(Guid BirdItemId)
         {
-            throw new NotImplementedException();
+            return await this.blobContainerRepository.DeleteFileToStorage("", "");
         }
 
         public async Task<BirdPost> AddBirdPost(BirdPost birdPost, Stream imageStream)
@@ -45,7 +44,7 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
                 birdPost.CommentsCount = 0;
                 birdPost.CreateDate = DateTime.UtcNow;
 
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirthPhotoContainer, birdPost.UserId.ToString());
+                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirdPhotoContainer, birdPost.UserId.ToString());
                 if (result) {
                     return await this.postRepository.AddBirdPost(birdPost);
                 }
