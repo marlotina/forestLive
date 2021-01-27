@@ -33,10 +33,11 @@ namespace FL.WebAPI.Core.Items.IoC
 
             services.AddTransient<IPostRepository, PostRepository>();
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
-            
+
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
+            services.AddTransient<ICommentRepository, CommentRepository>();
         }
     }
 }

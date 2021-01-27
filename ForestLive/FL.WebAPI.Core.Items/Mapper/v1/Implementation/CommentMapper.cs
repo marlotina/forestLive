@@ -14,6 +14,7 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
             {
                 result = new Comment()
                 {
+                    PostId = source.PostId,
                     Text = source.Text,
                     UserId = source.UserId,
                     UserName = source.UserName
