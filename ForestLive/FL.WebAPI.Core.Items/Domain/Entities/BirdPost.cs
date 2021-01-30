@@ -1,5 +1,4 @@
-﻿using Microsoft.Azure.Cosmos.Spatial;
-using System;
+﻿using System;
 
 namespace FL.WebAPI.Core.Items.Domain.Entities
 {
@@ -15,7 +14,9 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
 
         public string Text { get; set; }
 
-        public Point Location { get; set; }
+        public Double Latitude { get; set; }
+
+        public Double Longitude { get; set; }
 
         public string SpecieName { get; set; }
 

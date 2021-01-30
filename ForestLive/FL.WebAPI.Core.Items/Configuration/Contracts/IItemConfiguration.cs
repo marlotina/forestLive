@@ -14,10 +14,16 @@
 
         string Container { get; }
 
-        string CosmosdbConnectionstring { get; }
+        string GraphHost { get; }
 
-        string CosmosDatabaseId { get; }
+        string GraphPrimaryKey { get; }
 
-        string CosmosContainerId { get; }
+        string GraphDatabase { get; }
+
+        string GraphContainer { get; }
+
+        bool GraphEnableSSL { get; }
+        
+        int GraphPort { get; }
     }
 }

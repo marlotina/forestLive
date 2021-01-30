@@ -2,7 +2,6 @@
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Api.Models.v1.Response;
 using FL.WebAPI.Core.Items.Domain.Entities;
-using Microsoft.Azure.Cosmos.Spatial;
 
 namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
 {
@@ -23,7 +22,8 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     SpecieName = source.SpecieName,
                     SpecieId = source.SpecieId,
                     Labels = source.Labels,
-                    Location = new Point(double.Parse(source.Longitude), double.Parse(source.Latitude)),
+                    Latitude = double.Parse(source.Latitude),
+                    Longitude = double.Parse(source.Longitude),
                     ObservationDate = source.ObservationDate
                 };
             }
@@ -48,8 +48,8 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Labels = source.Labels,
                     LikesCount = source.LikesCount,
                     CommentsCount = source.CommentsCount,
-                    Latitude = source.Location.Position.Latitude.ToString(),
-                    Longitude = source.Location.Position.Longitude.ToString(),
+                    Latitude = source.Latitude.ToString(),
+                    Longitude = source.Longitude.ToString(),
                     ObservationDate = source.ObservationDate
                 };
             }
