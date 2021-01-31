@@ -18,6 +18,10 @@ using FL.Mailing.Contracts.Standard;
 using FL.Sendgrid.Implementation.Standard.Configuration.Contracts;
 using FL.Sendgrid.Implementation.Standard.Implementations;
 using FL.Sendgrid.Implementation.Standard.Configuration.Implementations;
+using FL.Infrastructure.Implementations.Implementations;
+using FL.Infrastructure.Implementations.Domain.Repository;
+using FL.Infrastructure.Standard.Configuration.Contracts;
+using FL.Infrastructure.Standard.Configuration.Implementations;
 
 namespace FL.WebAPI.Core.Users.IoC
 {
@@ -30,6 +34,7 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddSingleton<IRegisterMapper, RegisterMapper>();
 
             services.AddSingleton<IUserConfiguration, UserConfiguration>();
+            services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserImageService, UserImageService>();
@@ -39,6 +44,8 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddTransient<IUserImageRepository, UserImageRepository>();
 
             services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
+
+            services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

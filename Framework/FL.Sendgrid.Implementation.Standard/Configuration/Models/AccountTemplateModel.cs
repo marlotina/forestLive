@@ -8,15 +8,15 @@ namespace FL.Sendgrid.Implementation.Standard.Configuration.Models
     public class AccountTemplateModel
     {
 
-        [JsonProperty("userName")]
+        [JsonProperty("UserName")]
         public string UserName { get; set; }
 
 
-        [JsonProperty("token")]
+        [JsonProperty("Token")]
         public string Token { get; set; }
 
 
-        [JsonProperty("userId")]
+        [JsonProperty("UserId")]
         public string UserId { get; set; }
     }
 }
