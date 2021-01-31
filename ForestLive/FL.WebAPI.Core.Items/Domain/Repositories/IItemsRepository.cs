@@ -13,13 +13,13 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 
         Task UpsertBlogPostAsync(Item post);
 
-        Task<Item> GetItemAsync(string postId);
+        Task<Item> GetItemAsync(Guid postId);
 
 
         Task CreateItemCommentAsync(ItemComment comment);
 
         Task DeleteCommentAsync(Guid commentId, Guid itemId);
 
-        Task<List<ItemComment>> GetItemCommentsAsync(string postId);
+        Task<List<ItemComment>> GetItemCommentsAsync(Guid itemId);
     }
 }

@@ -3,6 +3,7 @@ using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Contracts;
 using Microsoft.Azure.Cosmos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -46,12 +47,12 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             await this.itemsContainer.UpsertItemAsync<Item>(item, new PartitionKey(item.ItemId.ToString()));
         }
 
-        public async Task<Item> GetItemAsync(string itemId)
+        public async Task<Item> GetItemAsync(Guid itemIdRequest)
         {
             try
             {
-                //When getting the blogpost from the Posts container, the id is postId and the partitionKey is also postId.
-                //  This will automatically return only the type="post" for this postId (and not the type=comment or any other types in the same partition postId)
+                var itemId = itemIdRequest.ToString();
+
                 ItemResponse<Item> response = await this.itemsContainer.ReadItemAsync<Item>
                     (itemId, new PartitionKey(itemId));
 
@@ -64,12 +65,12 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             }
         }
 
-        public async Task<List<ItemComment>> GetItemCommentsAsync(string postId)
+        public async Task<List<ItemComment>> GetItemCommentsAsync(Guid itemId)
         {
-            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.postId = @PostId ORDER BY p.dateCreated DESC";
+            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.itemId = @ItemId ORDER BY p.dateCreated DESC";
 
             var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@PostId", postId);
+            queryDef.WithParameter("@ItemId", itemId);
             var query = this.itemsContainer.GetItemQueryIterator<ItemComment>(queryDef);
 
             List<ItemComment> comments = new List<ItemComment>();

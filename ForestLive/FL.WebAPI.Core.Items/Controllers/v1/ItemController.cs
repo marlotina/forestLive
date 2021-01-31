@@ -86,5 +86,32 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 return this.Problem();
             }
         }
+
+        [HttpGet]
+        [Route("GetItem", Name = "GetItem")]
+        public async Task<IActionResult> GetItem([FromBody] Guid itemId)
+        {
+            try
+            {
+                if (itemId == Guid.Empty || itemId == null)
+                {
+                    this.BadRequest();
+                }
+
+                var result = await this.itemService.get(request.Id, request.UserId);
+
+                if (result)
+                {
+                    return this.Ok();
+                }
+                else
+                    return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
     }
 }

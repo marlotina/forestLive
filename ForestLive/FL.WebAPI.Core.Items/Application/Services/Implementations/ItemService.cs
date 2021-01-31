@@ -76,5 +76,19 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
             return false;
         }
+
+        public async Task<Item> GetBirdItem(Guid itemId)
+        {
+            try
+            {
+                return await this.itemsRepository.GetItemAsync(itemId);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return false;
+        }
     }
 }

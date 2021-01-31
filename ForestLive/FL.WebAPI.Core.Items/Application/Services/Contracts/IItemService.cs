@@ -10,5 +10,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
         Task<Item> AddBirdItem(Item birdItem, Stream fileStream);
 
         Task<bool> DeleteBirdItem(Guid BirdItemId, Guid userId);
+
+        Task<Item> GetBirdItem(Guid itemId);
     }
 }
