@@ -14,17 +14,16 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
     {
         private readonly IItemConfiguration itemConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
-        private readonly IItemRepository postRepository;
-
+        private readonly IItemsRepository itemsRepository;
         //private readonly Logger<BirdPostService> logger;
         public ItemService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
-            IItemRepository postRepository)
+            IItemsRepository itemsRepository)
             //Logger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
             this.itemConfiguration = itemConfiguration;
-            this.postRepository = postRepository;
+            this.itemsRepository = itemsRepository;
             //this.logger = logger;
         }
         
@@ -43,7 +42,7 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
                     birdItem.CreateDate = DateTime.UtcNow;
                     birdItem.SpecieConfirmed = false;
 
-                    return await this.postRepository.AddBirdItem(birdItem);
+                    await this.itemsRepository.CreateItemAsync(birdItem);
                 }
             }
             catch (Exception ex)
@@ -65,7 +64,7 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
 
                 if (result)
                 {
-                    return await this.postRepository.DeleteBirdPost(birdItemId);
+                    //return await this.itemsRepository.dele(birdItemId);
                 }
             }
             catch (Exception ex) 

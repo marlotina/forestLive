@@ -9,14 +9,16 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
 {
     public class CommentService : ICommentService
     {
-        private readonly ICommentRepository commentRepository;
+        private readonly IItemsRepository itemsRepository;
 
-        public CommentService(ICommentRepository commentRepository)
+        public CommentService(IItemsRepository itemsRepository)
         {
-            this.commentRepository = commentRepository;
+            this.itemsRepository = itemsRepository;
         }
 
-        public Task<ItemComment> AddComment(ItemComment comment)
+        public IItemsRepository ItemsRepository => itemsRepository;
+
+        public async Task<ItemComment> AddComment(ItemComment comment)
         {
             try
             {
@@ -25,9 +27,7 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
                 comment.LikesCount = 0;
                 comment.Type = ItemHelper.COMMENT_TYPE;
 
-                var result = this.commentRepository.AddComment(comment);
-
-                return result;
+                await this.itemsRepository.CreateItemCommentAsync(comment);
 
             }
             catch (Exception ex) 

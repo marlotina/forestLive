@@ -1,13 +1,13 @@
 ﻿using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities.User;
+using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Contracts;
-using FL.WebAPI.Core.Items.Infrastructure.Services.Contracts;
 using Microsoft.Azure.Cosmos;
 using System.Threading.Tasks;
 
-namespace FL.WebAPI.Core.Items.Infrastructure.Services.Implementations
+namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
-    public class UserCosmosRepository : IUserCosmosRepository
+    public class UserCosmosRepository : IUserRepository
     {
         private IClientFactory clientFactory;
         private IItemConfiguration itemConfiguration;

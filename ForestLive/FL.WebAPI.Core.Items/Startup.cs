@@ -1,15 +1,9 @@
-using FL.WebAPI.Core.Items.Configuration.Models;
-using FL.WebAPI.Core.Items.Infrastructure.Services.Contracts;
-using FL.WebAPI.Core.Items.Infrastructure.Services.Implementations;
 using FL.WebAPI.Core.Items.IoC;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items
 {

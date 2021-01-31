@@ -1,15 +1,15 @@
 ﻿using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
+using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Contracts;
-using FL.WebAPI.Core.Items.Infrastructure.Services.Contracts;
 using Microsoft.Azure.Cosmos;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FL.WebAPI.Core.Items.Infrastructure.Services.Implementations
+namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
-    public class ItemsCosmosRepository : IItemsCosmosRepository
+    public class ItemsCosmosRepository : IItemsRepository
     {
         private IClientFactory clientFactory;
         private IItemConfiguration itemConfiguration; 
@@ -87,11 +87,6 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Services.Implementations
             //var result = await _blogDbService.GetContainer("database", "container").Scripts.ExecuteStoredProcedureAsync<string>("spCreateToDoItem", new PartitionKey("Personal"), newItem);
             var result = await this.itemsContainer.Scripts.ExecuteStoredProcedureAsync<string>("createComment", new PartitionKey(comment.ItemId.ToString()), obj);
             //await this._postsContainer.CreateItemAsync<BlogPostComment>(comment, new PartitionKey(comment.PostId));
-        }
-
-        Task<List<ItemComment>> IItemsCosmosRepository.GetItemCommentsAsync(string postId)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
