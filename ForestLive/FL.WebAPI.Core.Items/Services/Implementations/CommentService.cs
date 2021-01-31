@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             this.commentRepository = commentRepository;
         }
 
-        public Task<Comment> AddComment(Comment comment)
+        public Task<ItemComment> AddComment(ItemComment comment)
         {
             try
             {

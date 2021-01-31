@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpPost]
-        [Route("AddPost", Name = "AddItem")]
+        [Route("AddItem", Name = "AddItem")]
         public async Task<IActionResult> AddItem([FromBody] BirdItemRequest request)
         {
             try
@@ -44,11 +44,11 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
                 var post = this.birdItemMapper.Convert(request);
 
-                var bytes = Convert.FromBase64String(request.ImageData);
-                var contents = new StreamContent(new MemoryStream(bytes));
-                var imageStream = await contents.ReadAsStreamAsync();
+                //var bytes = Convert.FromBase64String(request.ImageData);
+                //var contents = new StreamContent(new MemoryStream(bytes));
+                //var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.itemService.AddBirdItem(post, imageStream);
+                var result = await this.itemService.AddBirdItem(post, null);
 
                 if (result != null)
                 {
@@ -74,8 +74,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = this.itemService.DeleteBirdItem(request.Id, request.UserId);
-
+                var result = await this.itemService.DeleteBirdItem(request.Id, request.UserId);
 
                 if (result)
                 {

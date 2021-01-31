@@ -7,14 +7,14 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
 {
     public class CommentMapper : ICommentMapper
     {
-        public Comment Convert(CommentRequest source)
+        public ItemComment Convert(CommentRequest source)
         {
-            var result = default(Comment);
+            var result = default(ItemComment);
             if (source != null)
             {
-                result = new Comment()
+                result = new ItemComment()
                 {
-                    PostId = source.PostId,
+                    ItemId = source.PostId,
                     Text = source.Text,
                     UserId = source.UserId,
                     UserName = source.UserName
@@ -23,7 +23,7 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
             return result;
         }
 
-        public CommentResponse Convert(Comment source)
+        public CommentResponse Convert(ItemComment source)
         {
             var result = default(CommentResponse);
             if (source != null)

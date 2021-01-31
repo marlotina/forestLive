@@ -7,7 +7,7 @@ namespace FL.WebAPI.Core.Items.Services.Contracts
 {
     public interface IItemService
     {
-        Task<BirdItem> AddBirdItem(BirdItem birdItem, Stream fileStream);
+        Task<Item> AddBirdItem(Item birdItem, Stream fileStream);
 
         Task<bool> DeleteBirdItem(Guid BirdItemId, Guid userId);
     }

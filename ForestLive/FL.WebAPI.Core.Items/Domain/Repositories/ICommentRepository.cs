@@ -6,7 +6,7 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
     public interface ICommentRepository
     {
-        Task<Comment> AddComment(Comment comment);
+        Task<ItemComment> AddComment(ItemComment comment);
 
         Task<bool> DeleteComment(Guid idComment);
     }

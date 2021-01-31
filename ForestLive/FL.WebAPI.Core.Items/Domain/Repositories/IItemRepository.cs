@@ -6,10 +6,10 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
     public interface IItemRepository
     {
-        Task<BirdItem> AddBirdItem(BirdItem birdItem);
+        Task<Item> AddBirdItem(Item birdItem);
 
         Task<bool> DeleteBirdPost(Guid idItem);
 
-        Task<BirdItem> GetBirdItem(Guid idItem);
+        Task<Item> GetBirdItem(Guid idItem);
     }
 }

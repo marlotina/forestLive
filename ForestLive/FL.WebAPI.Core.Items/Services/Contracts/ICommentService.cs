@@ -6,7 +6,7 @@ namespace FL.WebAPI.Core.Items.Services.Contracts
 {
     public interface ICommentService
     {
-        Task<Comment> AddComment(Comment commnet);
+        Task<ItemComment> AddComment(ItemComment commnet);
 
         Task<bool> DeleteComment(Guid commnetId);
     }

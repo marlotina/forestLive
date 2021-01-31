@@ -8,12 +8,12 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
 {
     public class BirdPostMapper : IBirdPostMapper
     {
-        public BirdItem Convert(BirdItemRequest source)
+        public Item Convert(BirdItemRequest source)
         {
-            var result = default(BirdItem);
+            var result = default(Item);
             if (source != null)
             {
-                result = new BirdItem()
+                result = new Item()
                 {
                     Title = source.Title,
                     Text = source.Text,
@@ -29,7 +29,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public BirdPhotoResponse Convert(BirdItem source)
+        public BirdPhotoResponse Convert(Item source)
         {
             var result = default(BirdPhotoResponse);
             if (source != null)
@@ -50,7 +50,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString(),
                     ObservationDate = source.ObservationDate,
-                    SpecieConfirmed = source.ConfirmSpecie
+                    SpecieConfirmed = source.SpecieConfirmed
                 };
             }
             return result;

@@ -1,4 +1,6 @@
-﻿namespace FL.WebAPI.Core.Items.Configuration.Contracts
+﻿using FL.WebAPI.Core.Items.Configuration.Models;
+
+namespace FL.WebAPI.Core.Items.Configuration.Contracts
 {
     public interface IItemConfiguration
     {
@@ -14,10 +16,6 @@
 
         string Container { get; }
 
-        string CosmosdbConnectionstring { get; }
-
-        string CosmosDatabaseId { get; }
-
-        string CosmosContainerId { get; }
+        CosmosConfiguration CosmosConfiguration { get; }
     }
 }

@@ -6,8 +6,8 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Contracts
 {
     public interface ICommentMapper
     {
-        Comment Convert(CommentRequest source);
+        ItemComment Convert(CommentRequest source);
 
-        CommentResponse Convert(Comment source);
+        CommentResponse Convert(ItemComment source);
     }
 }

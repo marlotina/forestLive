@@ -1,4 +1,5 @@
 ﻿using FL.WebAPI.Core.Items.Configuration.Contracts;
+using FL.WebAPI.Core.Items.Configuration.Models;
 using Microsoft.Extensions.Configuration;
 using System;
 
@@ -25,10 +26,6 @@ namespace FL.WebAPI.Core.Items.Configuration.Implementations
 
         public string Container => this.configuration.GetSection("ContainerName").Get<string>();
 
-        public string CosmosdbConnectionstring => this.configuration.GetSection("CosmosdbConnectionstring").Get<string>();
-
-        public string CosmosDatabaseId => this.configuration.GetSection("CosmosDatabaseId").Get<string>();
-
-        public string CosmosContainerId => this.configuration.GetSection("CosmosContainerId").Get<string>();
+        public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
     }
 }

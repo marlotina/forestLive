@@ -28,14 +28,14 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             //this.logger = logger;
         }
         
-        public async Task<BirdItem> AddBirdItem(BirdItem birdItem, Stream imageStream)
+        public async Task<Item> AddBirdItem(Item birdItem, Stream imageStream)
         {
             try
             {
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirdPhotoContainer, birdItem.UserId.ToString());
-
+                //var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirdPhotoContainer, birdItem.UserId.ToString());
+                var result = true;
                 if (result) {
-                    birdItem.PostId = Guid.NewGuid();
+                    birdItem.ItemId = Guid.NewGuid().ToString();
                     birdItem.Id = Guid.NewGuid();
                     birdItem.Type = ItemHelper.POST_TYPE;
                     birdItem.LikesCount = 0;

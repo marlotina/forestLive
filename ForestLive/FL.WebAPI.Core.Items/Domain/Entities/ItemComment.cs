@@ -2,11 +2,11 @@
 
 namespace FL.WebAPI.Core.Items.Domain.Entities
 {
-    public class Comment
+    public class ItemComment
     {
         public Guid Id { get; set; }
 
-        public Guid PostId { get; set; }
+        public Guid ItemId { get; set; }
 
         public string Type { get; set; }
 
