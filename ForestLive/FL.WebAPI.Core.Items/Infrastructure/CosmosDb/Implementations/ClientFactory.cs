@@ -9,6 +9,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Implementations
     public class ClientFactory : IClientFactory
     {
         private readonly IItemConfiguration itemConfiguration;
+        private CosmosClient client;
 
         public ClientFactory(IItemConfiguration itemConfiguration)
         {
@@ -17,21 +18,22 @@ namespace FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Implementations
 
         public CosmosClient InitializeCosmosBlogClientInstanceAsync()
         {
-            var config = this.itemConfiguration.CosmosConfiguration;
+            if (this.client == null) {
+                var config = this.itemConfiguration.CosmosConfiguration;
 
-            string databaseName = config.CosmosDatabaseId;
-            string account = config.CosmosdbConnection;
-            string key = config.CosmosKey;
+                var databaseName = config.CosmosDatabaseId;
+                var account = config.CosmosdbConnection;
+                var key = config.CosmosKey;
 
-            CosmosClientBuilder clientBuilder = new CosmosClientBuilder(account, key);
-            CosmosClient client = clientBuilder
-                .WithApplicationName(databaseName)
-                .WithApplicationName(Regions.WestEurope)
-                .WithConnectionModeDirect()
-                .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
-                .Build();
+                CosmosClientBuilder clientBuilder = new CosmosClientBuilder(account, key);
+                this.client = clientBuilder
+                    .WithApplicationName(databaseName)
+                    .WithConnectionModeDirect()
+                    .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
+                    .Build();
+            }
 
-            return client;
+            return this.client;
         }
     }
 }

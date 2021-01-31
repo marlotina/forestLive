@@ -20,7 +20,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             this.clientFactory = clientFactory;
             this.itemConfiguration = itemConfiguration;
-            this.itemsContainer = InitialCLient();// dbClient.GetContainer(databaseName, "birdItems");
+            this.itemsContainer = InitialCLient();
         }
 
         private Container InitialCLient() {
@@ -33,6 +33,12 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             //await this._itemsContainer.UpsertItemAsync<Item>(item, new PartitionKey(item.ItemId));
             await this.itemsContainer.CreateItemAsync<Item>(item, new PartitionKey(item.ItemId));
+        }
+
+        public async Task DeleteItemAsync(System.Guid itemIdRequest)
+        {
+            var itemId = itemIdRequest.ToString();
+            await this.itemsContainer.DeleteItemAsync<Item>(itemId, new PartitionKey(itemId.ToString()));
         }
 
         public async Task UpsertBlogPostAsync(Item item)
@@ -79,14 +85,12 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task CreateItemCommentAsync(ItemComment comment)
         {
-            //string str = JsonConvert.SerializeObject(comment);
-            //dynamic obj = JsonConvert.DeserializeObject(str);
+            await this.itemsContainer.CreateItemAsync<ItemComment>(comment, new PartitionKey(comment.ItemId.ToString()));
+        }
 
-            var obj = new dynamic[] { comment.ItemId, comment };
-
-            //var result = await _blogDbService.GetContainer("database", "container").Scripts.ExecuteStoredProcedureAsync<string>("spCreateToDoItem", new PartitionKey("Personal"), newItem);
-            var result = await this.itemsContainer.Scripts.ExecuteStoredProcedureAsync<string>("createComment", new PartitionKey(comment.ItemId.ToString()), obj);
-            //await this._postsContainer.CreateItemAsync<BlogPostComment>(comment, new PartitionKey(comment.PostId));
+        public async Task DeleteCommentAsync(System.Guid commentId, System.Guid userId)
+        {
+            await this.itemsContainer.DeleteItemAsync<ItemComment>(commentId.ToString(), new PartitionKey(userId.ToString()));
         }
     }
 }

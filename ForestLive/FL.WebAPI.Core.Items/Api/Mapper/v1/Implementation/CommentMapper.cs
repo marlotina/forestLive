@@ -34,7 +34,6 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
                     Text = source.Text,
                     UserId = source.UserId,
                     UserName = source.UserName,
-                    LikesCount = source.LikesCount,
                     CreateDate = source.CreateDate
                 };
             }

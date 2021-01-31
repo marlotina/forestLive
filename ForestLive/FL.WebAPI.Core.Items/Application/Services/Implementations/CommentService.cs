@@ -1,11 +1,11 @@
-﻿using FL.WebAPI.Core.Items.Domain.Entities;
+﻿using FL.WebAPI.Core.Items.Application.Services.Contracts;
+using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
-using FL.WebAPI.Core.Items.Services.Contracts;
 using System;
 using System.Threading.Tasks;
 
-namespace FL.WebAPI.Core.Items.Services.Implementations
+namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
     public class CommentService : ICommentService
     {
@@ -24,7 +24,6 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             {
                 comment.Id = Guid.NewGuid();
                 comment.CreateDate = DateTime.UtcNow;
-                comment.LikesCount = 0;
                 comment.Type = ItemHelper.COMMENT_TYPE;
 
                 await this.itemsRepository.CreateItemCommentAsync(comment);
@@ -38,9 +37,34 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             return null;
         }
 
-        public Task<bool> DeleteComment(Guid commnetId)
+        public async Task<bool> DeleteComment(Guid commnetId)
         {
-            throw new NotImplementedException();
+            try
+            {
+                await this.itemsRepository.DeleteItemAsync(commnetId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return false;
+        }
+
+        public async Task<bool> DeleteComment(Guid commnetId, Guid itemId)
+        {
+            try
+            {
+                await this.itemsRepository.DeleteCommentAsync(commnetId, itemId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return false;
         }
     }
 }

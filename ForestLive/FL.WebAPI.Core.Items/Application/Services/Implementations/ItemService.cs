@@ -1,14 +1,14 @@
 ﻿using FL.Infrastructure.Implementations.Domain.Repository;
+using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
-using FL.WebAPI.Core.Items.Services.Contracts;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FL.WebAPI.Core.Items.Services.Implementations
+namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
     public class ItemService : IItemService
     {
@@ -64,8 +64,10 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
 
                 if (result)
                 {
-                    //return await this.itemsRepository.dele(birdItemId);
+                    await this.itemsRepository.DeleteItemAsync(birdItemId);
                 }
+
+                return true;
             }
             catch (Exception ex) 
             { 

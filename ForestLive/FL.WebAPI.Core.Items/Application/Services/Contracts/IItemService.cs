@@ -3,7 +3,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace FL.WebAPI.Core.Items.Services.Contracts
+namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 {
     public interface IItemService
     {

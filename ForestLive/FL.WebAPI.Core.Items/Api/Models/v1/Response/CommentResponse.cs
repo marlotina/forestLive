@@ -8,8 +8,6 @@ namespace FL.WebAPI.Core.Items.Models.v1.Response
 
         public string Text { get; set; }
 
-        public int LikesCount { get; set; }
-
         public DateTime CreateDate { get; set; }
 
         public string UserId { get; set; }

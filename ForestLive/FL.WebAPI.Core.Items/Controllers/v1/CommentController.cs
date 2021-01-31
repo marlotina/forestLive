@@ -49,17 +49,21 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteComment", Name = "DeleteComment")]
-        public async Task<IActionResult> DeleteComment(Guid idComment)
+        public async Task<IActionResult> DeleteComment(Guid idComment, Guid itemId)
         {
             try
             {
-                return this.Ok();
+                var result = await this.commentService.DeleteComment(idComment, itemId);
+                if (result)
+                    return this.Ok();
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex);
                 return this.Problem();
             }
+
+            return this.BadRequest();
         }
     }
 }

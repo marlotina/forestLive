@@ -12,8 +12,6 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
 
         public string Text { get; set; }
 
-        public int LikesCount { get; set; }
-
         public DateTime CreateDate { get; set; }
 
         public string UserId { get; set; }

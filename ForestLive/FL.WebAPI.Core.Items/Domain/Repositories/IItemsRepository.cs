@@ -1,4 +1,5 @@
 ﻿using FL.WebAPI.Core.Items.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,11 +9,16 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
     {
         Task CreateItemAsync(Item comment);
 
-        Task<Item> GetItemAsync(string postId);
+        Task DeleteItemAsync(Guid itemIdRequest);
 
         Task UpsertBlogPostAsync(Item post);
 
+        Task<Item> GetItemAsync(string postId);
+
+
         Task CreateItemCommentAsync(ItemComment comment);
+
+        Task DeleteCommentAsync(Guid commentId, Guid itemId);
 
         Task<List<ItemComment>> GetItemCommentsAsync(string postId);
     }
