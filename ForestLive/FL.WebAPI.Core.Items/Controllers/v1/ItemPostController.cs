@@ -16,10 +16,10 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     public class ItemPostController : ControllerBase
     {
         private readonly ILogger<ItemPostController> logger;
-        private readonly IItemPostService birdPhotosService;
+        private readonly IItemService birdPhotosService;
         private readonly IBirdPostMapper birdPhotoMapper;
 
-        public ItemPostController(IItemPostService birdPhotosService,
+        public ItemPostController(IItemService birdPhotosService,
             IBirdPostMapper birdPhotoMapper,
             ILogger<ItemPostController> logger)
         {
