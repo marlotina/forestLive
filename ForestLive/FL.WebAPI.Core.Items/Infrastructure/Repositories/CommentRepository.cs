@@ -1,6 +1,7 @@
 ﻿using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Repositories;
+using FL.WebAPI.Core.Items.Infrastructure.Services.Contracts;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using System;
@@ -21,6 +22,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             try
             {
+                
             }
             catch (Exception ex)
             {

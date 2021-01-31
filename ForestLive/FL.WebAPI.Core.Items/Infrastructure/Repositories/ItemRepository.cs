@@ -10,11 +10,11 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
     public class ItemRepository : IItemRepository
     {
         private readonly IItemConfiguration itemConfiguration;
-        private readonly IBlogCosmosDbService blogCosmosDbService;
+        private readonly IItemsCosmosRepository itemsCosmosRepository;
         public ItemRepository(IItemConfiguration itemConfiguration,
-            IBlogCosmosDbService blogCosmosDbService)
+            IItemsCosmosRepository itemsCosmosRepository)
         {
-            this.blogCosmosDbService = blogCosmosDbService;
+            this.itemsCosmosRepository = itemsCosmosRepository;
             this.itemConfiguration = itemConfiguration;
         }
 
@@ -22,7 +22,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             try
             {
-                await this.blogCosmosDbService.CreateItemAsync(birdItem);
+                await this.itemsCosmosRepository.CreateItemAsync(birdItem);
             }
             catch (Exception ex)
             {

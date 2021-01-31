@@ -9,7 +9,11 @@ using FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Implementations;
 using FL.WebAPI.Core.Items.Domain.Repositories;
+using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Contracts;
+using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Implementations;
 using FL.WebAPI.Core.Items.Infrastructure.Repositories;
+using FL.WebAPI.Core.Items.Infrastructure.Services.Contracts;
+using FL.WebAPI.Core.Items.Infrastructure.Services.Implementations;
 using FL.WebAPI.Core.Items.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Mapper.v1.Implementation;
 using FL.WebAPI.Core.Items.Services.Contracts;
@@ -33,6 +37,10 @@ namespace FL.WebAPI.Core.Items.IoC
 
             services.AddTransient<IItemRepository, ItemRepository>();
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
+            
+            services.AddSingleton<IClientFactory, ClientFactory>();
+            services.AddSingleton<IUserCosmosRepository, UserCosmosRepository>();
+            services.AddSingleton<IItemsCosmosRepository, ItemsCosmosRepository>();
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
