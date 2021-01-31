@@ -6,6 +6,8 @@ using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation;
+using FL.WebAPI.Core.Items.Application.Services.Contracts;
+using FL.WebAPI.Core.Items.Application.Services.Implementations;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Implementations;
 using FL.WebAPI.Core.Items.Domain.Repositories;
@@ -14,8 +16,6 @@ using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Implementations;
 using FL.WebAPI.Core.Items.Infrastructure.Repositories;
 using FL.WebAPI.Core.Items.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Mapper.v1.Implementation;
-using FL.WebAPI.Core.Items.Services.Contracts;
-using FL.WebAPI.Core.Items.Services.Implementations;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FL.WebAPI.Core.Items.IoC

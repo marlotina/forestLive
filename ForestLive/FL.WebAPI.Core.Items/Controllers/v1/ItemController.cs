@@ -1,13 +1,10 @@
 ﻿using System;
-using System.IO;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
+using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Models.v1.Request;
-using FL.WebAPI.Core.Items.Services.Contracts;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
