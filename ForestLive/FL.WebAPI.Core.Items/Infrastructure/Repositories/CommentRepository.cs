@@ -57,7 +57,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
                 var container = client.GetContainer(this.itemConfiguration.CosmosDatabaseId, this.itemConfiguration.CosmosContainerId);
 
                 // Delete an item. Note we must provide the partition key value and id of the item to delete
-                var wop = await container.DeleteItemAsync<BirdPost>(idComment.ToString(), new PartitionKey("commentId"));
+                var wop = await container.DeleteItemAsync<BirdItem>(idComment.ToString(), new PartitionKey("commentId"));
                 return true;
             }
             catch (Exception ex)

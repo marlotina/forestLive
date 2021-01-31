@@ -6,8 +6,8 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts
 {
     public interface IBirdPostMapper
     {
-        BirdPost Convert(BirdPostRequest source);
+        BirdItem Convert(BirdItemRequest source);
 
-        BirdPhotoResponse Convert(BirdPost source);
+        BirdPhotoResponse Convert(BirdItem source);
     }
 }

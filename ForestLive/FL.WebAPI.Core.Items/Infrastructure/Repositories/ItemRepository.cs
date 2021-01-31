@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             this.itemConfiguration = itemConfiguration;
         }
 
-        public async Task<BirdPost> AddBirdPost(BirdPost birdPost)
+        public async Task<BirdItem> AddBirdItem(BirdItem birdItem)
         {
             try
             {
@@ -30,17 +30,17 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
                                     .Build();
 
                 var postContainer = client.GetContainer(this.itemConfiguration.CosmosDatabaseId, this.itemConfiguration.CosmosContainerId);
-                return await postContainer.CreateItemAsync(birdPost);
+                return await postContainer.CreateItemAsync(birdItem);
             }
             catch (Exception ex)
             {
                 //this.logger.LogError(ex);
             }
 
-            return birdPost;
+            return birdItem;
         }
 
-        public async Task<bool> DeleteBirdPost(Guid idPost)
+        public async Task<bool> DeleteBirdPost(Guid idItem)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
                 var postContainer = client.GetContainer(this.itemConfiguration.CosmosDatabaseId, this.itemConfiguration.CosmosContainerId);
 
                 // Delete an item. Note we must provide the partition key value and id of the item to delete
-                var wop = await postContainer.DeleteItemAsync<BirdPost>(idPost.ToString(), new PartitionKey("postId"));
+                var wop = await postContainer.DeleteItemAsync<BirdItem>(idItem.ToString(), new PartitionKey("postId"));
                 return true;
             }
             catch (Exception ex)

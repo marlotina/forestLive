@@ -35,5 +35,7 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
         public string UserUrl { get; set; }
 
         public DateTime ObservationDate { get; set; }
+
+        public bool SpecieConfirmed { get; set; }
     }
 }

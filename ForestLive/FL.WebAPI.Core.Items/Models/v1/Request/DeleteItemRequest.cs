@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.Items.Models.v1.Request
 {
-    public class DeletePostRequest
+    public class DeleteItemRequest
     {
         public Guid Id { get; set; }
 

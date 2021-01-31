@@ -3,7 +3,7 @@ using System;
 
 namespace FL.WebAPI.Core.Items.Domain.Entities
 {
-    public class BirdPost
+    public class BirdItem
     {
         public Guid Id { get; set; }
 
@@ -38,5 +38,7 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
         public Guid UserId { get; set; }
 
         public DateTime ObservationDate { get; set; }
+
+        public bool SpecieConfirmed { get; set; }
     }
 }

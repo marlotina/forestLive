@@ -28,25 +28,22 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             //this.logger = logger;
         }
         
-        public async Task<bool> DeleteBird(Guid BirdItemId)
-        {
-            return await this.blobContainerRepository.DeleteFileToStorage("", "");
-        }
-
-        public async Task<BirdPost> AddBirdPost(BirdPost birdPost, Stream imageStream)
+        public async Task<BirdItem> AddBirdItem(BirdItem birdItem, Stream imageStream)
         {
             try
             {
-                birdPost.PostId = Guid.NewGuid();
-                birdPost.Id = Guid.NewGuid();
-                birdPost.Type = ItemHelper.POST_TYPE;
-                birdPost.LikesCount = 0;
-                birdPost.CommentsCount = 0;
-                birdPost.CreateDate = DateTime.UtcNow;
+                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirdPhotoContainer, birdItem.UserId.ToString());
 
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirdPhotoContainer, birdPost.UserId.ToString());
                 if (result) {
-                    return await this.postRepository.AddBirdPost(birdPost);
+                    birdItem.PostId = Guid.NewGuid();
+                    birdItem.Id = Guid.NewGuid();
+                    birdItem.Type = ItemHelper.POST_TYPE;
+                    birdItem.LikesCount = 0;
+                    birdItem.CommentsCount = 0;
+                    birdItem.CreateDate = DateTime.UtcNow;
+                    birdItem.SpecieConfirmed = false;
+
+                    return await this.postRepository.AddBirdItem(birdItem);
                 }
             }
             catch (Exception ex)
@@ -56,6 +53,27 @@ namespace FL.WebAPI.Core.Items.Services.Implementations
             }
 
             return null;
+        }
+
+        public async Task<bool> DeleteBirdItem(Guid birdItemId, Guid userId)
+        {
+            try
+            {
+                var fileName = "";
+
+                var result = await this.blobContainerRepository.DeleteFileToStorage(fileName, this.itemConfiguration.BirdPhotoContainer);
+
+                if (result)
+                {
+                    return await this.postRepository.DeleteBirdPost(birdItemId);
+                }
+            }
+            catch (Exception ex) 
+            { 
+            
+            }
+
+            return false;
         }
     }
 }

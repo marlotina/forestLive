@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
 {
-    public class BirdPostRequest
+    public class BirdItemRequest
     {
-        //public Guid Id { get; set; }
         public string ImageData { get; set; }
 
         public string AltImage { get; set; }
@@ -33,7 +29,5 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
         public string[] Labels { get; set; }
 
         public DateTime ObservationDate { get; set; }
-
-        //public string Type { get; set; }
     }
 }
