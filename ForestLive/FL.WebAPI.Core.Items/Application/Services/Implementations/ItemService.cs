@@ -88,7 +88,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
             }
 
-            return false;
+            return null;
         }
     }
 }
