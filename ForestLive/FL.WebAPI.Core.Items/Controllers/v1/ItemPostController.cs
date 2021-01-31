@@ -13,15 +13,15 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class BirdPostController : ControllerBase
+    public class ItemPostController : ControllerBase
     {
-        private readonly ILogger<BirdPostController> logger;
-        private readonly IBirdPostService birdPhotosService;
+        private readonly ILogger<ItemPostController> logger;
+        private readonly IItemPostService birdPhotosService;
         private readonly IBirdPostMapper birdPhotoMapper;
 
-        public BirdPostController(IBirdPostService birdPhotosService,
+        public ItemPostController(IItemPostService birdPhotosService,
             IBirdPostMapper birdPhotoMapper,
-            ILogger<BirdPostController> logger)
+            ILogger<ItemPostController> logger)
         {
             this.logger = logger;
             this.birdPhotosService = birdPhotosService ?? throw new ArgumentNullException(nameof(birdPhotosService));

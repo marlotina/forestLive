@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Services.Contracts
 {
-    public interface IBirdPostService
+    public interface IItemPostService
     {
         Task<BirdPost> AddBirdPost(BirdPost birdPhoto, Stream fileStream);
 

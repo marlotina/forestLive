@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Services.Implementations
 {
-    public class BirdPostService : IBirdPostService
+    public class ItemPostService : IItemPostService
     {
         private readonly IItemConfiguration itemConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
-        private readonly IPostRepository postRepository;
+        private readonly IItemRepository postRepository;
 
         //private readonly Logger<BirdPostService> logger;
-        public BirdPostService(IItemConfiguration itemConfiguration,
+        public ItemPostService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
-            IPostRepository postRepository)
+            IItemRepository postRepository)
             //Logger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;

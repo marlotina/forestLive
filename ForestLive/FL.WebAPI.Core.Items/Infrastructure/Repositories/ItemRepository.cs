@@ -8,10 +8,10 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
-    public class PostRepository : IPostRepository
+    public class ItemRepository : IItemRepository
     {
         private readonly IItemConfiguration itemConfiguration; 
-        public PostRepository(IItemConfiguration itemConfiguration)
+        public ItemRepository(IItemConfiguration itemConfiguration)
         {
             this.itemConfiguration = itemConfiguration;
         }

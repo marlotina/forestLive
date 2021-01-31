@@ -28,10 +28,10 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddSingleton<IItemConfiguration, ItemConfiguration>();
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
 
-            services.AddTransient<IBirdPostService, BirdPostService>();
+            services.AddTransient<IItemPostService, ItemPostService>();
             services.AddTransient<ICommentService, CommentService>();
 
-            services.AddTransient<IPostRepository, PostRepository>();
+            services.AddTransient<IItemRepository, ItemRepository>();
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
 
             //loggin

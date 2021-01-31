@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
-    public interface IPostRepository
+    public interface IItemRepository
     {
         Task<BirdPost> AddBirdPost(BirdPost birdPost);
 
