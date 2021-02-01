@@ -5,6 +5,7 @@ using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Models.v1.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
@@ -98,11 +99,12 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = await this.itemService.get(request.Id, request.UserId);
+                var result = await this.itemService.GetBirdItem(itemId);
 
-                if (result)
+                var itemResponse = this.birdItemMapper.Convert(result);
+                if (itemResponse != null)
                 {
-                    return this.Ok();
+                    return this.Ok(itemResponse);
                 }
                 else
                     return this.BadRequest();
