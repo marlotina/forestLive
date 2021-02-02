@@ -4,15 +4,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FL.WebAPI.Core.Items.Domain.Repositories
+namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 {
-    public interface IUserRepository
+    public interface IUserItemService
     {
         Task CreateUserAsync(UserBird user);
 
         Task<List<Item>> GetBlogPostsForUserId(Guid userId);
-
-        Task CreateItemAsync(Item item);
-
     }
 }

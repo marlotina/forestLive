@@ -15,15 +15,18 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IItemConfiguration itemConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
         private readonly IItemsRepository itemsRepository;
+        private readonly IUserRepository userRepository;
         //private readonly Logger<BirdPostService> logger;
         public ItemService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
-            IItemsRepository itemsRepository)
+            IItemsRepository itemsRepository,
+            IUserRepository userRepository)
             //Logger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
             this.itemConfiguration = itemConfiguration;
             this.itemsRepository = itemsRepository;
+            this.userRepository = userRepository;
             //this.logger = logger;
         }
         

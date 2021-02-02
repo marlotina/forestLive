@@ -1,8 +1,12 @@
 ﻿using FL.WebAPI.Core.Items.Configuration.Contracts;
+using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Entities.User;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Contracts;
 using Microsoft.Azure.Cosmos;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
@@ -32,6 +36,33 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             await usersContainer.CreateItemAsync<UserBird>(user, new PartitionKey(user.UserId.ToString()));
             //await _usersContainer.CreateItemAsync<BlogUser>(user, new PartitionKey(user.UserId), new ItemRequestOptions { PreTriggers = new List<string> { "validateUserUsernameNotExists" } });
+        }
+
+        public async Task<List<Item>> GetBlogPostsForUserId(Guid userId)
+        {
+
+            var blogPosts = new List<Item>();
+
+
+            var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.dateCreated DESC";
+
+            var queryDef = new QueryDefinition(queryString);
+            queryDef.WithParameter("@UserId", userId);
+            var query = this.usersContainer.GetItemQueryIterator<Item>(queryDef);
+
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                var ru = response.RequestCharge;
+                blogPosts.AddRange(response.ToList());
+            }
+
+            return blogPosts;
+        }
+
+        public async Task CreateItemAsync(Item item)
+        {
+            await this.usersContainer.CreateItemAsync<Item>(item, new PartitionKey(item.UserId.ToString()));
         }
     }
 }
