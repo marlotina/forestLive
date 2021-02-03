@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Net.Http;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
@@ -41,9 +43,9 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
                 var post = this.birdItemMapper.Convert(request);
 
-                //var bytes = Convert.FromBase64String(request.ImageData);
-                //var contents = new StreamContent(new MemoryStream(bytes));
-                //var imageStream = await contents.ReadAsStreamAsync();
+                var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
+                var contents = new StreamContent(new MemoryStream(bytes));
+                var imageStream = await contents.ReadAsStreamAsync();
 
                 var result = await this.itemService.AddBirdItem(post, null);
 
