@@ -47,7 +47,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.itemService.AddBirdItem(post, null);
+                var result = await this.itemService.AddBirdItem(post, imageStream);
 
                 if (result != null)
                 {

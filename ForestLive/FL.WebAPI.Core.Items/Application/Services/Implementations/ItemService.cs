@@ -34,8 +34,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                //var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirdPhotoContainer, birdItem.UserId.ToString());
-                var result = true;
+                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirdPhotoContainer, birdItem.UserName);
+                
                 if (result) {
                     birdItem.ItemId = Guid.NewGuid().ToString();
                     birdItem.Id = Guid.NewGuid();
