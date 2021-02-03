@@ -10,7 +10,7 @@ namespace FL.WebAPI.Core.Items.Models.v1.Response
 
         public DateTime CreateDate { get; set; }
 
-        public string UserId { get; set; }
+        public Guid UserId { get; set; }
 
         public string UserName { get; set; }
     }

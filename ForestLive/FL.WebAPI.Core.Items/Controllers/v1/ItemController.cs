@@ -5,7 +5,6 @@ using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Models.v1.Request;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
@@ -90,7 +89,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpGet]
         [Route("GetItem", Name = "GetItem")]
-        public async Task<IActionResult> GetItem([FromBody] Guid itemId)
+        public async Task<IActionResult> GetItem(Guid itemId)
         {
             try
             {

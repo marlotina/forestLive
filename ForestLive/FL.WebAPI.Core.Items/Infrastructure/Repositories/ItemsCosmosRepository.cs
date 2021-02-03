@@ -51,13 +51,26 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             try
             {
-                var itemId = itemIdRequest.ToString();
+                var queryString = $"SELECT * FROM p WHERE p.itemId = @ItemId";
 
-                ItemResponse<Item> response = await this.itemsContainer.ReadItemAsync<Item>
-                    (itemId, new PartitionKey(itemId));
+                var queryDef = new QueryDefinition(queryString);
+                queryDef.WithParameter("@ItemId", itemIdRequest);
+                var query = this.itemsContainer.GetItemQueryIterator<Item>(queryDef);
 
-                var ru = response.RequestCharge;
-                return response.Resource;
+
+                var response = await query.ReadNextAsync();
+
+                return response.Resource.FirstOrDefault();
+
+
+
+                //var itemId = itemIdRequest.ToString();
+
+                //ItemResponse<Item> response = await this.itemsContainer.ReadItemAsync<Item>
+                //    (itemId, new PartitionKey(itemId));
+
+                //var ru = response.RequestCharge;
+                //return response.Resource;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
