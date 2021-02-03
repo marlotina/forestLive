@@ -2,13 +2,15 @@
 
 namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 {
-    public class BirdPhotoResponse
+    public class ItemResponse
     {
         public Guid Id { get; set; }
 
         public string Title { get; set; }
 
         public string Text { get; set; }
+
+        public string ImageUrl { get; set; }
 
         public DateTime CreateDate { get; set; }
 
@@ -29,8 +31,6 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
         public string BirdSpecie { get; set; }
 
         public Guid SpecieId { get; set; }
-
-        public string ItemUrl { get; set; }
 
         public string UserUrl { get; set; }
 

@@ -1,5 +1,6 @@
 ﻿using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
+using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -39,6 +40,30 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     return this.Ok(response);
                 }
                 else
+                    return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+
+        [HttpPost]
+        [Route("AddUser", Name = "AddUser")]
+        public async Task<IActionResult> AddUser(UserBirdRequest request)
+        {
+            try
+            {
+                //var result = await this.userItemService.CreateUserAsync(request);
+
+                //if (result != null && result.Any())
+                //{
+                //    var response = result.Select(x => this.birdPostMapper.Convert(x));
+                //    return this.Ok(response);
+                //}
+                //else
                     return this.BadRequest();
             }
             catch (Exception ex)

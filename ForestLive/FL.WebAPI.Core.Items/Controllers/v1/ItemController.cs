@@ -29,7 +29,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpPost]
         [Route("AddItem", Name = "AddItem")]
-        public async Task<IActionResult> AddItem([FromBody] BirdItemRequest request)
+        public async Task<IActionResult> AddItem([FromBody] ItemRequest request)
         {
             try
             {

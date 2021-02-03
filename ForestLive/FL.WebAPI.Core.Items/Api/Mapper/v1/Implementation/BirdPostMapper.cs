@@ -8,7 +8,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
 {
     public class BirdPostMapper : IBirdPostMapper
     {
-        public Item Convert(BirdItemRequest source)
+        public Item Convert(ItemRequest source)
         {
             var result = default(Item);
             if (source != null)
@@ -29,12 +29,12 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public BirdPhotoResponse Convert(Item source)
+        public ItemResponse Convert(Item source)
         {
-            var result = default(BirdPhotoResponse);
+            var result = default(ItemResponse);
             if (source != null)
             {
-                result = new BirdPhotoResponse()
+                result = new ItemResponse()
                 {
                     Id = source.Id,
                     Title = source.Title,

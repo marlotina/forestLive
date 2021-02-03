@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
 {
-    public class BirdItemRequest
+    public class ItemRequest
     {
         public string ImageData { get; set; }
 
