@@ -14,10 +14,9 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
             {
                 result = new ItemComment()
                 {
-                    ItemId = source.PostId,
+                    ItemId = source.ItemId,
                     Text = source.Text,
-                    UserId = source.UserId,
-                    UserName = source.UserName
+                    UserId = source.UserId
                 };
             }
             return result;
@@ -33,8 +32,8 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
                     Id = source.Id,
                     Text = source.Text,
                     UserId = source.UserId,
-                    UserName = source.UserName,
-                    CreateDate = source.CreateDate
+                    CreateDate = source.CreateDate,
+                    ItemId = source.ItemId
                 };
             }
             return result;

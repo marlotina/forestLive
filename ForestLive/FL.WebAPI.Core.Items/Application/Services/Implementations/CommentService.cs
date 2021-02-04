@@ -3,6 +3,7 @@ using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Implementations
@@ -34,7 +35,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             
             }
 
-            return null;
+            return comment;
         }
 
         public async Task<bool> DeleteComment(Guid commnetId)
@@ -65,6 +66,21 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
 
             return false;
+        }
+
+        public async Task<List<ItemComment>> GetCommentByItem(Guid itemId)
+        {
+            try
+            {
+                var result = await this.itemsRepository.GetItemCommentsAsync(itemId);
+                return result;
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            return null;
         }
     }
 }

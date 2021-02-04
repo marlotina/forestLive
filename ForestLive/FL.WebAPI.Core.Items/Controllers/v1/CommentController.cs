@@ -6,6 +6,7 @@ using FL.WebAPI.Core.Items.Models.v1.Response;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
@@ -29,7 +30,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpPost]
         [Route("AddComment", Name = "AddComment")]
-        public async Task<IActionResult> AddComment(CommentRequest request) 
+        public async Task<IActionResult> AddComment([FromBody] CommentRequest request) 
         {
             try
             {
@@ -39,7 +40,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 if (result != null)
                 {
                     var commentResponse = this.commentMapper.Convert(result);
-                    return this.CreatedAtRoute("GetCommentById", new { id = commentResponse.Id }, commentResponse);
+                    return this.Ok(commentResponse);
                 }
                 else
                     return this.BadRequest();
@@ -57,35 +58,26 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         {
             try
             {
-                var response = new List<CommentResponse>();
-                response.Add(new CommentResponse()
+                if (itemId == Guid.Empty || itemId == null)
                 {
-                    Id = new Guid(),
-                    UserId = new Guid(),
-                    Text = "Lorem fistrum laboris fistro diodeno al ataquerl sed diodenoo diodenoo tiene musho peligro adipisicing quietooor. Eiusmod apetecan ese pedazo de exercitation dolor exercitation la caidita eiusmod. ,",
-                    UserName = "Marlotina",
-                    CreateDate = DateTime.Now
-                });
+                    this.BadRequest();
+                }
 
-                response.Add(new CommentResponse()
+                var result = await this.commentService.GetCommentByItem(itemId);
+                var itemResponse = result.Select(x => this.commentMapper.Convert(x));
+                    
+                if (itemResponse != null)
                 {
-                    Id = new Guid(),
-                    UserId = new Guid(),
-                    Text = "Lorem fistrum laboris fistro diodeno al ataquerl sed diodenoo diodenoo tiene musho peligro adipisicing quietooor. Eiusmod apetecan ese pedazo de exercitation dolor exercitation la caidita eiusmod. ,",
-                    UserName = "chayanne",
-                    CreateDate = DateTime.Now
-                }); ;
-
-                
-                return this.Ok(response);
+                    return this.Ok(itemResponse);
+                }
+                else
+                    return this.BadRequest();
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex);
                 return this.Problem();
             }
-
-            return this.BadRequest();
         }
 
         [HttpDelete]

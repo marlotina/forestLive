@@ -14,8 +14,6 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
 
         public DateTime CreateDate { get; set; }
 
-        public Guid UserId { get; set; }
-
-        public string UserName { get; set; }
+        public string UserId { get; set; }
     }
 }

@@ -55,21 +55,9 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@ItemId", itemIdRequest);
                 var query = this.itemsContainer.GetItemQueryIterator<Item>(queryDef);
-
-
                 var response = await query.ReadNextAsync();
 
                 return response.Resource.FirstOrDefault();
-
-
-
-                //var itemId = itemIdRequest.ToString();
-
-                //ItemResponse<Item> response = await this.itemsContainer.ReadItemAsync<Item>
-                //    (itemId, new PartitionKey(itemId));
-
-                //var ru = response.RequestCharge;
-                //return response.Resource;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -79,7 +67,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task<List<ItemComment>> GetItemCommentsAsync(Guid itemId)
         {
-            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.itemId = @ItemId ORDER BY p.dateCreated DESC";
+            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.itemId = @ItemId ORDER BY p.createDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@ItemId", itemId);
@@ -101,7 +89,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             await this.itemsContainer.CreateItemAsync<ItemComment>(comment, new PartitionKey(comment.ItemId.ToString()));
         }
 
-        public async Task DeleteCommentAsync(System.Guid commentId, System.Guid userId)
+        public async Task DeleteCommentAsync(Guid commentId, System.Guid userId)
         {
             await this.itemsContainer.DeleteItemAsync<ItemComment>(commentId.ToString(), new PartitionKey(userId.ToString()));
         }
