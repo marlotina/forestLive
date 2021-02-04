@@ -47,12 +47,12 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.itemService.AddBirdItem(post, imageStream);
+                var result = await this.itemService.AddBirdItem(post, imageStream, request.ImageName);
 
                 if (result != null)
                 {
                     var postResponse = this.birdItemMapper.Convert(result);
-                    return this.CreatedAtRoute("GetPostById", new { id = postResponse.Id }, postResponse);
+                    return this.CreatedAtRoute("GetItem", new { id = postResponse.Id }, postResponse);
                 }
                 else
                     return this.BadRequest();

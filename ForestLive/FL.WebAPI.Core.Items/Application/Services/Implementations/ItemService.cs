@@ -30,11 +30,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             //this.logger = logger;
         }
         
-        public async Task<Item> AddBirdItem(Item birdItem, Stream imageStream)
+        public async Task<Item> AddBirdItem(Item birdItem, Stream imageStream, string imageName)
         {
             try
             {
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, "", this.itemConfiguration.BirdPhotoContainer, birdItem.UserName);
+                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, birdItem.UserName);
                 
                 if (result) {
                     birdItem.ItemId = Guid.NewGuid().ToString();
@@ -54,7 +54,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 return null;
             }
 
-            return null;
+            return birdItem;
         }
 
         public async Task<bool> DeleteBirdItem(Guid birdItemId, Guid userId)
