@@ -144,7 +144,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 return new AuthResponse
                 {
                     Id = user.Id,
-                    Username = user.UserName,
+                    UserName = user.UserName,
                     Email = user.Email,
                     FirstName = user.Name,
                     LastName = user.Surname,
