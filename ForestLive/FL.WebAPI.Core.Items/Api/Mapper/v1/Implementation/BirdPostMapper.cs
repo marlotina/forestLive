@@ -21,6 +21,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     SpecieName = source.SpecieName,
                     SpecieId = source.SpecieId,
                     Labels = source.Labels,
+                    AltImage = source.AltImage,
                     Location = new Point(double.Parse(source.Longitude), double.Parse(source.Latitude)),
                     ObservationDate = source.ObservationDate
                 };
@@ -38,6 +39,8 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Id = source.ItemId,
                     Title = source.Title,
                     Text = source.Text,
+                    ImageUrl = source.ImageUrl,
+                    AltImage = source.AltImage,
                     CreateDate = source.CreateDate,
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,

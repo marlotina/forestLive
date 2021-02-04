@@ -12,6 +12,8 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 
         public string ImageUrl { get; set; }
 
+        public string AltImage { get; set; }
+
         public DateTime CreateDate { get; set; }
 
         public string UserId { get; set; }

@@ -44,6 +44,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdItem.CommentsCount = 0;
                     birdItem.CreateDate = DateTime.UtcNow;
                     birdItem.SpecieConfirmed = false;
+                    birdItem.ImageUrl = birdItem.UserId + "/" + imageName;
 
                     await this.itemsRepository.CreateItemAsync(birdItem);
                     await this.userRepository.CreateItemAsync(birdItem);
