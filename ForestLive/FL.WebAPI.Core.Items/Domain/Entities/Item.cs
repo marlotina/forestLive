@@ -10,7 +10,7 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
         public Guid Id { get; set; }
 
         [JsonProperty(PropertyName = "itemId")]
-        public string ItemId { get; set; }
+        public Guid ItemId { get; set; }
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
@@ -48,11 +48,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
         [JsonProperty(PropertyName = "commentsCount")]
         public int CommentsCount { get; set; }
 
-        [JsonProperty(PropertyName = "userName")]
-        public string UserName { get; set; }
-
         [JsonProperty(PropertyName = "userId")]
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime ObservationDate { get; set; }

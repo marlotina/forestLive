@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
 {
+    [Route("api/v1/[controller]")]
+    [ApiController]
     public class UserController : Controller
     {
         private readonly ILogger<UserController> logger;
@@ -24,9 +26,9 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             this.logger = logger;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("GetPosts", Name = "GetPosts")]
-        public async Task<IActionResult> GetPosts(Guid userId)
+        public async Task<IActionResult> GetPosts(string userId)
         {
             try
             {

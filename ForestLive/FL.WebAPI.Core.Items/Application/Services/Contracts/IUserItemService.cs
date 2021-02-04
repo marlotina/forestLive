@@ -10,6 +10,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
     {
         Task CreateUserAsync(UserBird user);
 
-        Task<List<Item>> GetBlogPostsForUserId(Guid userId);
+        Task<List<Item>> GetBlogPostsForUserId(string userId);
     }
 }

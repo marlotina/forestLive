@@ -29,7 +29,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
         }
 
-        public async Task<List<Item>> GetBlogPostsForUserId(Guid userId)
+        public async Task<List<Item>> GetBlogPostsForUserId(string userId)
         {
             try 
             {

@@ -18,7 +18,6 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Title = source.Title,
                     Text = source.Text,
                     UserId = source.UserId,
-                    UserName = source.UserName,
                     SpecieName = source.SpecieName,
                     SpecieId = source.SpecieId,
                     Labels = source.Labels,
@@ -36,12 +35,11 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             {
                 result = new ItemResponse()
                 {
-                    Id = source.Id,
+                    Id = source.ItemId,
                     Title = source.Title,
                     Text = source.Text,
                     CreateDate = source.CreateDate,
                     UserId = source.UserId,
-                    UserName = source.UserName,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
                     Labels = source.Labels,

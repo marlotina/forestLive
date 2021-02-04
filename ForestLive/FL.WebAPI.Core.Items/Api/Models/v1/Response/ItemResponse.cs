@@ -14,13 +14,11 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 
         public DateTime CreateDate { get; set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public int LikesCount { get; set; }
 
         public int CommentsCount { get; set; }
-
-        public string UserName { get; set; }
 
         public string Latitude { get; set; }
 

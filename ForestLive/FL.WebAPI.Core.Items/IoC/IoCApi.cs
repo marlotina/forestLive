@@ -31,6 +31,7 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
 
             services.AddTransient<IItemService, ItemService>();
+            services.AddTransient<IUserItemService, UserItemService>();
             services.AddTransient<ICommentService, CommentService>();
 
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();

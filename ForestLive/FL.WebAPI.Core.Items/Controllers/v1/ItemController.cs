@@ -37,7 +37,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 if (request == null)
                     return null;
 
-                if (request.UserId == null || request.UserId == Guid.Empty
+                if (string.IsNullOrWhiteSpace(request.UserId)
                     || string.IsNullOrWhiteSpace(request.ImageData))
                     return this.BadRequest();
 

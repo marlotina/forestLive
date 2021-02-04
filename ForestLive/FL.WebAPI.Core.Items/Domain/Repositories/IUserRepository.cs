@@ -10,7 +10,7 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
     {
         Task CreateUserAsync(UserBird user);
 
-        Task<List<Item>> GetBlogPostsForUserId(Guid userId);
+        Task<List<Item>> GetBlogPostsForUserId(string userId);
 
         Task CreateItemAsync(Item item);
 

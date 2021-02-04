@@ -32,8 +32,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task CreateItemAsync(Item item)
         {
-            //await this._itemsContainer.UpsertItemAsync<Item>(item, new PartitionKey(item.ItemId));
-            await this.itemsContainer.CreateItemAsync<Item>(item, new PartitionKey(item.ItemId));
+            await this.itemsContainer.CreateItemAsync<Item>(item, new PartitionKey(item.ItemId.ToString()));
         }
 
         public async Task DeleteItemAsync(System.Guid itemIdRequest)

@@ -34,10 +34,10 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, birdItem.UserName);
+                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, birdItem.UserId);
                 
                 if (result) {
-                    birdItem.ItemId = Guid.NewGuid().ToString();
+                    birdItem.ItemId = Guid.NewGuid();
                     birdItem.Id = Guid.NewGuid();
                     birdItem.Type = ItemHelper.POST_TYPE;
                     birdItem.LikesCount = 0;
@@ -46,6 +46,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdItem.SpecieConfirmed = false;
 
                     await this.itemsRepository.CreateItemAsync(birdItem);
+                    await this.userRepository.CreateItemAsync(birdItem);
                 }
             }
             catch (Exception ex)
