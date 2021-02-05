@@ -72,7 +72,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
             var isValidUserName = await IsValidUserName(newNormalizeUserName, user.NormalizedUserName);
 
-            if(isValidUserName)
+            if(!isValidUserName)
                 throw new UserDuplicatedException();
 
             if (user != null)
