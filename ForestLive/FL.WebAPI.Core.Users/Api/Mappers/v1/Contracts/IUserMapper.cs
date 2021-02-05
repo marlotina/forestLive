@@ -8,5 +8,7 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Contracts
         Domain.Entities.User Convert(UserRequest source);
 
         UserResponse Convert(Domain.Entities.User source);
+
+        UserInfoResponse ConvertUserInfo(Domain.Entities.User source);
     }
 }

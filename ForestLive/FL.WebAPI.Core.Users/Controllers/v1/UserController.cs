@@ -55,6 +55,31 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             return NotFound();
         }
 
+        [HttpGet, Route("UserGetByUserName", Name = "UserGetByUserName")]
+        public async Task<IActionResult> UserGetByUserName(string userName)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(userName))
+                    return this.BadRequest();
+
+                var result = await this.usersService.GetByUserNameAsync(userName);
+
+                if (result != null)
+                {
+                    var response = this.userMapper.ConvertUserInfo(result);
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+
+            return NotFound();
+        }
+
         [HttpGet, Route("UserFindByEmail", Name = "UserFindByEmail")]
         public async Task<IActionResult> Find(string email)
         {

@@ -61,5 +61,32 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
             }
             return result;
         }
+
+        public UserInfoResponse ConvertUserInfo(Domain.Entities.User source)
+        {
+            var result = default(UserInfoResponse);
+            if (source != null)
+            {
+                result = new UserInfoResponse()
+                {
+                    Id = source.Id,
+                    UrlWebSite = source.UrlWebSite,
+                    IsCompany = source.IsCompany,
+                    RegistrationDate = source.RegistrationDate,
+                    LastModification = source.LastModification,
+                    LanguageId = source.LanguageId,
+                    Description = source.Description,
+                    Photo = source.Photo,
+                    Location = source.Location,
+                    UserName = source.UserName,
+                    FacebookUrl = source.FacebookUrl,
+                    InstagramUrl = source.InstagramUrl,
+                    TwitterUrl = source.TwitterUrl,
+                    LinkedlinUrl = source.LinkedlinUrl
+                };
+            }
+
+            return result;
+        }
     }
 }
