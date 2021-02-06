@@ -37,7 +37,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, birdItem.UserId);
                 
                 if (result) {
-                    birdItem.ItemId = Guid.NewGuid();
+                    birdItem.PostId = Guid.NewGuid();
                     birdItem.Id = Guid.NewGuid();
                     birdItem.Type = ItemHelper.POST_TYPE;
                     birdItem.LikesCount = 0;
@@ -65,7 +65,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             {
                 var item = await this.itemsRepository.GetItemAsync(itemId);
                 var image = item.ImageUrl;
-                var partitionKey = item.ItemId.ToString();
+                var partitionKey = item.PostId.ToString();
                 var id = item.Id;
                 var userPartitionKey = item.UserId;
                 var result = await this.blobContainerRepository.DeleteFileToStorage(image, this.itemConfiguration.BirdPhotoContainer);

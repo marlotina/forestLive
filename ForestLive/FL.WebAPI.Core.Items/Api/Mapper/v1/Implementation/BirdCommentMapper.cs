@@ -14,7 +14,7 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
             {
                 result = new BirdComment()
                 {
-                    ItemId = source.ItemId,
+                    PostId = source.PostId,
                     Text = source.Text,
                     UserId = source.UserId
                 };
@@ -32,8 +32,8 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
                     Id = source.Id,
                     Text = source.Text,
                     UserId = source.UserId,
-                    CreateDate = source.CreateDate,
-                    ItemId = source.ItemId
+                    CreateDate = source.CreateDate.ToString("dd/MM/yyyy hh:mm"),
+                    PostId = source.PostId
                 };
             }
             return result;

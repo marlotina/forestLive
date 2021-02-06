@@ -52,7 +52,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 if (result != null)
                 {
                     var postResponse = this.birdItemMapper.Convert(result);
-                    return this.CreatedAtRoute("GetItem", new { id = postResponse.Id }, postResponse);
+                    return this.CreatedAtRoute("GetPost", new { id = postResponse.Id }, postResponse);
                 }
                 else
                     return this.BadRequest();

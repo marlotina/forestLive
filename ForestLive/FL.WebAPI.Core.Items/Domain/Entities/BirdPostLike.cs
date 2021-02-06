@@ -27,8 +27,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
             }
         }
 
-        [JsonProperty(PropertyName = "itemId")]
-        public string ItemId { get; set; }
+        [JsonProperty(PropertyName = "postId")]
+        public string PostId { get; set; }
 
         [JsonProperty(PropertyName = "userId")]
         public string LikeAuthorId { get; set; }

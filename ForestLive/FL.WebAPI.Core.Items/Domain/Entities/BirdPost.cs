@@ -9,8 +9,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }
 
-        [JsonProperty(PropertyName = "itemId")]
-        public Guid ItemId { get; set; }
+        [JsonProperty(PropertyName = "postId")]
+        public Guid PostId { get; set; }
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }

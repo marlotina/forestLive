@@ -6,11 +6,11 @@ namespace FL.WebAPI.Core.Items.Models.v1.Response
     {
         public Guid Id { get; set; }
 
-        public Guid ItemId { get; set; }
+        public Guid PostId { get; set; }
 
         public string Text { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public string CreateDate { get; set; }
 
         public string UserId { get; set; }
 

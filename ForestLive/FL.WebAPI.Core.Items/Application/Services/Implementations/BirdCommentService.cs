@@ -80,7 +80,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
             }
 
-            return null;
+            return new List<BirdComment>(); ;
         }
     }
 }

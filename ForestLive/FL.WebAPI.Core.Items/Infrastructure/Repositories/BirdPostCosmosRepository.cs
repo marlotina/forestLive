@@ -32,7 +32,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task CreateItemAsync(BirdPost item)
         {
-            await this.itemsContainer.CreateItemAsync<BirdPost>(item, new PartitionKey(item.ItemId.ToString()));
+            await this.itemsContainer.CreateItemAsync<BirdPost>(item, new PartitionKey(item.PostId.ToString()));
         }
 
         public async Task DeleteItemAsync(Guid id, string partitionKey)
@@ -42,17 +42,17 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task UpsertBlogPostAsync(BirdPost item)
         {
-            await this.itemsContainer.UpsertItemAsync<BirdPost>(item, new PartitionKey(item.ItemId.ToString()));
+            await this.itemsContainer.UpsertItemAsync<BirdPost>(item, new PartitionKey(item.PostId.ToString()));
         }
 
-        public async Task<BirdPost> GetItemAsync(Guid itemIdRequest)
+        public async Task<BirdPost> GetItemAsync(Guid postId)
         {
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.itemId = @ItemId";
+                var queryString = $"SELECT * FROM p WHERE p.postId = @PostId";
 
                 var queryDef = new QueryDefinition(queryString);
-                queryDef.WithParameter("@ItemId", itemIdRequest);
+                queryDef.WithParameter("@PostId", postId);
                 var query = this.itemsContainer.GetItemQueryIterator<BirdPost>(queryDef);
                 var response = await query.ReadNextAsync();
 
@@ -64,12 +64,12 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             }
         }
 
-        public async Task<List<BirdComment>> GetItemCommentsAsync(Guid itemId)
+        public async Task<List<BirdComment>> GetItemCommentsAsync(Guid postId)
         {
-            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.itemId = @ItemId ORDER BY p.createDate DESC";
+            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.postId = @PostId ORDER BY p.createDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@ItemId", itemId);
+            queryDef.WithParameter("@PostId", postId);
             var query = this.itemsContainer.GetItemQueryIterator<BirdComment>(queryDef);
 
             List<BirdComment> comments = new List<BirdComment>();
@@ -85,7 +85,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task CreateItemCommentAsync(BirdComment comment)
         {
-            await this.itemsContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.ItemId.ToString()));
+            await this.itemsContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.PostId.ToString()));
         }
 
         public async Task DeleteCommentAsync(Guid commentId, System.Guid userId)
