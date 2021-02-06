@@ -7,19 +7,18 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
     public interface IBIrdPostRepository
     {
-        Task CreateItemAsync(BirdPost comment);
+        Task CreatePostAsync(BirdPost comment);
 
-        Task DeleteItemAsync(Guid id, string partitionKey);
+        Task DeletePostAsync(Guid id, string partitionKey);
 
-        Task UpsertBlogPostAsync(BirdPost post);
+        Task UpdatePostAsync(BirdPost post);
 
-        Task<BirdPost> GetItemAsync(Guid postId);
+        Task<BirdPost> GetPostAsync(Guid postId);
 
-
-        Task CreateItemCommentAsync(BirdComment comment);
+        Task CreateCommentAsync(BirdComment comment);
 
         Task DeleteCommentAsync(Guid commentId, Guid itemId);
 
-        Task<List<BirdComment>> GetItemCommentsAsync(Guid itemId);
+        Task<List<BirdComment>> GetCommentsAsync(Guid itemId);
     }
 }

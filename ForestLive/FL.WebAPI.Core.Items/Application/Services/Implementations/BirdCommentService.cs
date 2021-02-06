@@ -27,7 +27,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 comment.CreateDate = DateTime.UtcNow;
                 comment.Type = ItemHelper.COMMENT_TYPE;
 
-                await this.itemsRepository.CreateItemCommentAsync(comment);
+                await this.itemsRepository.CreateCommentAsync(comment);
 
             }
             catch (Exception ex) 
@@ -72,7 +72,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var result = await this.itemsRepository.GetItemCommentsAsync(itemId);
+                var result = await this.itemsRepository.GetCommentsAsync(itemId);
                 return result;
             }
             catch (Exception ex)

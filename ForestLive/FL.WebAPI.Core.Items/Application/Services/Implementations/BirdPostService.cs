@@ -46,7 +46,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdItem.SpecieConfirmed = false;
                     birdItem.ImageUrl = birdItem.UserId + "/" + imageName;
 
-                    await this.itemsRepository.CreateItemAsync(birdItem);
+                    await this.itemsRepository.CreatePostAsync(birdItem);
                     await this.userRepository.CreateItemAsync(birdItem);
                 }
             }
@@ -63,7 +63,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var item = await this.itemsRepository.GetItemAsync(itemId);
+                var item = await this.itemsRepository.GetPostAsync(itemId);
                 var image = item.ImageUrl;
                 var partitionKey = item.PostId.ToString();
                 var id = item.Id;
@@ -72,7 +72,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
                 if (result)
                 {
-                    await this.itemsRepository.DeleteItemAsync(id, partitionKey);
+                    await this.itemsRepository.DeletePostAsync(id, partitionKey);
                     await this.userRepository.DeleteItemAsync(id, userPartitionKey);
                 }
 
@@ -90,7 +90,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                return await this.itemsRepository.GetItemAsync(itemId);
+                return await this.itemsRepository.GetPostAsync(itemId);
             }
             catch (Exception ex)
             {
