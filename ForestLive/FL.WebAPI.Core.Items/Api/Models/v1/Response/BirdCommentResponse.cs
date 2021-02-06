@@ -15,5 +15,7 @@ namespace FL.WebAPI.Core.Items.Models.v1.Response
         public string UserId { get; set; }
 
         public string UserName { get; set; }
+
+        public string UserImage { get; set; }
     }
 }

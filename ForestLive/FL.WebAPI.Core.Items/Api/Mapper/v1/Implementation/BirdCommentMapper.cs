@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Items.Domain.Entities;
+﻿using FL.Pereza.Helpers.Standard.Images;
+using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Models.v1.Request;
 using FL.WebAPI.Core.Items.Models.v1.Response;
@@ -33,7 +34,8 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
                     Text = source.Text,
                     UserId = source.UserId,
                     CreateDate = source.CreateDate.ToString("dd/MM/yyyy hh:mm"),
-                    PostId = source.PostId
+                    PostId = source.PostId,
+                    UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION
                 };
             }
             return result;

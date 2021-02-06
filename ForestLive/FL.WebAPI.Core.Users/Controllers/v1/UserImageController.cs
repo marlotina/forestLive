@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.IO;
 using FL.WebAPI.Core.Users.Api.Models.v1.Request;
 using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.Images;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -36,18 +37,23 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (request == null)
                     return null;
 
-                if (request.UserId == null || request.UserId == Guid.Empty 
+                if (string.IsNullOrWhiteSpace(request.UserName) || request.UserId == null || request.UserId == Guid.Empty 
                     || string.IsNullOrWhiteSpace(request.ImageBase64) || string.IsNullOrWhiteSpace(request.ImageName))
                     return this.BadRequest();
 
-                var fileExtension = request.ImageName.Split('.')[1];
-                var name = $"{request.UserId}.{fileExtension}";
+                
 
+                var fileExtension = request.ImageName.Split('.')[1];
+                var imageBase64 = request.ImageBase64.Split(',')[1];
+
+                var image = fileExtension == ImageHelper.PNG_EXTENSION ? ImageHelper.FromBase64PNGToBase64JPG(imageBase64) : imageBase64;
+                var nameFile = $"{request.UserName}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}";
                 var bytes = Convert.FromBase64String(request.ImageBase64.Split(',')[1]);
+
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.userImageService.UploadImageAsync(imageStream, name, request.UserId);
+                var result = await this.userImageService.UploadImageAsync(imageStream, nameFile, request.UserId);
                 if (result)
                 {
                     return this.Ok();
