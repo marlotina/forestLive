@@ -25,20 +25,20 @@ namespace FL.WebAPI.Core.Items.IoC
         public static void AddInjection(IServiceCollection services)
         {
             services.AddSingleton<IBirdPostMapper, BirdPostMapper>();
-            services.AddSingleton<ICommentMapper, CommentMapper>();
+            services.AddSingleton<IBirdCommentMapper, BirdCommentMapper>();
 
             services.AddSingleton<IItemConfiguration, ItemConfiguration>();
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
 
-            services.AddTransient<IItemService, ItemService>();
-            services.AddTransient<IUserItemService, UserItemService>();
-            services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IBirdPostService, BirdPostService>();
+            services.AddTransient<IBirdUserPostService, BirdUserPostService>();
+            services.AddTransient<IBirdCommentService, BirdCommentService>();
 
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
             
             services.AddSingleton<IClientFactory, ClientFactory>();
-            services.AddSingleton<IUserRepository, UserCosmosRepository>();
-            services.AddSingleton<IItemsRepository, ItemsCosmosRepository>();
+            services.AddSingleton<IBirdUserRepository, BirdUserCosmosRepository>();
+            services.AddSingleton<IBIrdPostRepository, BirdPostCosmosRepository>();
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

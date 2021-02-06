@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
-    public class UserCosmosRepository : IUserRepository
+    public class BirdUserCosmosRepository : IBirdUserRepository
     {
         private IClientFactory clientFactory;
         private IItemConfiguration itemConfiguration;
         private Container usersContainer;
 
-        public UserCosmosRepository(IClientFactory clientFactory,
+        public BirdUserCosmosRepository(IClientFactory clientFactory,
             IItemConfiguration itemConfiguration)
         {
             this.clientFactory = clientFactory;
@@ -32,22 +32,22 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task CreateUserAsync(UserBird user)
+        public async Task CreateUserAsync(BirdUser user)
         {
-            await usersContainer.CreateItemAsync<UserBird>(user, new PartitionKey(user.UserId));
+            await usersContainer.CreateItemAsync<BirdUser>(user, new PartitionKey(user.UserId));
         }
 
-        public async Task<List<Item>> GetBlogPostsForUserId(string userId)
+        public async Task<List<BirdPost>> GetBlogPostsForUserId(string userId)
         {
 
-            var blogPosts = new List<Item>();
+            var blogPosts = new List<BirdPost>();
 
 
             var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.createDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
-            var query = this.usersContainer.GetItemQueryIterator<Item>(queryDef);
+            var query = this.usersContainer.GetItemQueryIterator<BirdPost>(queryDef);
 
             while (query.HasMoreResults)
             {
@@ -59,14 +59,14 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return blogPosts;
         }
 
-        public async Task CreateItemAsync(Item item)
+        public async Task CreateItemAsync(BirdPost item)
         {
-            await this.usersContainer.CreateItemAsync<Item>(item, new PartitionKey(item.UserId));
+            await this.usersContainer.CreateItemAsync<BirdPost>(item, new PartitionKey(item.UserId));
         }
 
         public async Task DeleteItemAsync(Guid id, string partitionKey)
         {
-            await this.usersContainer.DeleteItemAsync<Item>(id.ToString(), new PartitionKey(partitionKey));
+            await this.usersContainer.DeleteItemAsync<BirdPost>(id.ToString(), new PartitionKey(partitionKey));
         }
     }
 }

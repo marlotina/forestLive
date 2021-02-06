@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 {
-    public interface IUserItemService
+    public interface IBirdUserPostService
     {
-        Task CreateUserAsync(UserBird user);
+        Task CreateUserAsync(BirdUser user);
 
-        Task<List<Item>> GetBlogPostsForUserId(string userId);
+        Task<List<BirdPost>> GetBlogPostsForUserId(string userId);
     }
 }

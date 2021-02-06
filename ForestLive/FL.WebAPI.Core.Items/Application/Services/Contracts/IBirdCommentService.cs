@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 {
-    public interface ICommentService
+    public interface IBirdCommentService
     {
-        Task<ItemComment> AddComment(ItemComment commnet);
+        Task<BirdComment> AddComment(BirdComment commnet);
 
-        Task<List<ItemComment>> GetCommentByItem(Guid itemId);
+        Task<List<BirdComment>> GetCommentByItem(Guid itemId);
 
         Task<bool> DeleteComment(Guid commnetId, Guid itemId);
     }

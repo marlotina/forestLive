@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 {
-    public class ItemResponse
+    public class BirdPostResponse
     {
         public Guid Id { get; set; }
 

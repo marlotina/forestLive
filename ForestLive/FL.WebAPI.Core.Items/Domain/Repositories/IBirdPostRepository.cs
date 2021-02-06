@@ -5,21 +5,21 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
-    public interface IItemsRepository
+    public interface IBIrdPostRepository
     {
-        Task CreateItemAsync(Item comment);
+        Task CreateItemAsync(BirdPost comment);
 
         Task DeleteItemAsync(Guid id, string partitionKey);
 
-        Task UpsertBlogPostAsync(Item post);
+        Task UpsertBlogPostAsync(BirdPost post);
 
-        Task<Item> GetItemAsync(Guid postId);
+        Task<BirdPost> GetItemAsync(Guid postId);
 
 
-        Task CreateItemCommentAsync(ItemComment comment);
+        Task CreateItemCommentAsync(BirdComment comment);
 
         Task DeleteCommentAsync(Guid commentId, Guid itemId);
 
-        Task<List<ItemComment>> GetItemCommentsAsync(Guid itemId);
+        Task<List<BirdComment>> GetItemCommentsAsync(Guid itemId);
     }
 }

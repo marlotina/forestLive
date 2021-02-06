@@ -9,12 +9,12 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
 {
     public class BirdPostMapper : IBirdPostMapper
     {
-        public Item Convert(ItemRequest source)
+        public BirdPost Convert(BirdPostRequest source)
         {
-            var result = default(Item);
+            var result = default(BirdPost);
             if (source != null)
             {
-                result = new Item()
+                result = new BirdPost()
                 {
                     Title = source.Title,
                     Text = source.Text,
@@ -30,12 +30,12 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public ItemResponse Convert(Item source)
+        public BirdPostResponse Convert(BirdPost source)
         {
-            var result = default(ItemResponse);
+            var result = default(BirdPostResponse);
             if (source != null)
             {
-                result = new ItemResponse()
+                result = new BirdPostResponse()
                 {
                     Id = source.Id,
                     ItemId = source.ItemId,

@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.Items.Models.v1.Request
 {
-    public class CommentRequest
+    public class BirdCommentRequest
     {
         public Guid ItemId { get; set; }
 

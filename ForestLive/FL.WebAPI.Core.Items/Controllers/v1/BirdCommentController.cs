@@ -13,15 +13,15 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CommentController : Controller
+    public class BirdCommentController : Controller
     {
-        private readonly ILogger<CommentController> logger;
-        private readonly ICommentMapper commentMapper;
-        private readonly ICommentService commentService;
+        private readonly ILogger<BirdCommentController> logger;
+        private readonly IBirdCommentMapper commentMapper;
+        private readonly IBirdCommentService commentService;
 
-        public CommentController(ICommentMapper commentMapper,
-            ICommentService commentService,
-            ILogger<CommentController> logger)
+        public BirdCommentController(IBirdCommentMapper commentMapper,
+            IBirdCommentService commentService,
+            ILogger<BirdCommentController> logger)
         {
             this.commentService = commentService;
             this.commentMapper = commentMapper;
@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpPost]
         [Route("AddComment", Name = "AddComment")]
-        public async Task<IActionResult> AddComment([FromBody] CommentRequest request) 
+        public async Task<IActionResult> AddComment([FromBody] BirdCommentRequest request) 
         {
             try
             {

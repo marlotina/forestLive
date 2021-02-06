@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
-    public class UserItemService : IUserItemService
+    public class BirdUserPostService : IBirdUserPostService
     {
-        private readonly IUserRepository userRepository;
+        private readonly IBirdUserRepository userRepository;
 
-        public UserItemService(IUserRepository userRepository)
+        public BirdUserPostService(IBirdUserRepository userRepository)
         {
             this.userRepository = userRepository;
         }
 
-        public async Task CreateUserAsync(UserBird user)
+        public async Task CreateUserAsync(BirdUser user)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
         }
 
-        public async Task<List<Item>> GetBlogPostsForUserId(string userId)
+        public async Task<List<BirdPost>> GetBlogPostsForUserId(string userId)
         {
             try 
             {

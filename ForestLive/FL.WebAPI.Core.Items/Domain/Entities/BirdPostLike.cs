@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace FL.WebAPI.Core.Items.Domain.Entities
 {
-    public class ItemLike
+    public class BirdPostLike
     {
         [JsonProperty(PropertyName = "id")]
         public string Id

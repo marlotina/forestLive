@@ -10,15 +10,15 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class UserController : Controller
+    public class BirdUserController : Controller
     {
-        private readonly ILogger<UserController> logger;
-        private readonly IUserItemService userItemService;
+        private readonly ILogger<BirdUserController> logger;
+        private readonly IBirdUserPostService userItemService;
         private readonly IBirdPostMapper birdPostMapper;
 
-        public UserController(
-            ILogger<UserController> logger,
-            IUserItemService userItemService,
+        public BirdUserController(
+            ILogger<BirdUserController> logger,
+            IBirdUserPostService userItemService,
             IBirdPostMapper birdPostMapper)
         {
             this.userItemService = userItemService;

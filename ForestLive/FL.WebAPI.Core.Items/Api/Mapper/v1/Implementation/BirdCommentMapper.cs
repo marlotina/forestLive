@@ -5,14 +5,14 @@ using FL.WebAPI.Core.Items.Models.v1.Response;
 
 namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
 {
-    public class CommentMapper : ICommentMapper
+    public class BirdCommentMapper : IBirdCommentMapper
     {
-        public ItemComment Convert(CommentRequest source)
+        public BirdComment Convert(BirdCommentRequest source)
         {
-            var result = default(ItemComment);
+            var result = default(BirdComment);
             if (source != null)
             {
-                result = new ItemComment()
+                result = new BirdComment()
                 {
                     ItemId = source.ItemId,
                     Text = source.Text,
@@ -22,12 +22,12 @@ namespace FL.WebAPI.Core.Items.Mapper.v1.Implementation
             return result;
         }
 
-        public CommentResponse Convert(ItemComment source)
+        public BirdCommentResponse Convert(BirdComment source)
         {
-            var result = default(CommentResponse);
+            var result = default(BirdCommentResponse);
             if (source != null)
             {
-                result = new CommentResponse()
+                result = new BirdCommentResponse()
                 {
                     Id = source.Id,
                     Text = source.Text,

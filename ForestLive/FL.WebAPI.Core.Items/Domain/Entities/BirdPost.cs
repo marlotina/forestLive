@@ -4,7 +4,7 @@ using System;
 
 namespace FL.WebAPI.Core.Items.Domain.Entities
 {
-    public class Item
+    public class BirdPost
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }

@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
-    public class CommentService : ICommentService
+    public class BirdCommentService : IBirdCommentService
     {
-        private readonly IItemsRepository itemsRepository;
+        private readonly IBIrdPostRepository itemsRepository;
 
-        public CommentService(IItemsRepository itemsRepository)
+        public BirdCommentService(IBIrdPostRepository itemsRepository)
         {
             this.itemsRepository = itemsRepository;
         }
 
-        public IItemsRepository ItemsRepository => itemsRepository;
+        public IBIrdPostRepository ItemsRepository => itemsRepository;
 
-        public async Task<ItemComment> AddComment(ItemComment comment)
+        public async Task<BirdComment> AddComment(BirdComment comment)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return false;
         }
 
-        public async Task<List<ItemComment>> GetCommentByItem(Guid itemId)
+        public async Task<List<BirdComment>> GetCommentByItem(Guid itemId)
         {
             try
             {

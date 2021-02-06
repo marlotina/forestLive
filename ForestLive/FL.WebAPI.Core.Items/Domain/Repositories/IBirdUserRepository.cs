@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
-    public interface IUserRepository
+    public interface IBirdUserRepository
     {
-        Task CreateUserAsync(UserBird user);
+        Task CreateUserAsync(BirdUser user);
 
-        Task<List<Item>> GetBlogPostsForUserId(string userId);
+        Task<List<BirdPost>> GetBlogPostsForUserId(string userId);
 
-        Task CreateItemAsync(Item item);
+        Task CreateItemAsync(BirdPost item);
 
         Task DeleteItemAsync(Guid id, string partitionKey);
 

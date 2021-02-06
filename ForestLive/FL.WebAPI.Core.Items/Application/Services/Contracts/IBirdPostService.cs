@@ -5,12 +5,12 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 {
-    public interface IItemService
+    public interface IBirdPostService
     {
-        Task<Item> AddBirdItem(Item birdItem, Stream fileStream, string imageName);
+        Task<BirdPost> AddBirdItem(BirdPost birdItem, Stream fileStream, string imageName);
 
         Task<bool> DeleteBirdItem(Guid BirdItemId, Guid userId);
 
-        Task<Item> GetBirdItem(Guid itemId);
+        Task<BirdPost> GetBirdItem(Guid itemId);
     }
 }

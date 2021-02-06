@@ -10,17 +10,17 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
-    public class ItemService : IItemService
+    public class BirdPostService : IBirdPostService
     {
         private readonly IItemConfiguration itemConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
-        private readonly IItemsRepository itemsRepository;
-        private readonly IUserRepository userRepository;
+        private readonly IBIrdPostRepository itemsRepository;
+        private readonly IBirdUserRepository userRepository;
         //private readonly Logger<BirdPostService> logger;
-        public ItemService(IItemConfiguration itemConfiguration,
+        public BirdPostService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
-            IItemsRepository itemsRepository,
-            IUserRepository userRepository)
+            IBIrdPostRepository itemsRepository,
+            IBirdUserRepository userRepository)
             //Logger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             //this.logger = logger;
         }
         
-        public async Task<Item> AddBirdItem(Item birdItem, Stream imageStream, string imageName)
+        public async Task<BirdPost> AddBirdItem(BirdPost birdItem, Stream imageStream, string imageName)
         {
             try
             {
@@ -86,7 +86,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return false;
         }
 
-        public async Task<Item> GetBirdItem(Guid itemId)
+        public async Task<BirdPost> GetBirdItem(Guid itemId)
         {
             try
             {

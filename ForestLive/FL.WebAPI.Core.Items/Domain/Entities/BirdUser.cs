@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.Items.Domain.Entities.User
 {
-    public class UserBird
+    public class BirdUser
     {
         public Guid Id { get; set; }
 

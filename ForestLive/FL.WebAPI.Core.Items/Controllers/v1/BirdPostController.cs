@@ -13,15 +13,15 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ItemController : ControllerBase
+    public class BirdPostController : ControllerBase
     {
-        private readonly ILogger<ItemController> logger;
-        private readonly IItemService itemService;
+        private readonly ILogger<BirdPostController> logger;
+        private readonly IBirdPostService itemService;
         private readonly IBirdPostMapper birdItemMapper;
 
-        public ItemController(IItemService itemService,
+        public BirdPostController(IBirdPostService itemService,
             IBirdPostMapper birdItemMapper,
-            ILogger<ItemController> logger)
+            ILogger<BirdPostController> logger)
         {
             this.logger = logger;
             this.itemService = itemService ?? throw new ArgumentNullException(nameof(itemService));
@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpPost]
         [Route("AddItem", Name = "AddItem")]
-        public async Task<IActionResult> AddItem([FromBody] ItemRequest request)
+        public async Task<IActionResult> AddItem([FromBody] BirdPostRequest request)
         {
             try
             {
