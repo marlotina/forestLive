@@ -9,7 +9,7 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
     {
         Task CreateItemAsync(Item comment);
 
-        Task DeleteItemAsync(Guid itemIdRequest);
+        Task DeleteItemAsync(Guid id, string partitionKey);
 
         Task UpsertBlogPostAsync(Item post);
 

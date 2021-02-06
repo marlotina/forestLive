@@ -63,5 +63,10 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             await this.usersContainer.CreateItemAsync<Item>(item, new PartitionKey(item.UserId));
         }
+
+        public async Task DeleteItemAsync(Guid id, string partitionKey)
+        {
+            await this.usersContainer.DeleteItemAsync<Item>(id.ToString(), new PartitionKey(partitionKey));
+        }
     }
 }

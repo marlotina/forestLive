@@ -59,17 +59,21 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return birdItem;
         }
 
-        public async Task<bool> DeleteBirdItem(Guid birdItemId, Guid userId)
+        public async Task<bool> DeleteBirdItem(Guid itemId, Guid userId)
         {
             try
             {
-                var fileName = "";
-
-                var result = await this.blobContainerRepository.DeleteFileToStorage(fileName, this.itemConfiguration.BirdPhotoContainer);
+                var item = await this.itemsRepository.GetItemAsync(itemId);
+                var image = item.ImageUrl;
+                var partitionKey = item.ItemId.ToString();
+                var id = item.Id;
+                var userPartitionKey = item.UserId;
+                var result = await this.blobContainerRepository.DeleteFileToStorage(image, this.itemConfiguration.BirdPhotoContainer);
 
                 if (result)
                 {
-                    await this.itemsRepository.DeleteItemAsync(birdItemId);
+                    await this.itemsRepository.DeleteItemAsync(id, partitionKey);
+                    await this.userRepository.DeleteItemAsync(id, userPartitionKey);
                 }
 
                 return true;

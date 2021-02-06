@@ -37,5 +37,6 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
         public DateTime ObservationDate { get; set; }
 
         public bool SpecieConfirmed { get; set; }
+        public Guid ItemId { get; set; }
     }
 }

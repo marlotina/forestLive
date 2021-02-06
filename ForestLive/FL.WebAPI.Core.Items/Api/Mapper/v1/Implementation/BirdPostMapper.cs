@@ -3,6 +3,7 @@ using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Api.Models.v1.Response;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using Microsoft.Azure.Cosmos.Spatial;
+using System.Linq;
 
 namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
 {
@@ -36,7 +37,8 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             {
                 result = new ItemResponse()
                 {
-                    Id = source.ItemId,
+                    Id = source.Id,
+                    ItemId = source.ItemId,
                     Title = source.Title,
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
@@ -45,7 +47,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
-                    Labels = source.Labels,
+                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     LikesCount = source.LikesCount,
                     CommentsCount = source.CommentsCount,
                     Latitude = source.Location.Position.Latitude.ToString(),

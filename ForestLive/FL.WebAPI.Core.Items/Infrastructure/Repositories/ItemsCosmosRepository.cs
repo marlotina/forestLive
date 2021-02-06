@@ -35,10 +35,9 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             await this.itemsContainer.CreateItemAsync<Item>(item, new PartitionKey(item.ItemId.ToString()));
         }
 
-        public async Task DeleteItemAsync(System.Guid itemIdRequest)
+        public async Task DeleteItemAsync(Guid id, string partitionKey)
         {
-            var itemId = itemIdRequest.ToString();
-            await this.itemsContainer.DeleteItemAsync<Item>(itemId, new PartitionKey(itemId.ToString()));
+            await this.itemsContainer.DeleteItemAsync<Item>(id.ToString(), new PartitionKey(partitionKey));
         }
 
         public async Task UpsertBlogPostAsync(Item item)

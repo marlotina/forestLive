@@ -42,7 +42,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                await this.itemsRepository.DeleteItemAsync(commnetId);
+                await this.itemsRepository.DeleteCommentAsync(commnetId, new Guid());
                 return true;
             }
             catch (Exception ex)

@@ -14,5 +14,7 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 
         Task CreateItemAsync(Item item);
 
+        Task DeleteItemAsync(Guid id, string partitionKey);
+
     }
 }

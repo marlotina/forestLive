@@ -65,15 +65,16 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpDelete]
-        public async Task<IActionResult> DeleteItem([FromBody] DeleteItemRequest request)
+        [Route("DeleteItem", Name = "DeleteItem")]
+        public async Task<IActionResult> DeleteItem(Guid itemId)
         {
             try
             {
-                if (request.Id == Guid.Empty || request.Id == null) {
+                if (itemId == Guid.Empty || itemId == null) {
                     this.BadRequest();
                 }
-
-                var result = await this.itemService.DeleteBirdItem(request.Id, request.UserId);
+                var userId = new Guid();
+                var result = await this.itemService.DeleteBirdItem(itemId, userId);
 
                 if (result)
                 {
