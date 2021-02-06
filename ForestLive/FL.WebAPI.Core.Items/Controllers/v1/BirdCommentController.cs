@@ -54,16 +54,16 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpGet]
         [Route("GetComment", Name = "GetComment")]
-        public async Task<IActionResult> GetComment(Guid itemId)
+        public async Task<IActionResult> GetComment(Guid postId)
         {
             try
             {
-                if (itemId == Guid.Empty || itemId == null)
+                if (postId == Guid.Empty || postId == null)
                 {
                     this.BadRequest();
                 }
 
-                var result = await this.commentService.GetCommentByItem(itemId);
+                var result = await this.commentService.GetCommentByItem(postId);
                 var itemResponse = result.Select(x => this.commentMapper.Convert(x));
                     
                 if (itemResponse != null)
@@ -82,11 +82,11 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteComment", Name = "DeleteComment")]
-        public async Task<IActionResult> DeleteComment(Guid idComment, Guid itemId)
+        public async Task<IActionResult> DeleteComment(Guid idComment, Guid postId)
         {
             try
             {
-                var result = await this.commentService.DeleteComment(idComment, itemId);
+                var result = await this.commentService.DeleteComment(idComment, postId);
                 if (result)
                     return this.Ok();
             }

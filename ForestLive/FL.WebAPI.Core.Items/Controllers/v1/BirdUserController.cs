@@ -40,13 +40,15 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     return this.Ok(response);
                 }
                 else
-                    return this.BadRequest();
+                    return this.Ok(result);
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex);
                 return this.Problem();
             }
+
+            this.BadRequest();
         }
     }
 }

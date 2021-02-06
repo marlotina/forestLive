@@ -29,8 +29,8 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpPost]
-        [Route("AddItem", Name = "AddItem")]
-        public async Task<IActionResult> AddItem([FromBody] BirdPostRequest request)
+        [Route("AddPost", Name = "AddPost")]
+        public async Task<IActionResult> AddPost([FromBody] BirdPostRequest request)
         {
             try
             {
@@ -65,16 +65,16 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpDelete]
-        [Route("DeleteItem", Name = "DeleteItem")]
-        public async Task<IActionResult> DeleteItem(Guid itemId)
+        [Route("DeletePost", Name = "DeletePost")]
+        public async Task<IActionResult> DeletePost(Guid postId)
         {
             try
             {
-                if (itemId == Guid.Empty || itemId == null) {
+                if (postId == Guid.Empty || postId == null) {
                     this.BadRequest();
                 }
                 var userId = new Guid();
-                var result = await this.itemService.DeleteBirdItem(itemId, userId);
+                var result = await this.itemService.DeleteBirdItem(postId, userId);
 
                 if (result)
                 {
@@ -91,17 +91,17 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpGet]
-        [Route("GetItem", Name = "GetItem")]
-        public async Task<IActionResult> GetItem(Guid itemId)
+        [Route("GetPost", Name = "GetPost")]
+        public async Task<IActionResult> GetPost(Guid postId)
         {
             try
             {
-                if (itemId == Guid.Empty || itemId == null)
+                if (postId == Guid.Empty || postId == null)
                 {
                     this.BadRequest();
                 }
 
-                var result = await this.itemService.GetBirdItem(itemId);
+                var result = await this.itemService.GetBirdItem(postId);
 
                 var itemResponse = this.birdItemMapper.Convert(result);
                 if (itemResponse != null)
