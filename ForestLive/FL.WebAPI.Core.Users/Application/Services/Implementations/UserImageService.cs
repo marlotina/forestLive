@@ -31,7 +31,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "DeleteImageAsync");
+                this.logger.LogError(ex, "UploadFileToStorage");
             }
 
             return false;
@@ -39,13 +39,12 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         
         public async Task<bool> UploadImageAsync(Stream fileStream, string fileName, Guid userId)
         {
-            var result = false;
             try
             {
                 if (await this.DeleteImageAsync(userId, fileName)) {
 
                     await this.uploadImageRepository.UploadFileToStorage(fileStream, fileName);       
-                    result = await this.UpdateImageAsync(userId, fileName);
+                    return await this.UpdateImageAsync(userId, fileName);
                 }
             }
             catch (Exception ex)
@@ -53,7 +52,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 this.logger.LogError(ex, "UploadFileToStorage");
             }
 
-            return result;
+            return false;
         }
 
         private async Task<bool> UpdateImageAsync(Guid userId, string photo)
@@ -69,12 +68,12 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             {
                 this.logger.LogError(ex, "AddImageAsync");
             }
+
             return false;
         }
 
         private async Task<bool> DeleteImageAsync(Guid userId, string fileName)
         {
-            var result = false;
             try
             {
                 var user = await this.userService.GetByIdAsync(userId);

@@ -31,7 +31,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         [HttpPost("UploadFiles")]
         public async Task<IActionResult> Post(ImageProfileRequest request)
         {
-
             try
             {
                 if (request == null)
@@ -40,8 +39,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (string.IsNullOrWhiteSpace(request.UserName) || request.UserId == null || request.UserId == Guid.Empty 
                     || string.IsNullOrWhiteSpace(request.ImageBase64) || string.IsNullOrWhiteSpace(request.ImageName))
                     return this.BadRequest();
-
-                
 
                 var fileExtension = request.ImageName.Split('.')[1];
                 var imageBase64 = request.ImageBase64.Split(',')[1];

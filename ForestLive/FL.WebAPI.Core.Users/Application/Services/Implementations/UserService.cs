@@ -5,26 +5,37 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FL.WebAPI.Core.Users.Domain.Entities;
 using FL.WebAPI.Core.Users.Application.Exceptions;
+using FL.LogTrace.Contracts.Standard;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
     public class UserService : IUserService
     {
         private readonly IUserRepository iUserRepository;
+        private readonly ILogger<UserService> logger;
 
         public UserService(
-            IUserRepository iUserRepository)
+            IUserRepository iUserRepository,
+            ILogger<UserService> logger)
         {
             this.iUserRepository = iUserRepository;
+            this.logger = logger;
         }
 
         public async Task<bool> DeleteAsync(Guid userId)
         {
             var result = false;
-            var entityUser = await this.GetByIdAsync(userId);
-            if (entityUser != null)
+            try
             {
-                result = await this.iUserRepository.DeleteAsync(entityUser.Id);
+                var entityUser = await this.GetByIdAsync(userId);
+                if (entityUser != null)
+                {
+                    result = await this.iUserRepository.DeleteAsync(entityUser.Id);
+                }
+            }
+            catch (Exception ex) 
+            {
+                this.logger.LogError(ex, "DeleteAsync";
             }
 
             return result;
@@ -32,31 +43,64 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         
         public async Task<IEnumerable<User>> FindByEmailAsync(string email)
         {
-            var result = await this.iUserRepository.FindByEmailAsync(email);
-            return result;
+            try
+            {
+                return await this.iUserRepository.FindByEmailAsync(email);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "DeleteAsync";
+            }
+
+            return null;
         }
 
         public async Task<User> GetByIdAsync(Guid userId)
         {
-            var result = await this.iUserRepository.GetByIdAsync(userId);
-            return result;
+            var response = new User();
+            try
+            {
+                response = await this.iUserRepository.GetByIdAsync(userId);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "DeleteAsync";
+            }
+
+            return response;
         }
 
         public async Task<User> GetByUserNameAsync(string userName)
         {
-            var result = await this.iUserRepository.GetByUserNameAsync(userName);
-            return result;
+            var response = new User();
+            try
+            {
+                response = await this.iUserRepository.GetByUserNameAsync(userName);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "DeleteAsync";
+            }
+
+            return response;
         }
 
         public async Task<bool> UpdatePhotoAsync(Guid userId, string photo)
         {
             var result = default(bool);
-            var user = await this.GetUser(userId);
-            
-            if (user != null)
+            try
             {
-                user.Photo = photo;
-                result = await this.UpdateUser(user);
+                var user = await this.GetUser(userId);
+
+                if (user != null)
+                {
+                    user.Photo = photo;
+                    result = await this.UpdateUser(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "DeleteAsync";
             }
 
             return result;
@@ -66,33 +110,40 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         {
             var result = false;
 
-            var newNormalizeUserName = newUserData.UserName.ToUpperInvariant();
-            var user = await this.GetUser(newUserData.Id);
-
-            var isValidUserName = await IsValidUserName(newNormalizeUserName, user.NormalizedUserName);
-
-            if(!isValidUserName)
-                throw new UserDuplicatedException();
-
-            if (user != null)
+            try
             {
-                user.UserName = newUserData.UserName;
-                user.NormalizedUserName = newNormalizeUserName;
-                user.Name = newUserData.Name;
-                user.Surname = newUserData.Surname;
-                user.Description = newUserData.Description;
-                user.IsCompany = newUserData.IsCompany;
-                user.LanguageId = newUserData.LanguageId;
-                user.Photo = user.Photo;
-                user.UrlWebSite = newUserData.UrlWebSite;
-                user.Location = newUserData.Location;
-                user.AcceptedConditions = newUserData.AcceptedConditions;
-                user.TwitterUrl = newUserData.TwitterUrl;
-                user.FacebookUrl = newUserData.FacebookUrl;
-                user.InstagramUrl = newUserData.InstagramUrl;
-                user.LinkedlinUrl = newUserData.LinkedlinUrl;
+                var newNormalizeUserName = newUserData.UserName.ToUpperInvariant();
+                var user = await this.GetUser(newUserData.Id);
 
-                result = await this.UpdateUser(user);
+                var isValidUserName = await IsValidUserName(newNormalizeUserName, user.NormalizedUserName);
+
+                if (!isValidUserName)
+                    throw new UserDuplicatedException();
+
+                if (user != null)
+                {
+                    user.UserName = newUserData.UserName;
+                    user.NormalizedUserName = newNormalizeUserName;
+                    user.Name = newUserData.Name;
+                    user.Surname = newUserData.Surname;
+                    user.Description = newUserData.Description;
+                    user.IsCompany = newUserData.IsCompany;
+                    user.LanguageId = newUserData.LanguageId;
+                    user.Photo = user.Photo;
+                    user.UrlWebSite = newUserData.UrlWebSite;
+                    user.Location = newUserData.Location;
+                    user.AcceptedConditions = newUserData.AcceptedConditions;
+                    user.TwitterUrl = newUserData.TwitterUrl;
+                    user.FacebookUrl = newUserData.FacebookUrl;
+                    user.InstagramUrl = newUserData.InstagramUrl;
+                    user.LinkedlinUrl = newUserData.LinkedlinUrl;
+
+                    result = await this.UpdateUser(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "DeleteAsync";
             }
 
             return result;
@@ -115,8 +166,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         private async Task<bool> UpdateUser(User user)
         {
-            var result = await this.iUserRepository.UpdateAsync(user);
-            return result;
+            return await this.iUserRepository.UpdateAsync(user);
         }
 
         private async Task<User> GetUserByUserName(string userName)
