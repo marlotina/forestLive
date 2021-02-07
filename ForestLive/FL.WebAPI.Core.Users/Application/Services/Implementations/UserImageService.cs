@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.IO;
 using System.Threading.Tasks;
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
 using FL.WebAPI.Core.Users.Domain.Repositories;
 
@@ -31,7 +31,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError("DeleteImageAsync", ex);
+                this.logger.LogError(ex, "DeleteImageAsync");
             }
 
             return false;
@@ -43,16 +43,14 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             try
             {
                 if (await this.DeleteImageAsync(userId, fileName)) {
-                    result = await this.uploadImageRepository.UploadFileToStorage(fileStream, fileName);
-                    if (result)
-                    {
-                        result = await this.UpdateImageAsync(userId, fileName);
-                    }
+
+                    await this.uploadImageRepository.UploadFileToStorage(fileStream, fileName);       
+                    result = await this.UpdateImageAsync(userId, fileName);
                 }
             }
             catch (Exception ex)
             {
-                this.logger.LogError("UploadFileToStorage", ex);
+                this.logger.LogError(ex, "UploadFileToStorage");
             }
 
             return result;
@@ -69,7 +67,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError("AddImageAsync", ex);
+                this.logger.LogError(ex, "AddImageAsync");
             }
             return false;
         }
@@ -85,11 +83,8 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 {
                     if (string.IsNullOrEmpty(fileName) || fileName != user.Photo)
                     {
-                        result = await this.uploadImageRepository.DeleteFileToStorage(user.Photo);
-                        if (result)
-                        {
-                            return await this.UpdateImageAsync(userId, string.Empty);
-                        }
+                        await this.uploadImageRepository.DeleteFileToStorage(user.Photo);
+                        return await this.UpdateImageAsync(userId, string.Empty);
                     }
                 }
 
@@ -97,7 +92,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError("DeleteImageAsync", ex);
+                this.logger.LogError(ex, "DeleteImageAsync");
             }
 
             return false;

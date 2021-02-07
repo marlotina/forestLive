@@ -29,7 +29,7 @@ namespace FL.Logging.Implementation.Standard
 
         public void LogInfo(Exception exception, string message = "")
         {
-            this.iLogger.LogInformation(exception, string.Empty);
+            this.iLogger.LogInformation(exception, message);
         }
 
         public void LogWarning(string message)
@@ -39,7 +39,7 @@ namespace FL.Logging.Implementation.Standard
 
         public void LogWarning(Exception exception, string message = "")
         {
-            this.iLogger.LogWarning(exception, string.Empty);
+            this.iLogger.LogWarning(exception, message);
         }
 
         public void LogError(string message)
@@ -49,7 +49,7 @@ namespace FL.Logging.Implementation.Standard
 
         public void LogError(Exception exception, string message = "")
         {
-            this.iLogger.LogError(exception, string.Empty);
+            this.iLogger.LogError(exception, message);
         }
     }
 }
