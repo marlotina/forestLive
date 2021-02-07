@@ -1,10 +1,6 @@
 ﻿using System;
-using System.IdentityModel.Tokens.Jwt;
 using System.IO;
-using System.Linq;
 using System.Net.Http;
-using System.Security.Claims;
-using System.Text;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.JwtToken;
@@ -12,11 +8,8 @@ using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
-using FL.WebAPI.Core.Items.Models.v1.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Logging;
-using Microsoft.IdentityModel.Tokens;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
 {

@@ -10,46 +10,28 @@ namespace FL.WebAPI.Core.Users.Infrastructure.AzureStorage
 {
     public class UserImageRepository : IUserImageRepository
     {
-        readonly ILogger<UserImageRepository> logger;
         private readonly IUserConfiguration userConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
 
         public UserImageRepository(
             IUserConfiguration userConfiguration,
-            IBlobContainerRepository blobContainerRepository,
-            ILogger<UserImageRepository> logger)
+            IBlobContainerRepository blobContainerRepository)
         {
             this.userConfiguration = userConfiguration;
             this.blobContainerRepository = blobContainerRepository;
-            this.logger = logger;
         }
 
         public async Task<bool> UploadFileToStorage(Stream fileStream, string fileName)
         {
-            try
-            {
-                var result = await this.blobContainerRepository.UploadFileToStorage(fileStream, fileName, this.userConfiguration.ImageProfileContainer);
-                return await Task.FromResult(true);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex);
-                return await Task.FromResult(false);
-            }
+            await this.blobContainerRepository.UploadFileToStorage(fileStream, fileName, this.userConfiguration.ImageProfileContainer);
+            return await Task.FromResult(true);
         }
 
         public async Task<bool> DeleteFileToStorage(string fileName)
         {
-            try
-            {
-                var result = await this.blobContainerRepository.DeleteFileToStorage(fileName, this.userConfiguration.ImageProfileContainer);
-                return await Task.FromResult(true);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex);
-                return await Task.FromResult(false);
-            }
+            
+            await this.blobContainerRepository.DeleteFileToStorage(fileName, this.userConfiguration.ImageProfileContainer);
+            return await Task.FromResult(true);
         }
     }
 }

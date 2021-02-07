@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FL.WebAPI.Core.Users.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
 using FL.WebAPI.Core.Users.Application.Exceptions;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations

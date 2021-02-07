@@ -28,8 +28,6 @@ namespace FL.WebAPI.Core.Items
             services.AddCors();
             services.AddControllers();
 
-            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Get<string>());
-
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -42,7 +40,7 @@ namespace FL.WebAPI.Core.Items
                x.TokenValidationParameters = new TokenValidationParameters
                {
                    ValidateIssuerSigningKey = true,
-                   IssuerSigningKey = new SymmetricSecurityKey(key),
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Get<string>())),
                    ValidateIssuer = false,
                    ValidateAudience = false
                };

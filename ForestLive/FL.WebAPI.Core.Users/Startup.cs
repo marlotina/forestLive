@@ -1,5 +1,7 @@
 using System;
 using System.Text;
+using FL.Logging.Implementation.Standard;
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Users.Entity.Database;
 using FL.WebAPI.Core.Users.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -32,8 +34,6 @@ namespace FL.WebAPI.Core.Users
             services.AddCors();
             services.AddControllers();
 
-            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Get<string>());
-
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -46,7 +46,7 @@ namespace FL.WebAPI.Core.Users
                x.TokenValidationParameters = new TokenValidationParameters
                {
                    ValidateIssuerSigningKey = true,
-                   IssuerSigningKey = new SymmetricSecurityKey(key),
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Get<string>())),
                    ValidateIssuer = false,
                    ValidateAudience = false
                };
