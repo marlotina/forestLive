@@ -39,7 +39,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex, "AddComment");
+                this.logger.LogError(ex, "AddComment");
             }
 
             return comment;
@@ -49,15 +49,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var result = await this.itemsRepository.GetCommentsAsync(itemId);
-                return result;
+                return await this.itemsRepository.GetCommentsAsync(itemId);
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex, "GetCommentByItem");
+                this.logger.LogError(ex, "GetCommentByItem");
             }
 
-            return new List<BirdComment>(); ;
+            return new List<BirdComment>();
         }
 
         public async Task<bool> DeleteComment(Guid commnetId, Guid itemId, string userId)
@@ -72,7 +71,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex, "DeleteComment");
+                this.logger.LogError(ex, "DeleteComment");
             }
 
             return false;

@@ -113,9 +113,9 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
                 var result = await this.itemService.GetBirdItem(postId);
 
-                var itemResponse = this.birdItemMapper.Convert(result);
-                if (itemResponse != null)
+                if (result != null)
                 {
+                    var itemResponse = this.birdItemMapper.Convert(result);
                     return this.Ok(itemResponse);
                 }
                 else

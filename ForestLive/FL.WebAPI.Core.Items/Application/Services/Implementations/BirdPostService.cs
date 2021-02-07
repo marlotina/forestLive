@@ -55,7 +55,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex, "AddBirdItem");
+                this.logger.LogError(ex, "AddBirdItem");
                 return null;
             }
 
@@ -87,7 +87,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex, "DeleteBirdItem");
+                this.logger.LogError(ex, "DeleteBirdItem");
             }
 
             return false;
@@ -101,7 +101,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex, "GetBirdItem");
+                this.logger.LogError(ex, "GetBirdItem");
             }
 
             return null;

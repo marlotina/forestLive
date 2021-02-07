@@ -66,10 +66,10 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 }
 
                 var result = await this.commentService.GetCommentByItem(postId);
-                var itemResponse = result.Select(x => this.commentMapper.Convert(x));
                     
-                if (itemResponse != null)
+                if (result != null)
                 {
+                    var itemResponse = result.Select(x => this.commentMapper.Convert(x));
                     return this.Ok(itemResponse);
                 }
                 else
