@@ -34,7 +34,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         {
             try
             {
-                var result = await this.userItemService.GetBlogPostsForUserId(userId);
+                var result = await this.userItemService.GetPostsByUserId(userId);
 
                 if (result != null && result.Any())
                 {
@@ -49,8 +49,6 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 this.logger.LogError(ex);
                 return this.Problem();
             }
-
-            this.BadRequest();
         }
     }
 }

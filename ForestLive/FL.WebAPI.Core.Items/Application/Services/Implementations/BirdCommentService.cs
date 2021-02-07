@@ -1,4 +1,5 @@
-﻿using FL.Logging.Implementation.Standard;
+﻿
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
@@ -12,14 +13,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     public class BirdCommentService : IBirdCommentService
     {
         private readonly IBIrdPostRepository itemsRepository;
-        //private readonly Logger<BirdCommentService> logger;
+        private readonly ILogger<BirdCommentService> logger;
 
         public BirdCommentService(
-            IBIrdPostRepository itemsRepository)
-            //Logger<BirdCommentService> logger)
+            IBIrdPostRepository itemsRepository,
+            ILogger<BirdCommentService> logger)
         {
             this.itemsRepository = itemsRepository;
-            //this.logger = logger;
+            this.logger = logger;
         }
 
         public IBIrdPostRepository ItemsRepository => itemsRepository;
@@ -28,6 +29,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
+                this.logger.LogError("AddComment");
                 comment.Id = Guid.NewGuid();
                 comment.CreateDate = DateTime.UtcNow;
                 comment.Type = ItemHelper.COMMENT_TYPE;

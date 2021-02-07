@@ -5,9 +5,9 @@ namespace FL.Logging.Implementation.Standard
 {
     public class Logger<T>: LogTrace.Contracts.Standard.ILogger<T>
     {
-        ILogger<T> iLogger;
+        Microsoft.Extensions.Logging.ILogger<T> iLogger;
 
-        public Logger(ILogger<T> iLogger)
+        public Logger(Microsoft.Extensions.Logging.ILogger<T> iLogger)
         {
             this.iLogger = iLogger;
         }

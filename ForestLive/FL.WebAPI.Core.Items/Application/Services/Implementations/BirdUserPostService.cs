@@ -1,4 +1,5 @@
 ﻿using FL.Logging.Implementation.Standard;
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Entities.User;
@@ -13,14 +14,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     public class BirdUserPostService : IBirdUserPostService
     {
         private readonly IBirdUserRepository userRepository;
-        //private readonly Logger<BirdUserPostService> logger;
+        private readonly ILogger<BirdUserPostService> logger;
 
         public BirdUserPostService(
-            IBirdUserRepository userRepository)
-            //Logger<BirdUserPostService> logger)
+            IBirdUserRepository userRepository,
+            ILogger<BirdUserPostService> logger)
         {
             this.userRepository = userRepository;
-            //this.logger = logger;
+            this.logger = logger;
         }
 
         public async Task CreateUserAsync(BirdUser user)
@@ -31,23 +32,22 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex, "CreateUserAsync");
+                this.logger.LogError(ex, "CreateUserAsync");
             }
         }
 
-        public async Task<List<BirdPost>> GetBlogPostsForUserId(string userId)
+        public async Task<IEnumerable<BirdPost>> GetPostsByUserId(string userId)
         {
             try 
             {
-                var result = await this.userRepository.GetBlogPostsForUserId(userId);
-                return result;
+                return await this.userRepository.GetBlogPostsForUserId(userId);
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex, "GetBlogPostsForUserId");
+                this.logger.LogError(ex, "GetBlogPostsForUserId");
             }
 
-            return new List<BirdPost>();
+            return null;
         }
     }
 }

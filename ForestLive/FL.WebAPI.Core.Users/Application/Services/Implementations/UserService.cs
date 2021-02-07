@@ -35,7 +35,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex) 
             {
-                this.logger.LogError(ex, "DeleteAsync";
+                this.logger.LogError(ex, "DeleteAsync");
             }
 
             return result;
@@ -49,7 +49,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "DeleteAsync";
+                this.logger.LogError(ex, "DeleteAsync");
             }
 
             return null;
@@ -64,7 +64,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "DeleteAsync";
+                this.logger.LogError(ex, "DeleteAsync");
             }
 
             return response;
@@ -79,7 +79,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "DeleteAsync";
+                this.logger.LogError(ex, "DeleteAsync");
             }
 
             return response;
@@ -100,7 +100,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "DeleteAsync";
+                this.logger.LogError(ex, "DeleteAsync");
             }
 
             return result;
@@ -143,7 +143,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "DeleteAsync";
+                this.logger.LogError(ex, "DeleteAsync");
             }
 
             return result;

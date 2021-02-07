@@ -22,7 +22,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             this.clientFactory = clientFactory;
             this.itemConfiguration = itemConfiguration;
-            this.usersContainer = InitialClient();// dbClient.GetContainer(databaseName, "birdItems");
+            this.usersContainer = InitialClient();
         }
 
         private Container InitialClient()

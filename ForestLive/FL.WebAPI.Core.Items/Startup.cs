@@ -23,7 +23,6 @@ namespace FL.WebAPI.Core.Items
         public void ConfigureServices(IServiceCollection services)
         {
             IoCApi.AddInjection(services);
-
             
             services.AddCors();
             services.AddControllers();

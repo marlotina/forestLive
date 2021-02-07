@@ -1,10 +1,10 @@
 ﻿using FL.Infrastructure.Implementations.Domain.Repository;
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
-using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -17,24 +17,26 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBlobContainerRepository blobContainerRepository;
         private readonly IBIrdPostRepository itemsRepository;
         private readonly IBirdUserRepository userRepository;
-        //private readonly Logger<BirdPostService> logger;
+        private readonly ILogger<BirdPostService> logger;
+
         public BirdPostService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IBIrdPostRepository itemsRepository,
-            IBirdUserRepository userRepository)
-            //Logger<BirdPostService> logger)
+            IBirdUserRepository userRepository,
+            ILogger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
             this.itemConfiguration = itemConfiguration;
             this.itemsRepository = itemsRepository;
             this.userRepository = userRepository;
-            //this.logger = logger;
+            this.logger = logger;
         }
         
         public async Task<BirdPost> AddBirdItem(BirdPost birdItem, Stream imageStream, string imageName)
         {
             try
             {
+                this.logger.LogError("hola");
                 var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, birdItem.UserId);
                 
                 if (result) {

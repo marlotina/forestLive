@@ -12,15 +12,12 @@ namespace FL.Infrastructure.Implementations.Implementations
 {
     public class BlobContainerRepository : IBlobContainerRepository
     {
-        private readonly ILogger<BlobContainerRepository> logger;
         private readonly IAzureStorageConfiguration azureStorageConfiguration;
 
         public BlobContainerRepository(
-            IAzureStorageConfiguration azureStorageConfiguration,
-            ILogger<BlobContainerRepository> logger)
+            IAzureStorageConfiguration azureStorageConfiguration)
         {
             this.azureStorageConfiguration = azureStorageConfiguration;
-            this.logger = logger;
         }
 
         public async Task<bool> UploadFileToStorage(Stream fileStream, string fileName, string containerName, string folder = null)
@@ -50,7 +47,6 @@ namespace FL.Infrastructure.Implementations.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
                 return await Task.FromResult(false);
             }
         }
@@ -79,7 +75,6 @@ namespace FL.Infrastructure.Implementations.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
                 return await Task.FromResult(false);
             }
         }
