@@ -2,12 +2,10 @@
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Models.v1.Request;
-using FL.WebAPI.Core.Items.Models.v1.Response;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
@@ -55,7 +53,8 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpGet]
-        [Route("GetComment", Name = "GetComments")]
+        [AllowAnonymous]
+        [Route("GetComments", Name = "GetComments")]
         public async Task<IActionResult> GetComments(Guid postId)
         {
             try

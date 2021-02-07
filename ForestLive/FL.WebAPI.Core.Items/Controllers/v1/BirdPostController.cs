@@ -7,10 +7,12 @@ using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Models.v1.Request;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class BirdPostController : ControllerBase
@@ -91,6 +93,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("GetPost", Name = "GetPost")]
         public async Task<IActionResult> GetPost(Guid postId)
         {

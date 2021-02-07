@@ -1,9 +1,12 @@
 using FL.WebAPI.Core.Items.IoC;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FL.WebAPI.Core.Items
 {
@@ -24,6 +27,26 @@ namespace FL.WebAPI.Core.Items
             
             services.AddCors();
             services.AddControllers();
+
+            var key = Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Get<string>());
+
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+           .AddJwtBearer(x =>
+           {
+               x.RequireHttpsMetadata = false;
+               x.SaveToken = true;
+               x.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(key),
+                   ValidateIssuer = false,
+                   ValidateAudience = false
+               };
+           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -38,8 +61,8 @@ namespace FL.WebAPI.Core.Items
 
             app.UseRouting();
 
-            //app.UseAuthentication();
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseCors(x => x
                .AllowAnyOrigin()

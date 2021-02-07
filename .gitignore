@@ -357,3 +357,4 @@ ForestLive/FL.WebAPI.Core.Users/appsettings.Development.json
 ForestLive/FL.WebAPI.Core.Users/appsettings.json
 ForestLive/FL.WebAPI.Core.Items/appsettings.json
 ForestLive/FL.WebAPI.Core.Items/appsettings.Development.json
+ForestLive/FL.WebAPI.Core.Items/appsettings.QA.json

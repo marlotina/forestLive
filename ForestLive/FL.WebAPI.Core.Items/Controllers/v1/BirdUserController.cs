@@ -1,6 +1,7 @@
 ﻿using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -27,6 +28,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("GetPosts", Name = "GetPosts")]
         public async Task<IActionResult> GetPosts(string userId)
         {
