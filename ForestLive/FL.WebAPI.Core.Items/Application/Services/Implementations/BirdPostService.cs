@@ -4,6 +4,7 @@ using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
+using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -16,18 +17,18 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBlobContainerRepository blobContainerRepository;
         private readonly IBIrdPostRepository itemsRepository;
         private readonly IBirdUserRepository userRepository;
-        //private readonly Logger<BirdPostService> logger;
+        private readonly Logger<BirdPostService> logger;
         public BirdPostService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IBIrdPostRepository itemsRepository,
-            IBirdUserRepository userRepository)
-            //Logger<BirdPostService> logger)
+            IBirdUserRepository userRepository,
+            Logger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
             this.itemConfiguration = itemConfiguration;
             this.itemsRepository = itemsRepository;
             this.userRepository = userRepository;
-            //this.logger = logger;
+            this.logger = logger;
         }
         
         public async Task<BirdPost> AddBirdItem(BirdPost birdItem, Stream imageStream, string imageName)
@@ -52,7 +53,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex);
+                this.logger.LogError(ex, "AddBirdItem");
                 return null;
             }
 
@@ -78,9 +79,9 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
                 return true;
             }
-            catch (Exception ex) 
-            { 
-            
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "DeleteBirdItem");
             }
 
             return false;
@@ -94,7 +95,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-
+                this.logger.LogError(ex, "GetBirdItem");
             }
 
             return null;

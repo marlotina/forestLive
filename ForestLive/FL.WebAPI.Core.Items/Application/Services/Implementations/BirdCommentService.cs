@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Items.Application.Services.Contracts;
+﻿using FL.Logging.Implementation.Standard;
+using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
@@ -11,10 +12,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     public class BirdCommentService : IBirdCommentService
     {
         private readonly IBIrdPostRepository itemsRepository;
+        private readonly Logger<BirdCommentService> logger;
 
-        public BirdCommentService(IBIrdPostRepository itemsRepository)
+        public BirdCommentService(
+            IBIrdPostRepository itemsRepository,
+            Logger<BirdCommentService> logger)
         {
             this.itemsRepository = itemsRepository;
+            this.logger = logger;
         }
 
         public IBIrdPostRepository ItemsRepository => itemsRepository;
@@ -30,27 +35,12 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 await this.itemsRepository.CreateCommentAsync(comment);
 
             }
-            catch (Exception ex) 
-            { 
-            
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "AddComment");
             }
 
             return comment;
-        }
-
-        public async Task<bool> DeleteComment(Guid commnetId)
-        {
-            try
-            {
-                await this.itemsRepository.DeleteCommentAsync(commnetId, new Guid());
-                return true;
-            }
-            catch (Exception ex)
-            {
-
-            }
-
-            return false;
         }
 
         public async Task<bool> DeleteComment(Guid commnetId, Guid itemId)
@@ -62,7 +52,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-
+                this.logger.LogError(ex, "DeleteComment");
             }
 
             return false;
@@ -77,7 +67,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-
+                this.logger.LogError(ex, "GetCommentByItem");
             }
 
             return new List<BirdComment>(); ;
