@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class BirdCommentController : Controller
@@ -53,8 +55,8 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         }
 
         [HttpGet]
-        [Route("GetComment", Name = "GetComment")]
-        public async Task<IActionResult> GetComment(Guid postId)
+        [Route("GetComment", Name = "GetComments")]
+        public async Task<IActionResult> GetComments(Guid postId)
         {
             try
             {
