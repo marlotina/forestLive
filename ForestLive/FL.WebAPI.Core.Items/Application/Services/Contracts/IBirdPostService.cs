@@ -9,7 +9,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
     {
         Task<BirdPost> AddBirdItem(BirdPost birdItem, Stream fileStream, string imageName);
 
-        Task<bool> DeleteBirdItem(Guid BirdItemId, Guid userId);
+        Task<bool> DeleteBirdItem(Guid BirdItemId, string userId);
 
         Task<BirdPost> GetBirdItem(Guid itemId);
     }

@@ -17,18 +17,18 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBlobContainerRepository blobContainerRepository;
         private readonly IBIrdPostRepository itemsRepository;
         private readonly IBirdUserRepository userRepository;
-        private readonly Logger<BirdPostService> logger;
+        //private readonly Logger<BirdPostService> logger;
         public BirdPostService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IBIrdPostRepository itemsRepository,
-            IBirdUserRepository userRepository,
-            Logger<BirdPostService> logger)
+            IBirdUserRepository userRepository)
+            //Logger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
             this.itemConfiguration = itemConfiguration;
             this.itemsRepository = itemsRepository;
             this.userRepository = userRepository;
-            this.logger = logger;
+            //this.logger = logger;
         }
         
         public async Task<BirdPost> AddBirdItem(BirdPost birdItem, Stream imageStream, string imageName)
@@ -53,35 +53,39 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "AddBirdItem");
+                //this.logger.LogError(ex, "AddBirdItem");
                 return null;
             }
 
             return birdItem;
         }
 
-        public async Task<bool> DeleteBirdItem(Guid itemId, Guid userId)
+        public async Task<bool> DeleteBirdItem(Guid itemId, string userId)
         {
             try
             {
                 var item = await this.itemsRepository.GetPostAsync(itemId);
-                var image = item.ImageUrl;
-                var partitionKey = item.PostId.ToString();
-                var id = item.Id;
-                var userPartitionKey = item.UserId;
-                var result = await this.blobContainerRepository.DeleteFileToStorage(image, this.itemConfiguration.BirdPhotoContainer);
+                if (userId == item.UserId) {
+                    var image = item.ImageUrl;
+                    var partitionKey = item.PostId.ToString();
+                    var id = item.Id;
+                    var userPartitionKey = item.UserId;
+                    var result = await this.blobContainerRepository.DeleteFileToStorage(image, this.itemConfiguration.BirdPhotoContainer);
 
-                if (result)
-                {
-                    await this.itemsRepository.DeletePostAsync(id, partitionKey);
-                    await this.userRepository.DeleteItemAsync(id, userPartitionKey);
+                    if (result)
+                    {
+                        await this.itemsRepository.DeletePostAsync(id, partitionKey);
+                        await this.userRepository.DeleteItemAsync(id, userPartitionKey);
+                    }
+
+                    return true;
                 }
 
-                return true;
+                return false;
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "DeleteBirdItem");
+                //this.logger.LogError(ex, "DeleteBirdItem");
             }
 
             return false;
@@ -95,7 +99,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBirdItem");
+                //this.logger.LogError(ex, "GetBirdItem");
             }
 
             return null;

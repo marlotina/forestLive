@@ -12,14 +12,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     public class BirdCommentService : IBirdCommentService
     {
         private readonly IBIrdPostRepository itemsRepository;
-        private readonly Logger<BirdCommentService> logger;
+        //private readonly Logger<BirdCommentService> logger;
 
         public BirdCommentService(
-            IBIrdPostRepository itemsRepository,
-            Logger<BirdCommentService> logger)
+            IBIrdPostRepository itemsRepository)
+            //Logger<BirdCommentService> logger)
         {
             this.itemsRepository = itemsRepository;
-            this.logger = logger;
+            //this.logger = logger;
         }
 
         public IBIrdPostRepository ItemsRepository => itemsRepository;
@@ -37,25 +37,10 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "AddComment");
+                //this.logger.LogError(ex, "AddComment");
             }
 
             return comment;
-        }
-
-        public async Task<bool> DeleteComment(Guid commnetId, Guid itemId)
-        {
-            try
-            {
-                await this.itemsRepository.DeleteCommentAsync(commnetId, itemId);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "DeleteComment");
-            }
-
-            return false;
         }
 
         public async Task<List<BirdComment>> GetCommentByItem(Guid itemId)
@@ -67,10 +52,28 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetCommentByItem");
+                //this.logger.LogError(ex, "GetCommentByItem");
             }
 
             return new List<BirdComment>(); ;
+        }
+
+        public async Task<bool> DeleteComment(Guid commnetId, Guid itemId, string userId)
+        {
+            try
+            {
+
+                var item = await this.itemsRepository.GetCommentsAsync(itemId);
+
+                await this.itemsRepository.DeleteCommentAsync(commnetId, itemId);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogError(ex, "DeleteComment");
+            }
+
+            return false;
         }
     }
 }

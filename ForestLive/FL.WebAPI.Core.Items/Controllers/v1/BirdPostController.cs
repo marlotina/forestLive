@@ -1,14 +1,22 @@
 ﻿using System;
+using System.IdentityModel.Tokens.Jwt;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
+using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
+using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Models.v1.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Logging;
+using Microsoft.IdentityModel.Tokens;
 
 namespace FL.WebAPI.Core.Items.Controllers.v1
 {
@@ -17,17 +25,20 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     [ApiController]
     public class BirdPostController : ControllerBase
     {
+        private readonly IItemConfiguration itemConfiguration;
         private readonly ILogger<BirdPostController> logger;
         private readonly IBirdPostService itemService;
         private readonly IBirdPostMapper birdItemMapper;
 
         public BirdPostController(IBirdPostService itemService,
             IBirdPostMapper birdItemMapper,
+            IItemConfiguration itemConfiguration,
             ILogger<BirdPostController> logger)
         {
             this.logger = logger;
             this.itemService = itemService ?? throw new ArgumentNullException(nameof(itemService));
             this.birdItemMapper = birdItemMapper ?? throw new ArgumentNullException(nameof(birdItemMapper));
+            this.itemConfiguration = itemConfiguration;
         }
 
         [HttpPost]
@@ -75,7 +86,8 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 if (postId == Guid.Empty || postId == null) {
                     this.BadRequest();
                 }
-                var userId = new Guid();
+
+                var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
                 var result = await this.itemService.DeleteBirdItem(postId, userId);
 
                 if (result)
@@ -91,6 +103,8 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 return this.Problem();
             }
         }
+
+        
 
         [HttpGet]
         [AllowAnonymous]

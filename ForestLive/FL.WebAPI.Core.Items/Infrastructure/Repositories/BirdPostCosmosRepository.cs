@@ -49,7 +49,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.postId = @PostId";
+                var queryString = $"SELECT * FROM p WHERE p.type='post' and p.postId = @PostId";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@PostId", postId);
@@ -66,7 +66,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task<List<BirdComment>> GetCommentsAsync(Guid postId)
         {
-            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.postId = @PostId ORDER BY p.createDate DESC";
+            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.postId = @PostId ORDER BY p.createDate ASC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@PostId", postId);
@@ -88,7 +88,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             await this.postContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.PostId.ToString()));
         }
 
-        public async Task DeleteCommentAsync(Guid commentId, System.Guid userId)
+        public async Task DeleteCommentAsync(Guid commentId, Guid userId)
         {
             await this.postContainer.DeleteItemAsync<BirdComment>(commentId.ToString(), new PartitionKey(userId.ToString()));
         }

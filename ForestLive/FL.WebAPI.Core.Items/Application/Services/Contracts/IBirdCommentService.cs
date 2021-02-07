@@ -11,6 +11,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 
         Task<List<BirdComment>> GetCommentByItem(Guid itemId);
 
-        Task<bool> DeleteComment(Guid commnetId, Guid itemId);
+        Task<bool> DeleteComment(Guid commnetId, Guid itemId, string userId);
     }
 }

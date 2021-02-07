@@ -1,4 +1,5 @@
 ﻿using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Models.v1.Request;
@@ -87,7 +88,9 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         {
             try
             {
-                var result = await this.commentService.DeleteComment(idComment, postId);
+                var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                var result = await this.commentService.DeleteComment(idComment, postId, userId);
+
                 if (result)
                     return this.Ok();
             }

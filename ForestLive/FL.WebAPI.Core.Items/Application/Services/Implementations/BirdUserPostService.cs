@@ -13,14 +13,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     public class BirdUserPostService : IBirdUserPostService
     {
         private readonly IBirdUserRepository userRepository;
-        private readonly Logger<BirdUserPostService> logger;
+        //private readonly Logger<BirdUserPostService> logger;
 
         public BirdUserPostService(
-            IBirdUserRepository userRepository,
-            Logger<BirdUserPostService> logger)
+            IBirdUserRepository userRepository)
+            //Logger<BirdUserPostService> logger)
         {
             this.userRepository = userRepository;
-            this.logger = logger;
+            //this.logger = logger;
         }
 
         public async Task CreateUserAsync(BirdUser user)
@@ -31,7 +31,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "CreateUserAsync");
+                //this.logger.LogError(ex, "CreateUserAsync");
             }
         }
 
@@ -44,7 +44,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                //this.logger.LogError(ex, "GetBlogPostsForUserId");
             }
 
             return new List<BirdPost>();
