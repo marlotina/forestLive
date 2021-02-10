@@ -4,6 +4,10 @@ using FL.Infrastructure.Standard.Configuration.Contracts;
 using FL.Infrastructure.Standard.Configuration.Implementations;
 using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
+using FL.ServiceBus.Standard.Configuration.Contracts;
+using FL.ServiceBus.Standard.Configuration.Implementations;
+using FL.ServiceBus.Standard.Contracts;
+using FL.ServiceBus.Standard.Implementations;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
@@ -30,6 +34,9 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddSingleton<IItemConfiguration, ItemConfiguration>();
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
 
+            services.AddTransient(typeof(IServiceBusTopicSender<>), typeof(ServiceBusTopicSender<>));
+            services.AddTransient<IServiceBusConfiguration, ServiceBusConfiguration>();
+            
             services.AddTransient<IBirdPostService, BirdPostService>();
             services.AddTransient<IBirdUserPostService, BirdUserPostService>();
             services.AddTransient<IBirdCommentService, BirdCommentService>();

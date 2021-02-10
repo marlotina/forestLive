@@ -1,5 +1,6 @@
 ﻿using FL.Infrastructure.Implementations.Domain.Repository;
 using FL.LogTrace.Contracts.Standard;
+using FL.ServiceBus.Standard.Contracts;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
@@ -18,17 +19,20 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBIrdPostRepository itemsRepository;
         private readonly IBirdUserRepository userRepository;
         private readonly ILogger<BirdPostService> logger;
+        private readonly IServiceBusTopicSender<BirdPost> serviceBusTopicSender;
 
         public BirdPostService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IBIrdPostRepository itemsRepository,
             IBirdUserRepository userRepository,
+            IServiceBusTopicSender<BirdPost> serviceBusTopicSender,
             ILogger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
             this.itemConfiguration = itemConfiguration;
             this.itemsRepository = itemsRepository;
             this.userRepository = userRepository;
+            this.serviceBusTopicSender = serviceBusTopicSender;
             this.logger = logger;
         }
         
@@ -36,10 +40,10 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                this.logger.LogError("hola");
                 var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, birdItem.UserId);
-                
-                if (result) {
+
+                if (result)
+                {
                     birdItem.PostId = Guid.NewGuid();
                     birdItem.Id = Guid.NewGuid();
                     birdItem.Type = ItemHelper.POST_TYPE;
@@ -50,8 +54,9 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdItem.ImageUrl = birdItem.UserId + "/" + imageName;
 
                     await this.itemsRepository.CreatePostAsync(birdItem);
-                    await this.userRepository.CreateItemAsync(birdItem);
                 }
+
+                await this.serviceBusTopicSender.SendMessage(birdItem);
             }
             catch (Exception ex)
             {
