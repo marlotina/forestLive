@@ -33,6 +33,7 @@ namespace FL.ServiceBus.Standard.Implementations
             {
                 string data = JsonConvert.SerializeObject(messageRequest);
                 Message message = new Message(Encoding.UTF8.GetBytes(data));
+                
                 await topicClient.SendAsync(message);
             }
             catch (Exception e)
@@ -40,5 +41,11 @@ namespace FL.ServiceBus.Standard.Implementations
                 logger.LogError(e.Message);
             }
         }
+        public async Task CloseAsync()
+        {
+            await this.topicClient.CloseAsync();
+        }
+
+        public bool IsClosedOrClosing => this.topicClient.IsClosedOrClosing;
     }
 }
