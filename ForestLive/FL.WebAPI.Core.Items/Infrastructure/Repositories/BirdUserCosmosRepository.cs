@@ -32,11 +32,6 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task CreateUserAsync(BirdUser user)
-        {
-            await usersContainer.CreateItemAsync<BirdUser>(user, new PartitionKey(user.UserId));
-        }
-
         public async Task<List<BirdPost>> GetBlogPostsForUserId(string userId)
         {
 
@@ -57,11 +52,6 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             }
 
             return blogPosts;
-        }
-
-        public async Task CreateItemAsync(BirdPost post)
-        {
-            await this.usersContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.UserId));
         }
 
         public async Task DeleteItemAsync(Guid id, string partitionKey)

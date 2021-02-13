@@ -1,10 +1,5 @@
 ﻿using FL.Functions.BirdPost.Model;
 using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Documents;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FL.Functions.BirdPost.Services
@@ -27,7 +22,7 @@ namespace FL.Functions.BirdPost.Services
 
         public async Task CreatePostInPendingAsync(BirdPostDto post)
         {
-            await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.CreateDate.ToString("dd/MM/yyyy")));
+            await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.CreateDate.ToString("ddMMyyyy")));
         }
     }
 }

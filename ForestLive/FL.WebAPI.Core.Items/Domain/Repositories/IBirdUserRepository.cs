@@ -8,11 +8,7 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
     public interface IBirdUserRepository
     {
-        Task CreateUserAsync(BirdUser user);
-
         Task<List<BirdPost>> GetBlogPostsForUserId(string userId);
-
-        Task CreateItemAsync(BirdPost post);
 
         Task DeleteItemAsync(Guid id, string partitionKey);
 

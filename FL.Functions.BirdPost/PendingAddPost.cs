@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
 using Microsoft.Azure.ServiceBus.Core;
+using FL.Functions.BirdPost.Enum;
 
 namespace FL.Functions.BirdPost
 {
@@ -27,7 +28,9 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<BirdPostDto>(msg);
+                var post = JsonConvert.DeserializeObject<BirdPostDto>(message);
+
+                post.Type = post.SpecieId == null || post.SpecieId == Guid.Empty ? PostValues.WITHOUT_SPECIE : PostValues.WITH_SPECIE;
 
                 if (post != null) {
                     this.postDbService.CreatePostInPendingAsync(post);

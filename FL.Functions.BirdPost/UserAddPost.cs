@@ -1,6 +1,5 @@
 using FL.Functions.BirdPost.Model;
 using FL.Functions.BirdPost.Services;
-using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;

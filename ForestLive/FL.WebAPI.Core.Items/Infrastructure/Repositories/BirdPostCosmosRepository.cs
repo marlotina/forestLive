@@ -16,15 +16,12 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         private IClientFactory clientFactory;
         private IItemConfiguration itemConfiguration; 
         private Container postContainer;
-        //private readonly Logger<BirdPostCosmosRepository> logger;
 
         public BirdPostCosmosRepository(IClientFactory clientFactory,
             IItemConfiguration itemConfiguration)
-            //Logger<BirdPostCosmosRepository> logger)
         {
             this.clientFactory = clientFactory;
             this.itemConfiguration = itemConfiguration;
-            //this.logger = logger;
             this.postContainer = InitialCLient();
         }
 
@@ -36,7 +33,6 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task CreatePostAsync(BirdPost item)
         {
-            //this.logger.LogError("sdfsdf");
             await this.postContainer.CreateItemAsync<BirdPost>(item, new PartitionKey(item.PostId.ToString()));
         }
 
