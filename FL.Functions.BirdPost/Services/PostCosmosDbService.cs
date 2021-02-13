@@ -12,7 +12,7 @@ namespace FL.Functions.BirdPost.Services
         public PostCosmosDbService(CosmosClient dbClient, string databaseName)
         {
             usersContainer = dbClient.GetContainer(databaseName, "users");
-            pendingContainer = dbClient.GetContainer(databaseName, "pending");
+            pendingContainer = dbClient.GetContainer(databaseName, "birds");
         }
 
         public async Task CreatePostInUserAsync(BirdPostDto post)

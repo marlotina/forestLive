@@ -24,8 +24,6 @@ namespace FL.WebAPI.Core.Items.Configuration.Implementations
 
         public string Database => this.configuration.GetSection("DatabaseName").Get<string>();
 
-        public string Container => this.configuration.GetSection("ContainerName").Get<string>();
-
         public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
     }
 }

@@ -14,8 +14,6 @@ namespace FL.WebAPI.Core.Items.Configuration.Contracts
 
         string Database { get; }
 
-        string Container { get; }
-
         CosmosConfiguration CosmosConfiguration { get; }
     }
 }
