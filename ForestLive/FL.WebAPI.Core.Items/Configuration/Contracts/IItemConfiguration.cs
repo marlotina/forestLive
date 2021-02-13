@@ -10,10 +10,6 @@ namespace FL.WebAPI.Core.Items.Configuration.Contracts
 
         string Host { get; }
 
-        string PrimaryKey { get; }
-
-        string Database { get; }
-
         CosmosConfiguration CosmosConfiguration { get; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿using FL.Infrastructure.Standard.Configuration.Contracts;
 using FL.Infrastructure.Implementations.Domain.Repository;
 using FL.LogTrace.Contracts.Standard;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Auth;
-using Microsoft.WindowsAzure.Storage.Blob;
 using System;
 using System.IO;
 using System.Threading.Tasks;
+using Azure.Storage;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 namespace FL.Infrastructure.Implementations.Implementations
 {
@@ -24,24 +24,22 @@ namespace FL.Infrastructure.Implementations.Implementations
         {
             try
             {
-                // Create storagecredentials object by reading the values from the configuration (appsettings.json)
-                StorageCredentials storageCredentials = new StorageCredentials(this.azureStorageConfiguration.AccountName, this.azureStorageConfiguration.AccountKey);
+                string containerRoute = string.IsNullOrEmpty(folder) ? containerName : containerName + "/" + folder;
+                // Create a URI to the blob
+                Uri blobUri = new Uri(this.azureStorageConfiguration.AccountName +
+                                      containerRoute +
+                                      "/" + fileName);
 
-                // Create cloudstorage account by passing the storagecredentials
-                CloudStorageAccount storageAccount = new CloudStorageAccount(storageCredentials, true);
+                // Create StorageSharedKeyCredentials object by reading
+                // the values from the configuration (appsettings.json)
+                StorageSharedKeyCredential storageCredentials =
+                    new StorageSharedKeyCredential(this.azureStorageConfiguration.AccountName, this.azureStorageConfiguration.AccountKey);
 
                 // Create the blob client.
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
-
-                // Get reference to the blob container by passing the name by reading the value from the configuration (appsettings.json)
-                string containerRoute = string.IsNullOrEmpty(folder) ? containerName : containerName + "/" + folder;
-                CloudBlobContainer container = blobClient.GetContainerReference(containerRoute);
-
-                // Get the reference to the block blob from the container
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
+                BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
 
                 // Upload the file
-                await blockBlob.UploadFromStreamAsync(fileStream);
+                await blobClient.UploadAsync(fileStream);
 
                 return await Task.FromResult(true);
             }
@@ -55,22 +53,20 @@ namespace FL.Infrastructure.Implementations.Implementations
         {
             try
             {
-                // Create storagecredentials object by reading the values from the configuration (appsettings.json)
-                StorageCredentials storageCredentials = new StorageCredentials(this.azureStorageConfiguration.AccountName, this.azureStorageConfiguration.AccountKey);
+                // Create a URI to the blob
+                Uri blobUri = new Uri(this.azureStorageConfiguration.AccountName +
+                                      containerName + fileName);
 
-                // Create cloudstorage account by passing the storagecredentials
-                CloudStorageAccount storageAccount = new CloudStorageAccount(storageCredentials, true);
+                // Create StorageSharedKeyCredentials object by reading
+                // the values from the configuration (appsettings.json)
+                StorageSharedKeyCredential storageCredentials =
+                    new StorageSharedKeyCredential(this.azureStorageConfiguration.AccountName, this.azureStorageConfiguration.AccountKey);
 
                 // Create the blob client.
-                CloudBlobClient blobClient = storageAccount.CreateCloudBlobClient();
+                BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
 
-                // Get reference to the blob container by passing the name by reading the value from the configuration (appsettings.json)
-                CloudBlobContainer container = blobClient.GetContainerReference(containerName);
+                await blobClient.DeleteAsync(DeleteSnapshotsOption.IncludeSnapshots);
 
-                // Get the reference to the block blob from the container
-                CloudBlockBlob blockBlob = container.GetBlockBlobReference(fileName);
-
-                await blockBlob.DeleteAsync();
                 return await Task.FromResult(true);
             }
             catch (Exception ex)
