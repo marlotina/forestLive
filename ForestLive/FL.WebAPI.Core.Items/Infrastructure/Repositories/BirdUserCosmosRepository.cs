@@ -59,9 +59,9 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return blogPosts;
         }
 
-        public async Task CreateItemAsync(BirdPost item)
+        public async Task CreateItemAsync(BirdPost post)
         {
-            await this.usersContainer.CreateItemAsync<BirdPost>(item, new PartitionKey(item.UserId));
+            await this.usersContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.UserId));
         }
 
         public async Task DeleteItemAsync(Guid id, string partitionKey)

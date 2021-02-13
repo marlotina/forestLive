@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Searchs", "Searchs", "{C789
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.ServiceBus.Standard", "..\Framework\FL.ServiceBus.Standard\FL.ServiceBus.Standard.csproj", "{1DA19BBF-64D9-4D31-9563-C62DDE8871AE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FL.Functions.BirdPost", "..\FL.Functions.BirdPost\FL.Functions.BirdPost.csproj", "{988C77FC-CD20-4F6D-AFD9-43A7F081FAEC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.Functions.BirdPost", "..\FL.Functions.BirdPost\FL.Functions.BirdPost.csproj", "{988C77FC-CD20-4F6D-AFD9-43A7F081FAEC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

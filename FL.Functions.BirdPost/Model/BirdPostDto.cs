@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Azure.Documents.Spatial;
+using Newtonsoft.Json;
 using System;
 
 namespace FL.Functions.BirdPost.Model

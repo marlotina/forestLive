@@ -7,20 +7,21 @@ using System;
 
 namespace FL.Functions.BirdPost
 {
-    public class UserAddPost
+    public class PendingAddPost
     {
         private readonly IPostCosmosDbService postDbService;
 
-        public UserAddPost(IPostCosmosDbService postDbService)
+        public PendingAddPost(IPostCosmosDbService postDbService)
         {
             this.postDbService = postDbService;
         }
 
-        [FunctionName("UserAddPost")]
-        public void Run([ServiceBusTrigger(
-            "posts",
-            "user",
-            Connection = "ServiceBusConnectionString")] string msg,
+        [FunctionName("PendingAddPost")]
+        public void Run(
+            [ServiceBusTrigger(
+                "posts", 
+                "pending", 
+                Connection = "ServiceBusConnectionString")]string msg,
             ILogger log)
         {
             log.LogInformation($"C# ServiceBus topic trigger function processed message: {msg}");
@@ -28,8 +29,7 @@ namespace FL.Functions.BirdPost
             {
                 var post = JsonConvert.DeserializeObject<BirdPostDto>(msg);
 
-                if (post != null)
-                {
+                if (post != null) {
                     this.postDbService.CreatePostInPendingAsync(post);
                 }
             }

@@ -12,7 +12,7 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 
         Task<List<BirdPost>> GetBlogPostsForUserId(string userId);
 
-        Task CreateItemAsync(BirdPost item);
+        Task CreateItemAsync(BirdPost post);
 
         Task DeleteItemAsync(Guid id, string partitionKey);
 
