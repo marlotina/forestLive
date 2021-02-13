@@ -4,6 +4,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
+using Microsoft.Azure.ServiceBus.Core;
 
 namespace FL.Functions.BirdPost
 {
@@ -21,10 +22,9 @@ namespace FL.Functions.BirdPost
             [ServiceBusTrigger(
                 "posts", 
                 "pending", 
-                Connection = "ServiceBusConnectionString")]string msg,
+                Connection = "ServiceBusConnectionString")] string message,
             ILogger log)
         {
-            log.LogInformation($"C# ServiceBus topic trigger function processed message: {msg}");
             try
             {
                 var post = JsonConvert.DeserializeObject<BirdPostDto>(msg);
@@ -35,7 +35,7 @@ namespace FL.Functions.BirdPost
             }
             catch (Exception ex)
             {
-                log.LogError($"Couldn't insert item. Exception thrown: {ex.Message}");
+                log.LogError($"Couldn't insert item. Exception thrown: {ex.Message}. Messagee##={message}");
 
             }
         }

@@ -41,21 +41,7 @@ namespace FL.ServiceBus.Standard.Implementations
                 AutoComplete = false
             };
 
-            //subscriptionClient.RegisterMessageHandler(ProcessMessagesAsync, messageHandlerOptions);
-
-            this.subscriptionClient.RegisterMessageHandler(
-                async (message, cancellationToken) =>
-                {
-                    var msg =  JsonConvert.DeserializeObject<T>(GetBody(message));
-                    if (msg != null)
-                    {
-                        await handlerAsync(msg, cancellationToken);
-                    }
-                    else if (this.subscriptionClient.ReceiveMode == Microsoft.Azure.ServiceBus.ReceiveMode.PeekLock)
-                    {
-                        await this.subscriptionClient.CompleteAsync(message.SystemProperties.LockToken);
-                    }
-                }, options);
+            subscriptionClient.RegisterMessageHandler(ProcessMessagesAsync, messageHandlerOptions);
         }
 
         private string GetBody(Message source)

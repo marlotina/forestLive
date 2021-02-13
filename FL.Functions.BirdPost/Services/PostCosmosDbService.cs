@@ -27,14 +27,7 @@ namespace FL.Functions.BirdPost.Services
 
         public async Task CreatePostInPendingAsync(BirdPostDto post)
         {
-            if (string.IsNullOrEmpty(post.SpecieName) || (post.SpecieId == null || post.SpecieId == Guid.Empty)) {
-                post.Type = "withSpecie";
-            }
-            else {
-                post.Type = "withoutSpecie";
-            }
-
-            await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.UserId));
+            await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.CreateDate.ToString("dd/MM/yyyy")));
         }
     }
 }
