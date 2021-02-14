@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
 
-namespace FL.Infrastructure.Implementations.Domain.Repository
+namespace FL.Infrastructure.Standard.Contracts
 {
     public interface IBlobContainerRepository
     {

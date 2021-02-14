@@ -1,18 +1,18 @@
 ﻿using FL.Infrastructure.Standard.Configuration.Contracts;
-using FL.Infrastructure.Implementations.Domain.Repository;
-using FL.LogTrace.Contracts.Standard;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
+using FL.Infrastructure.Standard.Contracts;
 
-namespace FL.Infrastructure.Implementations.Implementations
+namespace FL.Infrastructure.Standard.Implementations
 {
     public class BlobContainerRepository : IBlobContainerRepository
     {
         private readonly IAzureStorageConfiguration azureStorageConfiguration;
+        private const string BLOB_AZURE_URL = ".blob.core.windows.net/";
 
         public BlobContainerRepository(
             IAzureStorageConfiguration azureStorageConfiguration)
@@ -25,10 +25,11 @@ namespace FL.Infrastructure.Implementations.Implementations
             try
             {
                 string containerRoute = string.IsNullOrEmpty(folder) ? containerName : containerName + "/" + folder;
-                // Create a URI to the blob
-                Uri blobUri = new Uri(this.azureStorageConfiguration.AccountName +
-                                      containerRoute +
-                                      "/" + fileName);
+                Uri blobUri = new Uri("https://" +
+                          this.azureStorageConfiguration.AccountName +
+                          BLOB_AZURE_URL +
+                          containerRoute +
+                          "/" + fileName);
 
                 // Create StorageSharedKeyCredentials object by reading
                 // the values from the configuration (appsettings.json)
@@ -40,6 +41,7 @@ namespace FL.Infrastructure.Implementations.Implementations
 
                 // Upload the file
                 await blobClient.UploadAsync(fileStream);
+
 
                 return await Task.FromResult(true);
             }
@@ -54,8 +56,11 @@ namespace FL.Infrastructure.Implementations.Implementations
             try
             {
                 // Create a URI to the blob
-                Uri blobUri = new Uri(this.azureStorageConfiguration.AccountName +
-                                      containerName + fileName);
+                Uri blobUri = new Uri("https://" +
+                          this.azureStorageConfiguration.AccountName +
+                          ".blob.core.windows.net/" +
+                          containerName +
+                          "/" + fileName);
 
                 // Create StorageSharedKeyCredentials object by reading
                 // the values from the configuration (appsettings.json)

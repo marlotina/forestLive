@@ -1,7 +1,7 @@
-﻿using FL.Infrastructure.Implementations.Domain.Repository;
-using FL.Infrastructure.Implementations.Implementations;
-using FL.Infrastructure.Standard.Configuration.Contracts;
+﻿using FL.Infrastructure.Standard.Configuration.Contracts;
 using FL.Infrastructure.Standard.Configuration.Implementations;
+using FL.Infrastructure.Standard.Contracts;
+using FL.Infrastructure.Standard.Implementations;
 using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
 using FL.ServiceBus.Standard.Configuration.Contracts;
@@ -40,9 +40,7 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddTransient<IBirdPostService, BirdPostService>();
             services.AddTransient<IBirdUserPostService, BirdUserPostService>();
             services.AddTransient<IBirdCommentService, BirdCommentService>();
-
-            services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
-            
+                        
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddSingleton<IBirdUserRepository, BirdUserCosmosRepository>();
             services.AddSingleton<IBIrdPostRepository, BirdPostCosmosRepository>();

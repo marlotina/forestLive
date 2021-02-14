@@ -12,9 +12,9 @@ namespace FL.Infrastructure.Standard.Configuration.Implementations
             this.configuration = configuration;
         }
 
-        public string AccountName => this.configuration.GetSection("AccountName").Value;
+        public string AccountName => this.configuration.GetSection("StorageAccountName").Value;
 
-        public string AccountKey => this.configuration.GetSection("AccountKey").Value;
+        public string AccountKey => this.configuration.GetSection("StorageAccountKey").Value;
     }
     
 }

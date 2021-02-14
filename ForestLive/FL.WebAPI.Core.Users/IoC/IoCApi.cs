@@ -18,10 +18,10 @@ using FL.Mailing.Contracts.Standard;
 using FL.Sendgrid.Implementation.Standard.Configuration.Contracts;
 using FL.Sendgrid.Implementation.Standard.Implementations;
 using FL.Sendgrid.Implementation.Standard.Configuration.Implementations;
-using FL.Infrastructure.Implementations.Implementations;
-using FL.Infrastructure.Implementations.Domain.Repository;
 using FL.Infrastructure.Standard.Configuration.Contracts;
 using FL.Infrastructure.Standard.Configuration.Implementations;
+using FL.Infrastructure.Standard.Contracts;
+using FL.Infrastructure.Standard.Implementations;
 
 namespace FL.WebAPI.Core.Users.IoC
 {

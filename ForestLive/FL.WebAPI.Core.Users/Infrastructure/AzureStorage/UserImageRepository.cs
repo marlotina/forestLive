@@ -1,4 +1,4 @@
-﻿using FL.Infrastructure.Implementations.Domain.Repository;
+﻿using FL.Infrastructure.Standard.Contracts;
 using FL.WebAPI.Core.Users.Configuration.Contracts;
 using FL.WebAPI.Core.Users.Domain.Repositories;
 using System.IO;

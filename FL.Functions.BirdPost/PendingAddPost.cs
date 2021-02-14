@@ -33,6 +33,7 @@ namespace FL.Functions.BirdPost
                 post.Type = post.SpecieId == null || post.SpecieId == Guid.Empty ? PostValues.WITHOUT_SPECIE : PostValues.WITH_SPECIE;
 
                 if (post != null) {
+                    post.CreateDateId = post.CreateDate.ToString("dd-MM-yyyy");
                     this.postDbService.CreatePostInPendingAsync(post);
                 }
             }

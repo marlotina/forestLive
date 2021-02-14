@@ -1,5 +1,6 @@
 ﻿using FL.Functions.BirdPost.Model;
 using Microsoft.Azure.Cosmos;
+using System;
 using System.Threading.Tasks;
 
 namespace FL.Functions.BirdPost.Services
@@ -12,7 +13,7 @@ namespace FL.Functions.BirdPost.Services
         public PostCosmosDbService(CosmosClient dbClient, string databaseName)
         {
             usersContainer = dbClient.GetContainer(databaseName, "users");
-            pendingContainer = dbClient.GetContainer(databaseName, "birds");
+            pendingContainer = dbClient.GetContainer(databaseName, "pendings");
         }
 
         public async Task CreatePostInUserAsync(BirdPostDto post)
@@ -22,7 +23,15 @@ namespace FL.Functions.BirdPost.Services
 
         public async Task CreatePostInPendingAsync(BirdPostDto post)
         {
-            await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.CreateDate.ToString("ddMMyyyy")));
+            try
+            {
+                await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.CreateDateId));
+            }
+            catch (Exception ex) 
+            { 
+            
+            }
+            
         }
     }
 }

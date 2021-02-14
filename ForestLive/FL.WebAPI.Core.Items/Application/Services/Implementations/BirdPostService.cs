@@ -1,4 +1,4 @@
-﻿using FL.Infrastructure.Implementations.Domain.Repository;
+﻿using FL.Infrastructure.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.ServiceBus.Standard.Contracts;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
@@ -54,9 +54,9 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdItem.ImageUrl = birdItem.UserId + "/" + imageName;
 
                     await this.itemsRepository.CreatePostAsync(birdItem);
+                    await this.serviceBusTopicSender.SendMessage(birdItem);
                 }
 
-                await this.serviceBusTopicSender.SendMessage(birdItem);
             }
             catch (Exception ex)
             {
