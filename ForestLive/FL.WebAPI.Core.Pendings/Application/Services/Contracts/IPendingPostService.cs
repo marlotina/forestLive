@@ -7,6 +7,6 @@ namespace FL.WebAPI.Core.Pendings.Application.Services.Contracts
 {
     public interface IPendingPostService
     {
-        Task<IEnumerable<BirdPost>> GetPostByType(StatusSpecieEnum status);
+        Task<IEnumerable<BirdPost>> GetPostByStatus(StatusSpecieEnum status);
     }
 }

@@ -33,7 +33,7 @@ namespace FL.WebAPI.Core.Pendings.Controllers.v1
         {
             try
             {
-                var result = await this.pendingPostService.GetPostByType(StatusSpecieEnum.Pending);
+                var result = await this.pendingPostService.GetPostByStatus(StatusSpecieEnum.Pending);
 
                 if (result != null)
                 {
@@ -56,7 +56,7 @@ namespace FL.WebAPI.Core.Pendings.Controllers.v1
         {
             try
             {
-                var result = await this.pendingPostService.GetPostByType(StatusSpecieEnum.NoSpecie);
+                var result = await this.pendingPostService.GetPostByStatus(StatusSpecieEnum.NoSpecie);
 
                 if (result != null)
                 {
