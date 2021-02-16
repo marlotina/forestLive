@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
-    public interface IBIrdPostRepository
+    public interface IBirdPostRepository
     {
-        Task CreatePostAsync(BirdPost comment);
+        Task<BirdPost> CreatePostAsync(BirdPost post);
 
         Task DeletePostAsync(Guid id, string partitionKey);
 

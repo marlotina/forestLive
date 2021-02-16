@@ -12,18 +12,18 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
     public class BirdCommentService : IBirdCommentService
     {
-        private readonly IBIrdPostRepository itemsRepository;
+        private readonly IBirdPostRepository itemsRepository;
         private readonly ILogger<BirdCommentService> logger;
 
         public BirdCommentService(
-            IBIrdPostRepository itemsRepository,
+            IBirdPostRepository itemsRepository,
             ILogger<BirdCommentService> logger)
         {
             this.itemsRepository = itemsRepository;
             this.logger = logger;
         }
 
-        public IBIrdPostRepository ItemsRepository => itemsRepository;
+        public IBirdPostRepository ItemsRepository => itemsRepository;
 
         public async Task<BirdComment> AddComment(BirdComment comment)
         {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
-    public class BirdPostCosmosRepository : IBIrdPostRepository
+    public class BirdPostCosmosRepository : IBirdPostRepository
     {
         private IClientFactory clientFactory;
         private IItemConfiguration itemConfiguration; 
@@ -30,9 +30,9 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
         }
 
-        public async Task CreatePostAsync(BirdPost item)
+        public async Task<BirdPost> CreatePostAsync(BirdPost post)
         {
-            await this.postContainer.CreateItemAsync<BirdPost>(item, new PartitionKey(item.PostId.ToString()));
+            return await this.postContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
         }
 
         public async Task DeletePostAsync(Guid id, string partitionKey)
@@ -40,9 +40,9 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             await this.postContainer.DeleteItemAsync<BirdPost>(id.ToString(), new PartitionKey(partitionKey));
         }
 
-        public async Task UpdatePostAsync(BirdPost item)
+        public async Task UpdatePostAsync(BirdPost post)
         {
-            await this.postContainer.UpsertItemAsync<BirdPost>(item, new PartitionKey(item.PostId.ToString()));
+            await this.postContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
         }
 
         public async Task<BirdPost> GetPostAsync(Guid postId)

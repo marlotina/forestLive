@@ -17,14 +17,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     {
         private readonly IItemConfiguration itemConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
-        private readonly IBIrdPostRepository itemsRepository;
+        private readonly IBirdPostRepository itemsRepository;
         private readonly IBirdUserRepository userRepository;
         private readonly ILogger<BirdPostService> logger;
         private readonly IServiceBusTopicSender<BirdPost> serviceBusTopicSender;
 
         public BirdPostService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
-            IBIrdPostRepository itemsRepository,
+            IBirdPostRepository itemsRepository,
             IBirdUserRepository userRepository,
             IServiceBusTopicSender<BirdPost> serviceBusTopicSender,
             ILogger<BirdPostService> logger)
@@ -54,19 +54,20 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdItem.CreateDate = DateTime.UtcNow;
                     birdItem.SpecieStatus = birdItem.SpecieId == null || birdItem.SpecieId == Guid.Empty ? StatusSpecie.NoSpecie : StatusSpecie.Pending;
                     birdItem.ImageUrl = folder + "/"+ imageName;
+                    birdItem.VoteCount = 0;
 
-                    await this.itemsRepository.CreatePostAsync(birdItem);
+                    var post = await this.itemsRepository.CreatePostAsync(birdItem);
                     await this.serviceBusTopicSender.SendMessage(birdItem);
-                }
 
+                    return post;
+                }
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "AddBirdItem");
-                return null;
             }
 
-            return birdItem;
+            return null;
         }
 
         public async Task<bool> DeleteBirdItem(Guid itemId, string userId)

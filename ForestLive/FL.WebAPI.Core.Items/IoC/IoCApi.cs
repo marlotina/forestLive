@@ -43,7 +43,7 @@ namespace FL.WebAPI.Core.Items.IoC
                         
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddSingleton<IBirdUserRepository, BirdUserCosmosRepository>();
-            services.AddSingleton<IBIrdPostRepository, BirdPostCosmosRepository>();
+            services.AddSingleton<IBirdPostRepository, BirdPostCosmosRepository>();
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

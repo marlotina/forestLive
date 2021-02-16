@@ -12,13 +12,16 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     {
         private readonly ServiceBusTopicSender<VotePost> serviceBusTopicSender;
         private readonly IVotePostRepository votePostRepository;
+        private readonly IBirdPostRepository birdPostRepository;
 
         public VotePostService(
             ServiceBusTopicSender<VotePost> serviceBusTopicSender,
-            IVotePostRepository votePostRepository)
+            IVotePostRepository votePostRepository,
+            IBirdPostRepository birdPostRepository)
         {
             this.votePostRepository = votePostRepository;
             this.serviceBusTopicSender = serviceBusTopicSender;
+            this.birdPostRepository = birdPostRepository;
         }
 
         public async Task<VotePost> AddVotePost(VotePost votePost)
@@ -30,8 +33,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             var result = await this.votePostRepository.AddVotePost(votePost);
             await this.serviceBusTopicSender.SendMessage(votePost);
 
-            return result;
+            var post = await this.birdPostRepository.GetPostAsync(votePost.PostId);
+            if (post.VoteCount > 5)
+            { 
+                //remove the post in the pending container.
+                //add the message in the subscription to save the post in birds.
+            }
 
+            return result;
         }
     }
 }
