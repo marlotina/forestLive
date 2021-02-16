@@ -1,5 +1,4 @@
-﻿using FL.Logging.Implementation.Standard;
-using FL.WebAPI.Core.Items.Configuration.Contracts;
+﻿using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Contracts;

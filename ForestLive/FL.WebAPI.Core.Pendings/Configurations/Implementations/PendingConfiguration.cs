@@ -14,6 +14,6 @@ namespace FL.WebAPI.Core.Pendings.Configurations.Implementations
 
         public string CosmosDatabaseId => this.configuration.GetSection("CosmosDatabaseId").Get<string>();
 
-        public string CosmosUserContainer => this.configuration.GetSection("CosmosUserContainer").Get<string>();
+        public string CosmosPendingContainer => this.configuration.GetSection("CosmosPendingContainer").Get<string>();
     }
 }

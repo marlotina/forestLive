@@ -14,13 +14,6 @@ namespace FL.CosmosDb.Standard.Configuration.Implementations
             this.configuration = configuration;
         }
 
-        public CosmosConfig DataConfig
-        {
-            get
-            {
-                var values = this.configuration.GetSection("CosmosConfiguration");
-                return JsonConvert.DeserializeObject<CosmosConfig>(values.ToString());
-            }
-        }
+        public CosmosConfig DataConfig => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfig>();
     }
 }

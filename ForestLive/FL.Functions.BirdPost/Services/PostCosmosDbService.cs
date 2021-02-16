@@ -13,19 +13,19 @@ namespace FL.Functions.BirdPost.Services
         public PostCosmosDbService(CosmosClient dbClient, string databaseName)
         {
             usersContainer = dbClient.GetContainer(databaseName, "users");
-            pendingContainer = dbClient.GetContainer(databaseName, "pendings");
+            pendingContainer = dbClient.GetContainer(databaseName, "pending");
         }
 
         public async Task CreatePostInUserAsync(BirdPostDto post)
         {
-            await usersContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.UserId));
+            await usersContainer.CreateItemAsync(post, new PartitionKey(post.UserId));
         }
 
         public async Task CreatePostInPendingAsync(BirdPostDto post)
         {
             try
             {
-                await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.SpecieStatus));
+                await pendingContainer.CreateItemAsync(post, new PartitionKey(post.SpecieStatus));
             }
             catch (Exception ex) 
             { 

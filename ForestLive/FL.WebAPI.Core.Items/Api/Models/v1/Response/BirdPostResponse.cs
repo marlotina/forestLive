@@ -37,7 +37,7 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 
         public string ObservationDate { get; set; }
 
-        public StatusSpecieEnum SpecieStatus { get; set; }
+        public string SpecieStatus { get; set; }
 
         public Guid PostId { get; set; }
     }

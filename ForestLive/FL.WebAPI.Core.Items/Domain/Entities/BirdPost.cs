@@ -56,6 +56,6 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
         public DateTime ObservationDate { get; set; }
 
         [JsonProperty(PropertyName = "SpecieStatus")]
-        public StatusSpecieEnum SpecieStatus { get; set; }
+        public string SpecieStatus { get; set; }
     }
 }

@@ -41,7 +41,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, birdItem.UserId);
+                var folder = birdItem.UserId + "/" + DateTime.Now.ToString("ddMMyyyhhmm");
+                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, folder);
 
                 if (result)
                 {
@@ -51,8 +52,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdItem.LikesCount = 0;
                     birdItem.CommentsCount = 0;
                     birdItem.CreateDate = DateTime.UtcNow;
-                    birdItem.SpecieStatus = birdItem.SpecieId == null || birdItem.SpecieId == Guid.Empty ? StatusSpecieEnum.NoSpecie : StatusSpecieEnum.Pending;
-                    birdItem.ImageUrl = birdItem.UserId + "/" + birdItem.PostId + "/"+ imageName;
+                    birdItem.SpecieStatus = birdItem.SpecieId == null || birdItem.SpecieId == Guid.Empty ? StatusSpecie.NoSpecie : StatusSpecie.Pending;
+                    birdItem.ImageUrl = folder + "/"+ imageName;
 
                     await this.itemsRepository.CreatePostAsync(birdItem);
                     await this.serviceBusTopicSender.SendMessage(birdItem);

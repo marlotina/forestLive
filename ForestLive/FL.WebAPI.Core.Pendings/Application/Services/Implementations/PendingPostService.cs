@@ -1,5 +1,4 @@
-﻿using FL.Pereza.Helpers.Standard.Enums;
-using FL.WebAPI.Core.Pendings.Application.Services.Contracts;
+﻿using FL.WebAPI.Core.Pendings.Application.Services.Contracts;
 using FL.WebAPI.Core.Pendings.Domain.Entities;
 using FL.WebAPI.Core.Pendings.Domain.Repository;
 using System.Collections.Generic;
@@ -17,7 +16,7 @@ namespace FL.WebAPI.Core.Pendings.Application.Services.Implementations
             this.pendingPostRepository = pendingPostRepository;
         }
 
-        public async Task<IEnumerable<BirdPost>> GetPostByStatus(StatusSpecieEnum status)
+        public async Task<IEnumerable<BirdPost>> GetPostByStatus(string status)
         {
             return await this.pendingPostRepository.GetPendingPostsByStatus(status);
         }

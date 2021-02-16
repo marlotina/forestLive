@@ -4,6 +4,6 @@
     {
         string CosmosDatabaseId { get; }
 
-        string CosmosUserContainer { get; }
+        string CosmosPendingContainer { get; }
     }
 }

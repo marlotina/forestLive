@@ -1,5 +1,4 @@
-﻿using FL.Pereza.Helpers.Standard.Enums;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using System;
 
 namespace FL.WebAPI.Core.Pendings.Domain.Entities
@@ -55,6 +54,6 @@ namespace FL.WebAPI.Core.Pendings.Domain.Entities
         public DateTime ObservationDate { get; set; }
 
         [JsonProperty(PropertyName = "SpecieStatus")]
-        public StatusSpecieEnum SpecieStatus { get; set; }
+        public string SpecieStatus { get; set; }
     }
 }

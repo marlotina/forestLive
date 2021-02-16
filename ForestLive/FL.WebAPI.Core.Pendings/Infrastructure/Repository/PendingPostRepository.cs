@@ -1,5 +1,4 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
-using FL.Pereza.Helpers.Standard.Enums;
 using FL.WebAPI.Core.Pendings.Configurations.Contracts;
 using FL.WebAPI.Core.Pendings.Domain.Entities;
 using FL.WebAPI.Core.Pendings.Domain.Repository;
@@ -28,16 +27,16 @@ namespace FL.WebAPI.Core.Pendings.Infrastructure.Repository
         private Container InitialClient()
         {
             var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync();
-            return dbClient.GetContainer(this.pendingConfiguration.CosmosDatabaseId, this.pendingConfiguration.CosmosUserContainer);
+            return dbClient.GetContainer(this.pendingConfiguration.CosmosDatabaseId, this.pendingConfiguration.CosmosPendingContainer);
         }
 
-        public async Task<List<BirdPost>> GetPendingPostsByStatus(StatusSpecieEnum status)
+        public async Task<List<BirdPost>> GetPendingPostsByStatus(string status)
         {
 
             var blogPosts = new List<BirdPost>();
 
 
-            var queryString = $"SELECT * FROM p WHERE p.SpecieStatus = @specieStatus ORDER BY p.createDate DESC";
+            var queryString = $"SELECT * FROM p WHERE p.specieStatus = @specieStatus ORDER BY p.createDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@specieStatus", status);
