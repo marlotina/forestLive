@@ -18,8 +18,8 @@ namespace FL.Functions.Votes
 
         [FunctionName("AddVote")]
         public void Run([ServiceBusTrigger(
-                "posts",
-                "pending",
+                "votes",
+                "user",
                 Connection = "ServiceBusConnectionString")] string message,
             ILogger log)
         {

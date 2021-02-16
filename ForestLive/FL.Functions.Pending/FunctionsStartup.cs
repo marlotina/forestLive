@@ -28,9 +28,9 @@ namespace FL.Functions.Pending
                 .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
                 .Build();
 
-            var postCosmosDbService = new VoteCosmosDbService(client, databaseName);
+            var postCosmosDbService = new PendingCosmosDbService(client, databaseName);
 
-            builder.Services.AddSingleton<IVoteCosmosDbService>(postCosmosDbService);
+            builder.Services.AddSingleton<IPendingCosmosDbService>(postCosmosDbService);
         }
     }
 }

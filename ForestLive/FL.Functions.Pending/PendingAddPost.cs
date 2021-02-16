@@ -1,21 +1,19 @@
-using FL.Functions.BirdPost.Model;
-using FL.Functions.BirdPost.Services;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using Microsoft.Azure.ServiceBus.Core;
-using FL.Functions.BirdPost.Enum;
+using FL.Functions.Pending.Services;
+using FL.Functions.Pending.Model;
 
-namespace FL.Functions.BirdPost
+namespace FL.Functions.Pending
 {
     public class PendingAddPost
     {
-        private readonly IPostCosmosDbService postDbService;
+        private readonly IPendingCosmosDbService pendingCosmosDbServiceç;
 
-        public PendingAddPost(IPostCosmosDbService postDbService)
+        public PendingAddPost(IPendingCosmosDbService pendingCosmosDbServiceç)
         {
-            this.postDbService = postDbService;
+            this.pendingCosmosDbServiceç = pendingCosmosDbServiceç;
         }
 
         [FunctionName("PendingAddPost")]
@@ -31,7 +29,7 @@ namespace FL.Functions.BirdPost
                 var post = JsonConvert.DeserializeObject<BirdPostDto>(message);
 
                 if (post != null) {
-                    this.postDbService.CreatePostInPendingAsync(post);
+                    this.pendingCosmosDbServiceç.CreatePostInPendingAsync(post);
                 }
             }
             catch (Exception ex)

@@ -6,7 +6,5 @@ namespace FL.Functions.BirdPost.Services
     public interface IPostCosmosDbService
     {
         Task CreatePostInUserAsync(BirdPostDto post);
-
-        Task CreatePostInPendingAsync(BirdPostDto post);
     }
 }
