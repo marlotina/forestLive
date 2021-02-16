@@ -53,7 +53,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString(),
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
-                    SpecieConfirmed = source.SpecieConfirmed
+                    SpecieStatus = source.SpecieStatus
                 };
             }
             return result;

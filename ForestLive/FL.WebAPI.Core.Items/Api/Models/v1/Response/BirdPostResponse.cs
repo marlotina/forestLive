@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FL.Pereza.Helpers.Standard.Enums;
+using System;
 
 namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 {
@@ -36,7 +37,8 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 
         public string ObservationDate { get; set; }
 
-        public bool SpecieConfirmed { get; set; }
+        public StatusSpecieEnum SpecieStatus { get; set; }
+
         public Guid PostId { get; set; }
     }
 }

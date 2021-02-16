@@ -1,5 +1,6 @@
 ﻿using FL.Infrastructure.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.Enums;
 using FL.ServiceBus.Standard.Contracts;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
@@ -50,8 +51,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdItem.LikesCount = 0;
                     birdItem.CommentsCount = 0;
                     birdItem.CreateDate = DateTime.UtcNow;
-                    birdItem.SpecieConfirmed = false;
-                    birdItem.ImageUrl = birdItem.UserId + "/" + imageName;
+                    birdItem.SpecieStatus = birdItem.SpecieId == null || birdItem.SpecieId == Guid.Empty ? StatusSpecieEnum.NoSpecie : StatusSpecieEnum.Pending;
+                    birdItem.ImageUrl = birdItem.UserId + "/" + birdItem.PostId + "/"+ imageName;
 
                     await this.itemsRepository.CreatePostAsync(birdItem);
                     await this.serviceBusTopicSender.SendMessage(birdItem);

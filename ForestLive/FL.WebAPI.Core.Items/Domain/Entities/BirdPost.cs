@@ -1,4 +1,5 @@
-﻿using Microsoft.Azure.Cosmos.Spatial;
+﻿using FL.Pereza.Helpers.Standard.Enums;
+using Microsoft.Azure.Cosmos.Spatial;
 using Newtonsoft.Json;
 using System;
 
@@ -54,7 +55,7 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime ObservationDate { get; set; }
 
-        [JsonProperty(PropertyName = "specieConfirmed")]
-        public bool SpecieConfirmed { get; set; }
+        [JsonProperty(PropertyName = "SpecieStatus")]
+        public StatusSpecieEnum SpecieStatus { get; set; }
     }
 }
