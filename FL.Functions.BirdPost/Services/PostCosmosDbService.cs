@@ -25,13 +25,12 @@ namespace FL.Functions.BirdPost.Services
         {
             try
             {
-                await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.CreateDateId));
+                await pendingContainer.CreateItemAsync(post, new Microsoft.Azure.Cosmos.PartitionKey(post.SpecieStatus));
             }
             catch (Exception ex) 
             { 
             
             }
-            
         }
     }
 }

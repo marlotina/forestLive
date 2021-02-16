@@ -42,9 +42,6 @@ namespace FL.Functions.BirdPost.Model
         [JsonProperty(PropertyName = "createDate")]
         public DateTime CreateDate { get; set; }
 
-        [JsonProperty(PropertyName = "CreateDateId")]
-        public string CreateDateId { get; set; }
-
         [JsonProperty(PropertyName = "likesCount")]
         public int LikesCount { get; set; }
 
@@ -57,7 +54,7 @@ namespace FL.Functions.BirdPost.Model
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime ObservationDate { get; set; }
 
-        [JsonProperty(PropertyName = "specieConfirmed")]
-        public bool SpecieConfirmed { get; set; }
+        [JsonProperty(PropertyName = "SpecieStatus")]
+        public string SpecieStatus { get; set; }
     }
 }
