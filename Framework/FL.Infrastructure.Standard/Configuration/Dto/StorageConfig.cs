@@ -1,6 +1,6 @@
 ﻿namespace FL.Infrastructure.Standard.Configuration.Dto
 {
-    public class StorageConfiguration
+    public class StorageConfig
     {
         public string AccountName { get; set; }
 

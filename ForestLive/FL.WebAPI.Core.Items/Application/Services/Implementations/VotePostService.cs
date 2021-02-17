@@ -3,6 +3,7 @@ using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
+using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.Threading.Tasks;
 
@@ -10,17 +11,17 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
     public class VotePostService : IVotePostService
     {
-        private readonly ServiceBusTopicSender<VotePost> serviceBusTopicSender;
+        private readonly IServiceBusVotePostTopicSender<VotePost> serviceBusVotePostTopicSender;
         private readonly IVotePostRepository votePostRepository;
         private readonly IBirdPostRepository birdPostRepository;
 
         public VotePostService(
-            ServiceBusTopicSender<VotePost> serviceBusTopicSender,
+            IServiceBusVotePostTopicSender<VotePost> serviceBusVotePostTopicSender,
             IVotePostRepository votePostRepository,
             IBirdPostRepository birdPostRepository)
         {
             this.votePostRepository = votePostRepository;
-            this.serviceBusTopicSender = serviceBusTopicSender;
+            this.serviceBusVotePostTopicSender = serviceBusVotePostTopicSender;
             this.birdPostRepository = birdPostRepository;
         }
 
@@ -31,7 +32,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             votePost.Type = ItemHelper.VOTE_TYPE;
 
             var result = await this.votePostRepository.AddVotePost(votePost);
-            await this.serviceBusTopicSender.SendMessage(votePost);
+            await this.serviceBusVotePostTopicSender.SendMessage(votePost);
 
             var post = await this.birdPostRepository.GetPostAsync(votePost.PostId);
             if (post.VoteCount > 5)

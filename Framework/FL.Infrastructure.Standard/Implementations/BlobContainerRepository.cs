@@ -26,7 +26,7 @@ namespace FL.Infrastructure.Standard.Implementations
             {
                 string containerRoute = string.IsNullOrEmpty(folder) ? containerName : containerName + "/" + folder;
                 Uri blobUri = new Uri("https://" +
-                          this.azureStorageConfiguration.AccountName +
+                          this.azureStorageConfiguration.StorageConfiguration.AccountName +
                           BLOB_AZURE_URL +
                           containerRoute +
                           "/" + fileName);
@@ -34,7 +34,7 @@ namespace FL.Infrastructure.Standard.Implementations
                 // Create StorageSharedKeyCredentials object by reading
                 // the values from the configuration (appsettings.json)
                 StorageSharedKeyCredential storageCredentials =
-                    new StorageSharedKeyCredential(this.azureStorageConfiguration.AccountName, this.azureStorageConfiguration.AccountKey);
+                    new StorageSharedKeyCredential(this.azureStorageConfiguration.StorageConfiguration.AccountName, this.azureStorageConfiguration.StorageConfiguration.AccountKey);
 
                 // Create the blob client.
                 BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
@@ -57,7 +57,7 @@ namespace FL.Infrastructure.Standard.Implementations
             {
                 // Create a URI to the blob
                 Uri blobUri = new Uri("https://" +
-                          this.azureStorageConfiguration.AccountName +
+                          this.azureStorageConfiguration.StorageConfiguration.AccountName +
                           ".blob.core.windows.net/" +
                           containerName +
                           "/" + fileName);
@@ -65,7 +65,7 @@ namespace FL.Infrastructure.Standard.Implementations
                 // Create StorageSharedKeyCredentials object by reading
                 // the values from the configuration (appsettings.json)
                 StorageSharedKeyCredential storageCredentials =
-                    new StorageSharedKeyCredential(this.azureStorageConfiguration.AccountName, this.azureStorageConfiguration.AccountKey);
+                    new StorageSharedKeyCredential(this.azureStorageConfiguration.StorageConfiguration.AccountName, this.azureStorageConfiguration.StorageConfiguration.AccountKey);
 
                 // Create the blob client.
                 BlobClient blobClient = new BlobClient(blobUri, storageCredentials);

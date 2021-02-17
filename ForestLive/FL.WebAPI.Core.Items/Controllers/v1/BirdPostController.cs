@@ -81,7 +81,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.itemService.DeleteBirdItem(postId, userId);
+                var result = await this.itemService.DeleteBirdPost(postId, userId);
 
                 if (result)
                 {
@@ -111,7 +111,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = await this.itemService.GetBirdItem(postId);
+                var result = await this.itemService.GetBirdPost(postId);
 
                 if (result != null)
                 {

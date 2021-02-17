@@ -1,12 +1,12 @@
 ﻿using FL.Infrastructure.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Enums;
-using FL.ServiceBus.Standard.Contracts;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
+using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.IO;
 using System.Threading.Tasks;
@@ -20,44 +20,44 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBirdPostRepository itemsRepository;
         private readonly IBirdUserRepository userRepository;
         private readonly ILogger<BirdPostService> logger;
-        private readonly IServiceBusTopicSender<BirdPost> serviceBusTopicSender;
+        private readonly IServiceBusCreatedPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
 
         public BirdPostService(IItemConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IBirdPostRepository itemsRepository,
             IBirdUserRepository userRepository,
-            IServiceBusTopicSender<BirdPost> serviceBusTopicSender,
+            IServiceBusCreatedPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
             ILogger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
             this.itemConfiguration = itemConfiguration;
             this.itemsRepository = itemsRepository;
             this.userRepository = userRepository;
-            this.serviceBusTopicSender = serviceBusTopicSender;
+            this.serviceBusCreatedPostTopic = serviceBusCreatedPostTopic;
             this.logger = logger;
         }
-        
-        public async Task<BirdPost> AddBirdItem(BirdPost birdItem, Stream imageStream, string imageName)
+
+        public async Task<BirdPost> AddBirdPost(BirdPost birdPost, Stream imageStream, string imageName)
         {
             try
             {
-                var folder = birdItem.UserId + "/" + DateTime.Now.ToString("ddMMyyyhhmm");
+                var folder = birdPost.UserId + "/" + DateTime.Now.ToString("ddMMyyyhhmm");
                 var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, folder);
 
                 if (result)
                 {
-                    birdItem.PostId = Guid.NewGuid();
-                    birdItem.Id = Guid.NewGuid();
-                    birdItem.Type = ItemHelper.POST_TYPE;
-                    birdItem.LikesCount = 0;
-                    birdItem.CommentsCount = 0;
-                    birdItem.CreateDate = DateTime.UtcNow;
-                    birdItem.SpecieStatus = birdItem.SpecieId == null || birdItem.SpecieId == Guid.Empty ? StatusSpecie.NoSpecie : StatusSpecie.Pending;
-                    birdItem.ImageUrl = folder + "/"+ imageName;
-                    birdItem.VoteCount = 0;
+                    birdPost.PostId = Guid.NewGuid();
+                    birdPost.Id = Guid.NewGuid();
+                    birdPost.Type = ItemHelper.POST_TYPE;
+                    birdPost.LikesCount = 0;
+                    birdPost.CommentsCount = 0;
+                    birdPost.CreateDate = DateTime.UtcNow;
+                    birdPost.SpecieStatus = birdPost.SpecieId == null || birdPost.SpecieId == Guid.Empty ? StatusSpecie.NoSpecie : StatusSpecie.Pending;
+                    birdPost.ImageUrl = folder + "/"+ imageName;
+                    birdPost.VoteCount = 0;
 
-                    var post = await this.itemsRepository.CreatePostAsync(birdItem);
-                    await this.serviceBusTopicSender.SendMessage(birdItem);
+                    var post = await this.itemsRepository.CreatePostAsync(birdPost);
+                    await this.serviceBusCreatedPostTopic.SendMessage(birdPost);
 
                     return post;
                 }
@@ -70,11 +70,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return null;
         }
 
-        public async Task<bool> DeleteBirdItem(Guid itemId, string userId)
+        public async Task<bool> DeleteBirdPost(Guid birdPostId, string userId)
         {
             try
             {
-                var item = await this.itemsRepository.GetPostAsync(itemId);
+                var item = await this.itemsRepository.GetPostAsync(birdPostId);
                 if (userId == item.UserId) {
                     var image = item.ImageUrl;
                     var partitionKey = item.PostId.ToString();
@@ -101,11 +101,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return false;
         }
 
-        public async Task<BirdPost> GetBirdItem(Guid itemId)
+        public async Task<BirdPost> GetBirdPost(Guid birdPostId)
         {
             try
             {
-                return await this.itemsRepository.GetPostAsync(itemId);
+                return await this.itemsRepository.GetPostAsync(birdPostId);
             }
             catch (Exception ex)
             {

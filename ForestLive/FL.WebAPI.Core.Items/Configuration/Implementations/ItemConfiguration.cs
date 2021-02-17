@@ -13,12 +13,14 @@ namespace FL.WebAPI.Core.Items.Configuration.Implementations
             this.configuration = configuration;
         }
 
-        public string BirdPhotoContainer => this.configuration.GetSection("BirthPhotoContainer").Get<string>();
-
-        public string Secret => this.configuration.GetSection("Secret").Get<string>();
-
         public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
 
         public string Host => this.configuration.GetSection("Host").Get<string>();
+
+        public ServiceBusConfig ServiceBusConfig => this.configuration.GetSection("ServiceBusConfig").Get<ServiceBusConfig>();
+
+        public string BirdPhotoContainer => this.configuration.GetSection("BirdPhotoContainer").Get<string>();
+
+        public string Secret => this.configuration.GetSection("Secret").Get<string>();
     }
 }

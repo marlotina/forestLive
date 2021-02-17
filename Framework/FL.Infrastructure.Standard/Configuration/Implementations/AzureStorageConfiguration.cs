@@ -1,4 +1,5 @@
 ﻿using FL.Infrastructure.Standard.Configuration.Contracts;
+using FL.Infrastructure.Standard.Configuration.Dto;
 using Microsoft.Extensions.Configuration;
 
 namespace FL.Infrastructure.Standard.Configuration.Implementations
@@ -15,6 +16,8 @@ namespace FL.Infrastructure.Standard.Configuration.Implementations
         public string AccountName => this.configuration.GetSection("StorageAccountName").Value;
 
         public string AccountKey => this.configuration.GetSection("StorageAccountKey").Value;
+
+        public StorageConfig StorageConfiguration => this.configuration.GetSection("StorageConfiguration").Get<StorageConfig>();
     }
     
 }

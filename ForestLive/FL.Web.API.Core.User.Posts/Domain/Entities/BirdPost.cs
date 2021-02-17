@@ -1,5 +1,4 @@
-﻿using FL.Pereza.Helpers.Standard.Enums;
-using Microsoft.Azure.Cosmos.Spatial;
+﻿using Microsoft.Azure.Cosmos.Spatial;
 using Newtonsoft.Json;
 using System;
 
