@@ -71,20 +71,29 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var item = await this.itemsRepository.GetPostAsync(birdPostId);
-                if (userId == item.UserId) {
-                    var image = item.ImageUrl;
-                    var partitionKey = item.PostId.ToString();
-                    var id = item.Id;
-                    var userPartitionKey = item.UserId;
+                var post = await this.itemsRepository.GetPostAsync(birdPostId);
+                if (userId == post.UserId) {
+                    var image = post.ImageUrl;
+                    var partitionKey = post.PostId.ToString();
+                    var id = post.Id;
+                    var userPartitionKey = post.UserId;
                     var result = await this.blobContainerRepository.DeleteFileToStorage(image, this.itemConfiguration.BirdPhotoContainer);
 
                     if (result)
                     {
                         await this.itemsRepository.DeletePostAsync(id, partitionKey);
-                        //await this.userRepository.DeleteItemAsync(id, userPartitionKey);
-                    }
 
+                        if (post.SpecieStatus != StatusSpecie.Confirmed)
+                        {
+                            await this.serviceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
+                        }
+                        else 
+                        { 
+                            //remove votes
+                            //Remove birds
+                        }
+                    }
+                    
                     return true;
                 }
 

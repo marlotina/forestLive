@@ -15,7 +15,12 @@ namespace FL.Functions.BirdPost.Services
 
         public async Task CreatePostInUserAsync(BirdPostDto post)
         {
-            await usersContainer.CreateItemAsync(post, new PartitionKey(post.UserId));
+            await this.usersContainer.CreateItemAsync(post, new PartitionKey(post.UserId));
+        }
+
+        public async Task DeleteItemAsync(BirdPostDto deletePostRequest)
+        {
+            await this.usersContainer.DeleteItemAsync<BirdPostDto>(deletePostRequest.Id.ToString(), new PartitionKey(deletePostRequest.UserId));
         }
     }
 }

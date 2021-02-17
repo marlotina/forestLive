@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class UserAddPost
+    public class UserPost
     {
         private readonly IPostCosmosDbService postDbService;
 
-        public UserAddPost(IPostCosmosDbService postDbService)
+        public UserPost(IPostCosmosDbService postDbService)
         {
             this.postDbService = postDbService;
         }
@@ -27,17 +27,17 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                if (message.Label == "postCreated")
+                var post = JsonConvert.DeserializeObject<BirdPostDto>(Encoding.UTF8.GetString(message.Body));
+                if (post.Id != null && post.Id != Guid.Empty)
                 {
-                    var post = JsonConvert.DeserializeObject<BirdPostDto>(Encoding.UTF8.GetString(message.Body));
-                    if (post.Id != null && post.Id != Guid.Empty)
+                    if (message.Label == "postCreated")
                     {
                         this.postDbService.CreatePostInUserAsync(post);
                     }
-                }
-                else if (message.Label == "postDeleted")
-                {
-
+                    else if (message.Label == "postDeleted")
+                    {
+                        this.postDbService.DeleteItemAsync(post);
+                    }
                 }
             }
             catch (Exception ex)

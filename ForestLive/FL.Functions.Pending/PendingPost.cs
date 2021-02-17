@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.Pending
 {
-    public class PendingAddPost
+    public class PendingPost
     {
         private readonly IPendingCosmosDbService pendingCosmosDbService;
 
-        public PendingAddPost(IPendingCosmosDbService pendingCosmosDbServiceç)
+        public PendingPost(IPendingCosmosDbService pendingCosmosDbServiceç)
         {
             this.pendingCosmosDbService = pendingCosmosDbServiceç;
         }
@@ -28,17 +28,18 @@ namespace FL.Functions.Pending
         {
             try
             {
-                if (message.Label == "postCreated")
+                var post = JsonConvert.DeserializeObject<BirdPostDto>(Encoding.UTF8.GetString(message.Body));
+
+                if (post.Id != null && post.Id != Guid.Empty)
                 {
-                    var post = JsonConvert.DeserializeObject<BirdPostDto>(Encoding.UTF8.GetString(message.Body));
-                    if (post.Id != null && post.Id != Guid.Empty)
+                    if (message.Label == "postCreated")
                     {
                         this.pendingCosmosDbService.CreatePostInPendingAsync(post);
                     }
-                }
-                else if (message.Label == "postDeleted")
-                { 
-                
+                    else if (message.Label == "postDeleted")
+                    {
+                        this.pendingCosmosDbService.DeletePostInPendingAsync(post);
+                    }
                 }
             }
             catch (Exception ex)
