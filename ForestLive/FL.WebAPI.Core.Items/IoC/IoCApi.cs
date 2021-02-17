@@ -36,11 +36,9 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddTransient(typeof(IServiceBusVotePostTopicSender<>), typeof(ServiceBusVotePostTopicSender<>));
 
             services.AddTransient<IBirdPostService, BirdPostService>();
-            services.AddTransient<IBirdUserPostService, BirdUserPostService>();
             services.AddTransient<IBirdCommentService, BirdCommentService>();
                         
             services.AddSingleton<IClientFactory, ClientFactory>();
-            services.AddSingleton<IBirdUserRepository, BirdUserCosmosRepository>();
             services.AddSingleton<IBirdPostRepository, BirdPostCosmosRepository>();
 
             //loggin

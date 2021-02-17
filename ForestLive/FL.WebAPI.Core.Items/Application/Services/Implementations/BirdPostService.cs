@@ -18,21 +18,18 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IPostConfiguration itemConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
         private readonly IBirdPostRepository itemsRepository;
-        private readonly IBirdUserRepository userRepository;
         private readonly ILogger<BirdPostService> logger;
         private readonly IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
 
         public BirdPostService(IPostConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IBirdPostRepository itemsRepository,
-            IBirdUserRepository userRepository,
             IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
             ILogger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
             this.itemConfiguration = itemConfiguration;
             this.itemsRepository = itemsRepository;
-            this.userRepository = userRepository;
             this.serviceBusCreatedPostTopic = serviceBusCreatedPostTopic;
             this.logger = logger;
         }
@@ -85,7 +82,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     if (result)
                     {
                         await this.itemsRepository.DeletePostAsync(id, partitionKey);
-                        await this.userRepository.DeleteItemAsync(id, userPartitionKey);
+                        //await this.userRepository.DeleteItemAsync(id, userPartitionKey);
                     }
 
                     return true;
