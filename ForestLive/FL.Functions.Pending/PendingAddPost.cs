@@ -4,32 +4,41 @@ using Newtonsoft.Json;
 using System;
 using FL.Functions.Pending.Services;
 using FL.Functions.Pending.Model;
+using Microsoft.Azure.ServiceBus;
+using System.Text;
 
 namespace FL.Functions.Pending
 {
     public class PendingAddPost
     {
-        private readonly IPendingCosmosDbService pendingCosmosDbServiceç;
+        private readonly IPendingCosmosDbService pendingCosmosDbService;
 
         public PendingAddPost(IPendingCosmosDbService pendingCosmosDbServiceç)
         {
-            this.pendingCosmosDbServiceç = pendingCosmosDbServiceç;
+            this.pendingCosmosDbService = pendingCosmosDbServiceç;
         }
 
         [FunctionName("PendingAddPost")]
         public void Run(
             [ServiceBusTrigger(
-                "posts", 
+                "post", 
                 "pending", 
-                Connection = "ServiceBusConnectionString")] string message,
+                Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<BirdPostDto>(message);
-
-                if (post != null) {
-                    this.pendingCosmosDbServiceç.CreatePostInPendingAsync(post);
+                if (message.Label == "postCreated")
+                {
+                    var post = JsonConvert.DeserializeObject<BirdPostDto>(Encoding.UTF8.GetString(message.Body));
+                    if (post.Id != null && post.Id != Guid.Empty)
+                    {
+                        this.pendingCosmosDbService.CreatePostInPendingAsync(post);
+                    }
+                }
+                else if (message.Label == "postDeleted")
+                { 
+                
                 }
             }
             catch (Exception ex)
