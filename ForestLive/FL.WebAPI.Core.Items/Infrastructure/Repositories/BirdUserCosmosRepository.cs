@@ -14,11 +14,11 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
     public class BirdUserCosmosRepository : IBirdUserRepository
     {
         private IClientFactory clientFactory;
-        private IItemConfiguration itemConfiguration;
+        private IPostConfiguration itemConfiguration;
         private Container usersContainer;
 
         public BirdUserCosmosRepository(IClientFactory clientFactory,
-            IItemConfiguration itemConfiguration)
+            IPostConfiguration itemConfiguration)
         {
             this.clientFactory = clientFactory;
             this.itemConfiguration = itemConfiguration;

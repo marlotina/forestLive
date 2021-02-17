@@ -8,10 +8,10 @@ namespace FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Implementations
 
     public class ClientFactory : IClientFactory
     {
-        private readonly IItemConfiguration itemConfiguration;
+        private readonly IPostConfiguration itemConfiguration;
         private CosmosClient client;
 
-        public ClientFactory(IItemConfiguration itemConfiguration)
+        public ClientFactory(IPostConfiguration itemConfiguration)
         {
             this.itemConfiguration = itemConfiguration;
         }

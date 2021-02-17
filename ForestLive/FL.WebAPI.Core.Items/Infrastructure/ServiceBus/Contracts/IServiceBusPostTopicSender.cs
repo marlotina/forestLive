@@ -2,9 +2,9 @@
 
 namespace FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts
 {
-    public interface IServiceBusDeletedPostTopicSender<T>
+    public interface IServiceBusPostTopicSender<T>
     {
-        Task SendMessage(T messageRequest);
+        Task SendMessage(T messageRequest, string label);
 
         Task CloseAsync();
     }

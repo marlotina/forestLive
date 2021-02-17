@@ -4,16 +4,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace FL.WebAPI.Core.Items.Configuration.Implementations
 {
-    public class ItemConfiguration : IItemConfiguration
+    public class PostConfiguration : IPostConfiguration
     {
         private readonly IConfiguration configuration;
 
-        public ItemConfiguration(IConfiguration configuration)
+        public PostConfiguration(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
 
-        public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
+        public CosmosConfig CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfig>();
 
         public string Host => this.configuration.GetSection("Host").Get<string>();
 

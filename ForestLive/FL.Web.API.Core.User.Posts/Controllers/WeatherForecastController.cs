@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FL.Web.API.Core.User.Posts;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 

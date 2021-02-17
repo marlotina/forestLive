@@ -4,12 +4,8 @@
     {
         public string ConnectionString { get; set; }
 
-        public string TopicPostCreated { get; set; }
+        public string TopicPost { get; set; }
 
-        public string TopicPostDeleted { get; set; }
-
-        public string TopicVoteCreated { get; set; }
-
-        public string TopicVotedeleted { get; set; }
+        public string TopicVote { get; set; }
     }
 }

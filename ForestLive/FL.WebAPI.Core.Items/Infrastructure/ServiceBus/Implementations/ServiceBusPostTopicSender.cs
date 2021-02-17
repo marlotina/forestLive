@@ -9,31 +9,31 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Implementations
 {
-    public class ServiceBusCreatedPostTopicSender<T> : IServiceBusCreatedPostTopicSender<T> where T : class
+    public class ServiceBusPostTopicSender<T> : IServiceBusPostTopicSender<T> where T : class
     {
         private readonly TopicClient topicClient;
-        private readonly IItemConfiguration itemConfiguration;
-        private readonly ILogger<ServiceBusCreatedPostTopicSender<T>> logger;
+        private readonly IPostConfiguration itemConfiguration;
+        private readonly ILogger<ServiceBusPostTopicSender<T>> logger;
 
-        public ServiceBusCreatedPostTopicSender(
-            IItemConfiguration itemConfiguration,
-            ILogger<ServiceBusCreatedPostTopicSender<T>> logger)
+        public ServiceBusPostTopicSender(
+            IPostConfiguration itemConfiguration,
+            ILogger<ServiceBusPostTopicSender<T>> logger)
         {
             this.itemConfiguration = itemConfiguration;
             this.logger = logger;
             topicClient = new TopicClient(
                 this.itemConfiguration.ServiceBusConfig.ConnectionString,
-                this.itemConfiguration.ServiceBusConfig.TopicPostCreated
+                this.itemConfiguration.ServiceBusConfig.TopicPost
             );
         }
 
-        public async Task SendMessage(T messageRequest)
+        public async Task SendMessage(T messageRequest, string label)
         {
             try
             {
                 string data = JsonConvert.SerializeObject(messageRequest);
-                Message message = new Message(Encoding.UTF8.GetBytes(data));
-
+                var message = new Message(Encoding.UTF8.GetBytes(data));
+                message.Label = label;
                 await topicClient.SendAsync(message);
             }
             catch (Exception e)

@@ -18,14 +18,14 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     [ApiController]
     public class BirdPostController : ControllerBase
     {
-        private readonly IItemConfiguration itemConfiguration;
+        private readonly IPostConfiguration itemConfiguration;
         private readonly ILogger<BirdPostController> logger;
         private readonly IBirdPostService itemService;
         private readonly IBirdPostMapper birdItemMapper;
 
         public BirdPostController(IBirdPostService itemService,
             IBirdPostMapper birdItemMapper,
-            IItemConfiguration itemConfiguration,
+            IPostConfiguration itemConfiguration,
             ILogger<BirdPostController> logger)
         {
             this.logger = logger;
@@ -53,7 +53,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.itemService.AddBirdItem(post, imageStream, request.ImageName);
+                var result = await this.itemService.AddBirdPost(post, imageStream, request.ImageName);
 
                 if (result != null)
                 {

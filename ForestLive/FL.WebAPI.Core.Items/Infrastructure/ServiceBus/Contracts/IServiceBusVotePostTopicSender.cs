@@ -4,7 +4,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts
 {
     public interface IServiceBusVotePostTopicSender<T>
     {
-        Task SendMessage(T messageRequest);
+        Task SendMessage(T messageRequest, string label);
 
         Task CloseAsync();
     }

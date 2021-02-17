@@ -10,11 +10,11 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
     public class VotePostRepository : IVotePostRepository
     {
         private IClientFactory clientFactory;
-        private IItemConfiguration itemConfiguration;
+        private IPostConfiguration itemConfiguration;
         private Container postContainer;
 
         public VotePostRepository(IClientFactory clientFactory,
-            IItemConfiguration itemConfiguration)
+            IPostConfiguration itemConfiguration)
         {
             this.clientFactory = clientFactory;
             this.itemConfiguration = itemConfiguration;

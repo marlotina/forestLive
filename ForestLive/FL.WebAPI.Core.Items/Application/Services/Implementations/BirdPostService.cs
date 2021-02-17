@@ -15,18 +15,18 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
     public class BirdPostService : IBirdPostService
     {
-        private readonly IItemConfiguration itemConfiguration;
+        private readonly IPostConfiguration itemConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
         private readonly IBirdPostRepository itemsRepository;
         private readonly IBirdUserRepository userRepository;
         private readonly ILogger<BirdPostService> logger;
-        private readonly IServiceBusCreatedPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
+        private readonly IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
 
-        public BirdPostService(IItemConfiguration itemConfiguration,
+        public BirdPostService(IPostConfiguration itemConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IBirdPostRepository itemsRepository,
             IBirdUserRepository userRepository,
-            IServiceBusCreatedPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
+            IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
             ILogger<BirdPostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
@@ -57,7 +57,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdPost.VoteCount = 0;
 
                     var post = await this.itemsRepository.CreatePostAsync(birdPost);
-                    await this.serviceBusCreatedPostTopic.SendMessage(birdPost);
+                    await this.serviceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
 
                     return post;
                 }

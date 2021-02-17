@@ -1,6 +1,6 @@
 ﻿namespace FL.WebAPI.Core.Items.Configuration.Models
 {
-    public class CosmosConfiguration
+    public class CosmosConfig
     {
         public string CosmosdbConnection { get; set; }
 

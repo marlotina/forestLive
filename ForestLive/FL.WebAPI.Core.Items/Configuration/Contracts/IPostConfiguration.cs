@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.Items.Configuration.Contracts
 {
-    public interface IItemConfiguration
+    public interface IPostConfiguration
     {
         string BirdPhotoContainer { get; }
 
@@ -10,7 +10,7 @@ namespace FL.WebAPI.Core.Items.Configuration.Contracts
 
         string Host { get; }
 
-        CosmosConfiguration CosmosConfiguration { get; }
+        CosmosConfig CosmosConfiguration { get; }
 
         ServiceBusConfig ServiceBusConfig { get;  }
     }

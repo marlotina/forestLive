@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     [ApiController]
     public class VoteController : ControllerBase
     {
-        private readonly IItemConfiguration itemConfiguration;
+        private readonly IPostConfiguration itemConfiguration;
         private readonly IVoteMapper voteMapper;
         private readonly ILogger<BirdPostController> logger;
         private readonly IVotePostService votePostService;
@@ -24,7 +24,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         public VoteController(
             IVoteMapper voteMapper,
             IVotePostService votePostService,
-            IItemConfiguration itemConfiguration,
+            IPostConfiguration itemConfiguration,
             ILogger<BirdPostController> logger)
         {
             this.logger = logger;

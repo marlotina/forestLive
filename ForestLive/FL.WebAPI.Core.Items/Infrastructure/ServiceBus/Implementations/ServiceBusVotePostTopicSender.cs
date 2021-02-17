@@ -12,28 +12,28 @@ namespace FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Implementations
     public class ServiceBusVotePostTopicSender<T> : IServiceBusVotePostTopicSender<T> where T : class
     {
         private readonly TopicClient topicClient;
-        private readonly IItemConfiguration itemConfiguration;
+        private readonly IPostConfiguration itemConfiguration;
         private readonly ILogger<ServiceBusVotePostTopicSender<T>> logger;
 
         public ServiceBusVotePostTopicSender(
-            IItemConfiguration itemConfiguration,
+            IPostConfiguration itemConfiguration,
             ILogger<ServiceBusVotePostTopicSender<T>> logger)
         {
             this.itemConfiguration = itemConfiguration;
             this.logger = logger;
             topicClient = new TopicClient(
                 this.itemConfiguration.ServiceBusConfig.ConnectionString,
-                this.itemConfiguration.ServiceBusConfig.TopicVoteCreated
+                this.itemConfiguration.ServiceBusConfig.TopicVote
             );
         }
 
-        public async Task SendMessage(T messageRequest)
+        public async Task SendMessage(T messageRequest, string label)
         {
             try
             {
                 string data = JsonConvert.SerializeObject(messageRequest);
-                Message message = new Message(Encoding.UTF8.GetBytes(data));
-                
+                var message = new Message(Encoding.UTF8.GetBytes(data));
+                message.Label = label;
                 await topicClient.SendAsync(message);
             }
             catch (Exception e)

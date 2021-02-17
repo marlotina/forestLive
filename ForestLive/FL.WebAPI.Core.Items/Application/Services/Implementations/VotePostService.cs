@@ -1,4 +1,4 @@
-﻿using FL.ServiceBus.Standard.Implementations;
+﻿using FL.Pereza.Helpers.Standard.Enums;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
@@ -32,7 +32,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             votePost.Type = ItemHelper.VOTE_TYPE;
 
             var result = await this.votePostRepository.AddVotePost(votePost);
-            await this.serviceBusVotePostTopicSender.SendMessage(votePost);
+            await this.serviceBusVotePostTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_CREATED);
 
             var post = await this.birdPostRepository.GetPostAsync(votePost.PostId);
             if (post.VoteCount > 5)
