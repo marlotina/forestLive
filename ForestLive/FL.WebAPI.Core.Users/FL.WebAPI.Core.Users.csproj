@@ -41,9 +41,5 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="nlogs\" />
-  </ItemGroup>
-
 
 </Project>
