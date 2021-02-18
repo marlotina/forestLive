@@ -143,7 +143,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
-
                 if (string.IsNullOrWhiteSpace(request.Code) 
                     || string.IsNullOrWhiteSpace(request.NewPassword) || request.UserId == null)
                     return this.BadRequest();
