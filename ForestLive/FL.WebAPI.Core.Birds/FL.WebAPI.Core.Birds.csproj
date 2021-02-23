@@ -8,6 +8,26 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
+    <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Api\Mappers\v1\Contracts\" />
+    <Folder Include="Api\Mappers\v1\Implementations\" />
+    <Folder Include="Api\Models\v1\" />
+    <Folder Include="Application\Services\Contracts\" />
+    <Folder Include="Application\Services\Implementations\" />
+    <Folder Include="Controllers\v1\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Framework\FL.LogTrace.Contracts.Standard\FL.LogTrace.Contracts.Standard.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>Preserve Newest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 

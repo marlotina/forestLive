@@ -1,7 +1,6 @@
 ﻿using FL.Console.Robot.Species.Models;
 using HtmlAgilityPack;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
@@ -32,55 +31,83 @@ namespace FL.Console.Robot.Species
 
         static void Main(string[] args)
         {
-            try
-            {
-                var comonBirdsHtml = GetTheHtml(URL_WIKI_BIRDS_BY_COMMON_NAME);
-                var birdsGropuByLetter = GetNodes(comonBirdsHtml, "//div[@class= 'div-col']");
-
-                foreach (HtmlNode node in birdsGropuByLetter)
+                try
                 {
-                    var links = GetNodes(node.InnerHtml, "//a");
+                    var comonBirdsHtml = GetTheHtml(URL_WIKI_BIRDS_BY_COMMON_NAME);
+                    var birdsGropuByLetter = GetNodes(comonBirdsHtml, "//div[@class= 'div-col']");
 
-                    foreach (var link in links)
+                    foreach (HtmlNode node in birdsGropuByLetter)
                     {
-                        var birdItem = new BirdSpecie();
-                        birdItem.SpecieId = Guid.NewGuid();
+                        var links = GetNodes(node.InnerHtml, "//a");
 
-                        var url_EN = DOMAIN_WIKI_EN + link.Attributes["href"].Value;
-                        var birdPageHtml = GetTheHtml(url_EN);
-
-                        var nodes = GetNodes(birdPageHtml, "//div[@class= 'mw-parser-output']//p//i");
-
-                        if (nodes != null && nodes.Any()) {
-                            birdItem.ScienceName = nodes.FirstOrDefault().InnerText;
-                            var birdDataLanguage_EN = new BirdDataLanguage()
+                        foreach (var link in links)
+                        {
+                            try
                             {
-                                Url = url_EN,
-                                Name = HttpUtility.HtmlEncode(GetNodes(birdPageHtml, "//div[@class= 'mw-parser-output']//p//b").FirstOrDefault().InnerText),
-                                LanguageId = Guid.Parse(ID_LANGUAGE_EN)
-                            };
-                            birdItem.Data_EN = birdDataLanguage_EN;
+                                var birdItem = new BirdSpecie();
+                                birdItem.SpecieId = Guid.NewGuid();
+
+                                var url_EN = DOMAIN_WIKI_EN + link.Attributes["href"].Value;
+
+                                var birdPageHtml = GetTheHtml(url_EN);
+                                var nodes = GetNodes(birdPageHtml, "//div[@class= 'mw-parser-output']//p//i");
+
+                                if (nodes != null && nodes.Any())
+                                {
+                                    birdItem.ScienceName = HttpUtility.HtmlEncode(nodes.FirstOrDefault().InnerText);
+                                    var nameNodes = GetNodes(birdPageHtml, "//div[@class= 'mw-parser-output']//p//b");
+                                    var name = url_EN;
+                                    if (nameNodes != null && nameNodes.Any()) {
+                                        name = HttpUtility.HtmlEncode(nameNodes.FirstOrDefault().InnerText);
+                                    }
+                                    var birdDataLanguage_EN = new BirdDataLanguage()
+                                    {
+                                        Url = url_EN,
+                                        Name = name,
+                                        LanguageId = Guid.Parse(ID_LANGUAGE_EN)
+                                    };
+                                    birdItem.Data_EN = birdDataLanguage_EN;
+                                }
+
+
+                                //spanish
+                                birdItem.Data_ES = GetBirdLanguageData(birdPageHtml, LANGUAGE_ES, ID_LANGUAGE_ES);
+
+                                //portugues
+                                birdItem.Data_PT = GetBirdLanguageData(birdPageHtml, LANGUAGE_PT, ID_LANGUAGE_PT);
+
+                                //Deutch
+                                birdItem.Data_DE = GetBirdLanguageData(birdPageHtml, LANGUAGE_DE, ID_LANGUAGE_DE);
+
+                                //Italian
+                                birdItem.Data_IT = GetBirdLanguageData(birdPageHtml, LANGUAGE_IT, ID_LANGUAGE_IT);
+
+                                //French
+                                birdItem.Data_FR = GetBirdLanguageData_FR(birdPageHtml, LANGUAGE_FR, ID_LANGUAGE_FR);
+
+
+                                InstertInDatabse(birdItem);
+
+                                var logE = $"INSERT INTO[dbo].[logMigration]([url], [es], [de], [pt], [it], [en], [fr], [CreationDate]) VALUES('{url_EN}',{ReturnBit(birdItem.Data_ES == null)},{ReturnBit(birdItem.Data_DE == null)},{ReturnBit(birdItem.Data_PT == null)},{ReturnBit(birdItem.Data_IT == null)},{ReturnBit(birdItem.Data_EN == null)},{ReturnBit(birdItem.Data_FR == null)}, GETDATE())";
+
+                                InstertInDatabse(logE);
+                            }
+                            catch (Exception ex)
+                            {
+                            }
                         }
-                        
 
-                        //spanish
-                        birdItem.Data_ES = GetBirdLanguageData(birdPageHtml, LANGUAGE_ES, ID_LANGUAGE_ES);
-                        //portugues
-                        birdItem.Data_PT = GetBirdLanguageData(birdPageHtml, LANGUAGE_PT, ID_LANGUAGE_PT);
-                        //Deutch
-                        birdItem.Data_DE = GetBirdLanguageData(birdPageHtml, LANGUAGE_DE, ID_LANGUAGE_DE);
-                        //Italian
-                        birdItem.Data_IT = GetBirdLanguageData(birdPageHtml, LANGUAGE_IT, ID_LANGUAGE_IT);
-                        //French
-                        birdItem.Data_FR = GetBirdLanguageData_FR(birdPageHtml, LANGUAGE_FR, ID_LANGUAGE_FR);
-
-                        InstertInDatabse(birdItem);
                     }
                 }
-            }
-            catch (Exception ex) 
-            { 
-            }
+                catch (Exception ex)
+                {
+                }
+            
+        }
+
+        private static int ReturnBit(bool bollean) 
+        { 
+            return bollean ? 1  : 0;
         }
 
         private static BirdDataLanguage GetBirdLanguageData(string html, string languageClassHtml, string languageId) 
@@ -114,9 +141,12 @@ namespace FL.Console.Robot.Species
                 var birdPageHtml = GetTheHtml(url_FR);
 
                 birdDataLanguage.Url = url_FR;
-                var node = GetNodes(birdPageHtml, "//div[@class= 'mw-parser-output']//p//b");
-                birdDataLanguage.Name = node != null && node.Any() ? HttpUtility.HtmlEncode(node.FirstOrDefault().InnerText) : "NoName";
                 birdDataLanguage.LanguageId = Guid.Parse(languageId);
+
+                var node = GetNodes(birdPageHtml, "//div[@class= 'mw-parser-output']//p//b");
+                var nodePos = node.Count() > 3 ? 3 : node.Count() - 1;
+                birdDataLanguage.Name = node != null && node.Any() ? HttpUtility.HtmlEncode(node[nodePos].InnerText) : "NoName";
+
                 return birdDataLanguage;
             }
 
@@ -161,7 +191,7 @@ namespace FL.Console.Robot.Species
         private static void InstertInDatabse(BirdSpecie birdSpecie) 
         {
             SqlConnection con = new SqlConnection(@"data source=DESKTOP-JIFKME0\SQLEXPRESS; initial catalog=BirdSpecies; Integrated Security=True;");
-            string query = $"INSERT INTO [dbo].[BirdSpecies] ([SpeciesId],[ScienceName]) VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.ScienceName}')";
+            string query = $"INSERT INTO [dbo].[BirdSpecies] ([SpeciesId],[ScienceName], [CreationDate]) VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.ScienceName}', GETDATE())";
             SqlCommand cmd = new SqlCommand(query, con);
             try
             {
@@ -170,49 +200,62 @@ namespace FL.Console.Robot.Species
 
                 if (birdSpecie.Data_EN != null)
                 {
-                    var query_EN = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki]) VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_EN.LanguageId}' ,'{birdSpecie.Data_EN.Name}' , '{birdSpecie.Data_EN.Url}')";
-                    cmd = new SqlCommand(query_EN, con);
-                    cmd.ExecuteNonQuery();
+                    var query_EN = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki], [CreationDate]) VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_EN.LanguageId}' ,'{birdSpecie.Data_EN.Name}' , '{birdSpecie.Data_EN.Url}', GETDATE())";
+                    InstertInDatabse(query_EN);
                 }
 
                 if (birdSpecie.Data_ES != null)
                 {
-                    var query_ES = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_ES.LanguageId}' ,'{birdSpecie.Data_ES.Name}' ,'{birdSpecie.Data_ES.Url}')";
-                    cmd = new SqlCommand(query_ES, con);
-                    cmd.ExecuteNonQuery();
+                    var query_ES = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki], [CreationDate])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_ES.LanguageId}' ,'{birdSpecie.Data_ES.Name}' ,'{birdSpecie.Data_ES.Url}', GETDATE())";
+                    InstertInDatabse(query_ES);
                 }
 
                 if (birdSpecie.Data_DE != null)
                 {
-                    var query_DE = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_DE.LanguageId}' ,'{birdSpecie.Data_DE.Name}' ,'{birdSpecie.Data_DE.Url}')";
-                    cmd = new SqlCommand(query_DE, con);
-                    cmd.ExecuteNonQuery();
+                    var query_DE = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki], [CreationDate])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_DE.LanguageId}' ,'{birdSpecie.Data_DE.Name}' ,'{birdSpecie.Data_DE.Url}', GETDATE())";
+                    InstertInDatabse(query_DE);
                 }
 
                 if (birdSpecie.Data_IT != null)
                 {
-                    var query_IT = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_IT.LanguageId}' ,'{birdSpecie.Data_IT.Name}' ,'{birdSpecie.Data_IT.Url}')";
-                    cmd = new SqlCommand(query_IT, con);
-                    cmd.ExecuteNonQuery();
+                    var query_IT = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki], [CreationDate])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_IT.LanguageId}' ,'{birdSpecie.Data_IT.Name}' ,'{birdSpecie.Data_IT.Url}', GETDATE())";
+                    InstertInDatabse(query_IT);
                 }
 
                 if (birdSpecie.Data_FR != null)
                 {
-                    var query_FR = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_FR.LanguageId}' ,'{birdSpecie.Data_FR.Name}' ,'{birdSpecie.Data_FR.Url}')";
-                    cmd = new SqlCommand(query_FR, con);
-                    cmd.ExecuteNonQuery();
+                    var query_FR = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki], [CreationDate])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_FR.LanguageId}' ,'{birdSpecie.Data_FR.Name}' ,'{birdSpecie.Data_FR.Url}', GETDATE())";
+                    InstertInDatabse(query_FR);
                 }
 
                 if (birdSpecie.Data_PT != null)
                 {
-                    var query_PT = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_PT.LanguageId}' ,'{birdSpecie.Data_PT.Name}' ,'{birdSpecie.Data_PT.Url}')";
-                    cmd = new SqlCommand(query_PT, con);
-                    cmd.ExecuteNonQuery();
+                    var query_PT = $"INSERT INTO [dbo].[BirdSpeciesLanguages] ([SpecieId] ,[LanguageId] ,[Name] ,[Url_Wiki], [CreationDate])  VALUES ('{birdSpecie.SpecieId}' ,'{birdSpecie.Data_PT.LanguageId}' ,'{birdSpecie.Data_PT.Name}' ,'{birdSpecie.Data_PT.Url}', GETDATE())";
+                    InstertInDatabse(query_PT);
                 }
             }
             catch (SqlException e)
             {
-                //Console.WriteLine("Error Generated. Details: " + e.ToString());
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        private static void InstertInDatabse(string query)
+        {
+            SqlConnection con = new SqlConnection(@"data source=DESKTOP-JIFKME0\SQLEXPRESS; initial catalog=BirdSpecies; Integrated Security=True;");
+            SqlCommand cmd = new SqlCommand(query, con);
+            try
+            {
+                con.Open();
+                cmd = new SqlCommand(query, con);
+                cmd.ExecuteNonQuery();
+                
+            }
+            catch (SqlException e)
+            {
             }
             finally
             {
