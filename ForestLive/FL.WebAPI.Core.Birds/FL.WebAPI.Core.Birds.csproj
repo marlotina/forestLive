@@ -12,15 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Api\Mappers\v1\Contracts\" />
-    <Folder Include="Api\Mappers\v1\Implementations\" />
-    <Folder Include="Api\Models\v1\" />
-    <Folder Include="Application\Services\Contracts\" />
-    <Folder Include="Application\Services\Implementations\" />
     <Folder Include="Controllers\v1\" />
+    <Folder Include="Infrastructure\" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Framework\FL.Logging.Implementation.Standard\FL.Logging.Implementation.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.LogTrace.Contracts.Standard\FL.LogTrace.Contracts.Standard.csproj" />
   </ItemGroup>
 
