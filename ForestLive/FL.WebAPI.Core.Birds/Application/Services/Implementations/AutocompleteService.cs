@@ -1,12 +1,46 @@
-﻿using FL.WebAPI.Core.Birds.Application.Services.Contracts;
+﻿using FL.Cache.Standard.Contracts;
+using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
+using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
+using FL.WebAPI.Core.Birds.Application.Services.Contracts;
+using FL.WebAPI.Core.Birds.Domain.Repository;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
 {
     public class AutocompleteService : IAutocompleteService
     {
+        private readonly ISpeciesRepository speciesRepository;
+        private readonly IAutocompleteMapper autocompleteMapper;
+        private readonly ICustomMemoryCache<IEnumerable<AutocompleteResponse>> customMemoryCache;
+
+        public AutocompleteService(
+            ISpeciesRepository speciesRepository,
+            IAutocompleteMapper autocompleteMapper,
+            ICustomMemoryCache<IEnumerable<AutocompleteResponse>> customMemoryCache)
+        {
+            this.speciesRepository = speciesRepository;
+            this.autocompleteMapper = autocompleteMapper;
+            this.customMemoryCache = customMemoryCache;
+        }
+
+        public IEnumerable<AutocompleteResponse> GetSpeciesByKeys(string keys, string languageId)
+        {
+
+            var itemCache = this.customMemoryCache.Get(languageId);
+
+            if (itemCache == null || !itemCache.Any()) {
+                var species = this.speciesRepository.GetSpeciesByLanguage(languageId);
+                itemCache = species.Select(x => this.autocompleteMapper.Convert(x));
+
+                this.customMemoryCache.Add(languageId, itemCache);
+            }
+
+            var filter = itemCache.Where(x => x.NameComplete.Contains(keys));
+
+            return filter;
+        }
     }
 }
