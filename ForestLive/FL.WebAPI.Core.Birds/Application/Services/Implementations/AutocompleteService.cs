@@ -1,10 +1,9 @@
 ﻿using FL.Cache.Standard.Contracts;
+using FL.Pereza.Helpers.Standard.Extensions;
 using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Repository;
-using Microsoft.Extensions.Caching.Memory;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -38,9 +37,11 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
                 this.customMemoryCache.Add(languageId, itemCache);
             }
 
-            var filter = itemCache.Where(x => x.NameComplete.Contains(keys));
+            var filter = itemCache.Where(x => x.NormalizeNameComplete.Contains(keys.NormalizeName()));
 
+            
             return filter;
         }
+
     }
 }

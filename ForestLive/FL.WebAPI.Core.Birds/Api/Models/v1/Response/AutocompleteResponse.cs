@@ -7,5 +7,7 @@ namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
         public Guid SpecieId { get; set; }
 
         public string NameComplete { get; set; }
+
+        public string NormalizeNameComplete { get; set; }
     }
 }

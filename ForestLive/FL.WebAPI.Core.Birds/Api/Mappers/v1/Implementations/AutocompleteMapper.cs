@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
+﻿using FL.Pereza.Helpers.Standard.Extensions;
+using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
 using FL.WebAPI.Core.Birds.Domain.Model;
 using System.Web;
@@ -17,6 +18,9 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     SpecieId = source.SpecieId,
                     NameComplete = $"{HttpUtility.HtmlDecode(source.Name)} ({HttpUtility.HtmlDecode(source.ScienceName)})",
                 };
+
+
+                result.NormalizeNameComplete = result.NameComplete.NormalizeName();
             }
 
             return result;
