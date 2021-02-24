@@ -17,7 +17,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             this.birdsConfiguration = birdsConfiguration;
         }
 
-        public List<SpecieItem> GetSpeciesByLanguage(string languageId)
+        public List<SpecieItem> GetSpeciesByLanguage(Guid languageId)
         {
             var result = new List<SpecieItem>();
 

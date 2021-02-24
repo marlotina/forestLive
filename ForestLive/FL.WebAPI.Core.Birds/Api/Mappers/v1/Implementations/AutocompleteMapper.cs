@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                 result = new AutocompleteResponse()
                 {
                     SpecieId = source.SpecieId,
-                    NameComplete = $"{HttpUtility.HtmlDecode(source.Name)} ({HttpUtility.HtmlDecode(source.ScienceName)})",
+                    NameComplete = $"{HttpUtility.HtmlDecode(source.Name.ToLower())} ({HttpUtility.HtmlDecode(source.ScienceName.ToLower())})",
                 };
 
 

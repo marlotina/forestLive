@@ -4,6 +4,7 @@ using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -25,7 +26,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             this.customMemoryCache = customMemoryCache;
         }
 
-        public IEnumerable<AutocompleteResponse> GetSpeciesByKeys(string keys, string languageId)
+        public IEnumerable<AutocompleteResponse> GetSpeciesByKeys(string keys, Guid languageId)
         {
             var itemCache = this.customMemoryCache.Get(languageId);
 

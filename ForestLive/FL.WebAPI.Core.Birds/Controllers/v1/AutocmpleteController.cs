@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
+﻿using FL.Pereza.Helpers.Standard.Language;
+using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -18,13 +19,15 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         }
 
         [HttpGet, Route("GetNames", Name = "GetNames")]
-        public async Task<IActionResult> Get(string text, string languageId)
+        public async Task<IActionResult> Get(string text, string languageCode)
         {
-            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageId)) {
+            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode)) {
                 return this.BadRequest();
             }
 
-            var result = this.autocompleteService.GetSpeciesByKeys(text, languageId);
+            var languageId = LanguageHelper.GetLanguageByCode(languageCode);
+
+            var result = this.autocompleteService.GetSpeciesByKeys(text, languageId); 
 
             if (result.Any()) {
 
