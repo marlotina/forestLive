@@ -31,7 +31,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                 return this.Ok(result);
             }
 
-            return View();
+            return this.NoContent();
         }
     }
 }
