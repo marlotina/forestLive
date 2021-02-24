@@ -31,6 +31,8 @@ namespace FL.WebAPI.Core.Birds
             services.AddCors();
 
             services.AddControllers();
+
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
