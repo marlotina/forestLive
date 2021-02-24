@@ -27,7 +27,6 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
 
         public IEnumerable<AutocompleteResponse> GetSpeciesByKeys(string keys, string languageId)
         {
-
             var itemCache = this.customMemoryCache.Get(languageId);
 
             if (itemCache == null || !itemCache.Any()) {
@@ -38,10 +37,8 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             }
 
             var filter = itemCache.Where(x => x.NormalizeNameComplete.Contains(keys.NormalizeName()));
-
             
             return filter;
         }
-
     }
 }
