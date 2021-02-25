@@ -56,6 +56,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         }
 
         [HttpGet, Route("UserGetByUserName", Name = "UserGetByUserName")]
+        [AllowAnonymous]
         public async Task<IActionResult> UserGetByUserName(string userName)
         {
             try

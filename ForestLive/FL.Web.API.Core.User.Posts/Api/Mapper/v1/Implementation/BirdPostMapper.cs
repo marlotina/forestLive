@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
+﻿using FL.Pereza.Helpers.Standard.Images;
+using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.User.Posts.Api.Models.v1.Response;
 using FL.WebAPI.Core.User.Posts.Domain.Entities;
 using System.Linq;
@@ -30,9 +31,11 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString(),
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
-                    SpecieStatus = source.SpecieStatus
+                    SpecieStatus = source.SpecieStatus,
+                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
             }
+
             return result;
         }
     }

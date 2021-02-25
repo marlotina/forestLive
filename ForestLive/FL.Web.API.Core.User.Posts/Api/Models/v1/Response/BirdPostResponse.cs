@@ -32,7 +32,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Models.v1.Response
 
         public Guid SpecieId { get; set; }
 
-        public string UserUrl { get; set; }
+        public string UserPhoto { get; set; }
 
         public string ObservationDate { get; set; }
 
