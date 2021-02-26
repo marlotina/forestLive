@@ -26,7 +26,7 @@ namespace FL.WebAPI.Core.Birds.IoC
             services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
 
             //services.AddTransient<IUserService, UserService>();
-            //services.AddTransient<IUserImageService, UserImageService>();
+            services.AddTransient<IBirdSpeciesService, BirdSpeciesService>();
             services.AddTransient<IAutocompleteService, AutocompleteService>();
 
             //services.AddTransient<IUserRepository, UserRepository>();

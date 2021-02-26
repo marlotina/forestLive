@@ -28,8 +28,8 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     LikesCount = source.LikesCount,
                     CommentsCount = source.CommentsCount,
-                    Latitude = source.Location.Position.Latitude.ToString(),
-                    Longitude = source.Location.Position.Longitude.ToString(),
+                    Latitude = source.Location.Position.Latitude,
+                    Longitude = source.Location.Position.Longitude,
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
                     SpecieStatus = source.SpecieStatus,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"

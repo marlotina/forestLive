@@ -22,9 +22,9 @@ namespace FL.WebAPI.Core.User.Posts.Api.Models.v1.Response
 
         public int CommentsCount { get; set; }
 
-        public string Latitude { get; set; }
+        public double Latitude { get; set; }
 
-        public string Longitude { get; set; }
+        public double Longitude { get; set; }
 
         public string[] Labels { get; set; }
 
