@@ -21,7 +21,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             this.birdSpeciePostMapper = birdSpeciePostMapper;
         }
 
-        [HttpGet, Route("GetNames", Name = "GetNames")]
+        [HttpGet, Route("GetBirds", Name = "GetBirds")]
         public async Task<IActionResult> Get(Guid birdSpecieId)
         {
             if (birdSpecieId == null || birdSpecieId == Guid.Empty)
