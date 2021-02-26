@@ -1,7 +1,7 @@
-﻿using FL.WebAPI.Core.Birds.Application.Services.Contracts;
+﻿using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
+using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -12,11 +12,13 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     public class SpeciesSearchController : Controller
     {
         private readonly IBirdSpeciesService birdSpeciesService;
-
+        private readonly IBirdSpeciePostMapper birdSpeciePostMapper;
         public SpeciesSearchController(
-            IBirdSpeciesService birdSpeciesService)
+            IBirdSpeciesService birdSpeciesService,
+            IBirdSpeciePostMapper birdSpeciePostMapper)
         {
             this.birdSpeciesService = birdSpeciesService;
+            this.birdSpeciePostMapper = birdSpeciePostMapper;
         }
 
         [HttpGet, Route("GetNames", Name = "GetNames")]
@@ -27,12 +29,12 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                 return this.BadRequest();
             }
 
-            var result = this.birdSpeciesService.GetBirdBySpecie(birdSpecieId);
+            var result = await this.birdSpeciesService.GetBirdBySpecie(birdSpecieId);
 
             if (result.Any())
             {
-
-                return this.Ok(result);
+                var response = result.Select(x => this.birdSpeciePostMapper.Convert(x));
+                return this.Ok(response);
             }
 
             return this.NoContent();

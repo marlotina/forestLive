@@ -1,5 +1,7 @@
 ﻿using FL.Cache.Standard.Contracts;
 using FL.Cache.Standard.Implementations;
+using FL.CosmosDb.Standard.Contracts;
+using FL.CosmosDb.Standard.Implementations;
 using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
@@ -19,7 +21,7 @@ namespace FL.WebAPI.Core.Birds.IoC
         public static void AddInjection(IServiceCollection services) 
         {
             services.AddSingleton<IAutocompleteMapper, AutocompleteMapper>();
-            //services.AddSingleton<IUserPageMapper, UserPageMapper>();
+            services.AddSingleton<IBirdSpeciePostMapper, BirdSpeciePostMapper>();
             //services.AddSingleton<IRegisterMapper, RegisterMapper>();
 
             //services.AddSingleton<IUserConfiguration, UserConfiguration>();
@@ -29,7 +31,8 @@ namespace FL.WebAPI.Core.Birds.IoC
             services.AddTransient<IBirdSpeciesService, BirdSpeciesService>();
             services.AddTransient<IAutocompleteService, AutocompleteService>();
 
-            //services.AddTransient<IUserRepository, UserRepository>();
+            services.AddSingleton<IClientFactory, ClientFactory>();
+            services.AddTransient<IBirdSpeciesRepository, BirdSpeciesRepository>();
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
 
             //services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
