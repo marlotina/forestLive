@@ -3,7 +3,6 @@ using FL.WebAPI.Core.Birds.Domain.Model;
 using FL.WebAPI.Core.Birds.Domain.Repository;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Application.Services.Implementations

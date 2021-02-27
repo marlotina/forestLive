@@ -1,5 +1,7 @@
 ﻿using FL.Cache.Standard.Contracts;
 using FL.Cache.Standard.Implementations;
+using FL.CosmosDb.Standard.Configuration.Contracts;
+using FL.CosmosDb.Standard.Configuration.Implementations;
 using FL.CosmosDb.Standard.Contracts;
 using FL.CosmosDb.Standard.Implementations;
 using FL.Logging.Implementation.Standard;
@@ -22,12 +24,10 @@ namespace FL.WebAPI.Core.Birds.IoC
         {
             services.AddSingleton<IAutocompleteMapper, AutocompleteMapper>();
             services.AddSingleton<IBirdSpeciePostMapper, BirdSpeciePostMapper>();
-            //services.AddSingleton<IRegisterMapper, RegisterMapper>();
 
-            //services.AddSingleton<IUserConfiguration, UserConfiguration>();
+            services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
             services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
 
-            //services.AddTransient<IUserService, UserService>();
             services.AddTransient<IBirdSpeciesService, BirdSpeciesService>();
             services.AddTransient<IAutocompleteService, AutocompleteService>();
 
@@ -35,7 +35,6 @@ namespace FL.WebAPI.Core.Birds.IoC
             services.AddTransient<IBirdSpeciesRepository, BirdSpeciesRepository>();
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
 
-            //services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
             services.AddSingleton(typeof(ICustomMemoryCache<>), typeof(CustomMemoryCache<>));
 
             ////loggin

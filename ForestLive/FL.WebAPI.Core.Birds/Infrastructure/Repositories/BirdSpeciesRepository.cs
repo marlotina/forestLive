@@ -14,44 +14,49 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
     {
         private IClientFactory clientFactory;
         private IBirdsConfiguration birdsConfiguration;
-        private Container usersContainer;
+        private readonly Container birdContainer;
 
         public BirdSpeciesRepository(IClientFactory clientFactory,
             IBirdsConfiguration birdsConfiguration)
         {
             this.clientFactory = clientFactory;
             this.birdsConfiguration = birdsConfiguration;
-            this.usersContainer = InitialClient();
+            this.birdContainer = InitialClient();
         }
 
         private Container InitialClient()
         {
             var config = this.birdsConfiguration.CosmosConfiguration;
             var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync();
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
         }
 
         public async Task<List<BirdPost>> GetBirdsPostsBySpecieId(string specieId)
         {
-
             var blogPosts = new List<BirdPost>();
-
-
-            var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.specieId = @SpecieId ORDER BY p.createDate DESC";
-
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@SpecieId", specieId);
-            var query = this.usersContainer.GetItemQueryIterator<BirdPost>(queryDef);
-
-            while (query.HasMoreResults)
+            try
             {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                blogPosts.AddRange(response.ToList());
+                var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.specieId = @SpecieId ORDER BY p.createDate DESC";
+
+                var queryDef = new QueryDefinition(queryString);
+                queryDef.WithParameter("@SpecieId", specieId);
+                var query = this.birdContainer.GetItemQueryIterator<BirdPost>(queryDef);
+
+                while (query.HasMoreResults)
+                {
+                    var response = await query.ReadNextAsync();
+                    var ru = response.RequestCharge;
+                    blogPosts.AddRange(response.ToList());
+                }
             }
+            catch (Exception ex) 
+            {
+            }
+
+
+            
 
             return blogPosts;
         }
     }
-}
 }
