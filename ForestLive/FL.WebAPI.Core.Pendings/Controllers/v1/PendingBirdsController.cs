@@ -56,7 +56,7 @@ namespace FL.WebAPI.Core.Pendings.Controllers.v1
         {
             try
             {
-                var result = await this.pendingPostService.GetPostByStatus(StatusSpecie.NoSpecie);
+                var result = await this.pendingPostService.GetPostByStatus(StatusSpecie.NoSpecieId);
 
                 if (result != null)
                 {

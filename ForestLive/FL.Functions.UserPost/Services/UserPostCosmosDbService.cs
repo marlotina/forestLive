@@ -18,7 +18,7 @@ namespace FL.Functions.UserPost.Services
         {
             try
             {
-                await usersContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
+                await usersContainer.CreateItemAsync(post, new PartitionKey(post.UserId.ToString()));
             }
             catch (Exception ex)
             {
@@ -30,7 +30,7 @@ namespace FL.Functions.UserPost.Services
         {
             try
             {
-                await this.usersContainer.DeleteItemAsync<BirdPostDto>(post.Id.ToString(), new PartitionKey(post.SpecieId.ToString()));
+                await this.usersContainer.DeleteItemAsync<BirdPostDto>(post.Id.ToString(), new PartitionKey(post.UserId.ToString()));
             }
             catch (Exception ex)
             {

@@ -3,6 +3,7 @@ using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Api.Models.v1.Response;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using Microsoft.Azure.Cosmos.Spatial;
+using System;
 using System.Linq;
 
 namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
@@ -20,12 +21,15 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Text = source.Text,
                     UserId = source.UserId,
                     SpecieName = source.SpecieName,
-                    SpecieId = source.SpecieId,
                     Labels = source.Labels,
                     AltImage = source.AltImage,
                     Location = new Point(double.Parse(source.Longitude), double.Parse(source.Latitude)),
                     ObservationDate = source.ObservationDate
                 };
+
+                if (!string.IsNullOrWhiteSpace(source.SpecieId)) {
+                    result.SpecieId = Guid.Parse(source.SpecieId);
+                }
             }
             return result;
         }
