@@ -9,19 +9,19 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class UserPost
+    public class BirdPost
     {
         private readonly IPostCosmosDbService postDbService;
 
-        public UserPost(IPostCosmosDbService postDbService)
+        public BirdPost(IPostCosmosDbService postDbService)
         {
             this.postDbService = postDbService;
         }
 
-        [FunctionName("UserAddPost")]
+        [FunctionName("BirdPost")]
         public void Run([ServiceBusTrigger(
             "post",
-            "user",
+            "BirdPostTopic",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

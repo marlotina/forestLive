@@ -6,23 +6,25 @@ using FL.Functions.Pending.Services;
 using FL.Functions.Pending.Model;
 using Microsoft.Azure.ServiceBus;
 using System.Text;
+using FL.Functions.UserPost.Services;
+using FL.Functions.UserPost.Model;
 
-namespace FL.Functions.Pending
+namespace FL.Functions.UserPost
 {
-    public class PendingPost
+    public class UserPost
     {
-        private readonly IPendingCosmosDbService pendingCosmosDbService;
+        private readonly IUserPostCosmosDbService userPostCosmosDbService;
 
-        public PendingPost(IPendingCosmosDbService pendingCosmosDbServiceç)
+        public UserPost(IUserPostCosmosDbService userPostCosmosDbService)
         {
-            this.pendingCosmosDbService = pendingCosmosDbServiceç;
+            this.userPostCosmosDbService = userPostCosmosDbService;
         }
 
-        [FunctionName("PendingAddPost")]
+        [FunctionName("UserPost")]
         public void Run(
             [ServiceBusTrigger(
                 "post", 
-                "pending", 
+                "UserPostTopic", 
                 Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
@@ -34,11 +36,11 @@ namespace FL.Functions.Pending
                 {
                     if (message.Label == "postCreated")
                     {
-                        this.pendingCosmosDbService.CreatePostInPendingAsync(post);
+                        this.userPostCosmosDbService.CreatePostInPendingAsync(post);
                     }
                     else if (message.Label == "postDeleted")
                     {
-                        this.pendingCosmosDbService.DeletePostInPendingAsync(post);
+                        this.userPostCosmosDbService.DeletePostInPendingAsync(post);
                     }
                 }
             }
