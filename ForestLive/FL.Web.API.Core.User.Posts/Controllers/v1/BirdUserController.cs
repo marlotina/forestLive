@@ -50,5 +50,29 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
                 return this.Problem();
             }
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetMapPoints", Name = "GetMapPoints")]
+        public async Task<IActionResult> GetMapPoints(string userId)
+        {
+            try
+            {
+                var result = await this.userItemService.GetPostsByUserId(userId);
+
+                if (result != null && result.Any())
+                {
+                    var response = result.Select(x => this.birdPostMapper.MapConvert(x));
+                    return this.Ok(response);
+                }
+                else
+                    return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
     }
 }

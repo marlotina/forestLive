@@ -6,5 +6,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts
     public interface IBirdPostMapper
     {
         BirdPostResponse Convert(BirdPost source);
+
+        BirdPointResponse MapConvert(BirdPost source);
     }
 }

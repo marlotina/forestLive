@@ -1,4 +1,5 @@
 ﻿using FL.Pereza.Helpers.Standard.Images;
+using FL.Web.API.Core.User.Posts.Api.Models.v1.Response;
 using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.User.Posts.Api.Models.v1.Response;
 using FL.WebAPI.Core.User.Posts.Domain.Entities;
@@ -33,6 +34,31 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
                     SpecieStatus = source.SpecieStatus,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
+                };
+            }
+
+            return result;
+        }
+
+        public BirdPointResponse MapConvert(BirdPost source)
+        {
+            var result = default(BirdPointResponse);
+            if (source != null)
+            {
+                result = new BirdPointResponse()
+                {
+                    PostId = source.PostId,
+                    Title = source.Title,
+                    ImageUrl = source.ImageUrl,
+                    UserId = source.UserId,
+                    BirdSpecie = source.SpecieName,
+                    SpecieId = source.SpecieId,
+                    Location = new PositionResponse
+                        {
+                            Lat = source.Location.Position.Latitude,
+                            Lng = source.Location.Position.Longitude,
+                        },
+                    AltImage = source.AltImage
                 };
             }
 
