@@ -28,9 +28,9 @@ namespace FL.Functions.BirdPost
                 .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
                 .Build();
 
-            var postCosmosDbService = new PostCosmosDbService(client, databaseName);
+            var postCosmosDbService = new BirdsCosmosDbService(client, databaseName);
 
-            builder.Services.AddSingleton<IPostCosmosDbService>(postCosmosDbService);
+            builder.Services.AddSingleton<IBirdsCosmosDbService>(postCosmosDbService);
         }
     }
 }

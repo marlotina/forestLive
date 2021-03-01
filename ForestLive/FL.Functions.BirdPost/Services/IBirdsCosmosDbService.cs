@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace FL.Functions.BirdPost.Services
 {
-    public interface IPostCosmosDbService
+    public interface IBirdsCosmosDbService
     {
         Task CreatePostInUserAsync(BirdPostDto post);
 

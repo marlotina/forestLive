@@ -7,18 +7,18 @@ namespace FL.Functions.UserPost.Services
 {
     public class UserPostCosmosDbService : IUserPostCosmosDbService
     {
-        private Container pendingContainer;
+        private Container usersContainer;
 
         public UserPostCosmosDbService(CosmosClient dbClient, string databaseName)
         {
-            pendingContainer = dbClient.GetContainer(databaseName, "birds");
+            this.usersContainer = dbClient.GetContainer(databaseName, "users");
         }
 
         public async Task CreatePostInPendingAsync(BirdPostDto post)
         {
             try
             {
-                await pendingContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
+                await usersContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
             }
             catch (Exception ex)
             {
@@ -30,7 +30,7 @@ namespace FL.Functions.UserPost.Services
         {
             try
             {
-                await this.pendingContainer.DeleteItemAsync<BirdPostDto>(post.Id.ToString(), new PartitionKey(post.SpecieId.ToString()));
+                await this.usersContainer.DeleteItemAsync<BirdPostDto>(post.Id.ToString(), new PartitionKey(post.SpecieId.ToString()));
             }
             catch (Exception ex)
             {

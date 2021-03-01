@@ -2,8 +2,6 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System;
-using FL.Functions.Pending.Services;
-using FL.Functions.Pending.Model;
 using Microsoft.Azure.ServiceBus;
 using System.Text;
 using FL.Functions.UserPost.Services;

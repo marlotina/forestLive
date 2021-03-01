@@ -11,9 +11,9 @@ namespace FL.Functions.BirdPost
 {
     public class BirdPost
     {
-        private readonly IPostCosmosDbService postDbService;
+        private readonly IBirdsCosmosDbService postDbService;
 
-        public BirdPost(IPostCosmosDbService postDbService)
+        public BirdPost(IBirdsCosmosDbService postDbService)
         {
             this.postDbService = postDbService;
         }
