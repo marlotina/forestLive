@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
+﻿using FL.Pereza.Helpers.Standard.Enums;
+using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -30,6 +31,20 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             }
 
             var result = await this.birdSpeciesService.GetBirdBySpecie(birdSpecieId);
+
+            if (result.Any())
+            {
+                var response = result.Select(x => this.birdSpeciePostMapper.Convert(x));
+                return this.Ok(response);
+            }
+
+            return this.NoContent();
+        }
+
+        [HttpGet, Route("GetPendingBirds", Name = "GetPendingBirds")]
+        public async Task<IActionResult> GetPendingBirds()
+        {
+            var result = await this.birdSpeciesService.GetBirdBySpecie(Guid.Parse(StatusSpecie.NoSpecieId));
 
             if (result.Any())
             {
