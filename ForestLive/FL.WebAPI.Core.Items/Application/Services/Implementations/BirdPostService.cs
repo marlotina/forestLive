@@ -86,16 +86,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     if (result)
                     {
                         await this.itemsRepository.DeletePostAsync(id, partitionKey);
-
-                        //if (post.SpecieStatus != StatusSpecie.Confirmed)
-                        //{
-                        //    await this.serviceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
-                        //}
-                        //else 
-                        //{ 
-                        //    //remove votes
-                        //    //Remove birds
-                        //}
+                        await this.serviceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
                     }
                     
                     return true;
