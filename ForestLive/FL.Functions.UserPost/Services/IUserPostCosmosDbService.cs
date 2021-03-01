@@ -1,9 +1,9 @@
-﻿using FL.Functions.Pending.Model;
+﻿using FL.Functions.UserPost.Model;
 using System.Threading.Tasks;
 
-namespace FL.Functions.Pending.Services
+namespace FL.Functions.UserPost.Services
 {
-    public interface IPendingCosmosDbService
+    public interface IUserPostCosmosDbService
     {
         Task CreatePostInPendingAsync(BirdPostDto post);
 

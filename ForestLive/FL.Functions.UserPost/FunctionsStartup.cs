@@ -1,12 +1,12 @@
-﻿using FL.Functions.Pending.Services;
+﻿using FL.Functions.UserPost.Services;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup(typeof(FL.Functions.Pending.Startup))]
-namespace FL.Functions.Pending
+[assembly: FunctionsStartup(typeof(FL.Functions.UserPost.Startup))]
+namespace FL.Functions.UserPost
 {
     public class Startup : FunctionsStartup
     {
@@ -28,9 +28,9 @@ namespace FL.Functions.Pending
                 .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
                 .Build();
 
-            var postCosmosDbService = new PendingCosmosDbService(client, databaseName);
+            var postCosmosDbService = new UserPostCosmosDbService(client, databaseName);
 
-            builder.Services.AddSingleton<IPendingCosmosDbService>(postCosmosDbService);
+            builder.Services.AddSingleton<IUserPostCosmosDbService>(postCosmosDbService);
         }
     }
 }

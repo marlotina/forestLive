@@ -49,9 +49,13 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdPost.LikesCount = 0;
                     birdPost.CommentsCount = 0;
                     birdPost.CreateDate = DateTime.UtcNow;
-                    birdPost.SpecieStatus = birdPost.SpecieId == null || birdPost.SpecieId == Guid.Empty ? StatusSpecie.NoSpecie : StatusSpecie.Pending;
                     birdPost.ImageUrl = folder + "/"+ imageName;
                     birdPost.VoteCount = 0;
+
+                    if (birdPost.SpecieId == null || birdPost.SpecieId == Guid.Empty) {
+                        birdPost.SpecieId = Guid.Parse(StatusSpecie.NoSpecieId);
+                        birdPost.SpecieName = string.Empty;
+                    }
 
                     var post = await this.itemsRepository.CreatePostAsync(birdPost);
                     await this.serviceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
@@ -83,15 +87,15 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     {
                         await this.itemsRepository.DeletePostAsync(id, partitionKey);
 
-                        if (post.SpecieStatus != StatusSpecie.Confirmed)
-                        {
-                            await this.serviceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
-                        }
-                        else 
-                        { 
-                            //remove votes
-                            //Remove birds
-                        }
+                        //if (post.SpecieStatus != StatusSpecie.Confirmed)
+                        //{
+                        //    await this.serviceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
+                        //}
+                        //else 
+                        //{ 
+                        //    //remove votes
+                        //    //Remove birds
+                        //}
                     }
                     
                     return true;

@@ -52,8 +52,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     CommentsCount = source.CommentsCount,
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString(),
-                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
-                    SpecieStatus = source.SpecieStatus
+                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy")
                 };
             }
             return result;

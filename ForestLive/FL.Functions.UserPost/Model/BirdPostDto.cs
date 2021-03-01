@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Azure.Cosmos.Spatial;
+using Newtonsoft.Json;
 using System;
 
-namespace FL.Functions.Pending.Model
+namespace FL.Functions.UserPost.Model
 {
     public class BirdPostDto
     {
@@ -20,8 +21,8 @@ namespace FL.Functions.Pending.Model
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 
-        //[JsonProperty(PropertyName = "location")]
-        //public Point Location { get; set; }
+        [JsonProperty(PropertyName = "location")]
+        public Point Location { get; set; }
 
         [JsonProperty(PropertyName = "specieName")]
         public string SpecieName { get; set; }
@@ -52,8 +53,5 @@ namespace FL.Functions.Pending.Model
 
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime ObservationDate { get; set; }
-
-        [JsonProperty(PropertyName = "SpecieStatus")]
-        public string SpecieStatus { get; set; }
     }
 }
