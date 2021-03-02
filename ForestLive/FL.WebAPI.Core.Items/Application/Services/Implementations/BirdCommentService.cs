@@ -1,5 +1,4 @@
-﻿
-using FL.LogTrace.Contracts.Standard;
+﻿using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Enums;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
