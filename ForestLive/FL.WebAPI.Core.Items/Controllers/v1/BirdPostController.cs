@@ -6,6 +6,7 @@ using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
+using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -89,6 +90,11 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 }
                 else
                     return this.BadRequest();
+            }
+            catch (UnauthorizedRemove ex)
+            {
+                this.logger.LogInfo(ex);
+                return this.Unauthorized();
             }
             catch (Exception ex)
             {

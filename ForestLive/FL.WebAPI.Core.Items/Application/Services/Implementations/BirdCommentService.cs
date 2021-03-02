@@ -1,5 +1,6 @@
 ﻿using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Enums;
+using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
@@ -70,10 +71,16 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             try
             {
                 var comment = await this.itemsRepository.GetCommentAsync(commentId, postId);
-
-                await this.itemsRepository.DeleteCommentAsync(commentId, postId);
-                await this.serviceBusCommentTopicSender.SendMessage(comment, TopicHelper.LABEL_COMMENT_DELETED);
-                return true;
+                if (userId == comment.UserId)
+                {
+                    await this.itemsRepository.DeleteCommentAsync(commentId, postId);
+                    await this.serviceBusCommentTopicSender.SendMessage(comment, TopicHelper.LABEL_COMMENT_DELETED);
+                    return true;
+                }
+                else
+                {
+                    throw new UnauthorizedRemove;
+                }
             }
             catch (Exception ex)
             {

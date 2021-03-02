@@ -1,6 +1,7 @@
 ﻿using FL.Infrastructure.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Enums;
+using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
@@ -76,7 +77,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             try
             {
                 var post = await this.itemsRepository.GetPostAsync(birdPostId);
-                if (userId == post.UserId) {
+                if (userId == post.UserId)
+                {
                     var image = post.ImageUrl;
                     var partitionKey = post.PostId.ToString();
                     var id = post.Id;
@@ -88,8 +90,12 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                         await this.itemsRepository.DeletePostAsync(id, partitionKey);
                         await this.serviceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
                     }
-                    
+
                     return true;
+                }
+                else 
+                {
+                    throw new UnauthorizedRemove;
                 }
 
                 return false;
