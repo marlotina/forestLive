@@ -34,7 +34,8 @@ namespace FL.WebAPI.Core.Items.IoC
 
             services.AddTransient(typeof(IServiceBusPostTopicSender<>), typeof(ServiceBusPostTopicSender<>));
             services.AddTransient(typeof(IServiceBusVotePostTopicSender<>), typeof(ServiceBusVotePostTopicSender<>));
-
+            services.AddTransient(typeof(IServiceBusCommentTopicSender<>), typeof(ServiceBusCommentTopicSender<>));
+            
             services.AddTransient<IBirdPostService, BirdPostService>();
             services.AddTransient<IBirdCommentService, BirdCommentService>();
                         

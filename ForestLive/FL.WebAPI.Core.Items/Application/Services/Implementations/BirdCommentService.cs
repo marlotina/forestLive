@@ -1,9 +1,11 @@
 ﻿
 using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.Enums;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
+using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -14,12 +16,15 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     {
         private readonly IBirdPostRepository itemsRepository;
         private readonly ILogger<BirdCommentService> logger;
+        private readonly IServiceBusCommentTopicSender<BirdComment> serviceBusCommentTopicSender;
 
         public BirdCommentService(
             IBirdPostRepository itemsRepository,
+            IServiceBusCommentTopicSender<BirdComment> serviceBusCommentTopicSender,
             ILogger<BirdCommentService> logger)
         {
             this.itemsRepository = itemsRepository;
+            this.serviceBusCommentTopicSender = serviceBusCommentTopicSender;
             this.logger = logger;
         }
 
@@ -34,15 +39,17 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 comment.CreateDate = DateTime.UtcNow;
                 comment.Type = ItemHelper.COMMENT_TYPE;
 
-                await this.itemsRepository.CreateCommentAsync(comment);
+                var response = await this.itemsRepository.CreateCommentAsync(comment);
+                await this.serviceBusCommentTopicSender.SendMessage(comment, TopicHelper.LABEL_COMMENT_CREATED);
 
+                return response;
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "AddComment");
             }
 
-            return comment;
+            return null;
         }
 
         public async Task<List<BirdComment>> GetCommentByItem(Guid itemId)
@@ -59,14 +66,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return new List<BirdComment>();
         }
 
-        public async Task<bool> DeleteComment(Guid commnetId, Guid itemId, string userId)
+        public async Task<bool> DeleteComment(Guid commentId, Guid postId, string userId)
         {
             try
             {
+                var comment = await this.itemsRepository.GetCommentAsync(commentId, postId);
 
-                var item = await this.itemsRepository.GetCommentsAsync(itemId);
-
-                await this.itemsRepository.DeleteCommentAsync(commnetId, itemId);
+                await this.itemsRepository.DeleteCommentAsync(commentId, postId);
+                await this.serviceBusCommentTopicSender.SendMessage(comment, TopicHelper.LABEL_COMMENT_DELETED);
                 return true;
             }
             catch (Exception ex)

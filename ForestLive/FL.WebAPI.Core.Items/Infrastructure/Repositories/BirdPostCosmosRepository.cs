@@ -83,9 +83,29 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return comments;
         }
 
-        public async Task CreateCommentAsync(BirdComment comment)
+        public async Task<BirdComment> GetCommentAsync(Guid postId, Guid commentId)
         {
-            await this.postContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.PostId.ToString()));
+            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.id = @CommentId AND p.postId = @PostId ORDER BY p.createDate ASC";
+
+            var queryDef = new QueryDefinition(queryString);
+            queryDef.WithParameter("@PostId", postId);
+            queryDef.WithParameter("@CommentId", commentId);
+            var query = this.postContainer.GetItemQueryIterator<BirdComment>(queryDef);
+
+            BirdComment comment = new BirdComment();
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                var ru = response.RequestCharge;
+                comment = response.FirstOrDefault();
+            }
+
+            return comment;
+        }
+
+        public async Task<BirdComment> CreateCommentAsync(BirdComment comment)
+        {
+            return await this.postContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.PostId.ToString()));
         }
 
         public async Task DeleteCommentAsync(Guid commentId, Guid userId)

@@ -6,6 +6,10 @@
 
         public const string LABEL_POST_DELETED = "postDeleted";
 
+        public const string LABEL_COMMENT_CREATED = "commentCreated";
+
+        public const string LABEL_COMMENT_DELETED = "commentDeleted";
+
         public const string LABEL_VOTE_CREATED = "voteCreated";
 
         public const string LABEL_VOTE_DELETED = "voteDeleted";
