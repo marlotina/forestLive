@@ -20,7 +20,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Models.v1.Response
 
         public int LikesCount { get; set; }
 
-        public int CommentsCount { get; set; }
+        public int CommentCount { get; set; }
 
         public double Latitude { get; set; }
 
