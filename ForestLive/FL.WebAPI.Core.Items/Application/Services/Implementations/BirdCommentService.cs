@@ -71,7 +71,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             try
             {
                 var comment = await this.itemsRepository.GetCommentAsync(commentId, postId);
-                if (userId == comment.UserId)
+                if (userId == comment.UserId && comment != null)
                 {
                     await this.itemsRepository.DeleteCommentAsync(commentId, postId);
                     await this.serviceBusCommentTopicSender.SendMessage(comment, TopicHelper.LABEL_COMMENT_DELETED);

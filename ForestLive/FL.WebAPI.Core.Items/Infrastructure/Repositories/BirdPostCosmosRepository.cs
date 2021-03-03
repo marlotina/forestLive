@@ -83,21 +83,23 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return comments;
         }
 
-        public async Task<BirdComment> GetCommentAsync(Guid postId, Guid commentId)
+        public async Task<BirdComment> GetCommentAsync(Guid commentId, Guid postId)
         {
-            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.id = @CommentId AND p.postId = @PostId ORDER BY p.createDate ASC";
-
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@PostId", postId);
-            queryDef.WithParameter("@CommentId", commentId);
-            var query = this.postContainer.GetItemQueryIterator<BirdComment>(queryDef);
-
             BirdComment comment = new BirdComment();
-            while (query.HasMoreResults)
+            try
             {
+                var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.id = @CommentId AND p.postId = @PostId";
+
+                var queryDef = new QueryDefinition(queryString);
+                queryDef.WithParameter("@PostId", postId);
+                queryDef.WithParameter("@CommentId", commentId);
+                var query = this.postContainer.GetItemQueryIterator<BirdComment>(queryDef);
+              
                 var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                comment = response.FirstOrDefault();
+                return response.FirstOrDefault();
+            }
+            catch (Exception es) 
+            { 
             }
 
             return comment;
@@ -108,9 +110,9 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return await this.postContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.PostId.ToString()));
         }
 
-        public async Task DeleteCommentAsync(Guid commentId, Guid userId)
+        public async Task DeleteCommentAsync(Guid commentId, Guid postId)
         {
-            await this.postContainer.DeleteItemAsync<BirdComment>(commentId.ToString(), new PartitionKey(userId.ToString()));
+            await this.postContainer.DeleteItemAsync<BirdComment>(commentId.ToString(), new PartitionKey(postId.ToString()));
         }
     }
 }

@@ -85,12 +85,17 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteComment", Name = "DeleteComment")]
-        public async Task<IActionResult> DeleteComment(Guid idComment, Guid postId)
+        public async Task<IActionResult> DeleteComment(Guid commentId, Guid postId)
         {
             try
             {
+                if (commentId == null || commentId == Guid.Empty || postId == null || postId == Guid.Empty) {
+                    return this.BadRequest();
+                }
+
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.commentService.DeleteComment(idComment, postId, userId);
+
+                var result = await this.commentService.DeleteComment(commentId, postId, userId);
 
                 if (result)
                     return this.Ok();

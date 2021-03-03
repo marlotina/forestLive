@@ -17,10 +17,10 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 
         Task<BirdComment> CreateCommentAsync(BirdComment comment);
 
-        Task DeleteCommentAsync(Guid commentId, Guid itemId);
+        Task DeleteCommentAsync(Guid commentId, Guid postId);
 
-        Task<List<BirdComment>> GetCommentsAsync(Guid itemId);
+        Task<List<BirdComment>> GetCommentsAsync(Guid postId);
 
-        Task<BirdComment> GetCommentAsync(Guid postId, Guid commentId);
+        Task<BirdComment> GetCommentAsync(Guid commentId, Guid postId);
     }
 }
