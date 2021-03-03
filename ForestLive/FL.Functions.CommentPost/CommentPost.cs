@@ -21,24 +21,24 @@ namespace FL.Functions.UserPost
         [FunctionName("UserPost")]
         public void Run(
             [ServiceBusTrigger(
-                "post", 
+                "comment",
                 "UserCommentTopic", 
                 Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<CommentPostDto>(Encoding.UTF8.GetString(message.Body));
+                var commentPost = JsonConvert.DeserializeObject<CommentPostDto>(Encoding.UTF8.GetString(message.Body));
 
-                if (post.Id != null && post.Id != Guid.Empty)
+                if (commentPost.Id != null && commentPost.Id != Guid.Empty)
                 {
                     if (message.Label == "commentCreated")
                     {
-                        this.userPostCosmosDbService.CreatePostInPendingAsync(post);
+                        this.userPostCosmosDbService.CreatePostInPendingAsync(commentPost);
                     }
                     else if (message.Label == "commentDeleted")
                     {
-                        this.userPostCosmosDbService.DeletePostInPendingAsync(post);
+                        this.userPostCosmosDbService.DeletePostInPendingAsync(commentPost);
                     }
                 }
             }

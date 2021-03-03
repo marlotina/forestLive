@@ -79,7 +79,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 }
                 else
                 {
-                    throw new UnauthorizedRemove;
+                    throw new UnauthorizedRemove();
                 }
             }
             catch (Exception ex)
