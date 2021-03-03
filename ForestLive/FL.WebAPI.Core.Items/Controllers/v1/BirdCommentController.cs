@@ -66,7 +66,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = await this.commentService.GetCommentByItem(postId);
+                var result = await this.commentService.GetCommentByPost(postId);
                     
                 if (result != null)
                 {

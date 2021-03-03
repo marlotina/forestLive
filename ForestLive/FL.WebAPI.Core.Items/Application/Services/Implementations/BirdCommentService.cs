@@ -34,7 +34,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                this.logger.LogError("AddComment");
                 comment.Id = Guid.NewGuid();
                 comment.CreateDate = DateTime.UtcNow;
                 comment.Type = ItemHelper.COMMENT_TYPE;
@@ -52,11 +51,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return null;
         }
 
-        public async Task<List<BirdComment>> GetCommentByItem(Guid itemId)
+        public async Task<List<BirdComment>> GetCommentByPost(Guid postId)
         {
             try
             {
-                return await this.itemsRepository.GetCommentsAsync(itemId);
+                return await this.itemsRepository.GetCommentsAsync(postId);
             }
             catch (Exception ex)
             {

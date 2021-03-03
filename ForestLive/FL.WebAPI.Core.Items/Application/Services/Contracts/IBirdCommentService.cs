@@ -9,7 +9,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
     {
         Task<BirdComment> AddComment(BirdComment commnet);
 
-        Task<List<BirdComment>> GetCommentByItem(Guid itemId);
+        Task<List<BirdComment>> GetCommentByPost(Guid postId);
 
         Task<bool> DeleteComment(Guid commentId, Guid postId, string userId);
     }

@@ -49,8 +49,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
         [JsonProperty(PropertyName = "voteCount")]
         public int VoteCount { get; set; }
 
-        [JsonProperty(PropertyName = "commentsCount")]
-        public int CommentsCount { get; set; }
+        [JsonProperty(PropertyName = "commentCount")]
+        public int CommentCount { get; set; }
 
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }

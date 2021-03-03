@@ -44,11 +44,12 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
                 if (result)
                 {
-                    birdPost.PostId = Guid.NewGuid();
-                    birdPost.Id = Guid.NewGuid();
+                    var postId = Guid.NewGuid();
+                    birdPost.PostId = postId;
+                    birdPost.Id = postId;
                     birdPost.Type = ItemHelper.POST_TYPE;
                     birdPost.LikesCount = 0;
-                    birdPost.CommentsCount = 0;
+                    birdPost.CommentCount = 0;
                     birdPost.CreateDate = DateTime.UtcNow;
                     birdPost.ImageUrl = folder + "/"+ imageName;
                     birdPost.VoteCount = 0;

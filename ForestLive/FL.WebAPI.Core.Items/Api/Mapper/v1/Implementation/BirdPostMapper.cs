@@ -53,7 +53,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     SpecieId = source.SpecieId,
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     LikesCount = source.LikesCount,
-                    CommentsCount = source.CommentsCount,
+                    CommentsCount = source.CommentCount,
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString(),
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy")

@@ -49,15 +49,9 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.type='post' and p.postId = @PostId";
-
-                var queryDef = new QueryDefinition(queryString);
-                queryDef.WithParameter("@PostId", postId);
-                var query = this.postContainer.GetItemQueryIterator<BirdPost>(queryDef);
-                var response = await query.ReadNextAsync();
-
-                return response.Resource.FirstOrDefault();
-            }
+                ItemResponse<BirdPost> response = await this.postContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(postId.ToString()));
+                var ru = response.RequestCharge;
+                return response.Resource;            }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 return null;
@@ -107,7 +101,16 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task<BirdComment> CreateCommentAsync(BirdComment comment)
         {
-            return await this.postContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.PostId.ToString()));
+            try
+            {
+                var obj = new dynamic[] { comment.PostId, comment };
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("createComment", new PartitionKey(comment.PostId.ToString()), obj);
+            }
+            catch (Exception es)
+            {
+            }
+            
+            return comment;
         }
 
         public async Task DeleteCommentAsync(Guid commentId, Guid postId)
