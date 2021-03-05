@@ -1,11 +1,11 @@
-﻿using FL.Logging.Implementation.Standard;
+﻿using FL.CosmosDb.Standard.Contracts;
+using FL.CosmosDb.Standard.Implementations;
+using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
 using FL.Web.Api.Core.Votes.Api.Mapper.v1.Contracts;
 using FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation;
 using FL.Web.Api.Core.Votes.Configuration.Contracts;
 using FL.Web.Api.Core.Votes.Configuration.Implementations;
-using FL.Web.Api.Core.Votes.Infrastructure.CosmosDb.Contracts;
-using FL.Web.Api.Core.Votes.Infrastructure.CosmosDb.Implementations;
 using FL.Web.Api.Core.Votes.Infrastructure.ServiceBus.Contracts;
 using FL.Web.Api.Core.Votes.Infrastructure.ServiceBus.Implementations;
 using Microsoft.Extensions.DependencyInjection;

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -16,12 +16,19 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\FL.Pereza.Helpers.Standard\FL.Pereza.Helpers.Standard.csproj" />
+    <ProjectReference Include="..\..\Framework\FL.CosmosDb.Standard\FL.CosmosDb.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.Logging.Implementation.Standard\FL.Logging.Implementation.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.LogTrace.Contracts.Standard\FL.LogTrace.Contracts.Standard.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Api\Models\v1\Response\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="nlog.config">
+      <CopyToOutputDirectory>Preserve Newest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 

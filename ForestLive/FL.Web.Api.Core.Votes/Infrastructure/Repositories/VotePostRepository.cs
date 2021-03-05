@@ -1,7 +1,7 @@
-﻿using FL.Web.Api.Core.Votes.Configuration.Contracts;
+﻿using FL.CosmosDb.Standard.Contracts;
+using FL.Web.Api.Core.Votes.Configuration.Contracts;
 using FL.Web.Api.Core.Votes.Domain.Entities;
 using FL.Web.Api.Core.Votes.Domain.Repositories;
-using FL.Web.Api.Core.Votes.Infrastructure.CosmosDb.Contracts;
 using Microsoft.Azure.Cosmos;
 using System.Threading.Tasks;
 
