@@ -17,7 +17,7 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 
         Task<BirdComment> CreateCommentAsync(BirdComment comment);
 
-        Task DeleteCommentAsync(Guid commentId, Guid postId);
+        Task<bool> DeleteCommentAsync(Guid commentId, Guid postId);
 
         Task<List<BirdComment>> GetCommentsAsync(Guid postId);
 

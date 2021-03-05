@@ -113,9 +113,19 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return comment;
         }
 
-        public async Task DeleteCommentAsync(Guid commentId, Guid postId)
+        public async Task<bool> DeleteCommentAsync(Guid commentId, Guid postId)
         {
-            await this.postContainer.DeleteItemAsync<BirdComment>(commentId.ToString(), new PartitionKey(postId.ToString()));
+            try
+            {
+                var obj = new dynamic[] { postId, commentId };
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(postId.ToString()), obj);
+            }
+            catch (Exception es)
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }
