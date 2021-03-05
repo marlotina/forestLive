@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FL.Web.Api.Core.Votes.Controllers.v1
 {
-    [Route("api/[controller]")]
+    [Route("api/v1/[controller]")]
     [ApiController]
     public class VotePostController : ControllerBase
     {

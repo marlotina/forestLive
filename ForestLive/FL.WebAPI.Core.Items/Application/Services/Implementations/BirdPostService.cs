@@ -48,7 +48,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdPost.PostId = postId;
                     birdPost.Id = postId;
                     birdPost.Type = ItemHelper.POST_TYPE;
-                    birdPost.LikesCount = 0;
+                    birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
                     birdPost.CreateDate = DateTime.UtcNow;
                     birdPost.ImageUrl = folder + "/"+ imageName;

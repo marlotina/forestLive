@@ -6,8 +6,12 @@ using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
 using FL.Web.Api.Core.Votes.Api.Mapper.v1.Contracts;
 using FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation;
+using FL.Web.Api.Core.Votes.Application.Services.Contracts;
+using FL.Web.Api.Core.Votes.Application.Services.Implementations;
 using FL.Web.Api.Core.Votes.Configuration.Contracts;
 using FL.Web.Api.Core.Votes.Configuration.Implementations;
+using FL.Web.Api.Core.Votes.Domain.Repositories;
+using FL.Web.Api.Core.Votes.Infrastructure.Repositories;
 using FL.Web.Api.Core.Votes.Infrastructure.ServiceBus.Contracts;
 using FL.Web.Api.Core.Votes.Infrastructure.ServiceBus.Implementations;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,10 +27,13 @@ namespace FL.Web.Api.Core.Votes.IoC
             services.AddSingleton<IVoteConfiguration, VoteConfiguration>();
             services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
 
+            
+            services.AddTransient<IVotePostService, VotePostService>();
             services.AddTransient(typeof(IServiceBusVotePostTopicSender<>), typeof(ServiceBusVotePostTopicSender<>));
-          
-                        
+
+            
             services.AddSingleton<IClientFactory, ClientFactory>();
+            services.AddSingleton<IVotePostRepository, VotePostRepository>();
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

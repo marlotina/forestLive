@@ -19,8 +19,6 @@ namespace FL.Web.Api.Core.Votes.Configuration.Implementations
 
         public ServiceBusConfig ServiceBusConfig => this.configuration.GetSection("ServiceBusConfig").Get<ServiceBusConfig>();
 
-        public string BirdPhotoContainer => this.configuration.GetSection("BirdPhotoContainer").Get<string>();
-
         public string Secret => this.configuration.GetSection("Secret").Get<string>();
     }
 }

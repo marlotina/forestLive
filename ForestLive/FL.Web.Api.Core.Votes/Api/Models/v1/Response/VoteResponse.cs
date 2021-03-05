@@ -8,7 +8,7 @@ namespace FL.Web.Api.Core.Votes.Api.Models.v1.Response
 
         public Guid PostId { get; set; }
 
-        public Guid OwnerUserId { get; set; }
+        public string OwnerUserId { get; set; }
 
         public string UserId { get; set; }
 

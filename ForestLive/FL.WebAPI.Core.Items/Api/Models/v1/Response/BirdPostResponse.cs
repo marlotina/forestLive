@@ -19,7 +19,7 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 
         public string UserId { get; set; }
 
-        public int LikesCount { get; set; }
+        public int VoteCount { get; set; }
 
         public int CommentCount { get; set; }
 
