@@ -3,34 +3,28 @@ using FL.Web.Api.Core.Votes.Api.Mapper.v1.Contracts;
 using FL.Web.Api.Core.Votes.Api.Models.v1.Request;
 using FL.Web.Api.Core.Votes.Application.Services.Contracts;
 using FL.Web.Api.Core.Votes.Configuration.Contracts;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.Web.Api.Core.Votes.Controllers.v1
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class VoteController : ControllerBase
+    public class VotePostController : ControllerBase
     {
-        private readonly IPostConfiguration itemConfiguration;
         private readonly IVoteMapper voteMapper;
-        private readonly ILogger<VoteController> logger;
+        private readonly ILogger<VotePostController> logger;
         private readonly IVotePostService votePostService;
 
-        public VoteController(
+        public VotePostController(
             IVoteMapper voteMapper,
             IVotePostService votePostService,
-            IPostConfiguration itemConfiguration,
-            ILogger<VoteController> logger)
+            ILogger<VotePostController> logger)
         {
             this.logger = logger;
             this.voteMapper = voteMapper;
             this.votePostService = votePostService ?? throw new ArgumentNullException(nameof(votePostService));
-            this.itemConfiguration = itemConfiguration;
         }
 
         [HttpPost]
@@ -52,7 +46,8 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
 
                 if (result != null)
                 {
-                    return this.Ok(result);
+                    var response = this.voteMapper.Convert(result);
+                    return this.Ok(response);
                 }
                 else
                     return this.BadRequest();

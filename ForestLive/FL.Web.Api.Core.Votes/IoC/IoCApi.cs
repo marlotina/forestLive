@@ -1,4 +1,6 @@
-﻿using FL.CosmosDb.Standard.Contracts;
+﻿using FL.CosmosDb.Standard.Configuration.Contracts;
+using FL.CosmosDb.Standard.Configuration.Implementations;
+using FL.CosmosDb.Standard.Contracts;
 using FL.CosmosDb.Standard.Implementations;
 using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
@@ -18,8 +20,8 @@ namespace FL.Web.Api.Core.Votes.IoC
         {
             services.AddSingleton<IVoteMapper, VoteMapper>();
 
-            services.AddSingleton<IPostConfiguration, PostConfiguration>();
-            //services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
+            services.AddSingleton<IVoteConfiguration, VoteConfiguration>();
+            services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
 
             services.AddTransient(typeof(IServiceBusVotePostTopicSender<>), typeof(ServiceBusVotePostTopicSender<>));
           

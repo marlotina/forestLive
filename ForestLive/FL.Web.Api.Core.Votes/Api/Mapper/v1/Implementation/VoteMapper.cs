@@ -1,5 +1,6 @@
 ﻿using FL.Web.Api.Core.Votes.Api.Mapper.v1.Contracts;
 using FL.Web.Api.Core.Votes.Api.Models.v1.Request;
+using FL.Web.Api.Core.Votes.Api.Models.v1.Response;
 using FL.Web.Api.Core.Votes.Domain.Entities;
 
 namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
@@ -16,7 +17,27 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
                     Title = source.Title,
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    Vote = source.Vote
+                    Vote = source.Vote,
+                    OwnerUserId = source.OwnerUserId
+                };
+            }
+            return result;
+        }
+
+        public VoteResponse Convert(VotePost source)
+        {
+            var result = default(VoteResponse);
+            if (source != null)
+            {
+                result = new VoteResponse()
+                {
+                    Title = source.Title,
+                    UserId = source.UserId,
+                    PostId = source.PostId,
+                    Vote = source.Vote,
+                    CreationDate = source.CreationDate,
+                    Id = source.Id,
+                    OwnerUserId = source.OwnerUserId
                 };
             }
             return result;

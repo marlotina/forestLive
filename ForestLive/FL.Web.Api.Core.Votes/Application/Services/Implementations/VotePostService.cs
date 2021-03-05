@@ -13,16 +13,13 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
     {
         private readonly IServiceBusVotePostTopicSender<VotePost> serviceBusVotePostTopicSender;
         private readonly IVotePostRepository votePostRepository;
-        private readonly IBirdPostRepository birdPostRepository;
 
         public VotePostService(
             IServiceBusVotePostTopicSender<VotePost> serviceBusVotePostTopicSender,
-            IVotePostRepository votePostRepository,
-            IBirdPostRepository birdPostRepository)
+            IVotePostRepository votePostRepository)
         {
             this.votePostRepository = votePostRepository;
             this.serviceBusVotePostTopicSender = serviceBusVotePostTopicSender;
-            this.birdPostRepository = birdPostRepository;
         }
 
         public async Task<VotePost> AddVotePost(VotePost votePost)
@@ -34,12 +31,6 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
             var result = await this.votePostRepository.AddVotePost(votePost);
             await this.serviceBusVotePostTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_CREATED);
 
-            var post = await this.birdPostRepository.GetPostAsync(votePost.PostId);
-            if (post.VoteCount > 5)
-            { 
-                //remove the post in the pending container.
-                //add the message in the subscription to save the post in birds.
-            }
 
             return result;
         }

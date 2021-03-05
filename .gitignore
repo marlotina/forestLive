@@ -366,3 +366,4 @@ ForestLive/FL.WebAPI.Core.Birds/nlog.QA.config
 ForestLive/FL.WebAPI.Core.Birds/nlog.Prod.config
 ForestLive/FL.WebAPI.Core.Birds/appsettings.QA.json
 ForestLive/FL.WebAPI.Core.Birds/appsettings.json
+ForestLive/FL.Web.Api.Core.Votes/appsettings.QA.json

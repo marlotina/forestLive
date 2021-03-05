@@ -4,11 +4,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace FL.Web.Api.Core.Votes.Configuration.Implementations
 {
-    public class PostConfiguration : IPostConfiguration
+    public class VoteConfiguration : IVoteConfiguration
     {
         private readonly IConfiguration configuration;
 
-        public PostConfiguration(IConfiguration configuration)
+        public VoteConfiguration(IConfiguration configuration)
         {
             this.configuration = configuration;
         }

@@ -12,11 +12,11 @@ namespace FL.Web.Api.Core.Votes.Infrastructure.ServiceBus.Implementations
     public class ServiceBusVotePostTopicSender<T> : IServiceBusVotePostTopicSender<T> where T : class
     {
         private readonly TopicClient topicClient;
-        private readonly IPostConfiguration itemConfiguration;
+        private readonly IVoteConfiguration itemConfiguration;
         private readonly ILogger<ServiceBusVotePostTopicSender<T>> logger;
 
         public ServiceBusVotePostTopicSender(
-            IPostConfiguration itemConfiguration,
+            IVoteConfiguration itemConfiguration,
             ILogger<ServiceBusVotePostTopicSender<T>> logger)
         {
             this.itemConfiguration = itemConfiguration;

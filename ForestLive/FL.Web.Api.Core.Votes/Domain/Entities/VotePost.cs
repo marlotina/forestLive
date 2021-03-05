@@ -14,6 +14,9 @@ namespace FL.Web.Api.Core.Votes.Domain.Entities
         [JsonProperty(PropertyName = "PostId")]
         public Guid PostId { get; set; }
 
+        [JsonProperty(PropertyName = "ownerUserId")]
+        public Guid OwnerUserId { get; set; }
+
         [JsonProperty(PropertyName = "UserId")]
         public string UserId { get; set; }
 

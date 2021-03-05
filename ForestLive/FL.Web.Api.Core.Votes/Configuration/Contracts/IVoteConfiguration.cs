@@ -2,7 +2,7 @@
 
 namespace FL.Web.Api.Core.Votes.Configuration.Contracts
 {
-    public interface IPostConfiguration
+    public interface IVoteConfiguration
     {
         string BirdPhotoContainer { get; }
 
