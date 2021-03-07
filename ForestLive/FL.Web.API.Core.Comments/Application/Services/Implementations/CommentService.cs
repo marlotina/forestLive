@@ -67,10 +67,10 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
         {
             try
             {
-                var comment = await this.commentRepository.GetCommentAsync(commentId, postId);
+                var comment = await this.commentRepository.GetCommentAsync(commentId, userId);
                 if (userId == comment.UserId && comment != null)
                 {
-                    await this.commentRepository.DeleteCommentAsync(commentId, postId);
+                    await this.commentRepository.DeleteCommentAsync(commentId, userId);
                     await this.serviceBusCommentTopicSender.SendMessage(comment, TopicHelper.LABEL_COMMENT_DELETED);
                     return true;
                 }

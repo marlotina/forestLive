@@ -1,5 +1,5 @@
 ﻿using FL.Web.API.Core.Comments.Configuration.Contracts;
-using FL.Web.API.Core.Comments.Configuration.Models;
+using FL.Web.API.Core.Comments.Configuration.Dto;
 using Microsoft.Extensions.Configuration;
 
 namespace FL.Web.API.Core.Comments.Configuration.Implementations
@@ -13,13 +13,11 @@ namespace FL.Web.API.Core.Comments.Configuration.Implementations
             this.configuration = configuration;
         }
 
-        public CosmosConfig CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfig>();
+        public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
 
         public string Host => this.configuration.GetSection("Host").Get<string>();
 
         public ServiceBusConfig ServiceBusConfig => this.configuration.GetSection("ServiceBusConfig").Get<ServiceBusConfig>();
-
-        public string BirdPhotoContainer => this.configuration.GetSection("BirdPhotoContainer").Get<string>();
 
         public string Secret => this.configuration.GetSection("Secret").Get<string>();
     }

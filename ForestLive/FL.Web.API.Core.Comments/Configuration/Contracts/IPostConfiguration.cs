@@ -1,16 +1,14 @@
-﻿using FL.Web.API.Core.Comments.Configuration.Models;
+﻿using FL.Web.API.Core.Comments.Configuration.Dto;
 
 namespace FL.Web.API.Core.Comments.Configuration.Contracts
 {
     public interface IPostConfiguration
     {
-        string BirdPhotoContainer { get; }
-
         string Secret { get; }
 
         string Host { get; }
 
-        CosmosConfig CosmosConfiguration { get; }
+        CosmosConfiguration CosmosConfiguration { get; }
 
         ServiceBusConfig ServiceBusConfig { get;  }
     }

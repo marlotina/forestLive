@@ -9,10 +9,10 @@ namespace FL.Web.API.Core.Comments.Domain.Repositories
     {
         Task<BirdComment> CreateCommentAsync(BirdComment comment);
 
-        Task<bool> DeleteCommentAsync(Guid commentId, Guid postId);
+        Task<bool> DeleteCommentAsync(Guid commentId, string userId);
 
         Task<List<BirdComment>> GetCommentsAsync(string userId);
 
-        Task<BirdComment> GetCommentAsync(Guid commentId, Guid postId);
+        Task<BirdComment> GetCommentAsync(Guid commentId, string userId);
     }
 }
