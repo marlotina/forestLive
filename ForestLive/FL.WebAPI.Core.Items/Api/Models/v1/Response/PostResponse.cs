@@ -3,7 +3,7 @@ using System;
 
 namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 {
-    public class BirdPostResponse
+    public class PostResponse
     {
         public Guid Id { get; set; }
 

@@ -1,4 +1,8 @@
-﻿using FL.Infrastructure.Standard.Configuration.Contracts;
+﻿using FL.CosmosDb.Standard.Configuration.Contracts;
+using FL.CosmosDb.Standard.Configuration.Implementations;
+using FL.CosmosDb.Standard.Contracts;
+using FL.CosmosDb.Standard.Implementations;
+using FL.Infrastructure.Standard.Configuration.Contracts;
 using FL.Infrastructure.Standard.Configuration.Implementations;
 using FL.Infrastructure.Standard.Contracts;
 using FL.Infrastructure.Standard.Implementations;
@@ -11,13 +15,9 @@ using FL.WebAPI.Core.Items.Application.Services.Implementations;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Implementations;
 using FL.WebAPI.Core.Items.Domain.Repositories;
-using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Contracts;
-using FL.WebAPI.Core.Items.Infrastructure.CosmosDb.Implementations;
 using FL.WebAPI.Core.Items.Infrastructure.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Implementations;
-using FL.WebAPI.Core.Items.Mapper.v1.Contracts;
-using FL.WebAPI.Core.Items.Mapper.v1.Implementation;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FL.WebAPI.Core.Items.IoC
@@ -26,21 +26,19 @@ namespace FL.WebAPI.Core.Items.IoC
     {
         public static void AddInjection(IServiceCollection services)
         {
-            services.AddSingleton<IBirdPostMapper, BirdPostMapper>();
-            services.AddSingleton<IBirdCommentMapper, BirdCommentMapper>();
+            services.AddSingleton<IPostMapper, PostMapper>();
 
             services.AddSingleton<IPostConfiguration, PostConfiguration>();
+            services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
+            
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
 
             services.AddTransient(typeof(IServiceBusPostTopicSender<>), typeof(ServiceBusPostTopicSender<>));
-            services.AddTransient(typeof(IServiceBusVotePostTopicSender<>), typeof(ServiceBusVotePostTopicSender<>));
-            services.AddTransient(typeof(IServiceBusCommentTopicSender<>), typeof(ServiceBusCommentTopicSender<>));
             
-            services.AddTransient<IBirdPostService, BirdPostService>();
-            services.AddTransient<IBirdCommentService, BirdCommentService>();
-                        
+            services.AddTransient<IPostService, PostService>();
+            
             services.AddSingleton<IClientFactory, ClientFactory>();
-            services.AddSingleton<IBirdPostRepository, BirdPostCosmosRepository>();
+            services.AddSingleton<IPostRepository, PostCosmosRepository>();
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

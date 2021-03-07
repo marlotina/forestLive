@@ -4,6 +4,6 @@ namespace FL.CosmosDb.Standard.Contracts
 {
     public interface IClientFactory
     {
-        CosmosClient InitializeCosmosBlogClientInstanceAsync();
+        CosmosClient InitializeCosmosBlogClientInstanceAsync(string cosmosDatabaseId);
     }
 }

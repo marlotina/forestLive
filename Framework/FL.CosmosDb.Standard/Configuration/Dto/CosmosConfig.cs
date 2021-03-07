@@ -4,8 +4,6 @@
     {
         public string CosmosdbConnection { get; set; }
 
-        public string CosmosDatabaseId { get; set; }
-
         public string CosmosKey { get; set; }
     }
 }

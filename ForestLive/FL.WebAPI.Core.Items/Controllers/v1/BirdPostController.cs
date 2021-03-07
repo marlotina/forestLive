@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
@@ -8,7 +9,6 @@ using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
-using FL.WebAPI.Core.Items.Configuration.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,21 +20,21 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     public class BirdPostController : ControllerBase
     {
         private readonly ILogger<BirdPostController> logger;
-        private readonly IBirdPostService itemService;
-        private readonly IBirdPostMapper birdItemMapper;
+        private readonly IPostService postService;
+        private readonly IPostMapper postMapper;
 
-        public BirdPostController(IBirdPostService itemService,
-            IBirdPostMapper birdItemMapper,
+        public BirdPostController(IPostService postService,
+            IPostMapper postMapper,
             ILogger<BirdPostController> logger)
         {
             this.logger = logger;
-            this.itemService = itemService ?? throw new ArgumentNullException(nameof(itemService));
-            this.birdItemMapper = birdItemMapper ?? throw new ArgumentNullException(nameof(birdItemMapper));
+            this.postService = postService ?? throw new ArgumentNullException(nameof(postService));
+            this.postMapper = postMapper ?? throw new ArgumentNullException(nameof(postMapper));
         }
 
         [HttpPost]
         [Route("AddPost", Name = "AddPost")]
-        public async Task<IActionResult> AddPost([FromBody] BirdPostRequest request)
+        public async Task<IActionResult> AddPost([FromBody] PostRequest request)
         {
             try
             {
@@ -45,18 +45,47 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     || string.IsNullOrWhiteSpace(request.ImageData))
                     return this.BadRequest();
 
-                var post = this.birdItemMapper.Convert(request);
+                var post = this.postMapper.Convert(request);
 
                 var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.itemService.AddBirdPost(post, imageStream, request.ImageName);
+                var result = await this.postService.AddBirdPost(post, imageStream, request.ImageName);
 
                 if (result != null)
                 {
-                    var postResponse = this.birdItemMapper.Convert(result);
+                    var postResponse = this.postMapper.Convert(result);
                     return this.CreatedAtRoute("GetPost", new { id = postResponse.Id }, postResponse);
+                }
+                else
+                    return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+
+        [HttpGet]
+        [Route("GetComments", Name = "GetComments")]
+        public async Task<IActionResult> GetComments(Guid postId)
+        {
+            try
+            {
+                if (postId == null || postId == Guid.Empty)
+                {
+                    this.BadRequest();
+                }
+
+                var result = await this.postService.GetCommentByPost(postId);
+
+                if (result != null)
+                {
+                    var itemResponse = result.Select(x => this.postMapper.Convert(x));
+                    return this.Ok(itemResponse);
                 }
                 else
                     return this.BadRequest();
@@ -79,7 +108,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.itemService.DeleteBirdPost(postId, userId);
+                var result = await this.postService.DeleteBirdPost(postId, userId);
 
                 if (result)
                 {
@@ -114,11 +143,11 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = await this.itemService.GetBirdPost(postId);
+                var result = await this.postService.GetBirdPost(postId);
 
                 if (result != null)
                 {
-                    var itemResponse = this.birdItemMapper.Convert(result);
+                    var itemResponse = this.postMapper.Convert(result);
                     return this.Ok(itemResponse);
                 }
                 else

@@ -14,6 +14,6 @@ namespace FL.CosmosDb.Standard.Configuration.Implementations
             this.configuration = configuration;
         }
 
-        public CosmosConfig DataConfig => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfig>();
+        public CosmosConfig DataConfig => this.configuration.GetSection("CosmosInfrastructureConfiguration").Get<CosmosConfig>();
     }
 }

@@ -9,28 +9,29 @@ using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
-    public class BirdPostService : IBirdPostService
+    public class PostService : IPostService
     {
-        private readonly IPostConfiguration itemConfiguration;
+        private readonly IPostConfiguration postConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
-        private readonly IBirdPostRepository itemsRepository;
-        private readonly ILogger<BirdPostService> logger;
+        private readonly IPostRepository postRepository;
+        private readonly ILogger<PostService> logger;
         private readonly IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
 
-        public BirdPostService(IPostConfiguration itemConfiguration,
+        public PostService(IPostConfiguration postConfiguration,
             IBlobContainerRepository blobContainerRepository,
-            IBirdPostRepository itemsRepository,
+            IPostRepository postRepository,
             IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
-            ILogger<BirdPostService> logger)
+            ILogger<PostService> logger)
         {
             this.blobContainerRepository = blobContainerRepository;
-            this.itemConfiguration = itemConfiguration;
-            this.itemsRepository = itemsRepository;
+            this.postConfiguration = postConfiguration;
+            this.postRepository = postRepository;
             this.serviceBusCreatedPostTopic = serviceBusCreatedPostTopic;
             this.logger = logger;
         }
@@ -40,7 +41,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             try
             {
                 var folder = birdPost.UserId + "/" + DateTime.Now.ToString("ddMMyyyhhmm");
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.itemConfiguration.BirdPhotoContainer, folder);
+                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
 
                 if (result)
                 {
@@ -59,7 +60,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                         birdPost.SpecieName = string.Empty;
                     }
 
-                    var post = await this.itemsRepository.CreatePostAsync(birdPost);
+                    var post = await this.postRepository.CreatePostAsync(birdPost);
                     await this.serviceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
 
                     return post;
@@ -77,18 +78,18 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var post = await this.itemsRepository.GetPostAsync(birdPostId);
+                var post = await this.postRepository.GetPostAsync(birdPostId);
                 if (userId == post.UserId)
                 {
                     var image = post.ImageUrl;
                     var partitionKey = post.PostId.ToString();
                     var id = post.Id;
                     var userPartitionKey = post.UserId;
-                    var result = await this.blobContainerRepository.DeleteFileToStorage(image, this.itemConfiguration.BirdPhotoContainer);
+                    var result = await this.blobContainerRepository.DeleteFileToStorage(image, this.postConfiguration.BirdPhotoContainer);
 
                     if (result)
                     {
-                        await this.itemsRepository.DeletePostAsync(id, partitionKey);
+                        await this.postRepository.DeletePostAsync(id, partitionKey);
                         await this.serviceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
                     }
 
@@ -113,7 +114,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                return await this.itemsRepository.GetPostAsync(birdPostId);
+                return await this.postRepository.GetPostAsync(birdPostId);
             }
             catch (Exception ex)
             {
@@ -121,6 +122,20 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
 
             return null;
+        }
+
+        public async Task<List<BirdComment>> GetCommentByPost(Guid postId)
+        {
+            try
+            {
+                return await this.postRepository.GetCommentsAsync(postId);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "GetCommentByItem");
+            }
+
+            return new List<BirdComment>();
         }
     }
 }

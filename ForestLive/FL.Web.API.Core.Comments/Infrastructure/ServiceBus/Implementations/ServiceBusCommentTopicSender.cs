@@ -13,11 +13,11 @@ namespace FL.Web.API.Core.Comments.Infrastructure.ServiceBus.Implementations
     {
         private readonly TopicClient topicClient;
         private readonly IPostConfiguration itemConfiguration;
-        private readonly ILogger<ServiceBusPostTopicSender<T>> logger;
+        private readonly ILogger<ServiceBusCommentTopicSender<T>> logger;
 
         public ServiceBusCommentTopicSender(
             IPostConfiguration itemConfiguration,
-            ILogger<ServiceBusPostTopicSender<T>> logger)
+            ILogger<ServiceBusCommentTopicSender<T>> logger)
         {
             this.itemConfiguration = itemConfiguration;
             this.logger = logger;

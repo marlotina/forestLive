@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FL.WebAPI.Core.Items.Models.v1.Response
+namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 {
     public class BirdCommentResponse
     {

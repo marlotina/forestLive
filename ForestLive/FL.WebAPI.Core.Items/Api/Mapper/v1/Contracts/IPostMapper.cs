@@ -4,10 +4,12 @@ using FL.WebAPI.Core.Items.Domain.Entities;
 
 namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts
 {
-    public interface IBirdPostMapper
+    public interface IPostMapper
     {
-        BirdPost Convert(BirdPostRequest source);
+        BirdPost Convert(PostRequest source);
 
-        BirdPostResponse Convert(BirdPost source);
+        PostResponse Convert(BirdPost source);
+
+        BirdCommentResponse Convert(BirdComment source);
     }
 }

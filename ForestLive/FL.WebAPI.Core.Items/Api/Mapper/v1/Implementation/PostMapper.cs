@@ -1,4 +1,5 @@
-﻿using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
+﻿using FL.Pereza.Helpers.Standard.Images;
+using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Api.Models.v1.Response;
 using FL.WebAPI.Core.Items.Domain.Entities;
@@ -8,9 +9,9 @@ using System.Linq;
 
 namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
 {
-    public class BirdPostMapper : IBirdPostMapper
+    public class PostMapper : IPostMapper
     {
-        public BirdPost Convert(BirdPostRequest source)
+        public BirdPost Convert(PostRequest source)
         {
             var result = default(BirdPost);
             if (source != null)
@@ -34,12 +35,12 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public BirdPostResponse Convert(BirdPost source)
+        public PostResponse Convert(BirdPost source)
         {
-            var result = default(BirdPostResponse);
+            var result = default(PostResponse);
             if (source != null)
             {
-                result = new BirdPostResponse()
+                result = new PostResponse()
                 {
                     Id = source.Id,
                     PostId = source.PostId,
@@ -57,6 +58,24 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString(),
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy")
+                };
+            }
+            return result;
+        }
+
+        public BirdCommentResponse Convert(BirdComment source)
+        {
+            var result = default(BirdCommentResponse);
+            if (source != null)
+            {
+                result = new BirdCommentResponse()
+                {
+                    Id = source.Id,
+                    Text = source.Text,
+                    UserId = source.UserId,
+                    CreateDate = source.CreateDate.ToString("dd/MM/yyyy hh:mm"),
+                    PostId = source.PostId,
+                    UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION
                 };
             }
             return result;

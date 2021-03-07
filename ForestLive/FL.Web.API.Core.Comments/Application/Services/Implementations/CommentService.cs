@@ -86,5 +86,10 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
 
             return false;
         }
+
+        public Task<List<BirdComment>> GetCommentByPost(string userId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

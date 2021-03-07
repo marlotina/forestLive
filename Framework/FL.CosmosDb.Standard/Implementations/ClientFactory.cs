@@ -15,19 +15,18 @@ namespace FL.CosmosDb.Standard.Implementations
             this.cosmosConfiguration = cosmosConfiguration;
         }
 
-        public CosmosClient InitializeCosmosBlogClientInstanceAsync()
+        public CosmosClient InitializeCosmosBlogClientInstanceAsync(string cosmosDatabaseId)
         {
             if (this.client == null)
             {
                 var config = this.cosmosConfiguration.DataConfig;
 
-                var databaseName = config.CosmosDatabaseId;
                 var account = config.CosmosdbConnection;
                 var key = config.CosmosKey;
 
                 CosmosClientBuilder clientBuilder = new CosmosClientBuilder(account, key);
                 this.client = clientBuilder
-                    .WithApplicationName(databaseName)
+                    .WithApplicationName(cosmosDatabaseId)
                     .WithConnectionModeDirect()
                     .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
                     .Build();

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
-    public interface IBirdPostRepository
+    public interface IPostRepository
     {
         Task<BirdPost> CreatePostAsync(BirdPost post);
 
@@ -15,12 +15,6 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 
         Task<BirdPost> GetPostAsync(Guid postId);
 
-        Task<BirdComment> CreateCommentAsync(BirdComment comment);
-
-        Task<bool> DeleteCommentAsync(Guid commentId, Guid postId);
-
         Task<List<BirdComment>> GetCommentsAsync(Guid postId);
-
-        Task<BirdComment> GetCommentAsync(Guid commentId, Guid postId);
     }
 }
