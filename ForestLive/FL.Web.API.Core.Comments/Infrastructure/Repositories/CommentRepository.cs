@@ -70,8 +70,6 @@ namespace FL.Web.API.Core.Comments.Infrastructure.Repositories
             {
 
                 return await this.commentContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.UserId.ToString()));
-                //var obj = new dynamic[] { comment.PostId, comment };
-                //var result = await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("createComment", new PartitionKey(comment.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
@@ -85,8 +83,6 @@ namespace FL.Web.API.Core.Comments.Infrastructure.Repositories
             try
             {
                 await this.commentContainer.DeleteItemAsync<BirdComment>(commentId.ToString(), new PartitionKey(userId));
-                //var obj = new dynamic[] { postId, commentId };
-                //var result = await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(postId.ToString()), obj);
             }
             catch (Exception ex)
             {
