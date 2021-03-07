@@ -1,35 +1,43 @@
 using System;
-using FL.Functions.Post.Model;
-using FL.Functions.Post.Services;
+using System.Text;
+using FL.Functions.Posts.Model;
+using FL.Functions.Posts.Services;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace FL.Functions.Votes
+namespace FL.Functions.Posts
 {
     public class VotePost
     {
-        private readonly IPostCosmosService postDbService;
+        private readonly IPostCosmosService postCosmosService;
 
-        public VotePost(IPostCosmosService postDbService)
+        public VotePost(IPostCosmosService postCosmosService)
         {
-            this.postDbService = postDbService;
+            this.postCosmosService = postCosmosService;
         }
 
-        [FunctionName("AddVote")]
+        [FunctionName("VotePosts")]
         public void Run([ServiceBusTrigger(
                 "votes",
                 "vote",
-                Connection = "ServiceBusConnectionString")] string message,
+                Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<VotePostDto>(message);
-
-                if (vote != null)
+                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
+                if (vote.Id != null && vote.Id != Guid.Empty)
                 {
-                    this..CreateVoteInUserAsync(vote);
+                    if (message.Label == "voteCreated")
+                    {
+                        this.postCosmosService.AddVotePostAsync(vote);
+                    }
+                    else if (message.Label == "voteDeleted")
+                    {
+                        this.postCosmosService.DeleteVotePostAsync(vote);
+                    }
                 }
             }
             catch (Exception ex)

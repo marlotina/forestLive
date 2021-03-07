@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Text;
 
-namespace FL.Functions.Post
+namespace FL.Functions.Posts
 {
     public class PostComment
     {
