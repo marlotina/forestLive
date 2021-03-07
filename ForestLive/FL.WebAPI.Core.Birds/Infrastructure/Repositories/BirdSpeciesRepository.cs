@@ -27,7 +27,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
         private Container InitialClient()
         {
             var config = this.birdsConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync();
+            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
         }
 
