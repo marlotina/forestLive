@@ -26,12 +26,36 @@ namespace FL.Functions.Post.Services
             }
         }
 
+        public async Task AddVotePostAsync(VotePostDto vote)
+        {
+            try
+            {
+                var obj = new dynamic[] { vote.PostId, vote };
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("createVote", new PartitionKey(vote.PostId.ToString()), obj);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
         public async Task DeleteCommentPostAsync(BirdComment comment)
         {
             try
             {
                 var obj = new dynamic[] { comment.PostId, comment };
                 var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(comment.PostId.ToString()), obj);
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public async Task DeleteVotePostAsync(VotePostDto vote)
+        {
+            try
+            {
+                var obj = new dynamic[] { vote.PostId, vote };
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {

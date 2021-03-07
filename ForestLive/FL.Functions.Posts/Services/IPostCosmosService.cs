@@ -8,5 +8,9 @@ namespace FL.Functions.Post.Services
         Task AddCommentPostAsync(BirdComment comment);
 
         Task DeleteCommentPostAsync(BirdComment comment);
+
+        Task AddVotePostAsync(VotePostDto vote);
+
+        Task DeleteVotePostAsync(VotePostDto vote);
     }
 }

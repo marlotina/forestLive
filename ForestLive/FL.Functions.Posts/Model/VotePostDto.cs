@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Functions.Post.Model
+namespace FL.Functions.Posts.Model
 {
     public class VotePostDto
     {
