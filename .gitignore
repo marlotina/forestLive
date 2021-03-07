@@ -372,3 +372,5 @@ ForestLive/FL.Web.API.Core.User.Posts/appsettings.QA.json
 ForestLive/FL.Web.API.Core.Comments/appsettings.json
 ForestLive/FL.Web.API.Core.Comments/appsettings.QA.json
 ForestLive/FL.Web.API.Core.Comments/appsettings.Development.json
+ForestLive/FL.Web.Api.Core.Votes/appsettings.Development.json
+ForestLive/FL.Web.Api.Core.Votes/appsettings.json

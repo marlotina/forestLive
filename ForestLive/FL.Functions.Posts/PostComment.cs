@@ -1,5 +1,5 @@
-using FL.Functions.Post.Services;
 using FL.Functions.Posts.Model;
+using FL.Functions.Posts.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;

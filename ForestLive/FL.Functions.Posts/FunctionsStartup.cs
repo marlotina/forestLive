@@ -1,12 +1,11 @@
-﻿using FL.Functions.BirdPost.Services;
-using Microsoft.Azure.Cosmos;
+﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup(typeof(FL.Functions.Post.Startup))]
-namespace FL.Functions.Post
+[assembly: FunctionsStartup(typeof(FL.Functions.Posts.Startup))]
+namespace FL.Functions.Posts
 {
     public class Startup : FunctionsStartup
     {
@@ -28,9 +27,9 @@ namespace FL.Functions.Post
                 .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
                 .Build();
 
-            var postCosmosDbService = new BirdsCosmosDbService(client, databaseName);
+            var postCosmosDbService = new PostCosmosService(client, databaseName);
 
-            builder.Services.AddSingleton<IBirdsCosmosDbService>(postCosmosDbService);
+            builder.Services.AddSingleton<IPostCosmosService>(postCosmosDbService);
         }
     }
 }

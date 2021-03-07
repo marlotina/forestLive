@@ -1,7 +1,7 @@
 ﻿using FL.Functions.Posts.Model;
 using System.Threading.Tasks;
 
-namespace FL.Functions.Post.Services
+namespace FL.Functions.Posts.Services
 {
     public interface IPostCosmosService
     {

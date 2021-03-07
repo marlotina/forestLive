@@ -3,7 +3,7 @@ using Microsoft.Azure.Cosmos;
 using System;
 using System.Threading.Tasks;
 
-namespace FL.Functions.Post.Services
+namespace FL.Functions.Posts.Services
 {
     public class PostCosmosService : IPostCosmosService
     {
