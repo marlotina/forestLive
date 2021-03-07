@@ -8,7 +8,7 @@ namespace FL.Web.Api.Core.Votes.Configuration.Contracts
 
         string Host { get; }
 
-        CosmosConfig CosmosConfiguration { get; }
+        CosmosConfiguration CosmosConfiguration { get; }
 
         ServiceBusConfig ServiceBusConfig { get;  }
     }

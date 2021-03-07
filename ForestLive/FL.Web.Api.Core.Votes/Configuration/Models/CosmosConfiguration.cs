@@ -1,6 +1,6 @@
 ﻿namespace FL.Web.Api.Core.Votes.Configuration.Models
 {
-    public class CosmosConfig
+    public class CosmosConfiguration
     {
         public string CosmosDatabaseId { get; set; }
 

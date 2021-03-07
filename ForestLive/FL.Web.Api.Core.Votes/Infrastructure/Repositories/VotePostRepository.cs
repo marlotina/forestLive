@@ -11,21 +11,21 @@ namespace FL.Web.Api.Core.Votes.Infrastructure.Repositories
     public class VotePostRepository : IVotePostRepository
     {
         private IClientFactory clientFactory;
-        private IVoteConfiguration itemConfiguration;
+        private IVoteConfiguration voteConfiguration;
         private Container voteContainer;
 
         public VotePostRepository(IClientFactory clientFactory,
-            IVoteConfiguration itemConfiguration)
+            IVoteConfiguration voteConfiguration)
         {
             this.clientFactory = clientFactory;
-            this.itemConfiguration = itemConfiguration;
+            this.voteConfiguration = voteConfiguration;
             this.voteContainer = InitialCLient();
         }
 
         private Container InitialCLient()
         {
-            var config = this.itemConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync();
+            var config = this.voteConfiguration.CosmosConfiguration;
+            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosVoteContainer);
         }
 
