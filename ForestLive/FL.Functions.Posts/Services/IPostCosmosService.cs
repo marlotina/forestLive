@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace FL.Functions.Post.Services
 {
-    public interface IBirdsCosmosDbService
+    public interface IPostCosmosService
     {
         Task AddCommentPostAsync(BirdComment comment);
 

@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace FL.Functions.Post.Services
 {
-    public class BirdsCosmosDbService : IBirdsCosmosDbService
+    public class PostCosmosService : IPostCosmosService
     {
         private Container postContainer;
 
-        public BirdsCosmosDbService(CosmosClient dbClient, string databaseName)
+        public PostCosmosService(CosmosClient dbClient, string databaseName)
         {
             this.postContainer = dbClient.GetContainer(databaseName, "posts");
         }

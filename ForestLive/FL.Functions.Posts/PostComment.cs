@@ -11,17 +11,17 @@ namespace FL.Functions.Post
 {
     public class PostComment
     {
-        private readonly IBirdsCosmosDbService postDbService;
+        private readonly IPostCosmosService postDbService;
 
-        public PostComment(IBirdsCosmosDbService postDbService)
+        public PostComment(IPostCosmosService postDbService)
         {
             this.postDbService = postDbService;
         }
 
-        [FunctionName("BirdPost")]
+        [FunctionName("CommentPost")]
         public void Run([ServiceBusTrigger(
-            "post",
-            "BirdPostTopic",
+            "comment",
+            "PostCommentTopic",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
