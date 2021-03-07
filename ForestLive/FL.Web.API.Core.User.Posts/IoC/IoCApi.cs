@@ -22,11 +22,11 @@ namespace FL.WebAPI.Core.User.Posts.IoC
         {
             services.AddSingleton<IBirdPostMapper, BirdPostMapper>();
 
-            services.AddSingleton<IItemConfiguration, ItemConfiguration>();
+            services.AddSingleton<IUserPostConfiguration, UserPostConfiguration>();
             services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>(); 
 
 
-            services.AddTransient<IBirdUserPostService, BirdUserPostService>();
+            services.AddTransient<IUserPostService, UserPostService>();
                         
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IBirdUserRepository, BirdUserCosmosRepository>();

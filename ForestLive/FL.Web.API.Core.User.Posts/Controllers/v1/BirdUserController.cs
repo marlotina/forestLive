@@ -14,15 +14,15 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
     public class BirdUserController : Controller
     {
         private readonly ILogger<BirdUserController> logger;
-        private readonly IBirdUserPostService userItemService;
+        private readonly IUserPostService userPostService;
         private readonly IBirdPostMapper birdPostMapper;
 
         public BirdUserController(
             ILogger<BirdUserController> logger,
-            IBirdUserPostService userItemService,
+            IUserPostService userPostService,
             IBirdPostMapper birdPostMapper)
         {
-            this.userItemService = userItemService;
+            this.userPostService = userPostService;
             this.birdPostMapper = birdPostMapper;
             this.logger = logger;
         }
@@ -34,7 +34,7 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
         {
             try
             {
-                var result = await this.userItemService.GetPostsByUserId(userId);
+                var result = await this.userPostService.GetPostsByUserId(userId);
 
                 if (result != null && result.Any())
                 {
@@ -58,7 +58,7 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
         {
             try
             {
-                var result = await this.userItemService.GetPostsByUserId(userId);
+                var result = await this.userPostService.GetPostsByUserId(userId);
 
                 if (result != null && result.Any())
                 {

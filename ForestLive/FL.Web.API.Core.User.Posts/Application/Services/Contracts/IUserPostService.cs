@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.User.Posts.Application.Services.Contracts
 {
-    public interface IBirdUserPostService
+    public interface IUserPostService
     {
         Task<IEnumerable<BirdPost>> GetPostsByUserId(string userId);
     }

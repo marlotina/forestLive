@@ -12,21 +12,21 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
     public class BirdUserCosmosRepository : IBirdUserRepository
     {
         private IClientFactory clientFactory;
-        private IItemConfiguration itemConfiguration;
+        private IUserPostConfiguration userPostConfiguration;
         private Container usersContainer;
 
         public BirdUserCosmosRepository(IClientFactory clientFactory,
-            IItemConfiguration itemConfiguration)
+            IUserPostConfiguration userPostConfiguration)
         {
             this.clientFactory = clientFactory;
-            this.itemConfiguration = itemConfiguration;
+            this.userPostConfiguration = userPostConfiguration;
             this.usersContainer = InitialClient();
         }
 
         private Container InitialClient()
         {
-            var config = this.itemConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync();
+            var config = this.userPostConfiguration.CosmosConfiguration;
+            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 

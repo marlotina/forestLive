@@ -4,11 +4,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace FL.WebAPI.Core.User.Posts.Configuration.Implementations
 {
-    public class ItemConfiguration : IItemConfiguration
+    public class UserPostConfiguration : IUserPostConfiguration
     {
         private readonly IConfiguration configuration;
 
-        public ItemConfiguration(IConfiguration configuration)
+        public UserPostConfiguration(IConfiguration configuration)
         {
             this.configuration = configuration;
         }

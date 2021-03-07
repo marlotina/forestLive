@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.User.Posts.Configuration.Contracts
 {
-    public interface IItemConfiguration
+    public interface IUserPostConfiguration
     {
         CosmosConfiguration CosmosConfiguration { get; }
     }

@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
 {
-    public class BirdUserPostService : IBirdUserPostService
+    public class UserPostService : IUserPostService
     {
         private readonly IBirdUserRepository userRepository;
-        private readonly ILogger<BirdUserPostService> logger;
+        private readonly ILogger<UserPostService> logger;
 
-        public BirdUserPostService(
+        public UserPostService(
             IBirdUserRepository userRepository,
-            ILogger<BirdUserPostService> logger)
+            ILogger<UserPostService> logger)
         {
             this.userRepository = userRepository;
             this.logger = logger;
