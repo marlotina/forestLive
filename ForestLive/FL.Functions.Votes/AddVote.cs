@@ -19,7 +19,7 @@ namespace FL.Functions.Votes
         [FunctionName("AddVote")]
         public void Run([ServiceBusTrigger(
                 "votes",
-                "user",
+                "vote",
                 Connection = "ServiceBusConnectionString")] string message,
             ILogger log)
         {

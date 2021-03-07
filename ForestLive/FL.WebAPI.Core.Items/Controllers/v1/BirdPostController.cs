@@ -19,20 +19,17 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     [ApiController]
     public class BirdPostController : ControllerBase
     {
-        private readonly IPostConfiguration itemConfiguration;
         private readonly ILogger<BirdPostController> logger;
         private readonly IBirdPostService itemService;
         private readonly IBirdPostMapper birdItemMapper;
 
         public BirdPostController(IBirdPostService itemService,
             IBirdPostMapper birdItemMapper,
-            IPostConfiguration itemConfiguration,
             ILogger<BirdPostController> logger)
         {
             this.logger = logger;
             this.itemService = itemService ?? throw new ArgumentNullException(nameof(itemService));
             this.birdItemMapper = birdItemMapper ?? throw new ArgumentNullException(nameof(birdItemMapper));
-            this.itemConfiguration = itemConfiguration;
         }
 
         [HttpPost]

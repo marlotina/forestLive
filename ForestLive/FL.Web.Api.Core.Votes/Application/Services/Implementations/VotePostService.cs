@@ -1,4 +1,5 @@
 ﻿using FL.Pereza.Helpers.Standard.Enums;
+using FL.Web.Api.Core.Votes.Application.Exceptions;
 using FL.Web.Api.Core.Votes.Application.Services.Contracts;
 using FL.Web.Api.Core.Votes.Domain.Entities;
 using FL.Web.Api.Core.Votes.Domain.Enum;
@@ -24,15 +25,34 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
 
         public async Task<VotePost> AddVotePost(VotePost votePost)
         {
-
+            votePost.Id = Guid.NewGuid();
             votePost.CreationDate = DateTime.UtcNow;
             votePost.Type = ItemHelper.VOTE_TYPE;
 
-            var result = await this.votePostRepository.AddVotePost(votePost);
+            var result = await this.votePostRepository.AddVote(votePost);
             await this.serviceBusVotePostTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_CREATED);
 
-
             return result;
+        }
+
+        public async Task<bool> DeleteVotePost(Guid voteId, string partitionKey, string userId)
+        {
+            var vote = await this.votePostRepository.GetVoteAsync(voteId, partitionKey);
+            if (userId == vote.UserId && vote != null)
+            {
+                var result = await this.votePostRepository.DeleteVoteAsync(voteId, partitionKey);
+                if (result)
+                {
+                    await this.serviceBusVotePostTopicSender.SendMessage(vote, TopicHelper.LABEL_VOTE_DELETED);
+                    return true;
+                }
+
+                return result;
+            }
+            else
+            {
+                throw new UnauthorizedRemove();
+            }
         }
     }
 }

@@ -1,6 +1,8 @@
 ﻿using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.Web.Api.Core.Votes.Api.Mapper.v1.Contracts;
 using FL.Web.Api.Core.Votes.Api.Models.v1.Request;
+using FL.Web.Api.Core.Votes.Application.Exceptions;
 using FL.Web.Api.Core.Votes.Application.Services.Contracts;
 using FL.Web.Api.Core.Votes.Configuration.Contracts;
 using Microsoft.AspNetCore.Mvc;
@@ -51,6 +53,38 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
                 }
                 else
                     return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+        [HttpDelete]
+        [Route("DeleteVote", Name = "DeleteVote")]
+        public async Task<IActionResult> DeleteVote(Guid voteId, Guid postId)
+        {
+            try
+            {
+                if (voteId == null || voteId == Guid.Empty || postId == null || postId == Guid.Empty)
+                {
+                    return this.BadRequest();
+                }
+
+                var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                var result = await this.votePostService.DeleteVotePost(voteId, userId, userId);
+
+                if (result)
+                    return this.Ok();
+                else
+                    return this.BadRequest();
+
+            }
+            catch (UnauthorizedRemove ex)
+            {
+                this.logger.LogInfo(ex);
+                return this.Unauthorized();
             }
             catch (Exception ex)
             {

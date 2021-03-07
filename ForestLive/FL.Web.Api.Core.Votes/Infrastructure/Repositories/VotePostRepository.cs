@@ -12,14 +12,14 @@ namespace FL.Web.Api.Core.Votes.Infrastructure.Repositories
     {
         private IClientFactory clientFactory;
         private IVoteConfiguration itemConfiguration;
-        private Container postContainer;
+        private Container voteContainer;
 
         public VotePostRepository(IClientFactory clientFactory,
             IVoteConfiguration itemConfiguration)
         {
             this.clientFactory = clientFactory;
             this.itemConfiguration = itemConfiguration;
-            this.postContainer = InitialCLient();
+            this.voteContainer = InitialCLient();
         }
 
         private Container InitialCLient()
@@ -29,19 +29,49 @@ namespace FL.Web.Api.Core.Votes.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosVoteContainer);
         }
 
-        public async Task<VotePost> AddVotePost(VotePost votePost)
+        public async Task<VotePost> GetVoteAsync(Guid voteId, string userId)
         {
             try
             {
-                var obj = new dynamic[] { votePost.PostId, votePost };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<VotePost>("createVote", new PartitionKey(votePost.PostId.ToString()), obj);
+                ItemResponse<VotePost> response = await this.voteContainer.ReadItemAsync<VotePost>(voteId.ToString(), new PartitionKey(userId.ToString()));
+                var ru = response.RequestCharge;
+                return response.Resource;
             }
-            catch (Exception es)
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
+        }
+
+        public async Task<VotePost> AddVote(VotePost votePost)
+        {
+            var result = default(VotePost);
+            try
+            {
+                result = await this.voteContainer.CreateItemAsync<VotePost>(votePost, new PartitionKey(votePost.UserId.ToString()));
+                //var obj = new dynamic[] { votePost.PostId, votePost };
+                //var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<VotePost>("createVote", new PartitionKey(votePost.PostId.ToString()), obj);
+            }
+            catch (Exception ex)
             {
             }
 
-            return votePost;
+            return result;
             //return await this.postContainer.CreateItemAsync<VotePost>(votePost, new PartitionKey(votePost.PostId.ToString()));
+        }
+
+        public async Task<bool> DeleteVoteAsync(Guid id, string partitionKey)
+        {
+            try
+            {
+                await this.voteContainer.DeleteItemAsync<VotePost>(id.ToString(), new PartitionKey(partitionKey));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+            
         }
     }
 }
