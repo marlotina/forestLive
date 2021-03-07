@@ -13,7 +13,7 @@ namespace FL.WebAPI.Core.Items.Configuration.Implementations
             this.configuration = configuration;
         }
 
-        public CosmosConfig CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfig>();
+        public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
 
         public string Host => this.configuration.GetSection("Host").Get<string>();
 
