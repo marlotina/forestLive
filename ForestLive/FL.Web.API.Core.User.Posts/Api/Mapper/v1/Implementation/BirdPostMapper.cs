@@ -35,7 +35,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     Longitude = source.Location.Position.Longitude,
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
                     SpecieStatus = source.SpecieStatus,
-                    HasVote = postVotes.Contains(source.PostId),
+                    HasVote = postVotes.Any() ? postVotes.Contains(source.PostId) : false,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
             }

@@ -38,7 +38,6 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
                 
                 var result = await this.userPostService.GetPostsByUserId(userId);
-                
 
                 if (result != null && result.Any())
                 {

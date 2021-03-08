@@ -51,7 +51,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
                     return await this.userVotesRepository.GetUserVoteByPosts(listPost, webUserId);
                 }
 
-                return null;
+                return new List<Guid>();
             }
             catch (Exception ex)
             {
