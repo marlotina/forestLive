@@ -7,6 +7,7 @@ using FL.Web.Api.Core.Votes.Domain.Repositories;
 using FL.Web.Api.Core.Votes.Infrastructure.ServiceBus.Contracts;
 using FL.Web.API.Core.Votes.Domain.Dto;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
@@ -59,6 +60,11 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
             }
         }
 
+        public async Task<List<VotePost>> GetVoteUserByPost(List<Guid> listPost, string userId)
+        {
+            return await this.votePostRepository.GetVotePostAsync(listPost, userId);
+        }
+
         private BirdVoteDto Convert(VotePost source, Guid specieId)
         {
             var result = default(BirdVoteDto);
@@ -72,9 +78,11 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
                     CreationDate = source.CreationDate,
                     Id = source.Id,
                     OwnerUserId = source.OwnerUserId,
-                    SpecieId = specieId
+                    SpecieId = specieId,
+                    Type = source.Type
                 };
             }
+
             return result;
         }
     }
