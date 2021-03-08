@@ -31,11 +31,11 @@ namespace FL.Functions.BirdPost
                 var comment = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
                 if (comment.Id != null && comment.Id != Guid.Empty)
                 {
-                    if (message.Label == "voteCreated")
+                    if (message.Label == "commentCreated")
                     {
                         this.userPostCosmosService.AddCommentAsync(comment);
                     }
-                    else if (message.Label == "voteDeleted")
+                    else if (message.Label == "commentDeleted")
                     {
                         this.userPostCosmosService.DeleteCommentAsync(comment);
                     }

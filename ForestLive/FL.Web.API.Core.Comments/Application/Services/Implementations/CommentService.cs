@@ -73,11 +73,14 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
                 var comment = await this.commentRepository.GetCommentAsync(commentId, userId);
                 if (userId == comment.UserId && comment != null)
                 {
-                    await this.commentRepository.DeleteCommentAsync(commentId, userId);
+                    var result = await this.commentRepository.DeleteCommentAsync(commentId, userId);
 
-                    var message = this.Convert(comment, specieId);
-                    await this.serviceBusCommentTopicSender.SendMessage(message, TopicHelper.LABEL_COMMENT_DELETED);
-                    return true;
+                    if (result)
+                    {
+                        var message = this.Convert(comment, specieId);
+                        await this.serviceBusCommentTopicSender.SendMessage(message, TopicHelper.LABEL_COMMENT_DELETED);
+                        return true;
+                    }
                 }
                 else
                 {

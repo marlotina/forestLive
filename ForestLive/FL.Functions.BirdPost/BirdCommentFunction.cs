@@ -21,7 +21,7 @@ namespace FL.Functions.BirdPost
         [FunctionName("FunctionBirdComment")]
         public void Run([ServiceBusTrigger(
             "comment",
-            "commentUserPostTopic",
+            "commentBirdTopic",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
@@ -30,11 +30,11 @@ namespace FL.Functions.BirdPost
                 var comment = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
                 if (comment.Id != null && comment.Id != Guid.Empty)
                 {
-                    if (message.Label == "voteCreated")
+                    if (message.Label == "commentCreated")
                     {
                         this.birdsCosmosService.AddCommentAsync(comment);
                     }
-                    else if (message.Label == "voteDeleted")
+                    else if (message.Label == "commentDeleted")
                     {
                         this.birdsCosmosService.DeleteCommentAsync(comment);
                     }

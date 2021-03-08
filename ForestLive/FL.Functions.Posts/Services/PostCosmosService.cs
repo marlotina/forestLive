@@ -64,7 +64,7 @@ namespace FL.Functions.Posts.Services
         {
             try
             {
-                var obj = new dynamic[] { comment.PostId, comment };
+                var obj = new dynamic[] { comment.PostId, comment.Id };
                 var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(comment.PostId.ToString()), obj);
             }
             catch (Exception ex)
