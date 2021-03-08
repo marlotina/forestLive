@@ -25,7 +25,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
         {
             try 
             {
-                return await this.userRepository.GetBlogPostsForUserId(userId);
+                return await this.userRepository.GetPostsForUserId(userId);
             }
             catch (Exception ex)
             {

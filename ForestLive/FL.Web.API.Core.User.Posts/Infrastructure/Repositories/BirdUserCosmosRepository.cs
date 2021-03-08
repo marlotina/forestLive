@@ -30,10 +30,9 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task<List<BirdPost>> GetBlogPostsForUserId(string userId)
+        public async Task<List<BirdPost>> GetPostsForUserId(string userId)
         {
-
-            var blogPosts = new List<BirdPost>();
+            var posts = new List<BirdPost>();
 
 
             var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.createDate DESC";
@@ -46,10 +45,10 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             {
                 var response = await query.ReadNextAsync();
                 var ru = response.RequestCharge;
-                blogPosts.AddRange(response.ToList());
+                posts.AddRange(response.ToList());
             }
 
-            return blogPosts;
+            return posts;
         }
     }
 }
