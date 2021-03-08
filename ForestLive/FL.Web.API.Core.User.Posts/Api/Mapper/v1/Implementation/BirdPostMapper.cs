@@ -3,13 +3,15 @@ using FL.Web.API.Core.User.Posts.Api.Models.v1.Response;
 using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.User.Posts.Api.Models.v1.Response;
 using FL.WebAPI.Core.User.Posts.Domain.Entities;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
 {
     public class BirdPostMapper : IBirdPostMapper
     {
-        public BirdPostResponse Convert(BirdPost source)
+        public BirdPostResponse Convert(BirdPost source, IEnumerable<Guid> postVotes)
         {
             var result = default(BirdPostResponse);
             if (source != null)
@@ -27,12 +29,13 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
-                    LikesCount = source.LikesCount,
+                    VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
                     Latitude = source.Location.Position.Latitude,
                     Longitude = source.Location.Position.Longitude,
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
                     SpecieStatus = source.SpecieStatus,
+                    HasVote = postVotes.Contains(source.PostId),
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
             }

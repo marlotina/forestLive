@@ -37,11 +37,16 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
                 
-                var result = await this.userPostService.GetPostsByUserId(userId, webUserId);
+                var result = await this.userPostService.GetPostsByUserId(userId);
+                
 
                 if (result != null && result.Any())
                 {
-                    var response = result.Select(x => this.birdPostMapper.Convert(x));
+                    var postList = result.Select(x => x.PostId);
+
+                    var postVotes = await this.userPostService.GetVoteByUserId(postList, webUserId);
+                    var response = result.Select(x => this.birdPostMapper.Convert(x, postVotes));
+
                     return this.Ok(response);
                 }
                 else
@@ -61,7 +66,7 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
         {
             try
             {
-                var result = await this.userPostService.GetPostsByUserId(userId, "");
+                var result = await this.userPostService.GetPostsByUserId(userId);
 
                 if (result != null && result.Any())
                 {

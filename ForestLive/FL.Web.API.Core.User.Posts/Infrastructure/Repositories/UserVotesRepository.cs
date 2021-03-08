@@ -5,8 +5,11 @@ using Newtonsoft.Json;
 using RestSharp;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace FL.Web.API.Core.User.Posts.Infrastructure.Repositories
 {
@@ -20,21 +23,22 @@ namespace FL.Web.API.Core.User.Posts.Infrastructure.Repositories
             this.userPostConfiguration = userPostConfiguration;
         }
 
-        public async Task<List<Guid>> GetUserVoteByPosts(List<Guid> listPosts, string userId)
+        public async Task<IEnumerable<Guid>> GetUserVoteByPosts(IEnumerable<Guid> listPosts, string userId)
         {
             var client = new RestClient(this.userPostConfiguration.VoteApiDomain);
-            var restRequest = new RestRequest(this.userPostConfiguration.VoteUrlService, Method.GET);
+            var restRequest = new RestRequest(this.userPostConfiguration.VoteUrlService, Method.POST);
             
             var requestVoteUser = new VotePostRequest() {
                 ListPosts = listPosts,
                 UserId = userId
             };
+
             restRequest.AddJsonBody(requestVoteUser);
 
             var response = await client.ExecuteAsync<IEnumerable<Guid>>(restRequest);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<List<Guid>>(response.Content);
+                return JsonConvert.DeserializeObject<IEnumerable<Guid>>(response.Content);
             }
 
             return null;

@@ -5,7 +5,7 @@ namespace FL.Web.API.Core.User.Posts.Domain.Dto
 {
     public class VotePostRequest
     {
-        public List<Guid> ListPosts { get; set; }
+        public IEnumerable<Guid> ListPosts { get; set; }
 
         public string UserId { get; set; }
     }

@@ -30,7 +30,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
             this.votePostService = votePostService ?? throw new ArgumentNullException(nameof(votePostService));
         }
 
-        [HttpGet]
+        [HttpPost]
         [AllowAnonymous]
         [Route("GetPostVote", Name = "GetPostVote")]
         public async Task<IActionResult> GetPostVote([FromBody] VotePostRequest request)
@@ -47,7 +47,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
 
                 if (result != null)
                 {
-                    var response = result.Select(x =>x.PostId);
+                    var response = result.Select(x => x.PostId);
                     return this.Ok(response);
                 }
                 else
