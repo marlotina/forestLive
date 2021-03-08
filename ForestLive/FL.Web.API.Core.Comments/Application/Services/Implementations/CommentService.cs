@@ -2,6 +2,7 @@
 using FL.Pereza.Helpers.Standard.Enums;
 using FL.Web.API.Core.Comments.Application.Exceptions;
 using FL.Web.API.Core.Comments.Application.Services.Contracts;
+using FL.Web.API.Core.Comments.Domain.Dto;
 using FL.Web.API.Core.Comments.Domain.Entities;
 using FL.Web.API.Core.Comments.Domain.Enum;
 using FL.Web.API.Core.Comments.Domain.Repositories;
@@ -16,11 +17,11 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
     {
         private readonly ICommentRepository commentRepository;
         private readonly ILogger<CommentService> logger;
-        private readonly IServiceBusCommentTopicSender<BirdComment> serviceBusCommentTopicSender;
+        private readonly IServiceBusCommentTopicSender<BirdCommentDto> serviceBusCommentTopicSender;
 
         public CommentService(
             ICommentRepository commentRepository,
-            IServiceBusCommentTopicSender<BirdComment> serviceBusCommentTopicSender,
+            IServiceBusCommentTopicSender<BirdCommentDto> serviceBusCommentTopicSender,
             ILogger<CommentService> logger)
         {
             this.commentRepository = commentRepository;
@@ -28,7 +29,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
             this.logger = logger;
         }
 
-        public async Task<BirdComment> AddComment(BirdComment comment)
+        public async Task<BirdComment> AddComment(BirdComment comment, Guid specieId)
         {
             try
             {
@@ -37,7 +38,9 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
                 comment.Type = ItemHelper.COMMENT_TYPE;
 
                 var response = await this.commentRepository.CreateCommentAsync(comment);
-                await this.serviceBusCommentTopicSender.SendMessage(comment, TopicHelper.LABEL_COMMENT_CREATED);
+
+                var message = this.Convert(comment, specieId);
+                await this.serviceBusCommentTopicSender.SendMessage(message, TopicHelper.LABEL_COMMENT_CREATED);
 
                 return response;
             }
@@ -63,7 +66,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
             return new List<BirdComment>();
         }
 
-        public async Task<bool> DeleteComment(Guid commentId, Guid postId, string userId)
+        public async Task<bool> DeleteComment(Guid commentId, string userId, Guid specieId)
         {
             try
             {
@@ -71,7 +74,9 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
                 if (userId == comment.UserId && comment != null)
                 {
                     await this.commentRepository.DeleteCommentAsync(commentId, userId);
-                    await this.serviceBusCommentTopicSender.SendMessage(comment, TopicHelper.LABEL_COMMENT_DELETED);
+
+                    var message = this.Convert(comment, specieId);
+                    await this.serviceBusCommentTopicSender.SendMessage(message, TopicHelper.LABEL_COMMENT_DELETED);
                     return true;
                 }
                 else
@@ -90,6 +95,26 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
         public Task<List<BirdComment>> GetCommentByPost(string userId)
         {
             throw new NotImplementedException();
+        }
+
+        private BirdCommentDto Convert(BirdComment source, Guid specieId)
+        {
+            var result = default(BirdCommentDto);
+            if (source != null)
+            {
+                result = new BirdCommentDto()
+                {
+                    PostId = source.PostId,
+                    SpecieId = specieId,
+                    UserId = source.UserId,
+                    Id = source.Id,
+                    CreateDate = source.CreateDate,
+                    Type = source.Type,
+                    Text = source.Text
+                };
+            }
+            return result;
+
         }
     }
 }

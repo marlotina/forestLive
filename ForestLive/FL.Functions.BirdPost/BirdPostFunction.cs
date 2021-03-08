@@ -9,34 +9,34 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class BirdComment
+    public class BirdPostDto
     {
         private readonly IBirdsCosmosService birdsCosmosService;
 
-        public BirdComment(IBirdsCosmosService birdsCosmosService)
+        public BirdPostDto(IBirdsCosmosService birdsCosmosService)
         {
             this.birdsCosmosService = birdsCosmosService;
         }
 
-        [FunctionName("BirdComment")]
+        [FunctionName("FunctionBirdPost")]
         public void Run([ServiceBusTrigger(
-            "comment",
-            "commentUserPostTopic",
+            "post",
+            "BirdPostTopic",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
-                var comment = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
-                if (comment.Id != null && comment.Id != Guid.Empty)
+                var post = JsonConvert.DeserializeObject<FL.Functions.BirdPost.Model.BirdPost>(Encoding.UTF8.GetString(message.Body));
+                if (post.Id != null && post.Id != Guid.Empty)
                 {
-                    if (message.Label == "voteCreated")
+                    if (message.Label == "postCreated")
                     {
-                        this.birdsCosmosService.AddCommentAsync(comment);
+                        this.birdsCosmosService.CreatePostAsync(post);
                     }
-                    else if (message.Label == "voteDeleted")
+                    else if (message.Label == "postDeleted")
                     {
-                        this.birdsCosmosService.DeleteCommentAsync(comment);
+                        this.birdsCosmosService.DeletePostAsync(post);
                     }
                 }
             }

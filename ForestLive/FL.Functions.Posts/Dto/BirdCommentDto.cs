@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Functions.BirdPost.Model
+namespace FL.Functions.Posts.Dto
 {
     public class BirdCommentDto
     {
@@ -22,5 +22,8 @@ namespace FL.Functions.BirdPost.Model
 
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
+
+        [JsonProperty(PropertyName = "specieId")]
+        public Guid SpecieId { get; set; }
     }
 }

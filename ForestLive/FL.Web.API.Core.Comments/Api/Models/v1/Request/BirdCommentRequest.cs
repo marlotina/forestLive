@@ -9,5 +9,7 @@ namespace FL.Web.API.Core.Comments.Models.v1.Request
         public string Text { get; set; }
 
         public string UserId { get; set; }
+
+        public Guid SpecieId { get; set; }
     }
 }

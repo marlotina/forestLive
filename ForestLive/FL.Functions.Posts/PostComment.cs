@@ -1,4 +1,4 @@
-using FL.Functions.Posts.Model;
+using FL.Functions.Posts.Dto;
 using FL.Functions.Posts.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
@@ -27,7 +27,7 @@ namespace FL.Functions.Posts
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<BirdComment>(Encoding.UTF8.GetString(message.Body));
+                var post = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
                 if (post.Id != null && post.Id != Guid.Empty)
                 {
                     if (message.Label == "commentCreated")

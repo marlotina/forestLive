@@ -1,4 +1,4 @@
-using FL.Functions.BirdPost.Model;
+using FL.Functions.BirdPost.Dto;
 using FL.Functions.BirdPost.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
@@ -9,34 +9,34 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class BirdPost
+    public class BirdCommentFunction
     {
         private readonly IBirdsCosmosService birdsCosmosService;
 
-        public BirdPost(IBirdsCosmosService birdsCosmosService)
+        public BirdCommentFunction(IBirdsCosmosService birdsCosmosService)
         {
             this.birdsCosmosService = birdsCosmosService;
         }
 
-        [FunctionName("BirdPost")]
+        [FunctionName("FunctionBirdComment")]
         public void Run([ServiceBusTrigger(
-            "post",
-            "BirdPostTopic",
+            "comment",
+            "commentUserPostTopic",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<BirdPostDto>(Encoding.UTF8.GetString(message.Body));
-                if (post.Id != null && post.Id != Guid.Empty)
+                var comment = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
+                if (comment.Id != null && comment.Id != Guid.Empty)
                 {
-                    if (message.Label == "postCreated")
+                    if (message.Label == "voteCreated")
                     {
-                        this.birdsCosmosService.CreatePostAsync(post);
+                        this.birdsCosmosService.AddCommentAsync(comment);
                     }
-                    else if (message.Label == "postDeleted")
+                    else if (message.Label == "voteDeleted")
                     {
-                        this.birdsCosmosService.DeletePostAsync(post);
+                        this.birdsCosmosService.DeleteCommentAsync(comment);
                     }
                 }
             }

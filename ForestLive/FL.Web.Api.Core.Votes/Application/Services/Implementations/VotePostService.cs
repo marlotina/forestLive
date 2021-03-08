@@ -5,6 +5,7 @@ using FL.Web.Api.Core.Votes.Domain.Entities;
 using FL.Web.Api.Core.Votes.Domain.Enum;
 using FL.Web.Api.Core.Votes.Domain.Repositories;
 using FL.Web.Api.Core.Votes.Infrastructure.ServiceBus.Contracts;
+using FL.Web.API.Core.Votes.Domain.Dto;
 using System;
 using System.Threading.Tasks;
 
@@ -12,11 +13,11 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
 {
     public class VotePostService : IVotePostService
     {
-        private readonly IServiceBusVotePostTopicSender<VotePost> serviceBusVotePostTopicSender;
+        private readonly IServiceBusVotePostTopicSender<BirdVoteDto> serviceBusVotePostTopicSender;
         private readonly IVotePostRepository votePostRepository;
 
         public VotePostService(
-            IServiceBusVotePostTopicSender<VotePost> serviceBusVotePostTopicSender,
+            IServiceBusVotePostTopicSender<BirdVoteDto> serviceBusVotePostTopicSender,
             IVotePostRepository votePostRepository)
         {
             this.votePostRepository = votePostRepository;
@@ -30,6 +31,14 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
             votePost.Type = ItemHelper.VOTE_TYPE;
 
             var result = await this.votePostRepository.AddVote(votePost);
+
+            var message = new BirdVoteDto()
+            {
+                PostId = votePost.PostId,
+                UserId = votePost.UserId,
+                SpecieId = votePost.SpecieId
+            };
+
             await this.serviceBusVotePostTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_CREATED);
 
             return result;

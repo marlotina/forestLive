@@ -18,7 +18,7 @@ namespace FL.Functions.BirdPost
             this.birdsCosmosService = birdsCosmosService;
         }
 
-        [FunctionName("BirdPost")]
+        [FunctionName("FunctionBirdPost")]
         public void Run([ServiceBusTrigger(
             "vote",
             "voteBirdPostTopic",
@@ -27,7 +27,7 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
+                var vote = JsonConvert.DeserializeObject<VotePost>(Encoding.UTF8.GetString(message.Body));
                 if (vote.Id != null && vote.Id != Guid.Empty)
                 {
                     if (message.Label == "voteCreated")

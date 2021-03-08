@@ -1,13 +1,14 @@
-﻿using FL.Functions.Posts.Model;
+﻿using FL.Functions.Posts.Dto;
+using FL.Functions.Posts.Model;
 using System.Threading.Tasks;
 
 namespace FL.Functions.Posts.Services
 {
     public interface IPostCosmosService
     {
-        Task AddCommentPostAsync(BirdComment comment);
+        Task AddCommentPostAsync(BirdCommentDto comment);
 
-        Task DeleteCommentPostAsync(BirdComment comment);
+        Task DeleteCommentPostAsync(BirdCommentDto comment);
 
         Task AddVotePostAsync(VotePostDto vote);
 
