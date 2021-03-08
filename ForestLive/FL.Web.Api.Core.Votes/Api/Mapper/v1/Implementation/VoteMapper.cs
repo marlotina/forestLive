@@ -17,7 +17,6 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
                     Title = source.Title,
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    Vote = source.Vote,
                     OwnerUserId = source.OwnerUserId
                 };
             }
@@ -34,7 +33,6 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
                     Title = source.Title,
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    Vote = source.Vote,
                     CreationDate = source.CreationDate,
                     Id = source.Id,
                     OwnerUserId = source.OwnerUserId

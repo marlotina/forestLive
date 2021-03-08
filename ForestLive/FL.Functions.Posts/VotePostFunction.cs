@@ -1,5 +1,6 @@
 using System;
 using System.Text;
+using FL.Functions.Posts.Dto;
 using FL.Functions.Posts.Model;
 using FL.Functions.Posts.Services;
 using Microsoft.Azure.ServiceBus;
@@ -9,11 +10,11 @@ using Newtonsoft.Json;
 
 namespace FL.Functions.Posts
 {
-    public class VotePost
+    public class VotePostFunction
     {
         private readonly IPostCosmosService postCosmosService;
 
-        public VotePost(IPostCosmosService postCosmosService)
+        public VotePostFunction(IPostCosmosService postCosmosService)
         {
             this.postCosmosService = postCosmosService;
         }

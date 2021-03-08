@@ -25,12 +25,6 @@ namespace FL.Web.Api.Core.Votes.Domain.Entities
 
         [JsonProperty(PropertyName = "CreationDate")]
         public DateTime CreationDate { get; set; }
-
-        [JsonProperty(PropertyName = "Vote")]
-        public int Vote { get; set; }
-
-        [JsonProperty(PropertyName = "SpecieId")]
-        public Guid SpecieId { get; set; }
     }
 
 }

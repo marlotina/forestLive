@@ -1,3 +1,4 @@
+using FL.Functions.UserPost.Dto;
 using FL.Functions.UserPost.Model;
 using FL.Functions.UserPost.Services;
 using Microsoft.Azure.ServiceBus;

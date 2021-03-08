@@ -4,7 +4,6 @@ using FL.Web.Api.Core.Votes.Api.Mapper.v1.Contracts;
 using FL.Web.Api.Core.Votes.Api.Models.v1.Request;
 using FL.Web.Api.Core.Votes.Application.Exceptions;
 using FL.Web.Api.Core.Votes.Application.Services.Contracts;
-using FL.Web.Api.Core.Votes.Configuration.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
@@ -44,7 +43,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
 
                 var votePost = this.voteMapper.Convert(request);
 
-                var result = await this.votePostService.AddVotePost(votePost);
+                var result = await this.votePostService.AddVotePost(votePost, request.SpecieId);
 
                 if (result != null)
                 {
@@ -63,7 +62,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteVote", Name = "DeleteVote")]
-        public async Task<IActionResult> DeleteVote(Guid voteId, Guid postId)
+        public async Task<IActionResult> DeleteVote(Guid voteId, Guid postId, Guid specieId)
         {
             try
             {
@@ -73,7 +72,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.votePostService.DeleteVotePost(voteId, userId, userId);
+                var result = await this.votePostService.DeleteVotePost(voteId, userId, userId, specieId);
 
                 if (result)
                     return this.Ok();

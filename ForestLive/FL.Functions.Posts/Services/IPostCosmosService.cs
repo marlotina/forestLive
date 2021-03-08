@@ -1,5 +1,4 @@
 ﻿using FL.Functions.Posts.Dto;
-using FL.Functions.Posts.Model;
 using System.Threading.Tasks;
 
 namespace FL.Functions.Posts.Services

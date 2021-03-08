@@ -1,13 +1,13 @@
-﻿using FL.Functions.UserPost.Model;
+﻿using FL.Functions.UserPost.Dto;
 using System.Threading.Tasks;
 
 namespace FL.Functions.UserPost.Services
 {
     public interface IUserPostCosmosService
     {
-        Task CreatePostInPendingAsync(BirdPostDto post);
+        Task CreatePostInPendingAsync(Model.BirdPost post);
 
-        Task DeletePostInPendingAsync(BirdPostDto post);
+        Task DeletePostInPendingAsync(Model.BirdPost post);
 
         Task AddVoteAsync(VotePostDto vote);
 

@@ -4,7 +4,7 @@ using System;
 
 namespace FL.Functions.UserPost.Model
 {
-    public class BirdPostDto
+    public class BirdPost
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }

@@ -1,3 +1,4 @@
+using FL.Functions.BirdPost.Dto;
 using FL.Functions.BirdPost.Model;
 using FL.Functions.BirdPost.Services;
 using Microsoft.Azure.ServiceBus;
@@ -27,7 +28,7 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<VotePost>(Encoding.UTF8.GetString(message.Body));
+                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
                 if (vote.Id != null && vote.Id != Guid.Empty)
                 {
                     if (message.Label == "voteCreated")

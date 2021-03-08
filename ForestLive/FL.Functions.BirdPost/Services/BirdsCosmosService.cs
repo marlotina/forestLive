@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace FL.Functions.BirdPost.Services
 {
-    public class BirdsCosmosDbService : IBirdsCosmosService
+    public class BirdsCosmosService : IBirdsCosmosService
     {
         private Container birdsContainer;
 
-        public BirdsCosmosDbService(CosmosClient dbClient, string databaseName)
+        public BirdsCosmosService(CosmosClient dbClient, string databaseName)
         {
             this.birdsContainer = dbClient.GetContainer(databaseName, "birds");
         }

@@ -1,4 +1,5 @@
-﻿using FL.Functions.UserPost.Model;
+﻿using FL.Functions.UserPost.Dto;
+using FL.Functions.UserPost.Model;
 using Microsoft.Azure.Cosmos;
 using System;
 using System.Threading.Tasks;
@@ -14,7 +15,7 @@ namespace FL.Functions.UserPost.Services
             this.usersContainer = dbClient.GetContainer(databaseName, "users");
         }
 
-        public async Task CreatePostInPendingAsync(BirdPostDto post)
+        public async Task CreatePostInPendingAsync(Model.BirdPost post)
         {
             try
             {
@@ -26,11 +27,11 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task DeletePostInPendingAsync(BirdPostDto post)
+        public async Task DeletePostInPendingAsync(Model.BirdPost post)
         {
             try
             {
-                await this.usersContainer.DeleteItemAsync<BirdPostDto>(post.Id.ToString(), new PartitionKey(post.UserId.ToString()));
+                await this.usersContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.UserId.ToString()));
             }
             catch (Exception ex)
             {

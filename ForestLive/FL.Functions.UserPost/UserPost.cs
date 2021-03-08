@@ -28,7 +28,7 @@ namespace FL.Functions.UserPost
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<BirdPostDto>(Encoding.UTF8.GetString(message.Body));
+                var post = JsonConvert.DeserializeObject<Model.BirdPost>(Encoding.UTF8.GetString(message.Body));
 
                 if (post.Id != null && post.Id != Guid.Empty)
                 {
