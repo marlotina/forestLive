@@ -6,9 +6,9 @@ namespace FL.Functions.BirdPost.Services
 {
     public interface IBirdsCosmosService
     {
-        Task CreatePostAsync(Model.BirdPost post);
+        Task CreatePostAsync(Model.Post post);
 
-        Task DeletePostAsync(Model.BirdPost post);
+        Task DeletePostAsync(Model.Post post);
 
         Task AddVoteAsync(VotePostDto vote);
 

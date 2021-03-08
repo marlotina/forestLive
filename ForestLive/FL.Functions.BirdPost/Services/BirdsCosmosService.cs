@@ -13,14 +13,14 @@ namespace FL.Functions.BirdPost.Services
             this.birdsContainer = dbClient.GetContainer(databaseName, "birds");
         }
 
-        public async Task CreatePostAsync(Model.BirdPost post)
+        public async Task CreatePostAsync(Model.Post post)
         {
             await this.birdsContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
         }
 
-        public async Task DeletePostAsync(Model.BirdPost post)
+        public async Task DeletePostAsync(Model.Post post)
         {
-            await this.birdsContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.SpecieId.ToString()));
+            await this.birdsContainer.DeleteItemAsync<Model.Post>(post.Id.ToString(), new PartitionKey(post.SpecieId.ToString()));
         }
 
         public async Task AddCommentAsync(BirdCommentDto comment)

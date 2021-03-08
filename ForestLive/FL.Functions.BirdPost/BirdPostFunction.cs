@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class BirdPostDto
+    public class BirdPostFunction
     {
         private readonly IBirdsCosmosService birdsCosmosService;
 
-        public BirdPostDto(IBirdsCosmosService birdsCosmosService)
+        public BirdPostFunction(IBirdsCosmosService birdsCosmosService)
         {
             this.birdsCosmosService = birdsCosmosService;
         }
@@ -27,7 +27,7 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<FL.Functions.BirdPost.Model.BirdPost>(Encoding.UTF8.GetString(message.Body));
+                var post = JsonConvert.DeserializeObject<FL.Functions.BirdPost.Model.Post>(Encoding.UTF8.GetString(message.Body));
                 if (post.Id != null && post.Id != Guid.Empty)
                 {
                     if (message.Label == "postCreated")

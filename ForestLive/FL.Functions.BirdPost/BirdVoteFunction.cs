@@ -10,16 +10,16 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class BirdVote
+    public class BirdVoteFunction
     {
         private readonly IBirdsCosmosService birdsCosmosService;
 
-        public BirdVote(IBirdsCosmosService birdsCosmosService)
+        public BirdVoteFunction(IBirdsCosmosService birdsCosmosService)
         {
             this.birdsCosmosService = birdsCosmosService;
         }
 
-        [FunctionName("FunctionBirdPost")]
+        [FunctionName("FunctionBirdVote")]
         public void Run([ServiceBusTrigger(
             "vote",
             "voteBirdPostTopic",
