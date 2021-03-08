@@ -49,15 +49,12 @@ namespace FL.Web.Api.Core.Votes.Infrastructure.Repositories
             try
             {
                 result = await this.voteContainer.CreateItemAsync<VotePost>(votePost, new PartitionKey(votePost.UserId.ToString()));
-                //var obj = new dynamic[] { votePost.PostId, votePost };
-                //var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<VotePost>("createVote", new PartitionKey(votePost.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
             }
 
             return result;
-            //return await this.postContainer.CreateItemAsync<VotePost>(votePost, new PartitionKey(votePost.PostId.ToString()));
         }
 
         public async Task<bool> DeleteVoteAsync(Guid id, string partitionKey)

@@ -11,9 +11,9 @@ namespace FL.Functions.UserPost
 {
     public class UserPost
     {
-        private readonly IUserPostCosmosDbService userPostCosmosDbService;
+        private readonly IUserPostCosmosService userPostCosmosDbService;
 
-        public UserPost(IUserPostCosmosDbService userPostCosmosDbService)
+        public UserPost(IUserPostCosmosService userPostCosmosDbService)
         {
             this.userPostCosmosDbService = userPostCosmosDbService;
         }

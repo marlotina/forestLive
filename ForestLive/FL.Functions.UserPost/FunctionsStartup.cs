@@ -28,9 +28,9 @@ namespace FL.Functions.UserPost
                 .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
                 .Build();
 
-            var postCosmosDbService = new UserPostCosmosDbService(client, databaseName);
+            var postCosmosDbService = new UserPostCosmosService(client, databaseName);
 
-            builder.Services.AddSingleton<IUserPostCosmosDbService>(postCosmosDbService);
+            builder.Services.AddSingleton<IUserPostCosmosService>(postCosmosDbService);
         }
     }
 }

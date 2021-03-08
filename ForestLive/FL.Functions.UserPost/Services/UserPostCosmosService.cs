@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace FL.Functions.UserPost.Services
 {
-    public class UserPostCosmosDbService : IUserPostCosmosDbService
+    public class UserPostCosmosService : IUserPostCosmosService
     {
         private Container usersContainer;
 
-        public UserPostCosmosDbService(CosmosClient dbClient, string databaseName)
+        public UserPostCosmosService(CosmosClient dbClient, string databaseName)
         {
             this.usersContainer = dbClient.GetContainer(databaseName, "users");
         }
@@ -36,6 +36,19 @@ namespace FL.Functions.UserPost.Services
             {
 
             }
+        }
+
+        public async Task AddVoteAsync(VotePostDto vote)
+        {
+            var obj = new dynamic[] { vote.PostId };
+            var result = await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<VotePostDto>("createVote", new PartitionKey(vote.UserId.ToString()), obj);
+        }
+
+        public async Task DeleteVoteAsync(VotePostDto vote)
+        {
+
+            var obj = new dynamic[] { vote.PostId };
+            var result = await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<VotePostDto>("deleteVote", new PartitionKey(vote.UserId.ToString()), obj);
         }
     }
 }

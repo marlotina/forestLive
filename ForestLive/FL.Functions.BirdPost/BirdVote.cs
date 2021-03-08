@@ -9,13 +9,13 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class BirdPost
+    public class BirdVote
     {
-        private readonly IBirdsCosmosService postDbService;
+        private readonly IBirdsCosmosService birdsCosmosDbService;
 
-        public BirdPost(IBirdsCosmosService postDbService)
+        public BirdVote(IBirdsCosmosService postDbService)
         {
-            this.postDbService = postDbService;
+            this.birdsCosmosDbService = postDbService;
         }
 
         [FunctionName("BirdPost")]
@@ -27,16 +27,16 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<BirdPostDto>(Encoding.UTF8.GetString(message.Body));
-                if (post.Id != null && post.Id != Guid.Empty)
+                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
+                if (vote.Id != null && vote.Id != Guid.Empty)
                 {
-                    if (message.Label == "postCreated")
+                    if (message.Label == "voteCreated")
                     {
-                        this.postDbService.CreatePostAsync(post);
+                        this.birdsCosmosDbService.AddVoteAsync(vote);
                     }
-                    else if (message.Label == "postDeleted")
+                    else if (message.Label == "voteDeleted")
                     {
-                        this.postDbService.DeletePostAsync(post);
+                        this.birdsCosmosDbService.DeleteVoteAsync(vote);
                     }
                 }
             }
