@@ -4,13 +4,19 @@ using System.Threading.Tasks;
 
 namespace FL.Functions.BirdPost.Services
 {
-    public class BirdsCosmosService : IBirdsCosmosService
+    public class BirdsCosmosDbService : IBirdsCosmosService
     {
         private Container birdsContainer;
 
-        public BirdsCosmosService(CosmosClient dbClient, string databaseName)
+        public BirdsCosmosDbService(CosmosClient dbClient, string databaseName)
         {
             this.birdsContainer = dbClient.GetContainer(databaseName, "birds");
+        }
+
+        public async Task AddCommentAsync(BirdCommentDto comment)
+        {
+            var obj = new dynamic[] { comment.PostId };
+            await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<VotePostDto>("addComment", new PartitionKey(comment.SpecieId.ToString()), obj);
         }
 
         public async Task AddVoteAsync(VotePostDto vote)
@@ -22,6 +28,12 @@ namespace FL.Functions.BirdPost.Services
         public async Task CreatePostAsync(BirdPostDto post)
         {
             await this.birdsContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
+        }
+
+        public async Task DeleteCommentAsync(BirdCommentDto comment)
+        {
+            var obj = new dynamic[] { comment.PostId };
+            await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<BirdCommentDto>("deleteComment", new PartitionKey(comment.SpecieId.ToString()), obj);
         }
 
         public async Task DeletePostAsync(BirdPostDto deletePostRequest)

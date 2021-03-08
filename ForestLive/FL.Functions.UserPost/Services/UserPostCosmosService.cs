@@ -50,5 +50,17 @@ namespace FL.Functions.UserPost.Services
             var obj = new dynamic[] { vote.PostId };
             var result = await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<VotePostDto>("deleteVote", new PartitionKey(vote.UserId.ToString()), obj);
         }
+
+        public async Task DeleteCommentAsync(BirdCommentDto comment)
+        {
+            var obj = new dynamic[] { comment.PostId };
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<BirdCommentDto>("deleteComment", new PartitionKey(comment.UserId.ToString()), obj);
+        }
+
+        public async Task AddCommentAsync(BirdCommentDto comment)
+        {
+            var obj = new dynamic[] { comment.PostId };
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<VotePostDto>("addComment", new PartitionKey(comment.UserId.ToString()), obj);
+        }
     }
 }

@@ -1,5 +1,5 @@
-using FL.Functions.BirdPost.Model;
-using FL.Functions.BirdPost.Services;
+using FL.Functions.UserPost.Model;
+using FL.Functions.UserPost.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -9,34 +9,34 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class BirdVote
+    public class UserComment
     {
-        private readonly IBirdsCosmosService birdsCosmosService;
+        private readonly IUserPostCosmosService userPostCosmosService;
 
-        public BirdVote(IBirdsCosmosService birdsCosmosService)
+        public UserComment(IUserPostCosmosService userPostCosmosService)
         {
-            this.birdsCosmosService = birdsCosmosService;
+            this.userPostCosmosService = userPostCosmosService;
         }
 
-        [FunctionName("BirdPost")]
+        [FunctionName("BirdComment")]
         public void Run([ServiceBusTrigger(
-            "vote",
-            "voteBirdPostTopic",
+            "comment",
+            "commentUserPostTopic",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
-                if (vote.Id != null && vote.Id != Guid.Empty)
+                var comment = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
+                if (comment.Id != null && comment.Id != Guid.Empty)
                 {
                     if (message.Label == "voteCreated")
                     {
-                        this.birdsCosmosService.AddVoteAsync(vote);
+                        this.userPostCosmosService.AddCommentAsync(comment);
                     }
                     else if (message.Label == "voteDeleted")
                     {
-                        this.birdsCosmosService.DeleteVoteAsync(vote);
+                        this.userPostCosmosService.DeleteCommentAsync(comment);
                     }
                 }
             }
