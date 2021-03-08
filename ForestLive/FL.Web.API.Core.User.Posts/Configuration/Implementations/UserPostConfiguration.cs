@@ -14,5 +14,9 @@ namespace FL.WebAPI.Core.User.Posts.Configuration.Implementations
         }
 
         public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
+
+        public string VoteApiDomain => this.configuration.GetSection("VoteApiDomain").Get<string>();
+
+        public string VoteUrlService => this.configuration.GetSection("VoteUrlService").Get<string>();
     }
 }

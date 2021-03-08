@@ -15,7 +15,5 @@ namespace FL.Web.Api.Core.Votes.Api.Models.v1.Response
         public string Title { get; set; }
 
         public DateTime CreationDate { get; set; }
-
-        public int Vote { get; set; }
     }
 }

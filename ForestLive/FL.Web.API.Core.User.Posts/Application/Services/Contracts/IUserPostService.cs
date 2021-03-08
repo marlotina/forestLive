@@ -6,6 +6,6 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Contracts
 {
     public interface IUserPostService
     {
-        Task<IEnumerable<BirdPost>> GetPostsByUserId(string userId);
+        Task<IEnumerable<BirdPost>> GetPostsByUserId(string userId, string webUserId);
     }
 }
