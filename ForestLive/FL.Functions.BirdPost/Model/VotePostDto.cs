@@ -25,5 +25,9 @@ namespace FL.Functions.BirdPost.Model
 
         [JsonProperty(PropertyName = "Vote")]
         public int Vote { get; set; }
+
+        [JsonProperty(PropertyName = "SpecieId")]
+        public Guid SpecieId { get; set; }
+        
     }
 }

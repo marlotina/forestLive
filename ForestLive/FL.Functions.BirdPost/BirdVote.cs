@@ -20,8 +20,8 @@ namespace FL.Functions.BirdPost
 
         [FunctionName("BirdPost")]
         public void Run([ServiceBusTrigger(
-            "post",
-            "BirdPostTopic",
+            "vote",
+            "voteBirdPostTopic",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

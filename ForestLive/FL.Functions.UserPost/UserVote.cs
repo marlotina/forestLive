@@ -1,5 +1,4 @@
-using FL.Functions.BirdPost.Model;
-using FL.Functions.BirdPost.Services;
+using FL.Functions.UserPost.Model;
 using FL.Functions.UserPost.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
@@ -14,15 +13,15 @@ namespace FL.Functions.BirdPost
     {
         private readonly IUserPostCosmosService userPostCosmosService;
 
-        public UserVote(IBirdsCosmosService postDbService)
+        public UserVote(IUserPostCosmosService userPostCosmosService)
         {
-            this.userPostCosmosService = postDbService;
+            this.userPostCosmosService = userPostCosmosService;
         }
 
-        [FunctionName("BirdPost")]
+        [FunctionName("UserVote")]
         public void Run([ServiceBusTrigger(
-            "post",
-            "BirdPostTopic",
+            "vote",
+            "voteUserPostTopic",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
