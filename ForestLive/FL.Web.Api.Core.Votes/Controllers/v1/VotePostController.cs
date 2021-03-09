@@ -43,7 +43,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
 
                 var votePost = this.voteMapper.Convert(request);
 
-                var result = await this.votePostService.AddVotePost(votePost, request.SpecieId);
+                var result = await this.votePostService.AddVotePost(votePost);
 
                 if (result != null)
                 {

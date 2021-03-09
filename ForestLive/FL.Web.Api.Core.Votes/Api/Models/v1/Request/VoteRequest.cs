@@ -12,8 +12,6 @@ namespace FL.Web.Api.Core.Votes.Api.Models.v1.Request
 
         public int Vote { get; set; }
 
-        public Guid SpecieId { get; set; }
-
         public string OwnerUserId { get; set; }
     }
 }
