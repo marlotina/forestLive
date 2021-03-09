@@ -11,6 +11,6 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Contracts
 
         Task<VotePost> AddVotePost(VotePost votePost, Guid specieId);
 
-        Task<bool> DeleteVotePost(Guid voteId, string partitionKey, string userId, Guid specieId);
+        Task<bool> DeleteVotePost(Guid voteId, string partitionKey, string userId);
     }
 }

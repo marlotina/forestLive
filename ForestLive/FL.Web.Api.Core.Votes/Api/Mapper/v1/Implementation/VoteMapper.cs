@@ -40,5 +40,19 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
             }
             return result;
         }
+
+        public VotePostResponse ConvertUserVote(VotePost source)
+        {
+            var result = default(VotePostResponse);
+            if (source != null)
+            {
+                result = new VotePostResponse()
+                {
+                    VoteId = source.Id,
+                    PostId = source.PostId,
+                };
+            }
+            return result;
+        }
     }
 }

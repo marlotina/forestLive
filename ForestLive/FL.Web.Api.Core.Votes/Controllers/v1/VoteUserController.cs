@@ -1,8 +1,6 @@
 ﻿using FL.LogTrace.Contracts.Standard;
-using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.Web.Api.Core.Votes.Api.Mapper.v1.Contracts;
 using FL.Web.Api.Core.Votes.Api.Models.v1.Request;
-using FL.Web.Api.Core.Votes.Application.Exceptions;
 using FL.Web.Api.Core.Votes.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -47,7 +45,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
 
                 if (result != null)
                 {
-                    var response = result.Select(x => x.PostId);
+                    var response = result.Select(x => this.voteMapper.ConvertUserVote(x));
                     return this.Ok(response);
                 }
                 else
