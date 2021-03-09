@@ -24,7 +24,7 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
             this.serviceBusVotePostTopicSender = serviceBusVotePostTopicSender;
         }
 
-        public async Task<VotePost> AddVotePost(VotePost votePost, Guid specieId)
+        public async Task<VotePost> AddVotePost(VotePost votePost)
         {
             votePost.Id = Guid.NewGuid();
             votePost.CreationDate = DateTime.UtcNow;
