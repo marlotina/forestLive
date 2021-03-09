@@ -14,5 +14,7 @@ namespace FL.Web.Api.Core.Votes.Domain.Repositories
         Task<VotePost> GetVoteAsync(Guid voteId, string userId);
 
         Task<List<VotePost>> GetVotePostAsync(List<Guid> listPost, string userId);
+
+        Task<List<VotePost>> GetVotesByUserId(string userId);
     }
 }

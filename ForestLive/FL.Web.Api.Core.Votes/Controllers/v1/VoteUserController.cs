@@ -57,5 +57,32 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
                 return this.Problem();
             }
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetVoteByUser", Name = "GetVoteByUser")]
+        public async Task<IActionResult> GetVoteByUser([FromBody] string userId)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(userId))
+                    return null;
+
+                var result = await this.votePostService.GetVotesByUserId(userId);
+
+                if (result != null)
+                {
+                    var response = result.Select(x => this.voteMapper.ConvertUserVote(x));
+                    return this.Ok(response);
+                }
+                else
+                    return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
     }
 }

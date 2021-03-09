@@ -5,6 +5,7 @@ using FL.Web.Api.Core.Votes.Domain.Entities;
 using FL.Web.Api.Core.Votes.Domain.Enum;
 using FL.Web.Api.Core.Votes.Domain.Repositories;
 using FL.Web.Api.Core.Votes.Infrastructure.ServiceBus.Contracts;
+using Microsoft.Azure.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -55,6 +56,11 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Implementations
             {
                 throw new UnauthorizedRemove();
             }
+        }
+
+        public async Task<List<VotePost>> GetVotesByUserId(string userId)
+        {
+            return await this.votePostRepository.GetVotesByUserId(userId);
         }
 
         public async Task<List<VotePost>> GetVoteUserByPost(List<Guid> listPost, string userId)

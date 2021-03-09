@@ -33,7 +33,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
 
         public async Task<List<BirdPost>> GetBirdsPostsBySpecieId(string specieId)
         {
-            var blogPosts = new List<BirdPost>();
+            var posts = new List<BirdPost>();
             try
             {
                 var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.specieId = @SpecieId ORDER BY p.createDate DESC";
@@ -46,17 +46,14 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
                 {
                     var response = await query.ReadNextAsync();
                     var ru = response.RequestCharge;
-                    blogPosts.AddRange(response.ToList());
+                    posts.AddRange(response.ToList());
                 }
             }
             catch (Exception ex) 
             {
             }
 
-
-            
-
-            return blogPosts;
+            return posts;
         }
     }
 }
