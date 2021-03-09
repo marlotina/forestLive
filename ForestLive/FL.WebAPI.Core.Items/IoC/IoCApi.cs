@@ -38,7 +38,10 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddTransient<IPostService, PostService>();
             
             services.AddSingleton<IClientFactory, ClientFactory>();
-            services.AddSingleton<IPostRepository, PostCosmosRepository>();
+            services.AddTransient<IPostRepository, PostCosmosRepository>();
+            services.AddTransient<IUserVotesRepository, UserVotesRepository>();
+
+            
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

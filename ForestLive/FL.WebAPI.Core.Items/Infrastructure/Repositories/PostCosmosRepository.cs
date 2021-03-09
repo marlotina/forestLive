@@ -49,9 +49,10 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             try
             {
-                ItemResponse<BirdPost> response = await this.postContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(postId.ToString()));
+                var response = await this.postContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(postId.ToString()));
                 var ru = response.RequestCharge;
-                return response.Resource;            }
+                return response.Resource;            
+            }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
                 return null;

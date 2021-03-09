@@ -38,5 +38,9 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
         public string ObservationDate { get; set; }
 
         public Guid PostId { get; set; }
+
+        public bool HasVote { get; set; }
+
+        public Guid VoteId { get; set; }
     }
 }

@@ -4,6 +4,7 @@ using FL.Pereza.Helpers.Standard.Enums;
 using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
+using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
@@ -21,14 +22,17 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBlobContainerRepository blobContainerRepository;
         private readonly IPostRepository postRepository;
         private readonly ILogger<PostService> logger;
+        private readonly IUserVotesRepository userVotesRepository;
         private readonly IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
 
         public PostService(IPostConfiguration postConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IPostRepository postRepository,
+            IUserVotesRepository userVotesRepository,
             IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
             ILogger<PostService> logger)
         {
+            this.userVotesRepository = userVotesRepository;
             this.blobContainerRepository = blobContainerRepository;
             this.postConfiguration = postConfiguration;
             this.postRepository = postRepository;
@@ -136,6 +140,24 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
 
             return new List<BirdComment>();
+        }
+
+        public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
+        {
+            try
+            {
+                if (webUserId != null)
+                {
+                    return await this.userVotesRepository.GetUserVoteByPosts(listPost, webUserId);
+                }
+
+                return new List<VotePostResponse>();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                return null;
+            }
         }
     }
 }
