@@ -1,5 +1,6 @@
 ﻿using FL.Pereza.Helpers.Standard.Images;
 using FL.Web.API.Core.User.Posts.Api.Models.v1.Response;
+using FL.Web.API.Core.User.Posts.Domain.Dto;
 using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.User.Posts.Api.Models.v1.Response;
 using FL.WebAPI.Core.User.Posts.Domain.Entities;
@@ -11,11 +12,12 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
 {
     public class BirdPostMapper : IBirdPostMapper
     {
-        public BirdPostResponse Convert(BirdPost source, IEnumerable<Guid> postVotes)
+        public BirdPostResponse Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes)
         {
             var result = default(BirdPostResponse);
             if (source != null)
             {
+                var vote = postVotes.FirstOrDefault(x => x.PostId == source.PostId);
                 result = new BirdPostResponse()
                 {
                     Id = source.Id,
@@ -35,7 +37,8 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     Longitude = source.Location.Position.Longitude,
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
                     SpecieStatus = source.SpecieStatus,
-                    HasVote = postVotes.Any() ? postVotes.Contains(source.PostId) : false,
+                    HasVote = vote != null,
+                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
             }

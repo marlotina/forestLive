@@ -23,7 +23,7 @@ namespace FL.Web.API.Core.User.Posts.Infrastructure.Repositories
             this.userPostConfiguration = userPostConfiguration;
         }
 
-        public async Task<IEnumerable<Guid>> GetUserVoteByPosts(IEnumerable<Guid> listPosts, string userId)
+        public async Task<IEnumerable<VotePostResponse>> GetUserVoteByPosts(IEnumerable<Guid> listPosts, string userId)
         {
             var client = new RestClient(this.userPostConfiguration.VoteApiDomain);
             var restRequest = new RestRequest(this.userPostConfiguration.VoteUrlService, Method.POST);
@@ -35,10 +35,10 @@ namespace FL.Web.API.Core.User.Posts.Infrastructure.Repositories
 
             restRequest.AddJsonBody(requestVoteUser);
 
-            var response = await client.ExecuteAsync<IEnumerable<Guid>>(restRequest);
+            var response = await client.ExecuteAsync<IEnumerable<VotePostResponse>>(restRequest);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<IEnumerable<Guid>>(response.Content);
+                return JsonConvert.DeserializeObject<IEnumerable<VotePostResponse>>(response.Content);
             }
 
             return null;

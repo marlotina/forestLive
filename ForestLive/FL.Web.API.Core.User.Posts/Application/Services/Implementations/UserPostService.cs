@@ -1,11 +1,11 @@
 ﻿using FL.LogTrace.Contracts.Standard;
+using FL.Web.API.Core.User.Posts.Domain.Dto;
 using FL.Web.API.Core.User.Posts.Domain.Repositories;
 using FL.WebAPI.Core.User.Posts.Application.Services.Contracts;
 using FL.WebAPI.Core.User.Posts.Domain.Entities;
 using FL.WebAPI.Core.User.Posts.Domain.Repositories;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
@@ -42,7 +42,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<Guid>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
+        public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
         {
             try
             {
@@ -51,7 +51,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
                     return await this.userVotesRepository.GetUserVoteByPosts(listPost, webUserId);
                 }
 
-                return new List<Guid>();
+                return new List<VotePostResponse>();
             }
             catch (Exception ex)
             {
