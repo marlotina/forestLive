@@ -55,7 +55,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
                 if (result != null)
                 {
-                    var postResponse = this.postMapper.Convert(result, new );
+                    var postResponse = this.postMapper.Convert(result);
                     return this.CreatedAtRoute("GetPost", new { id = postResponse.Id }, postResponse);
                 }
                 else
