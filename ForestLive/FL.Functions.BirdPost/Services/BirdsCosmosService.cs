@@ -34,18 +34,5 @@ namespace FL.Functions.BirdPost.Services
             var obj = new dynamic[] { comment.PostId };
             await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string> ("deleteComment", new PartitionKey(comment.SpecieId.ToString()), obj);
         }
-
-        public async Task AddVoteAsync(VotePostDto vote)
-        {
-            var obj = new dynamic[] { vote.PostId };
-            await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string>("addVote", new PartitionKey(vote.SpecieId.ToString()), obj);
-        }
-
-        public async Task DeleteVoteAsync(VotePostDto vote)
-        {
-
-            var obj = new dynamic[] { vote.PostId };
-            await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteVote", new PartitionKey(vote.SpecieId.ToString()), obj);
-        }
     }
 }

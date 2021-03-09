@@ -37,22 +37,11 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task AddVotePostAsync(VotePostDto vote)
+        public async Task AddVotePostAsync(VotePost vote)
         {
             try
             {
-                var document = new VotePost()
-                {
-                    Id = vote.Id,
-                    PostId = vote.PostId,
-                    Type = vote.Type,
-                    CreationDate = vote.CreationDate,
-                    UserId = vote.UserId,
-                    OwnerUserId = vote.OwnerUserId,
-                    Title = vote.Title
-                };
-
-                var obj = new dynamic[] { vote.PostId, document };
+                var obj = new dynamic[] { vote.PostId, vote };
                 var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("createVote", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
@@ -72,12 +61,12 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task DeleteVotePostAsync(VotePostDto vote)
+        public async Task DeleteVotePostAsync(VotePost vote)
         {
             try
             {
-                var obj = new dynamic[] { vote.PostId, vote };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<VotePostFunction>("deleteVote", new PartitionKey(vote.PostId.ToString()), obj);
+                var obj = new dynamic[] { vote.PostId, vote.Id };
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteVote", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
