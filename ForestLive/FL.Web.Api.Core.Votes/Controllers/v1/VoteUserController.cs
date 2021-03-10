@@ -61,7 +61,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
         [HttpGet]
         [AllowAnonymous]
         [Route("GetVoteByUser", Name = "GetVoteByUser")]
-        public async Task<IActionResult> GetVoteByUser([FromBody] string userId)
+        public async Task<IActionResult> GetVoteByUser(string userId)
         {
             try
             {
@@ -72,7 +72,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
 
                 if (result != null)
                 {
-                    var response = result.Select(x => this.voteMapper.ConvertUserVote(x));
+                    var response = result.Select(x => this.voteMapper.Convert(x));
                     return this.Ok(response);
                 }
                 else

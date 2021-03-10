@@ -55,8 +55,8 @@ namespace FL.Web.API.Core.Comments.Controllers.v1
         }
 
         [HttpGet]
-        [Route("GetComments", Name = "GetComments")]
-        public async Task<IActionResult> GetComments(string userId)
+        [Route("GetCommentsByUser", Name = "GetCommentsByUser")]
+        public async Task<IActionResult> GetCommentsByUser(string userId)
         {
             try
             {
@@ -65,7 +65,7 @@ namespace FL.Web.API.Core.Comments.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = await this.commentService.GetCommentByPost(userId);
+                var result = await this.commentService.GetCommentByUserId(userId);
                     
                 if (result != null)
                 {

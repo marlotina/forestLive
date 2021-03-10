@@ -103,10 +103,10 @@ namespace FL.Web.Api.Core.Votes.Infrastructure.Repositories
 
         public async Task<List<VotePost>> GetVotesByUserId(string userId)
         {
-            var blogPosts = new List<VotePost>();
+            var votes = new List<VotePost>();
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.type='vote' AND p.userId = @UserId ORDER BY p.createDate DESC";
+                var queryString = $"SELECT * FROM p WHERE p.type='vote' AND p.userId = @UserId ORDER BY p.creationDate DESC";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@UserId", userId);
@@ -116,14 +116,14 @@ namespace FL.Web.Api.Core.Votes.Infrastructure.Repositories
                 {
                     var response = await query.ReadNextAsync();
                     var ru = response.RequestCharge;
-                    blogPosts.AddRange(response.ToList());
+                    votes.AddRange(response.ToList());
                 }
             }
             catch (Exception ex)
             {
             }
 
-            return blogPosts;
+            return votes;
         }
     }
 }
