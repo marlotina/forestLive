@@ -11,5 +11,9 @@ namespace FL.Web.API.Core.Comments.Models.v1.Request
         public string UserId { get; set; }
 
         public Guid SpecieId { get; set; }
+
+        public string TitlePost { get; set; }
+
+        public string AuthorPostUserId { get; set; }
     }
 }
