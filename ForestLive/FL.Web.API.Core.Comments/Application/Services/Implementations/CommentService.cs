@@ -34,7 +34,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
             try
             {
                 comment.Id = Guid.NewGuid();
-                comment.CreateDate = DateTime.UtcNow;
+                comment.CreationDate = DateTime.UtcNow;
                 comment.Type = ItemHelper.COMMENT_TYPE;
 
                 var response = await this.commentRepository.CreateCommentAsync(comment);
@@ -111,7 +111,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
                     SpecieId = specieId,
                     UserId = source.UserId,
                     Id = source.Id,
-                    CreateDate = source.CreateDate,
+                    CreationDate = source.CreationDate,
                     Type = source.Type,
                     Text = source.Text
                 };

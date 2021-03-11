@@ -55,7 +55,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdPost.Type = ItemHelper.POST_TYPE;
                     birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
-                    birdPost.CreateDate = DateTime.UtcNow;
+                    birdPost.CreationDate = DateTime.UtcNow;
                     birdPost.ImageUrl = folder + "/"+ imageName;
                     birdPost.VoteCount = 0;
 

@@ -36,7 +36,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             var posts = new List<BirdPost>();
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.specieId = @SpecieId ORDER BY p.createDate DESC";
+                var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.specieId = @SpecieId ORDER BY p.creationDate DESC";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@SpecieId", specieId);

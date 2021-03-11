@@ -35,7 +35,7 @@ namespace FL.Web.API.Core.Comments.Mapper.v1.Implementation
                     Id = source.Id,
                     Text = source.Text,
                     UserId = source.UserId,
-                    CreateDate = source.CreateDate.ToString("dd/MM/yyyy hh:mm"),
+                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     PostId = source.PostId,
                     UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
                     AuthorPostUserId = source.AuthorPostUserId,

@@ -10,7 +10,7 @@ namespace FL.Web.API.Core.Comments.Models.v1.Response
 
         public string Text { get; set; }
 
-        public string CreateDate { get; set; }
+        public string CreationDate { get; set; }
 
         public string UserId { get; set; }
 

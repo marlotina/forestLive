@@ -17,8 +17,8 @@ namespace FL.Functions.BirdPost.Dto
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 
-        [JsonProperty(PropertyName = "createDate")]
-        public DateTime CreateDate { get; set; }
+        [JsonProperty(PropertyName = "creationDate")]
+        public DateTime CreationDate { get; set; }
 
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }

@@ -25,7 +25,7 @@ namespace FL.Functions.Posts.Services
                     PostId = comment.PostId,
                     Type = comment.Type,
                     Text = comment.Text,
-                    CreateDate = comment.CreateDate,
+                    CreationDate = comment.CreationDate,
                     UserId = comment.UserId 
                 };
 

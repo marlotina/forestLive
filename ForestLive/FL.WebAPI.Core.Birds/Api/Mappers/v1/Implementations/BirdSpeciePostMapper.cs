@@ -21,7 +21,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
-                    CreateDate = source.CreateDate,
+                    CreationDate = source.CreationDate,
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,

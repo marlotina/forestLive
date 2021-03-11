@@ -26,7 +26,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
-                    CreateDate = source.CreateDate,
+                    CreationDate = source.CreationDate,
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,

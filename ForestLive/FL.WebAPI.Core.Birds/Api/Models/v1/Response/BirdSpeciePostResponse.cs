@@ -14,7 +14,7 @@ namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 
         public string AltImage { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public string UserId { get; set; }
 
