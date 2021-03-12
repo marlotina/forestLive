@@ -20,11 +20,11 @@ namespace FL.Web.Api.Core.Votes.Domain.Entities
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
-        [JsonProperty(PropertyName = "title")]
-        public string Title { get; set; }
+        [JsonProperty(PropertyName = "titlePost")]
+        public string TitlePost { get; set; }
 
         [JsonProperty(PropertyName = "creationDate")]
-        public DateTime CreateionDate { get; set; }
+        public DateTime CreationDate { get; set; }
     }
 
 }

@@ -14,10 +14,10 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
             {
                 result = new VotePost()
                 {
-                    Title = source.Title,
+                    TitlePost = source.TitlePost,
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    OwnerUserId = source.OwnerUserId
+                    AuthorPostUserId = source.AuthorPostUserId
                 };
             }
             return result;
@@ -30,12 +30,12 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
             {
                 result = new VoteResponse()
                 {
-                    Title = source.Title,
+                    TitlePost = source.TitlePost,
                     UserId = source.UserId,
                     PostId = source.PostId,
                     CreationDate = source.CreationDate,
                     Id = source.Id,
-                    OwnerUserId = source.OwnerUserId
+                    AuthorPostUserId = source.AuthorPostUserId
                 };
             }
             return result;
