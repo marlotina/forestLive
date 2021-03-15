@@ -11,6 +11,8 @@ using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -45,7 +47,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             try
             {
                 var folder = birdPost.UserId + "/" + DateTime.Now.ToString("ddMMyyyhhmm");
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
+
+                var stream = new System.IO.MemoryStream();
+                Image image = Image.FromStream(imageStream);
+                Image thumb = image.GetThumbnailImage(image.Width, image.Height, () => false, IntPtr.Zero);
+                thumb.Save(stream, ImageFormat.Jpeg);
+                stream.Position = 0;
+
+                var result = await this.blobContainerRepository.UploadFileToStorage(stream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
 
                 if (result)
                 {

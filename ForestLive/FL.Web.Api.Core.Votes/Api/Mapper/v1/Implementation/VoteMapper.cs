@@ -33,7 +33,7 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
                     TitlePost = source.TitlePost,
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    CreationDate = source.CreationDate,
+                    CreationDate = source.CreationDate.ToString("ddMMyyyhhmm"),
                     Id = source.Id,
                     AuthorPostUserId = source.AuthorPostUserId
                 };
