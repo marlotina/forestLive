@@ -15,7 +15,7 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 
         public string AltImage { get; set; }
 
-        public DateTime CreateDate { get; set; }
+        public DateTime CreationDate { get; set; }
 
         public string UserId { get; set; }
 
@@ -38,5 +38,9 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
         public string ObservationDate { get; set; }
 
         public Guid PostId { get; set; }
+
+        public bool HasVote { get; set; }
+
+        public Guid VoteId { get; set; }
     }
 }

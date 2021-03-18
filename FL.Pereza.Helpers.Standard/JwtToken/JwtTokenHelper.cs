@@ -9,6 +9,9 @@ namespace FL.Pereza.Helpers.Standard.JwtToken
         public const string TOKEN_HEADER = "Authorization";
         public static string GetClaim(string token)
         {
+            if (string.IsNullOrWhiteSpace(token))
+                return null;
+
             var tokenCode = token.Split(' ')[1];
             var tokenHandler = new JwtSecurityTokenHandler();
             var securityToken = tokenHandler.ReadToken(tokenCode) as JwtSecurityToken;

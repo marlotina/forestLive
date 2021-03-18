@@ -138,6 +138,8 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         {
             try
             {
+                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                
                 if (postId == Guid.Empty || postId == null)
                 {
                     this.BadRequest();
@@ -147,7 +149,11 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
                 if (result != null)
                 {
-                    var itemResponse = this.postMapper.Convert(result);
+                    var postList = new Guid[] { postId };
+
+                    var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
+
+                    var itemResponse = this.postMapper.Convert(result, postVotes);
                     return this.Ok(itemResponse);
                 }
                 else

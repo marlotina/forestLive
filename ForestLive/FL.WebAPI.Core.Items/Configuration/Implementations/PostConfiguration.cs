@@ -22,5 +22,9 @@ namespace FL.WebAPI.Core.Items.Configuration.Implementations
         public string BirdPhotoContainer => this.configuration.GetSection("BirdPhotoContainer").Get<string>();
 
         public string Secret => this.configuration.GetSection("Secret").Get<string>();
+
+        public string VoteApiDomain => this.configuration.GetSection("VoteApiDomain").Get<string>();
+
+        public string VoteUrlService => this.configuration.GetSection("VoteUrlService").Get<string>();
     }
 }

@@ -8,14 +8,12 @@ namespace FL.Web.Api.Core.Votes.Api.Models.v1.Response
 
         public Guid PostId { get; set; }
 
-        public string OwnerUserId { get; set; }
+        public string AuthorPostUserId { get; set; }
 
         public string UserId { get; set; }
 
-        public string Title { get; set; }
+        public string CreationDate { get; set; }
 
-        public DateTime CreationDate { get; set; }
-
-        public int Vote { get; set; }
+        public string TitlePost { get; set; }
     }
 }

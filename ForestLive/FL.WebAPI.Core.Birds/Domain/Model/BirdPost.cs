@@ -39,11 +39,8 @@ namespace FL.WebAPI.Core.Birds.Domain.Model
         [JsonProperty(PropertyName = "labels")]
         public string[] Labels { get; set; }
 
-        [JsonProperty(PropertyName = "createDate")]
-        public DateTime CreateDate { get; set; }
-
-        [JsonProperty(PropertyName = "likesCount")]
-        public int LikesCount { get; set; }
+        [JsonProperty(PropertyName = "creationDate")]
+        public DateTime CreationDate { get; set; }
 
         [JsonProperty(PropertyName = "voteCount")]
         public int VoteCount { get; set; }
@@ -56,8 +53,5 @@ namespace FL.WebAPI.Core.Birds.Domain.Model
 
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime ObservationDate { get; set; }
-
-        [JsonProperty(PropertyName = "SpecieStatus")]
-        public string SpecieStatus { get; set; }
     }
 }

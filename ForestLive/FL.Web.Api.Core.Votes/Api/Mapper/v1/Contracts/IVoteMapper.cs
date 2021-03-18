@@ -10,5 +10,7 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Contracts
 
 
         VoteResponse Convert(VotePost source);
+
+        VotePostResponse ConvertUserVote(VotePost source);
     }
 }

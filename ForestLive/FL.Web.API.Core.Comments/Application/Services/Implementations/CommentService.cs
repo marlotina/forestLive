@@ -34,7 +34,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
             try
             {
                 comment.Id = Guid.NewGuid();
-                comment.CreateDate = DateTime.UtcNow;
+                comment.CreationDate = DateTime.UtcNow;
                 comment.Type = ItemHelper.COMMENT_TYPE;
 
                 var response = await this.commentRepository.CreateCommentAsync(comment);
@@ -56,7 +56,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
         {
             try
             {
-                return await this.commentRepository.GetCommentsAsync(userId);
+                return await this.commentRepository.GetCommentsByUserIdAsync(userId);
             }
             catch (Exception ex)
             {
@@ -95,9 +95,9 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
             return false;
         }
 
-        public Task<List<BirdComment>> GetCommentByPost(string userId)
+        public async Task<List<BirdComment>> GetCommentByUserId(string userId)
         {
-            throw new NotImplementedException();
+            return await this.commentRepository.GetCommentsByUserIdAsync(userId);
         }
 
         private BirdCommentDto Convert(BirdComment source, Guid specieId)
@@ -111,7 +111,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
                     SpecieId = specieId,
                     UserId = source.UserId,
                     Id = source.Id,
-                    CreateDate = source.CreateDate,
+                    CreationDate = source.CreationDate,
                     Type = source.Type,
                     Text = source.Text
                 };

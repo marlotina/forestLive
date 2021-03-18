@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Web.API.Core.Votes.Domain.Dto
+namespace FL.Functions.UserPost.Model
 {
-    public class BirdVoteDto
+    public class VotePost
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }
@@ -14,19 +14,13 @@ namespace FL.Web.API.Core.Votes.Domain.Dto
         [JsonProperty(PropertyName = "PostId")]
         public Guid PostId { get; set; }
 
-        [JsonProperty(PropertyName = "ownerUserId")]
-        public string OwnerUserId { get; set; }
-
         [JsonProperty(PropertyName = "UserId")]
         public string UserId { get; set; }
 
         [JsonProperty(PropertyName = "Title")]
         public string Title { get; set; }
 
-        [JsonProperty(PropertyName = "CreationDate")]
+        [JsonProperty(PropertyName = "creationDate")]
         public DateTime CreationDate { get; set; }
-
-        [JsonProperty(PropertyName = "SpecieId")]
-        public Guid SpecieId { get; set; }
     }
 }

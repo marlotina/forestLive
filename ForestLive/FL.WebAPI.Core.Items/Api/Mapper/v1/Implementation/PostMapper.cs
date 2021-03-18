@@ -2,9 +2,11 @@
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Api.Models.v1.Response;
+using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using Microsoft.Azure.Cosmos.Spatial;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
@@ -35,11 +37,12 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public PostResponse Convert(BirdPost source)
+        public PostResponse Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes = null)
         {
             var result = default(PostResponse);
             if (source != null)
             {
+                var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.PostId == source.PostId) : null;
                 result = new PostResponse()
                 {
                     Id = source.Id,
@@ -48,7 +51,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
-                    CreateDate = source.CreateDate,
+                    CreationDate = source.CreationDate,
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
@@ -57,7 +60,9 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     CommentCount = source.CommentCount,
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString(),
-                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy")
+                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
+                    HasVote = vote != null,
+                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
                 };
             }
             return result;
@@ -73,7 +78,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Id = source.Id,
                     Text = source.Text,
                     UserId = source.UserId,
-                    CreateDate = source.CreateDate.ToString("dd/MM/yyyy hh:mm"),
+                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     PostId = source.PostId,
                     UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION
                 };

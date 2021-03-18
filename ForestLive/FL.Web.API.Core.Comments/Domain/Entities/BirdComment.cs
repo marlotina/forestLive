@@ -17,10 +17,16 @@ namespace FL.Web.API.Core.Comments.Domain.Entities
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 
-        [JsonProperty(PropertyName = "createDate")]
-        public DateTime CreateDate { get; set; }
+        [JsonProperty(PropertyName = "creationDate")]
+        public DateTime CreationDate { get; set; }
 
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
+
+        [JsonProperty(PropertyName = "ttlePost")]
+        public string TitlePost { get; set; }
+        
+        [JsonProperty(PropertyName = "authorPostUserId")]
+        public string AuthorPostUserId { get; set; }
     }
 }

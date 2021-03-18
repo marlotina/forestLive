@@ -39,29 +39,37 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task AddVoteAsync(VotePostDto vote)
+        public async Task AddVoteAsync(VotePost vote)
         {
-            var obj = new dynamic[] { vote.PostId };
-            var result = await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<VotePostDto>("createVote", new PartitionKey(vote.UserId.ToString()), obj);
+            try
+            {
+                var obj = new dynamic[] { vote.PostId };
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addVote", new PartitionKey(vote.UserId.ToString()), obj);
+            }
+            catch (Exception ex)
+            {
+
+            }
+            
         }
 
-        public async Task DeleteVoteAsync(VotePostDto vote)
+        public async Task DeleteVoteAsync(VotePost vote)
         {
 
             var obj = new dynamic[] { vote.PostId };
-            var result = await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<VotePostDto>("deleteVote", new PartitionKey(vote.UserId.ToString()), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteVote", new PartitionKey(vote.UserId.ToString()), obj);
         }
 
         public async Task DeleteCommentAsync(BirdCommentDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<BirdCommentDto>("deleteComment", new PartitionKey(comment.UserId.ToString()), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(comment.UserId.ToString()), obj);
         }
 
         public async Task AddCommentAsync(BirdCommentDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<VotePostDto>("addComment", new PartitionKey(comment.UserId.ToString()), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addComment", new PartitionKey(comment.UserId.ToString()), obj);
         }
     }
 }

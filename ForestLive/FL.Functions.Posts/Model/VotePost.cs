@@ -23,7 +23,7 @@ namespace FL.Functions.Posts.Model
         [JsonProperty(PropertyName = "Title")]
         public string Title { get; set; }
 
-        [JsonProperty(PropertyName = "CreationDate")]
+        [JsonProperty(PropertyName = "creationDate")]
         public DateTime CreationDate { get; set; }
     }
 }

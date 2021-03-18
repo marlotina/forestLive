@@ -11,19 +11,19 @@ namespace FL.Web.Api.Core.Votes.Domain.Entities
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
 
-        [JsonProperty(PropertyName = "PostId")]
+        [JsonProperty(PropertyName = "postId")]
         public Guid PostId { get; set; }
 
-        [JsonProperty(PropertyName = "ownerUserId")]
-        public string OwnerUserId { get; set; }
+        [JsonProperty(PropertyName = "authorPostUserId")]
+        public string AuthorPostUserId { get; set; }
 
-        [JsonProperty(PropertyName = "UserId")]
+        [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
-        [JsonProperty(PropertyName = "Title")]
-        public string Title { get; set; }
+        [JsonProperty(PropertyName = "titlePost")]
+        public string TitlePost { get; set; }
 
-        [JsonProperty(PropertyName = "CreationDate")]
+        [JsonProperty(PropertyName = "creationDate")]
         public DateTime CreationDate { get; set; }
     }
 

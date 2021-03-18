@@ -1,4 +1,6 @@
 ﻿using FL.LogTrace.Contracts.Standard;
+using FL.Web.API.Core.User.Posts.Domain.Dto;
+using FL.Web.API.Core.User.Posts.Domain.Repositories;
 using FL.WebAPI.Core.User.Posts.Application.Services.Contracts;
 using FL.WebAPI.Core.User.Posts.Domain.Entities;
 using FL.WebAPI.Core.User.Posts.Domain.Repositories;
@@ -12,11 +14,14 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
     {
         private readonly IBirdUserRepository userRepository;
         private readonly ILogger<UserPostService> logger;
+        private readonly IUserVotesRepository userVotesRepository;
 
         public UserPostService(
             IBirdUserRepository userRepository,
+            IUserVotesRepository userVotesRepository,
             ILogger<UserPostService> logger)
         {
+            this.userVotesRepository = userVotesRepository;
             this.userRepository = userRepository;
             this.logger = logger;
         }
@@ -25,7 +30,9 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
         {
             try 
             {
-                return await this.userRepository.GetBlogPostsForUserId(userId);
+                var posts = await this.userRepository.GetPostsForUserId(userId);
+
+                return posts;
             }
             catch (Exception ex)
             {
@@ -33,6 +40,24 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             }
 
             return null;
+        }
+
+        public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
+        {
+            try
+            {
+                if (webUserId != null)
+                {
+                    return await this.userVotesRepository.GetUserVoteByPosts(listPost, webUserId);
+                }
+
+                return new List<VotePostResponse>();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                return null;
+            }
         }
     }
 }

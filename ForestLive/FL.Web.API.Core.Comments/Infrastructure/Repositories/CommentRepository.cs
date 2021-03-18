@@ -31,10 +31,10 @@ namespace FL.Web.API.Core.Comments.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosCommentContainer);
         }
 
-        public async Task<List<BirdComment>> GetCommentsAsync(string userId)
+        public async Task<List<BirdComment>> GetCommentsByUserIdAsync(string userId)
         {
-            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
-
+            //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
+            var queryString = $"SELECT * FROM p WHERE p.userId = @UserId ORDER BY p.creationDate ASC";
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
             var query = this.commentContainer.GetItemQueryIterator<BirdComment>(queryDef);

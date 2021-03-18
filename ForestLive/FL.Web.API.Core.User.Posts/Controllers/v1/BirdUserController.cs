@@ -1,4 +1,5 @@
 ﻿using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.User.Posts.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -34,11 +35,17 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
         {
             try
             {
+                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                
                 var result = await this.userPostService.GetPostsByUserId(userId);
 
                 if (result != null && result.Any())
                 {
-                    var response = result.Select(x => this.birdPostMapper.Convert(x));
+                    var postList = result.Select(x => x.PostId);
+
+                    var postVotes = await this.userPostService.GetVoteByUserId(postList, webUserId);
+                    var response = result.Select(x => this.birdPostMapper.Convert(x, postVotes));
+
                     return this.Ok(response);
                 }
                 else

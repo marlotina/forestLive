@@ -6,6 +6,6 @@ namespace FL.WebAPI.Core.User.Posts.Domain.Repositories
 {
     public interface IBirdUserRepository
     {
-        Task<List<BirdPost>> GetBlogPostsForUserId(string userId);
+        Task<List<BirdPost>> GetPostsForUserId(string userId);
     }
 }

@@ -4,12 +4,15 @@ using FL.Pereza.Helpers.Standard.Enums;
 using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
+using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -21,14 +24,17 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBlobContainerRepository blobContainerRepository;
         private readonly IPostRepository postRepository;
         private readonly ILogger<PostService> logger;
+        private readonly IUserVotesRepository userVotesRepository;
         private readonly IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
 
         public PostService(IPostConfiguration postConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IPostRepository postRepository,
+            IUserVotesRepository userVotesRepository,
             IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
             ILogger<PostService> logger)
         {
+            this.userVotesRepository = userVotesRepository;
             this.blobContainerRepository = blobContainerRepository;
             this.postConfiguration = postConfiguration;
             this.postRepository = postRepository;
@@ -41,7 +47,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             try
             {
                 var folder = birdPost.UserId + "/" + DateTime.Now.ToString("ddMMyyyhhmm");
-                var result = await this.blobContainerRepository.UploadFileToStorage(imageStream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
+
+                var stream = new System.IO.MemoryStream();
+                Image image = Image.FromStream(imageStream);
+                Image thumb = image.GetThumbnailImage(image.Width, image.Height, () => false, IntPtr.Zero);
+                thumb.Save(stream, ImageFormat.Jpeg);
+                stream.Position = 0;
+
+                var result = await this.blobContainerRepository.UploadFileToStorage(stream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
 
                 if (result)
                 {
@@ -51,7 +64,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdPost.Type = ItemHelper.POST_TYPE;
                     birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
-                    birdPost.CreateDate = DateTime.UtcNow;
+                    birdPost.CreationDate = DateTime.UtcNow;
                     birdPost.ImageUrl = folder + "/"+ imageName;
                     birdPost.VoteCount = 0;
 
@@ -136,6 +149,24 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
 
             return new List<BirdComment>();
+        }
+
+        public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
+        {
+            try
+            {
+                if (webUserId != null)
+                {
+                    return await this.userVotesRepository.GetUserVoteByPosts(listPost, webUserId);
+                }
+
+                return new List<VotePostResponse>();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                return null;
+            }
         }
     }
 }
