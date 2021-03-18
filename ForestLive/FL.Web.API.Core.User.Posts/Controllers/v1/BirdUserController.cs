@@ -97,7 +97,7 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
 
                 if (result != null)
                 {
-                    var itemResponse = this.birdPostMapper.MapConvert(result);
+                    var itemResponse = this.birdPostMapper.ModalConvert(result);
                     return this.Ok(itemResponse);
                 }
                 else

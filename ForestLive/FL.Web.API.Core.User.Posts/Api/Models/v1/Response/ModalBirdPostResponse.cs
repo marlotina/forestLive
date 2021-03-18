@@ -4,7 +4,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Models.v1.Response
 {
     public class ModalBirdPostResponse
     {
-        public Guid Id { get; set; }
+        public Guid PostId { get; set; }
 
         public string Title { get; set; }
 

@@ -71,7 +71,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
             {
                 result = new ModalBirdPostResponse()
                 {
-                    Id = source.Id,
+                    PostId = source.Id,
                     Title = source.Title,
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
