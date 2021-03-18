@@ -37,5 +37,46 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
 
             return result;
         }
+
+        public BirdMapResponse MapConvert(BirdPost source)
+        {
+            var result = default(BirdMapResponse);
+            if (source != null)
+            {
+                result = new BirdMapResponse()
+                {
+                    PostId = source.PostId,
+                    Location = new PositionResponse
+                    {
+                        Lat = source.Location.Position.Latitude,
+                        Lng = source.Location.Position.Longitude,
+                    }
+                };
+            }
+
+            return result;
+        }
+
+        public ModalBirdPostResponse ModalConvert(BirdPost source)
+        {
+            var result = default(ModalBirdPostResponse);
+            if (source != null)
+            {
+                result = new ModalBirdPostResponse()
+                {
+                    Id = source.Id,
+                    Title = source.Title,
+                    Text = source.Text,
+                    ImageUrl = source.ImageUrl,
+                    AltImage = source.AltImage,
+                    UserId = source.UserId,
+                    BirdSpecie = source.SpecieName,
+                    SpecieId = source.SpecieId,
+                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy")
+                };
+            }
+
+            return result;
+        }
     }
 }
