@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FL.WebAPI.Core.Birds.Controllers.v1
 {
-    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class SearchMapController : ControllerBase
@@ -53,12 +52,36 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("GetModalInfo", Name = "GetModalInfo")]
-        public async Task<IActionResult> GetModalInfo(string postId, string userId)
+        [Route("GetPointsBySpecie", Name = "GetPointsBySpecie")]
+        public async Task<IActionResult> GetPointsBySpecie(double latitude, double longitude, int zoom, Guid specieId)
         {
             try
             {
-                var result = await this.searchMapService.GetPostByPostId(postId, userId);
+                var result = await this.searchMapService.GetSpeciePostByRadio(latitude, longitude, zoom, specieId);
+
+                if (result != null)
+                {
+                    var itemResponse = result.Select(x => this.birdSpeciePostMapper.MapConvert(x));
+                    return this.Ok(itemResponse);
+                }
+                else
+                    return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetModalInfo", Name = "GetModalInfo")]
+        public async Task<IActionResult> GetModalInfo(string postId, string specieId)
+        {
+            try
+            {
+                var result = await this.searchMapService.GetPostByPostId(postId, specieId);
 
                 if (result != null)
                 {

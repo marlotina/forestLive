@@ -1,4 +1,5 @@
 ﻿using FL.WebAPI.Core.Birds.Domain.Model;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ namespace FL.WebAPI.Core.Birds.Domain.Repository
     {
         Task<List<BirdPost>> GetPostByRadio(double latitude, double longitude, int meters);
 
-        Task<BirdPost> GetPostsByPostId(string postId, string userId);
+        Task<List<BirdPost>> GetSpeciePostByRadio(double latitude, double longitude, int meters, Guid specieId);
+
+        Task<BirdPost> GetPostsByPostId(string postId, string specieId);
     }
 }

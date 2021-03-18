@@ -22,11 +22,11 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             return await this.searchMapRepository.GetPostByRadio(latitude, longitude, meters);
         }
 
-        public async Task<BirdPost> GetPostByPostId(string postId, string userId)
+        public async Task<BirdPost> GetPostByPostId(string postId, string specieId)
         {
             try
             {
-                var post = await this.searchMapRepository.GetPostsByPostId(postId, userId);
+                var post = await this.searchMapRepository.GetPostsByPostId(postId, specieId);
 
                 return post;
             }
@@ -35,6 +35,12 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             }
 
             return null;
+        }
+
+        public async Task<List<BirdPost>> GetSpeciePostByRadio(double latitude, double longitude, int zoom, Guid specieId)
+        {
+            var meters = 200000;
+            return await this.searchMapRepository.GetSpeciePostByRadio(latitude, longitude, meters, specieId);
         }
     }
 }

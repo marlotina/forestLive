@@ -46,6 +46,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                 result = new BirdMapResponse()
                 {
                     PostId = source.PostId,
+                    SpecieId = source.SpecieId,
                     Location = new PositionResponse
                     {
                         Lat = source.Location.Position.Latitude,
@@ -64,7 +65,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
             {
                 result = new ModalBirdPostResponse()
                 {
-                    Id = source.Id,
+                    PostId = source.Id,
                     Title = source.Title,
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
