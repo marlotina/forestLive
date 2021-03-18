@@ -29,7 +29,8 @@ namespace FL.WebAPI.Core.User.Posts.IoC
 
 
             services.AddTransient<IUserPostService, UserPostService>();
-                        
+            services.AddTransient<IUserVoteService, UserVoteService>();
+            
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IBirdUserRepository, BirdUserCosmosRepository>();
             services.AddTransient<IUserVotesRepository, UserVotesRepository>();

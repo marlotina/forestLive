@@ -1,4 +1,4 @@
-﻿namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
+﻿namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 {
     public class PositionResponse
     {

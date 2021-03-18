@@ -36,7 +36,6 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     Latitude = source.Location.Position.Latitude,
                     Longitude = source.Location.Position.Longitude,
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
-                    SpecieStatus = source.SpecieStatus,
                     HasVote = vote != null,
                     VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
@@ -46,25 +45,41 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public BirdPointResponse MapConvert(BirdPost source)
+        public BirdMapResponse MapConvert(BirdPost source)
         {
-            var result = default(BirdPointResponse);
+            var result = default(BirdMapResponse);
             if (source != null)
             {
-                result = new BirdPointResponse()
+                result = new BirdMapResponse()
                 {
                     PostId = source.PostId,
-                    Title = source.Title,
-                    ImageUrl = source.ImageUrl,
-                    UserId = source.UserId,
-                    BirdSpecie = source.SpecieName,
-                    SpecieId = source.SpecieId,
                     Location = new PositionResponse
                         {
                             Lat = source.Location.Position.Latitude,
                             Lng = source.Location.Position.Longitude,
-                        },
-                    AltImage = source.AltImage
+                        }
+                };
+            }
+
+            return result;
+        }
+
+        public ModalBirdPostResponse ModalConvert(BirdPost source)
+        {
+            var result = default(ModalBirdPostResponse);
+            if (source != null)
+            {
+                result = new ModalBirdPostResponse()
+                {
+                    PostId = source.Id,
+                    Title = source.Title,
+                    Text = source.Text,
+                    ImageUrl = source.ImageUrl,
+                    AltImage = source.AltImage,
+                    UserId = source.UserId,
+                    BirdSpecie = source.SpecieName,
+                    SpecieId = source.SpecieId,
+                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy")
                 };
             }
 
