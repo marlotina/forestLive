@@ -27,7 +27,6 @@ namespace FL.WebAPI.Core.Items.IoC
         public static void AddInjection(IServiceCollection services)
         {
             services.AddSingleton<IPostMapper, PostMapper>();
-            services.AddSingleton<IBirdPostMapper, BirdPostMapper>();
 
             services.AddSingleton<IPostConfiguration, PostConfiguration>();
             services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
@@ -37,17 +36,10 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddTransient(typeof(IServiceBusPostTopicSender<>), typeof(ServiceBusPostTopicSender<>));
             
             services.AddTransient<IPostService, PostService>();
-            services.AddTransient<ISearchMapService, SearchMapService>();
-
-            
-
 
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IPostRepository, PostCosmosRepository>();
             services.AddTransient<IUserVotesRepository, UserVotesRepository>();
-            services.AddTransient<ISearchMapRepository, SearchMapRepository>();
-
-
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
