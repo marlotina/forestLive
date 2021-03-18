@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task<List<BirdPost>> GetPostsForUserId(string userId)
+        public async Task<List<BirdPost>> GetPostsByUserId(string userId)
         {
             var posts = new List<BirdPost>();
 
@@ -49,6 +49,41 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             }
 
             return posts;
+        }
+
+        public async Task<List<BirdPost>> GetMapPointsForUserId(string userId)
+        {
+            var posts = new List<BirdPost>();
+
+
+            var queryString = $"SELECT p.postId, p.location FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
+
+            var queryDef = new QueryDefinition(queryString);
+            queryDef.WithParameter("@UserId", userId);
+            var query = this.usersContainer.GetItemQueryIterator<BirdPost>(queryDef);
+
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                var ru = response.RequestCharge;
+                posts.AddRange(response.ToList());
+            }
+
+            return posts;
+        }
+
+        public async Task<BirdPost> GetPostsByPostId(string postId, string userId)
+        {
+            try
+            {
+                var response = await this.usersContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(userId));
+                var ru = response.RequestCharge;
+                return response.Resource;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
         }
     }
 }

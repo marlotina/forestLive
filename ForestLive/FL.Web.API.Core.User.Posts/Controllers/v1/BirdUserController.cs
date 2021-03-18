@@ -16,15 +16,18 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
     {
         private readonly ILogger<BirdUserController> logger;
         private readonly IUserPostService userPostService;
+        private readonly IUserVoteService userVoteService;
         private readonly IBirdPostMapper birdPostMapper;
 
         public BirdUserController(
             ILogger<BirdUserController> logger,
             IUserPostService userPostService,
+            IUserVoteService userVoteService,
             IBirdPostMapper birdPostMapper)
         {
             this.userPostService = userPostService;
             this.birdPostMapper = birdPostMapper;
+            this.userVoteService = userVoteService;
             this.logger = logger;
         }
 
@@ -43,7 +46,7 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
                 {
                     var postList = result.Select(x => x.PostId);
 
-                    var postVotes = await this.userPostService.GetVoteByUserId(postList, webUserId);
+                    var postVotes = await this.userVoteService.GetVoteByUserId(postList, webUserId);
                     var response = result.Select(x => this.birdPostMapper.Convert(x, postVotes));
 
                     return this.Ok(response);
@@ -74,6 +77,31 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
                 }
                 else
                     return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetModalInfo", Name = "GetModalInfo")]
+        public async Task<IActionResult> GetModalInfo(string postId, string userId)
+        {
+            try
+            {
+                var result = await this.userPostService.GetPostByPostId(postId, userId);
+
+                if (result != null)
+                {
+                    var itemResponse = this.birdPostMapper.MapConvert(result);
+                    return this.Ok(itemResponse);
+                }
+                else
+                    return this.BadRequest();
             }
             catch (Exception ex)
             {

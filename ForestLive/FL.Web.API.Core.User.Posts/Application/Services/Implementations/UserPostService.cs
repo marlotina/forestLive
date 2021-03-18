@@ -26,11 +26,11 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             this.logger = logger;
         }
 
-        public async Task<IEnumerable<BirdPost>> GetPostsByUserId(string userId)
+        public async Task<IEnumerable<BirdPost>> GetMapPointsByUserId(string userId)
         {
-            try 
+            try
             {
-                var posts = await this.userRepository.GetPostsForUserId(userId);
+                var posts = await this.userRepository.GetMapPointsForUserId(userId);
 
                 return posts;
             }
@@ -42,22 +42,36 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
+        public async Task<BirdPost> GetPostByPostId(string postId, string userId)
         {
             try
             {
-                if (webUserId != null)
-                {
-                    return await this.userVotesRepository.GetUserVoteByPosts(listPost, webUserId);
-                }
+                var post = await this.userRepository.GetPostsByPostId(postId, userId);
 
-                return new List<VotePostResponse>();
+                return post;
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "GetBlogPostsForUserId");
-                return null;
             }
+
+            return null;
+        }
+
+        public async Task<IEnumerable<BirdPost>> GetPostsByUserId(string userId)
+        {
+            try 
+            {
+                var posts = await this.userRepository.GetPostsByUserId(userId);
+
+                return posts;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "GetBlogPostsForUserId");
+            }
+
+            return null;
         }
     }
 }
