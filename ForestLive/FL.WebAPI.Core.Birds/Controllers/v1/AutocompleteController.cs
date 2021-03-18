@@ -9,17 +9,17 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class AutocmpleteController : Controller
+    public class AutocompleteController : Controller
     {
         private readonly IAutocompleteService autocompleteService;
-        public AutocmpleteController(
+        public AutocompleteController(
             IAutocompleteService autocompleteService)
         {
             this.autocompleteService = autocompleteService;
         }
 
         [HttpGet, Route("GetNames", Name = "GetNames")]
-        public async Task<IActionResult> Get(string text, string languageCode)
+        public async Task<IActionResult> GetNames(string text, string languageCode)
         {
             if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode)) {
                 return this.BadRequest();
