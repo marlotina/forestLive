@@ -2,7 +2,7 @@
 {
     public class UserLabel
     {
-        public string Label { get; set; }
+        public string Id { get; set; }
 
         public string Type { get; set; }
 

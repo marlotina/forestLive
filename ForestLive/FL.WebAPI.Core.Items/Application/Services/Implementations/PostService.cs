@@ -189,7 +189,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 {
                     Type = "label",
                     UserId = userId,
-                    Label = label
+                    Id = label
                 });
             }
 

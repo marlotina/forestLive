@@ -63,6 +63,36 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
 
         [HttpGet]
         [AllowAnonymous]
+        [Route("GetPostsByLabel", Name = "GetPostsByLabel")]
+        public async Task<IActionResult> GetPostsByLabel(string userId, string label)
+        {
+            try
+            {
+                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                var result = await this.userPostService.GetPostsByLabelByUserId(label, userId);
+
+                if (result != null && result.Any())
+                {
+                    var postList = result.Select(x => x.PostId);
+
+                    var postVotes = await this.userVoteService.GetVoteByUserId(postList, webUserId);
+                    var response = result.Select(x => this.birdPostMapper.Convert(x, postVotes));
+
+                    return this.Ok(response);
+                }
+                else
+                    return this.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
         [Route("GetMapPoints", Name = "GetMapPoints")]
         public async Task<IActionResult> GetMapPoints(string userId)
         {
