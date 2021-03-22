@@ -2,6 +2,7 @@
 using FL.Functions.UserPost.Model;
 using Microsoft.Azure.Cosmos;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.Functions.UserPost.Services
@@ -19,7 +20,7 @@ namespace FL.Functions.UserPost.Services
         {
             try
             {
-                await usersContainer.CreateItemAsync(post, new PartitionKey(post.UserId.ToString()));
+                await usersContainer.CreateItemAsync(post, new PartitionKey(post.UserId));
             }
             catch (Exception ex)
             {
@@ -31,7 +32,7 @@ namespace FL.Functions.UserPost.Services
         {
             try
             {
-                await this.usersContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.UserId.ToString()));
+                await this.usersContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.UserId));
             }
             catch (Exception ex)
             {
@@ -44,7 +45,7 @@ namespace FL.Functions.UserPost.Services
             try
             {
                 var obj = new dynamic[] { vote.PostId };
-                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addVote", new PartitionKey(vote.UserId.ToString()), obj);
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addVote", new PartitionKey(vote.UserId), obj);
             }
             catch (Exception ex)
             {
@@ -57,19 +58,34 @@ namespace FL.Functions.UserPost.Services
         {
 
             var obj = new dynamic[] { vote.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteVote", new PartitionKey(vote.UserId.ToString()), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteVote", new PartitionKey(vote.UserId), obj);
         }
 
         public async Task DeleteCommentAsync(BirdCommentDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(comment.UserId.ToString()), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(comment.UserId), obj);
         }
 
         public async Task AddCommentAsync(BirdCommentDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addComment", new PartitionKey(comment.UserId.ToString()), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addComment", new PartitionKey(comment.UserId), obj);
+        }
+
+        public async Task AddLabelAsync(List<LabelDto> labels)
+        {
+            try
+            {
+                foreach (var label in labels) 
+                {
+                    await this.usersContainer.CreateItemAsync(label, new PartitionKey(label.UserId));
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
     }
 }

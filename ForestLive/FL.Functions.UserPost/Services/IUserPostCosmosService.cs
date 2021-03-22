@@ -1,5 +1,6 @@
 ﻿using FL.Functions.UserPost.Dto;
 using FL.Functions.UserPost.Model;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.Functions.UserPost.Services
@@ -17,5 +18,7 @@ namespace FL.Functions.UserPost.Services
         Task AddCommentAsync(BirdCommentDto comment);
 
         Task DeleteCommentAsync(BirdCommentDto comment);
+
+        Task AddLabelAsync(List<LabelDto> labels);
     }
 }

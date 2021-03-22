@@ -11,5 +11,7 @@ namespace FL.WebAPI.Core.User.Posts.Domain.Repositories
         Task<List<BirdPost>> GetMapPointsForUserId(string userId);
 
         Task<BirdPost> GetPostsByPostId(string postId, string userId);
+
+        Task<IEnumerable<BirdPost>> GetPostsByLabelByUserId(string label, string userId);
     }
 }

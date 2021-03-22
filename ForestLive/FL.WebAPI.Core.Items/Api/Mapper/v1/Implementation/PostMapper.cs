@@ -26,7 +26,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     SpecieName = source.SpecieName,
                     Labels = source.Labels,
                     AltImage = source.AltImage,
-                    Location = new Point(double.Parse(source.Longitude), double.Parse(source.Latitude)),
+                    Location = new Point(source.Longitude,source.Latitude),
                     ObservationDate = source.ObservationDate
                 };
 

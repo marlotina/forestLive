@@ -58,6 +58,22 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
+        public async Task<IEnumerable<BirdPost>> GetPostsByLabelByUserId(string label, string userId)
+        {
+            try
+            {
+                var posts = await this.userRepository.GetPostsByLabelByUserId(label, userId);
+
+                return posts;
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "GetBlogPostsForUserId");
+            }
+
+            return null;
+        }
+
         public async Task<IEnumerable<BirdPost>> GetPostsByUserId(string userId)
         {
             try 

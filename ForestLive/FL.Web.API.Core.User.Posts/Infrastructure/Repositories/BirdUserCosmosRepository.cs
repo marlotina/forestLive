@@ -85,5 +85,27 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
                 return null;
             }
         }
+
+        public async Task<IEnumerable<BirdPost>> GetPostsByLabelByUserId(string label, string userId)
+        {
+            var posts = new List<BirdPost>();
+
+
+            var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.userId = @UserId AND ARRAY_CONTAINS(p.label, @Label) ORDER BY p.creationDate DESC";
+
+            var queryDef = new QueryDefinition(queryString);
+            queryDef.WithParameter("@UserId", userId);
+            queryDef.WithParameter("@Label", label);
+            var query = this.usersContainer.GetItemQueryIterator<BirdPost>(queryDef);
+
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                var ru = response.RequestCharge;
+                posts.AddRange(response.ToList());
+            }
+
+            return posts;
+        }
     }
 }

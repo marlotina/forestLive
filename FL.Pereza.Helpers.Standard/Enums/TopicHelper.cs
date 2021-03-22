@@ -13,5 +13,7 @@
         public const string LABEL_VOTE_CREATED = "voteCreated";
 
         public const string LABEL_VOTE_DELETED = "voteDeleted";
+
+        public const string LABEL_USER_LABEL_CREATED = "labelCreated";
     }
 }

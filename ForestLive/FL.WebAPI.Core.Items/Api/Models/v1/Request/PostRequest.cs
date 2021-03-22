@@ -16,9 +16,9 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
 
         public string UserId { get; set; }
 
-        public string Latitude { get; set; }
+        public double Latitude { get; set; }
 
-        public string Longitude { get; set; }
+        public double Longitude { get; set; }
 
         public string SpecieName { get; set; }
 

@@ -14,6 +14,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Implementations
@@ -26,12 +27,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly ILogger<PostService> logger;
         private readonly IUserVotesRepository userVotesRepository;
         private readonly IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
+        private readonly IServiceBusLabelTopicSender<List<UserLabel>> serviceBusLabelTopicSender;
 
         public PostService(IPostConfiguration postConfiguration,
             IBlobContainerRepository blobContainerRepository,
             IPostRepository postRepository,
             IUserVotesRepository userVotesRepository,
             IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
+            IServiceBusLabelTopicSender<List<UserLabel>> serviceBusLabelTopicSender,
             ILogger<PostService> logger)
         {
             this.userVotesRepository = userVotesRepository;
@@ -39,6 +42,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             this.postConfiguration = postConfiguration;
             this.postRepository = postRepository;
             this.serviceBusCreatedPostTopic = serviceBusCreatedPostTopic;
+            this.serviceBusLabelTopicSender = serviceBusLabelTopicSender;
             this.logger = logger;
         }
 
@@ -76,6 +80,12 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     var post = await this.postRepository.CreatePostAsync(birdPost);
                     await this.serviceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
 
+                    if (post.Labels != null && post.Labels.Any()) 
+                    {
+                        var dtoLabels = this.GetListLabel(post.Labels.ToList(), post.UserId);
+                        await this.serviceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
+                    }
+                    
                     return post;
                 }
             }
@@ -167,6 +177,23 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 this.logger.LogError(ex, "GetBlogPostsForUserId");
                 return null;
             }
+        }
+
+        private List<UserLabel> GetListLabel(List<string> labels, string userId) 
+        {
+            var listLabel = new List<UserLabel>();
+
+            foreach (var label in labels) 
+            {
+                listLabel.Add(new UserLabel()
+                {
+                    Type = "label",
+                    UserId = userId,
+                    Label = label
+                });
+            }
+
+            return listLabel;
         }
     }
 }

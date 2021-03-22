@@ -52,7 +52,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 var imageStream = await contents.ReadAsStreamAsync();
 
                 var result = await this.postService.AddBirdPost(post, imageStream, request.ImageName);
-
+                
                 if (result != null)
                 {
                     var postResponse = this.postMapper.Convert(result);

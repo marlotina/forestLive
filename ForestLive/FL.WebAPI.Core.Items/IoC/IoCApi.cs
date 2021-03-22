@@ -34,7 +34,8 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
 
             services.AddTransient(typeof(IServiceBusPostTopicSender<>), typeof(ServiceBusPostTopicSender<>));
-            
+            services.AddTransient(typeof(IServiceBusLabelTopicSender<>), typeof(ServiceBusLabelTopicSender<>));
+
             services.AddTransient<IPostService, PostService>();
 
             services.AddSingleton<IClientFactory, ClientFactory>();
