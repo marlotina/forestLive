@@ -1,6 +1,7 @@
 ﻿using FL.Web.API.Core.User.Posts.Application.Services.Contracts;
 using FL.Web.API.Core.User.Posts.Domain.Repositories;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.User.Posts.Application.Services.Implementations
@@ -16,7 +17,8 @@ namespace FL.Web.API.Core.User.Posts.Application.Services.Implementations
 
         public async Task<List<string>> GetLabelsByUser(string userId)
         {
-            return await this.userLabelRepository.GetUserLabels(userId);
+            var list = await this.userLabelRepository.GetUserLabels(userId);
+            return list.Select(x => x.Id).ToList();
         }
     }
 }
