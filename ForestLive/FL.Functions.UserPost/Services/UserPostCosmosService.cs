@@ -73,13 +73,27 @@ namespace FL.Functions.UserPost.Services
             await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addComment", new PartitionKey(comment.UserId), obj);
         }
 
-        public async Task AddLabelAsync(List<LabelDto> labels)
+        public async Task AddLabelAsync(List<UserLabel> labels)
         {
             try
             {
                 foreach (var label in labels) 
                 {
-                    await this.usersContainer.CreateItemAsync(label, new PartitionKey(label.UserId));
+                    ItemResponse<UserLabel> response = null;
+                    try
+                    {
+                        response = await this.usersContainer.ReadItemAsync<UserLabel>(label.Id, new PartitionKey(label.UserId));
+                    }
+                    catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound) { }
+
+                    if (response != null && !string.IsNullOrEmpty(response.Resource.Id))
+                    {
+                        var obj = new dynamic[] { response.Resource.Id };
+                        await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("updateLabel", new PartitionKey(response.Resource.UserId), obj);
+                    }
+                    else { 
+                        await this.usersContainer.CreateItemAsync(label, new PartitionKey(label.UserId));
+                    }
                 }
             }
             catch (Exception ex)

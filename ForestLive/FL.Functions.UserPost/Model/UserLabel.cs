@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FL.Web.API.Core.User.Posts.Domain.Entities
+﻿namespace FL.Functions.UserPost.Model
 {
     public class UserLabel
     {
@@ -12,6 +10,6 @@ namespace FL.Web.API.Core.User.Posts.Domain.Entities
 
         public int PostCount { get; set; }
 
-        public DateTime CreationDate { get; set; }
+        public string CreationDate { get; set; }
     }
 }

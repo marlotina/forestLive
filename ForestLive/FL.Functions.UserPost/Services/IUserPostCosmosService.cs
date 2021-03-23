@@ -19,6 +19,6 @@ namespace FL.Functions.UserPost.Services
 
         Task DeleteCommentAsync(BirdCommentDto comment);
 
-        Task AddLabelAsync(List<LabelDto> labels);
+        Task AddLabelAsync(List<UserLabel> labels);
     }
 }

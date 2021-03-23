@@ -30,7 +30,7 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var labels = JsonConvert.DeserializeObject<List<LabelDto>>(Encoding.UTF8.GetString(message.Body));
+                var labels = JsonConvert.DeserializeObject<List<UserPost.Model.UserLabel>>(Encoding.UTF8.GetString(message.Body));
                 if (labels != null && labels.Any())
                 {
                     if (message.Label == "labelCreated")

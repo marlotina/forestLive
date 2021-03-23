@@ -1,4 +1,6 @@
-﻿namespace FL.WebAPI.Core.Items.Domain.Entities
+﻿using System;
+
+namespace FL.WebAPI.Core.Items.Domain.Entities
 {
     public class UserLabel
     {
@@ -7,5 +9,9 @@
         public string Type { get; set; }
 
         public string UserId { get; set; }
+
+        public int PostCount { get; set; }
+
+        public DateTime CreationDate { get; set; }
     }
 }

@@ -189,7 +189,10 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 {
                     Type = "label",
                     UserId = userId,
-                    Id = label
+                    Id = label,
+                    PostCount = 1,
+                    CreationDate = DateTime.UtcNow
+
                 });
             }
 
