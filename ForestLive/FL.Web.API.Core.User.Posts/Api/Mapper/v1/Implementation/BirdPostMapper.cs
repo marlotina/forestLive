@@ -1,8 +1,6 @@
 ﻿using FL.Pereza.Helpers.Standard.Images;
-using FL.Web.API.Core.User.Posts.Api.Models.v1.Request;
 using FL.Web.API.Core.User.Posts.Api.Models.v1.Response;
 using FL.Web.API.Core.User.Posts.Domain.Dto;
-using FL.Web.API.Core.User.Posts.Domain.Entities;
 using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.User.Posts.Api.Models.v1.Response;
 using FL.WebAPI.Core.User.Posts.Domain.Entities;
@@ -41,37 +39,6 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     HasVote = vote != null,
                     VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
-                };
-            }
-
-            return result;
-        }
-
-        public UserLabel Convert(UserLabelRequest source)
-        {
-            var result = default(UserLabel);
-            if (source != null)
-            {
-                result = new UserLabel()
-                {
-                    Id = source.Label,
-                    UserId = source.UserId
-                };
-            }
-
-            return result;
-        }
-
-        public UserLabelResponse Convert(UserLabel source)
-        {
-            var result = default(UserLabelResponse);
-            if (source != null)
-            {
-                result = new UserLabelResponse()
-                {
-                    Label = source.Id,
-                    UserId = source.UserId,
-                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy")
                 };
             }
 
