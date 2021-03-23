@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.UserLabels.Api.Mapper.v1.Implementation
             {
                 result = new UserLabel()
                 {
-                    Id = source.Label,
+                    Id = source.Label.ToLower(),
                     UserId = source.UserId
                 };
             }

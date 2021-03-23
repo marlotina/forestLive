@@ -33,7 +33,7 @@ namespace FL.WebAPI.Core.UserLabels.Controllers.v1
 
         [HttpGet]
         [AllowAnonymous]
-        [Route("GetUserLabels", Name = "GetLabels")]
+        [Route("GetLabels", Name = "GetLabels")]
         public async Task<IActionResult> GetLabels(string userId)
         {
             try
@@ -56,7 +56,7 @@ namespace FL.WebAPI.Core.UserLabels.Controllers.v1
         }
 
         [HttpGet]
-        [Route("GetUserLabelsDetails", Name = "GetLabelsDetails")]
+        [Route("GetLabelsDetails", Name = "GetLabelsDetails")]
         public async Task<IActionResult> GetLabelsDetails(string userId)
         {
             try
@@ -103,8 +103,8 @@ namespace FL.WebAPI.Core.UserLabels.Controllers.v1
         }
 
         [HttpDelete]
-        [Route("DeleteUserLabel", Name = "DeleteLabel")]
-        public async Task<IActionResult> DeleteUserLabel(string label, string userId)
+        [Route("DeleteLabel", Name = "DeleteLabel")]
+        public async Task<IActionResult> DeleteLabel(string label, string userId)
         {
             try
             {
@@ -127,7 +127,7 @@ namespace FL.WebAPI.Core.UserLabels.Controllers.v1
             catch (UnauthorizedHasPostRemove ex)
             {
                 this.logger.LogInfo(ex);
-                return this.BadRequest("HasPost");
+                return this.Forbid();
             }
             catch (Exception ex)
             {

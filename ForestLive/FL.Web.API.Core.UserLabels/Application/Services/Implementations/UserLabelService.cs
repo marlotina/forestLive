@@ -21,6 +21,7 @@ namespace FL.Web.API.Core.User.Posts.Application.Services.Implementations
         public async Task<UserLabel> AddLabel(UserLabel userLabel)
         {
             userLabel.CreationDate = DateTime.UtcNow;
+            userLabel.Type = "label";
             return await this.userLabelRepository.AddLabel(userLabel);
         }
 
@@ -28,7 +29,7 @@ namespace FL.Web.API.Core.User.Posts.Application.Services.Implementations
         {
             var userLabel = await this.userLabelRepository.GetUserLabel(label, userId);
 
-            if (userLabel != null && userLabel.UserId == userWebSite)
+            if (userLabel != null && userLabel.UserId != userWebSite)
                 throw new UnauthorizedRemove();
                         
             if (userLabel.PostCount > 0)
