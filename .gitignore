@@ -374,3 +374,10 @@ ForestLive/FL.Web.API.Core.Comments/appsettings.QA.json
 ForestLive/FL.Web.API.Core.Comments/appsettings.Development.json
 ForestLive/FL.Web.Api.Core.Votes/appsettings.Development.json
 ForestLive/FL.Web.Api.Core.Votes/appsettings.json
+ForestLive/FL.Web.API.Core.UserLabels/appsettings.Development.json
+ForestLive/FL.Web.API.Core.UserLabels/appsettings.json
+ForestLive/FL.Web.API.Core.UserLabels/appsettings.QA.json
+ForestLive/FL.Web.API.Core.UserLabels/nlog.QA.config
+ForestLive/FL.Web.API.Core.UserLabels/nlog.config
+ForestLive/FL.Web.API.Core.UserLabels/nlog.Prod.config
+ForestLive/FL.Web.API.Core.UserLabels/nlog.Development.config

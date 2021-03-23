@@ -1,4 +1,4 @@
-﻿namespace FL.Web.Api.Core.Votes.Domain.Enum
+﻿namespace FL.WebAPI.Core.UserLabels.Domain.Enum
 {
     public class ItemHelper
     {
