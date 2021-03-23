@@ -32,6 +32,29 @@ namespace FL.WebAPI.Core.UserLabels.Controllers.v1
         }
 
         [HttpGet]
+        [Route("GetLabelsAutocomplete", Name = "GetLabelsAutocomplete")]
+        public async Task<IActionResult> GetLabelsAutocomplete(string userId)
+        {
+            try
+            {
+                var result = await this.userLabelService.GetLabelsByUser(userId);
+
+                if (result != null && result.Any())
+                {
+                    var response = result.Select(x => x.Id);
+                    return this.Ok(response);
+                }
+                else
+                    return this.NoContent();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+        [HttpGet]
         [AllowAnonymous]
         [Route("GetLabels", Name = "GetLabels")]
         public async Task<IActionResult> GetLabels(string userId)
