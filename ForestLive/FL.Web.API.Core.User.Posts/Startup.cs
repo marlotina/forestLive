@@ -24,6 +24,7 @@ namespace FL.Web.API.Core.User.Posts
         {
             IoCApi.AddInjection(services);
 
+            services.AddCors();
             services.AddControllers();
 
             services.AddAuthentication(x =>

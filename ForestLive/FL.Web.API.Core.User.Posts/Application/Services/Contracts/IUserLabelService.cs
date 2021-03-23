@@ -10,7 +10,7 @@ namespace FL.Web.API.Core.User.Posts.Application.Services.Contracts
 
         Task<UserLabel> AddLabel(UserLabel userLabel);
 
-        Task<bool> DeleteLabel(string label, string userWebSite);
+        Task<bool> DeleteLabel(string label, string userId, string userWebSite);
 
         Task<List<UserLabel>> GetUserLabelsDetails(string userId);
     }

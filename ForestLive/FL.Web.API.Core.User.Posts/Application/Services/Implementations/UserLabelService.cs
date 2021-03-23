@@ -24,11 +24,11 @@ namespace FL.Web.API.Core.User.Posts.Application.Services.Implementations
             return await this.userLabelRepository.AddLabel(userLabel);
         }
 
-        public async Task<bool> DeleteLabel(string label, string userWebSite)
+        public async Task<bool> DeleteLabel(string label, string userId, string userWebSite)
         {
-            var userLabel = await this.userLabelRepository.GetUserLabel(label, userWebSite);
+            var userLabel = await this.userLabelRepository.GetUserLabel(label, userId);
 
-            if (userLabel != null)
+            if (userLabel != null && userLabel.UserId == userWebSite)
             {
                 return await this.userLabelRepository.DeleteLabel(userLabel);
             }

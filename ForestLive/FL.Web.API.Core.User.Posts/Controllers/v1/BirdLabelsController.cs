@@ -4,6 +4,7 @@ using FL.Web.API.Core.User.Posts.Api.Models.v1.Request;
 using FL.Web.API.Core.User.Posts.Application.Exceptions;
 using FL.Web.API.Core.User.Posts.Application.Services.Contracts;
 using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.User.Posts.Controllers.v1
 {
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
     public class BirdLabelsController : Controller
@@ -30,6 +32,7 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("GetUserLabels", Name = "GetUserLabels")]
         public async Task<IActionResult> GetUserLabels(string userId)
         {
@@ -85,7 +88,8 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
 
                 if (result != null)
                 {
-                    return this.Ok(result);
+                    var response = this.birdPostMapper.Convert(result);
+                    return this.Ok(response);
                 }
                 else
                     return this.BadRequest();
@@ -99,17 +103,17 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteUserLabel", Name = "DeleteUserLabel")]
-        public async Task<IActionResult> DeleteUserLabel(string label)
+        public async Task<IActionResult> DeleteUserLabel(string label, string userId)
         {
             try
             {
-                var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                var userWebSite = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
 
-                var result = await this.userLabelService.DeleteLabel(label, userId);
+                var result = await this.userLabelService.DeleteLabel(label, userId, userWebSite);
 
                 if (result)
                 {
-                    return this.Ok();
+                    return this.Ok(result);
                 }
                 else
                     return this.NoContent();
