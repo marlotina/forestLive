@@ -90,8 +90,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
         {
             var posts = new List<BirdPost>();
 
-
-            var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.userId = @UserId AND ARRAY_CONTAINS(p.label, @Label) ORDER BY p.creationDate DESC";
+            var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.userId = @UserId AND ARRAY_CONTAINS(p.labels, @Label)";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);

@@ -53,8 +53,5 @@ namespace FL.WebAPI.Core.User.Posts.Domain.Entities
 
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime ObservationDate { get; set; }
-
-        [JsonProperty(PropertyName = "SpecieStatus")]
-        public string SpecieStatus { get; set; }
     }
 }
