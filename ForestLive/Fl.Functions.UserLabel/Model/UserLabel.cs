@@ -1,4 +1,4 @@
-﻿namespace FL.Functions.UserPost.Model
+﻿namespace Fl.Functions.UserLabel.Model
 {
     public class UserLabel
     {
