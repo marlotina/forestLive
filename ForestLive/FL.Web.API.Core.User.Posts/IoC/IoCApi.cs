@@ -4,8 +4,6 @@ using FL.CosmosDb.Standard.Contracts;
 using FL.CosmosDb.Standard.Implementations;
 using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
-using FL.Web.API.Core.User.Posts.Application.Services.Contracts;
-using FL.Web.API.Core.User.Posts.Application.Services.Implementations;
 using FL.Web.API.Core.User.Posts.Domain.Repositories;
 using FL.Web.API.Core.User.Posts.Infrastructure.Repositories;
 using FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts;
@@ -32,12 +30,10 @@ namespace FL.WebAPI.Core.User.Posts.IoC
 
             services.AddTransient<IUserPostService, UserPostService>();
             services.AddTransient<IUserVoteService, UserVoteService>();
-            services.AddTransient<IUserLabelService, UserLabelService>();
 
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IBirdUserRepository, BirdUserCosmosRepository>();
             services.AddTransient<IUserVotesRepository, UserVotesRepository>();
-            services.AddTransient<IUserLabelRepository, UserLabelRepository>();
 
 
             //loggin
