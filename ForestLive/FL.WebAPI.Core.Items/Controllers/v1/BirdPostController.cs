@@ -157,7 +157,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     return this.Ok(itemResponse);
                 }
                 else
-                    return this.BadRequest();
+                    return this.NoContent();
             }
             catch (Exception ex)
             {
