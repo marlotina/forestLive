@@ -63,6 +63,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
                     HasVote = vote != null,
                     VoteId = vote != null ? vote.VoteId : Guid.Empty,
+                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
             }
             return result;
@@ -81,6 +82,35 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     PostId = source.PostId,
                     UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION
+                };
+            }
+            return result;
+        }
+
+        public PostResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
+        {
+            var result = default(PostResponse);
+            if (source != null)
+            {
+                var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.PostId == source.PostId) : null;
+                result = new PostResponse()
+                {
+                    Id = source.PostId,
+                    PostId = source.PostId,
+                    Title = source.Title,
+                    Text = source.Text,
+                    ImageUrl = source.ImageUrl,
+                    AltImage = source.AltImage,
+                    CreationDate = source.CreationDate,
+                    UserId = source.UserId,
+                    BirdSpecie = source.SpecieName,
+                    SpecieId = source.SpecieId,
+                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
+                    VoteCount = source.VoteCount,
+                    CommentCount = source.CommentCount,
+                    HasVote = vote != null,
+                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
+                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
             }
             return result;

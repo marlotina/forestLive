@@ -165,5 +165,35 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 return this.Problem();
             }
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetPosts", Name = "GetPosts")]
+        public async Task<IActionResult> GetPosts()
+        {
+            try
+            {
+                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                var result = await this.postService.GetPosts();
+
+                if (result != null)
+                {
+                    var postList = result.Select(x => x.PostId);
+
+                    var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
+
+                    var itemResponse = result.Select(x => this.postMapper.Convert(x, postVotes));
+                    return this.Ok(itemResponse);
+                }
+                else
+                    return this.NoContent();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
     }
 }

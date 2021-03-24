@@ -15,6 +15,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 
         Task<BirdPost> GetBirdPost(Guid birdPostId);
 
+        Task<List<PostDto>> GetPosts();
+
         Task<List<BirdComment>> GetCommentByPost(Guid postId);
 
         Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId);

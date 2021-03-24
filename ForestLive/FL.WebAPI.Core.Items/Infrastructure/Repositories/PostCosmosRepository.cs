@@ -1,5 +1,6 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
+using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using Microsoft.Azure.Cosmos;
@@ -68,6 +69,24 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             var query = this.postContainer.GetItemQueryIterator<BirdComment>(queryDef);
 
             List<BirdComment> comments = new List<BirdComment>();
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                var ru = response.RequestCharge;
+                comments.AddRange(response.ToList());
+            }
+
+            return comments;
+        }
+
+        public async Task<List<PostDto>> GetPostsAsync()
+        {
+            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' ORDER BY p.creationDate ASC";
+
+            var queryDef = new QueryDefinition(queryString);
+            var query = this.postContainer.GetItemQueryIterator<PostDto>(queryDef);
+
+            var comments = new List<PostDto>();
             while (query.HasMoreResults)
             {
                 var response = await query.ReadNextAsync();
