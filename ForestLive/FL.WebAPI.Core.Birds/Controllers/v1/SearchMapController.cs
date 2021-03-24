@@ -29,35 +29,17 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         [HttpGet]
         [AllowAnonymous]
         [Route("GetPoints", Name = "GetPoints")]
-        public async Task<IActionResult> GetPoints(double latitude, double longitude, int zoom)
+        public async Task<IActionResult> GetPoints(double latitude, double longitude, int zoom, string specieId)
         {
             try
             {
-                var result = await this.searchMapService.GetPostByRadio(latitude, longitude, zoom);
-
-                if (result != null)
+                var specidIdGuid = default(Guid);
+                if (!string.IsNullOrEmpty(specieId))
                 {
-                    var itemResponse = result.Select(x => this.birdSpeciePostMapper.MapConvert(x));
-                    return this.Ok(itemResponse);
+                    specidIdGuid = Guid.Parse(specieId);
                 }
-                else
-                    return this.BadRequest();
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex);
-                return this.Problem();
-            }
-        }
 
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("GetPointsBySpecie", Name = "GetPointsBySpecie")]
-        public async Task<IActionResult> GetPointsBySpecie(double latitude, double longitude, int zoom, Guid specieId)
-        {
-            try
-            {
-                var result = await this.searchMapService.GetSpeciePostByRadio(latitude, longitude, zoom, specieId);
+                var result = await this.searchMapService.GetPostsByRadio(latitude, longitude, zoom, specidIdGuid);
 
                 if (result != null)
                 {
