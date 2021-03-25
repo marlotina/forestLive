@@ -46,12 +46,10 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     return this.BadRequest();
 
                 var post = this.postMapper.Convert(request);
-
                 var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
-                var contents = new StreamContent(new MemoryStream(bytes));
-                var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.postService.AddBirdPost(post, imageStream, request.ImageName);
+
+                var result = await this.postService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
                 
                 if (result != null)
                 {

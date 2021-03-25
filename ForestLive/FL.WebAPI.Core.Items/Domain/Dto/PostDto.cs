@@ -18,7 +18,7 @@ namespace FL.WebAPI.Core.Items.Domain.Dto
         public string SpecieName { get; set; }
 
         [JsonProperty(PropertyName = "specieId")]
-        public Guid SpecieId { get; set; }
+        public Guid? SpecieId { get; set; }
 
         [JsonProperty(PropertyName = "imageUrl")]
         public string ImageUrl { get; set; }

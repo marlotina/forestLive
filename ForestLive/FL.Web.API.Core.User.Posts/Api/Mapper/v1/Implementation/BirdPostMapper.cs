@@ -35,7 +35,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     CommentCount = source.CommentCount,
                     Latitude = source.Location.Position.Latitude,
                     Longitude = source.Location.Position.Longitude,
-                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
+                    ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
                     HasVote = vote != null,
                     VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
@@ -79,7 +79,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
-                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy")
+                    ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty
                 };
             }
 

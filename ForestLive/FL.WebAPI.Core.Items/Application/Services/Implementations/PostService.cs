@@ -15,6 +15,7 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Implementations
@@ -46,22 +47,15 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             this.logger = logger;
         }
 
-        public async Task<BirdPost> AddBirdPost(BirdPost birdPost, Stream imageStream, string imageName)
+        public async Task<BirdPost> AddBirdPost(BirdPost birdPost, byte[] imageBytes, string imageName, bool isPost)
         {
             try
             {
                 var folder = birdPost.UserId + "/" + DateTime.Now.ToString("ddMMyyyhhmm");
-
-                var stream = new System.IO.MemoryStream();
-                Image image = Image.FromStream(imageStream);
-                Image thumb = image.GetThumbnailImage(image.Width, image.Height, () => false, IntPtr.Zero);
-                thumb.Save(stream, ImageFormat.Jpeg);
-                stream.Position = 0;
-
-                var result = await this.blobContainerRepository.UploadFileToStorage(stream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
+                var result = await this.SavePhoto(imageBytes, imageName, folder);
 
                 if (result)
-                {
+                { 
                     var postId = Guid.NewGuid();
                     birdPost.PostId = postId;
                     birdPost.Id = postId;
@@ -69,22 +63,31 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
                     birdPost.CreationDate = DateTime.UtcNow;
-                    birdPost.ImageUrl = folder + "/"+ imageName;
+                    birdPost.ImageUrl = folder + "/" + imageName;
                     birdPost.VoteCount = 0;
 
-                    if (birdPost.SpecieId == null || birdPost.SpecieId == Guid.Empty) {
-                        birdPost.SpecieId = Guid.Parse(StatusSpecie.NoSpecieId);
+                    if (isPost)
+                    {
+                        birdPost.SpecieId = null;
                         birdPost.SpecieName = string.Empty;
+                    }
+                    else
+                    {
+                        if (birdPost.SpecieId == null || birdPost.SpecieId == Guid.Empty)
+                        {
+                            birdPost.SpecieId = Guid.Parse(StatusSpecie.NoSpecieId);
+                            birdPost.SpecieName = string.Empty;
+                        }
+                    }
+
+                    if (birdPost.Labels != null && birdPost.Labels.Any())
+                    {
+                        var dtoLabels = this.GetListLabel(birdPost.Labels.ToList(), birdPost.UserId);
+                        await this.serviceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
                     }
 
                     var post = await this.postRepository.CreatePostAsync(birdPost);
                     await this.serviceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
-
-                    if (post.Labels != null && post.Labels.Any()) 
-                    {
-                        var dtoLabels = this.GetListLabel(post.Labels.ToList(), post.UserId);
-                        await this.serviceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
-                    }
                     
                     return post;
                 }
@@ -211,6 +214,20 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
 
             return listLabel;
+        }
+
+        private async Task<bool> SavePhoto(byte[] imageBytes, string imageName, string folder)
+        {
+            var contents = new StreamContent(new MemoryStream(imageBytes));
+            var imageStream = await contents.ReadAsStreamAsync();
+
+            var stream = new MemoryStream();
+            Image image = Image.FromStream(imageStream);
+            Image thumb = image.GetThumbnailImage(image.Width, image.Height, () => false, IntPtr.Zero);
+            thumb.Save(stream, ImageFormat.Jpeg);
+            stream.Position = 0;
+
+            return await this.blobContainerRepository.UploadFileToStorage(stream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
         }
     }
 }

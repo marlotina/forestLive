@@ -27,12 +27,9 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Labels = source.Labels,
                     AltImage = source.AltImage,
                     Location = new Point(source.Longitude,source.Latitude),
-                    ObservationDate = source.ObservationDate
+                    ObservationDate = source.ObservationDate,
+                    SpecieId = source.SpecieId
                 };
-
-                if (!string.IsNullOrWhiteSpace(source.SpecieId)) {
-                    result.SpecieId = Guid.Parse(source.SpecieId);
-                }
             }
             return result;
         }
@@ -60,7 +57,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     CommentCount = source.CommentCount,
                     Latitude = source.Location.Position.Latitude.ToString(),
                     Longitude = source.Location.Position.Longitude.ToString(),
-                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
+                    ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
                     HasVote = vote != null,
                     VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
