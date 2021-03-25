@@ -27,16 +27,19 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<FL.Functions.BirdPost.Model.Post>(Encoding.UTF8.GetString(message.Body));
+                var post = JsonConvert.DeserializeObject<Post>(Encoding.UTF8.GetString(message.Body));
                 if (post.Id != null && post.Id != Guid.Empty)
                 {
-                    if (message.Label == "postCreated")
+                    if (post.SpecieId != null && post.SpecieId != Guid.Empty) 
                     {
-                        this.birdsCosmosService.CreatePostAsync(post);
-                    }
-                    else if (message.Label == "postDeleted")
-                    {
-                        this.birdsCosmosService.DeletePostAsync(post);
+                        if (message.Label == "postCreated")
+                        {
+                            this.birdsCosmosService.CreatePostAsync(post);
+                        }
+                        else if (message.Label == "postDeleted")
+                        {
+                            this.birdsCosmosService.DeletePostAsync(post);
+                        }
                     }
                 }
             }

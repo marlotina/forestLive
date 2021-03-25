@@ -28,7 +28,7 @@ namespace FL.Functions.BirdPost.Model
         public string SpecieName { get; set; }
 
         [JsonProperty(PropertyName = "specieId")]
-        public Guid SpecieId { get; set; }
+        public Guid? SpecieId { get; set; }
 
         [JsonProperty(PropertyName = "imageUrl")]
         public string ImageUrl { get; set; }
@@ -52,7 +52,7 @@ namespace FL.Functions.BirdPost.Model
         public string UserId { get; set; }
 
         [JsonProperty(PropertyName = "observationDate")]
-        public DateTime ObservationDate { get; set; }
+        public DateTime? ObservationDate { get; set; }
 
         [JsonProperty(PropertyName = "SpecieStatus")]
         public string SpecieStatus { get; set; }
