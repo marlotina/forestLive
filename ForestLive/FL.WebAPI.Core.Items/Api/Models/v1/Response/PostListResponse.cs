@@ -34,6 +34,6 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Response
 
         public bool HasVote { get; set; }
 
-        public Guid VoteId { get; set; }
+        public Guid? VoteId { get; set; }
     }
 }

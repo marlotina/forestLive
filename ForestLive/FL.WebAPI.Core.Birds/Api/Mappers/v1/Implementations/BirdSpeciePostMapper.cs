@@ -31,10 +31,14 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
-                    HasVote = vote != null,
-                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
+
+                if (vote != null)
+                {
+                    result.HasVote = true;
+                    result.VoteId = vote.VoteId;
+                }
             }
 
             return result;

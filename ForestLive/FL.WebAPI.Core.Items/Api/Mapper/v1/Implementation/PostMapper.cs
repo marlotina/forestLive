@@ -60,10 +60,14 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
-                    HasVote = vote != null,
-                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
+
+                if (vote != null)
+                {
+                    result.HasVote = true;
+                    result.VoteId = vote.VoteId;
+                }
 
                 if (source.Location != null) {
                     result.Latitude = source.Location.Position.Latitude;
@@ -112,10 +116,14 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
-                    HasVote = vote != null,
-                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
+
+                if (vote != null)
+                {
+                    result.HasVote = true;
+                    result.VoteId = vote.VoteId;
+                }
             }
             return result;
         }
@@ -140,10 +148,14 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
-                    HasVote = vote != null,
-                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
+
+                if (vote != null)
+                {
+                    result.HasVote = true;
+                    result.VoteId = vote.VoteId;
+                }
             }
             return result;
         }
