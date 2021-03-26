@@ -98,7 +98,7 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
         {
             try
             {
-                var result = await this.userPostService.GetPostsByUserId(userId);
+                var result = await this.userPostService.GetMapPointsByUserId(userId);
 
                 if (result != null && result.Any())
                 {

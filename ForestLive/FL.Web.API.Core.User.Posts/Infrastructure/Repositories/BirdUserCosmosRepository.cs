@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.Web.API.Core.User.Posts.Domain.Dto;
 using FL.WebAPI.Core.User.Posts.Configuration.Contracts;
 using FL.WebAPI.Core.User.Posts.Domain.Entities;
 using FL.WebAPI.Core.User.Posts.Domain.Repositories;
@@ -30,16 +31,16 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task<List<BirdPost>> GetPostsByUserId(string userId)
+        public async Task<List<PostDto>> GetPostsByUserId(string userId)
         {
-            var posts = new List<BirdPost>();
+            var posts = new List<PostDto>();
 
 
-            var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
+            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
-            var query = this.usersContainer.GetItemQueryIterator<BirdPost>(queryDef);
+            var query = this.usersContainer.GetItemQueryIterator<PostDto>(queryDef);
 
             while (query.HasMoreResults)
             {
@@ -51,16 +52,16 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             return posts;
         }
 
-        public async Task<List<BirdPost>> GetMapPointsForUserId(string userId)
+        public async Task<List<PointPostDto>> GetMapPointsForUserId(string userId)
         {
-            var posts = new List<BirdPost>();
+            var posts = new List<PointPostDto>();
 
 
             var queryString = $"SELECT p.postId, p.location FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
-            var query = this.usersContainer.GetItemQueryIterator<BirdPost>(queryDef);
+            var query = this.usersContainer.GetItemQueryIterator<PointPostDto>(queryDef);
 
             while (query.HasMoreResults)
             {
@@ -86,16 +87,16 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<BirdPost>> GetPostsByLabelByUserId(string label, string userId)
+        public async Task<IEnumerable<PostDto>> GetPostsByLabelByUserId(string label, string userId)
         {
-            var posts = new List<BirdPost>();
+            var posts = new List<PostDto>();
 
-            var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.userId = @UserId AND ARRAY_CONTAINS(p.labels, @Label)";
+            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' AND p.userId = @UserId AND ARRAY_CONTAINS(p.labels, @Label)";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
             queryDef.WithParameter("@Label", label);
-            var query = this.usersContainer.GetItemQueryIterator<BirdPost>(queryDef);
+            var query = this.usersContainer.GetItemQueryIterator<PostDto>(queryDef);
 
             while (query.HasMoreResults)
             {

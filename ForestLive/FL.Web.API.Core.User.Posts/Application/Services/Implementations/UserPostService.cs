@@ -26,7 +26,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             this.logger = logger;
         }
 
-        public async Task<IEnumerable<BirdPost>> GetMapPointsByUserId(string userId)
+        public async Task<IEnumerable<PointPostDto>> GetMapPointsByUserId(string userId)
         {
             try
             {
@@ -58,7 +58,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<BirdPost>> GetPostsByLabelByUserId(string label, string userId)
+        public async Task<IEnumerable<PostDto>> GetPostsByLabelByUserId(string label, string userId)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<BirdPost>> GetPostsByUserId(string userId)
+        public async Task<IEnumerable<PostDto>> GetPostsByUserId(string userId)
         {
             try 
             {
