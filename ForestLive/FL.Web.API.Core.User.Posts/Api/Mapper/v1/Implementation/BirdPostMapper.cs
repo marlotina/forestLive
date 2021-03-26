@@ -33,19 +33,59 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
-                    Latitude = source.Location.Position.Latitude,
-                    Longitude = source.Location.Position.Longitude,
-                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy"),
-                    HasVote = vote != null,
-                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
+                    ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
+
+                if (vote != null)
+                {
+                    result.HasVote = true;
+                    result.VoteId = vote.VoteId;
+                }
+
+                if (source.Location != null)
+                {
+                    result.Latitude = source.Location.Position.Latitude;
+                    result.Longitude = source.Location.Position.Longitude;
+                }
             }
 
             return result;
         }
 
-        public BirdMapResponse MapConvert(BirdPost source)
+        public PostListResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes)
+        {
+            var result = default(PostListResponse);
+            if (source != null)
+            {
+                var vote = postVotes.FirstOrDefault(x => x.PostId == source.PostId);
+                result = new PostListResponse()
+                {
+                    PostId = source.PostId,
+                    Title = source.Title,
+                    Text = source.Text,
+                    ImageUrl = source.ImageUrl,
+                    AltImage = source.AltImage,
+                    CreationDate = source.CreationDate,
+                    UserId = source.UserId,
+                    BirdSpecie = source.SpecieName,
+                    SpecieId = source.SpecieId,
+                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
+                    VoteCount = source.VoteCount,
+                    CommentCount = source.CommentCount,
+                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
+                };
+
+                if (vote != null) {
+                    result.HasVote = true;
+                    result.VoteId = vote.VoteId;
+                }
+            }
+
+            return result;
+        }
+
+        public BirdMapResponse MapConvert(PointPostDto source)
         {
             var result = default(BirdMapResponse);
             if (source != null)
@@ -79,11 +119,16 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
-                    ObservationDate = source.ObservationDate.ToString("dd/MM/yyyy")
+                    ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty
                 };
             }
 
             return result;
+        }
+
+        PostDto IBirdPostMapper.Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes)
+        {
+            throw new NotImplementedException();
         }
     }
 }

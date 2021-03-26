@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using FL.Functions.Posts.Model;
+using FL.Functions.Posts.Dto;
 using FL.Functions.Posts.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
@@ -27,7 +27,7 @@ namespace FL.Functions.Posts
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<VotePost>(Encoding.UTF8.GetString(message.Body));
+                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
                 if (vote.Id != null && vote.Id != Guid.Empty)
                 {
                     if (message.Label == "voteCreated")

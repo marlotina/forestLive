@@ -46,12 +46,10 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     return this.BadRequest();
 
                 var post = this.postMapper.Convert(request);
-
                 var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
-                var contents = new StreamContent(new MemoryStream(bytes));
-                var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.postService.AddBirdPost(post, imageStream, request.ImageName);
+
+                var result = await this.postService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
                 
                 if (result != null)
                 {
@@ -157,7 +155,67 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     return this.Ok(itemResponse);
                 }
                 else
-                    return this.BadRequest();
+                    return this.NoContent();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetAllPosts", Name = "GetAllPosts")]
+        public async Task<IActionResult> GetAllPosts(int orderBy)
+        {
+            try
+            {
+                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                var result = await this.postService.GetAllPosts(orderBy);
+
+                if (result != null)
+                {
+                    var postList = result.Select(x => x.PostId);
+
+                    var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
+
+                    var itemResponse = result.Select(x => this.postMapper.ConvertToList(x, postVotes));
+                    return this.Ok(itemResponse);
+                }
+                else
+                    return this.NoContent();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetPosts", Name = "GetPosts")]
+        public async Task<IActionResult> GetPosts(int orderBy)
+        {
+            try
+            {
+                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                var result = await this.postService.GetPosts(orderBy);
+
+                if (result != null)
+                {
+                    var postList = result.Select(x => x.PostId);
+
+                    var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
+
+                    var itemResponse = result.Select(x => this.postMapper.ConvertToList(x, postVotes));
+                    return this.Ok(itemResponse);
+                }
+                else
+                    return this.NoContent();
             }
             catch (Exception ex)
             {

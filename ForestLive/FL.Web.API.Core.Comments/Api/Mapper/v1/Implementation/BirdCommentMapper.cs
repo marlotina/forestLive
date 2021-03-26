@@ -19,7 +19,8 @@ namespace FL.Web.API.Core.Comments.Mapper.v1.Implementation
                     Text = source.Text,
                     UserId = source.UserId,
                     AuthorPostUserId = source.AuthorPostUserId,
-                    TitlePost = source.TitlePost
+                    TitlePost = source.TitlePost,
+                    SpecieId = source.SpecieId
                 };
             }
             return result;
@@ -39,7 +40,8 @@ namespace FL.Web.API.Core.Comments.Mapper.v1.Implementation
                     PostId = source.PostId,
                     UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
                     AuthorPostUserId = source.AuthorPostUserId,
-                    TitlePost = source.TitlePost
+                    TitlePost = source.TitlePost,
+                    SpecieId = source.SpecieId
                 };
             }
             return result;

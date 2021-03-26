@@ -16,16 +16,18 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
 
         public string UserId { get; set; }
 
-        public double Latitude { get; set; }
+        public double? Latitude { get; set; }
 
-        public double Longitude { get; set; }
+        public double? Longitude { get; set; }
 
         public string SpecieName { get; set; }
 
-        public string SpecieId { get; set; }
+        public Guid? SpecieId { get; set; }
 
         public string[] Labels { get; set; }
 
-        public DateTime ObservationDate { get; set; }
+        public DateTime? ObservationDate { get; set; }
+
+        public bool isPost { get; set; }
     }
 }

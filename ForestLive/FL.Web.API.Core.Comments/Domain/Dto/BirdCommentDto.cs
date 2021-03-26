@@ -24,6 +24,6 @@ namespace FL.Web.API.Core.Comments.Domain.Dto
         public string UserId { get; set; }
 
         [JsonProperty(PropertyName = "specieId")]
-        public Guid SpecieId { get; set; }
+        public Guid? SpecieId { get; set; }
     }
 }

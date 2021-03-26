@@ -1,5 +1,6 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
 using FL.WebAPI.Core.Birds.Configuration.Contracts;
+using FL.WebAPI.Core.Birds.Domain.Dto;
 using FL.WebAPI.Core.Birds.Domain.Model;
 using FL.WebAPI.Core.Birds.Domain.Repository;
 using Microsoft.Azure.Cosmos;
@@ -31,16 +32,16 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
         }
 
-        public async Task<List<BirdPost>> GetBirdsPostsBySpecieId(string specieId)
+        public async Task<List<PostDto>> GetBirdsPostsBySpecieId(string specieId, string orderCondition)
         {
-            var posts = new List<BirdPost>();
+            var posts = new List<PostDto>();
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.type='post' AND p.specieId = @SpecieId ORDER BY p.creationDate DESC";
+                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.specieId = @SpecieId ORDER BY p.{orderCondition}";
 
                 var queryDef = new QueryDefinition(queryString);
-                queryDef.WithParameter("@SpecieId", specieId);
-                var query = this.birdContainer.GetItemQueryIterator<BirdPost>(queryDef);
+                queryDef.WithParameter("@SpecieId", Guid.Parse(specieId));
+                var query = this.birdContainer.GetItemQueryIterator<PostDto>(queryDef);
 
                 while (query.HasMoreResults)
                 {

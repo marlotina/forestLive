@@ -2,14 +2,13 @@
 using FL.WebAPI.Core.Items.Domain.Entities;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 {
     public interface IPostService
     {
-        Task<BirdPost> AddBirdPost(BirdPost birdPost, Stream fileStream, string imageName);
+        Task<BirdPost> AddBirdPost(BirdPost birdPost, byte[] imageBytes, string imageName, bool isPost);
 
         Task<bool> DeleteBirdPost(Guid birdPostId, string userId);
 
@@ -18,5 +17,9 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
         Task<List<BirdComment>> GetCommentByPost(Guid postId);
 
         Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId);
+
+        Task<List<PostDto>> GetPosts(int orderBy);
+
+        Task<List<PostDto>> GetAllPosts(int orderBy);
     }
 }

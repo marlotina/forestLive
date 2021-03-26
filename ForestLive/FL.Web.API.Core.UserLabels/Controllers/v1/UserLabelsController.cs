@@ -7,6 +7,7 @@ using FL.WebAPI.Core.UserLabels.Api.Mapper.v1.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -38,14 +39,13 @@ namespace FL.WebAPI.Core.UserLabels.Controllers.v1
             try
             {
                 var result = await this.userLabelService.GetLabelsByUser(userId);
-
+                var response = new List<string>();
                 if (result != null && result.Any())
                 {
-                    var response = result.Select(x => x.Id);
-                    return this.Ok(response);
+                    response = result.Select(x => x.Id).ToList();
                 }
-                else
-                    return this.NoContent();
+
+                return this.Ok(response);
             }
             catch (Exception ex)
             {

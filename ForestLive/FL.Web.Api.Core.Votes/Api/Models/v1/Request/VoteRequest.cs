@@ -13,5 +13,7 @@ namespace FL.Web.Api.Core.Votes.Api.Models.v1.Request
         public string AuthorPostUserId { get; set; }
 
         public string TitlePost { get; set; }
+
+        public Guid? SpecieId { get; set; }
     }
 }

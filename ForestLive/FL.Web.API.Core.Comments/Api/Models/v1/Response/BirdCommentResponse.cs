@@ -14,12 +14,12 @@ namespace FL.Web.API.Core.Comments.Models.v1.Response
 
         public string UserId { get; set; }
 
-        public string UserName { get; set; }
-
         public string UserImage { get; set; }
 
         public string TitlePost { get; set; }
 
         public string AuthorPostUserId { get; set; }
+
+        public Guid? SpecieId { get; set; }
     }
 }

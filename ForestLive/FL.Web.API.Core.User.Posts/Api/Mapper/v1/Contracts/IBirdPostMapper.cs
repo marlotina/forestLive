@@ -7,9 +7,11 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Contracts
 {
     public interface IBirdPostMapper
     {
-        BirdPostResponse Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes);
+        PostDto Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes);
 
-        BirdMapResponse MapConvert(BirdPost source);
+        PostListResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes);
+
+        BirdMapResponse MapConvert(PointPostDto source);
 
         ModalBirdPostResponse ModalConvert(BirdPost source);
     }

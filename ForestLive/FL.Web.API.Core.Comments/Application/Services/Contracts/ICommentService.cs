@@ -7,10 +7,10 @@ namespace FL.Web.API.Core.Comments.Application.Services.Contracts
 {
     public interface ICommentService
     {
-        Task<BirdComment> AddComment(BirdComment commnet, Guid specieId);
+        Task<BirdComment> AddComment(BirdComment commnet);
 
         Task<List<BirdComment>> GetCommentByUserId(string userId);
 
-        Task<bool> DeleteComment(Guid commentId, string userId, Guid specieId);
+        Task<bool> DeleteComment(Guid commentId, string userId);
     }
 }

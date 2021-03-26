@@ -1,13 +1,14 @@
-﻿using FL.WebAPI.Core.Birds.Domain.Model;
+﻿using FL.WebAPI.Core.Birds.Domain.Dto;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Application.Services.Contracts
 {
     public interface IBirdSpeciesService
     {
-        Task<List<BirdPost>> GetBirdBySpecie(Guid birdSpecieId);
+        Task<List<PostDto>> GetBirdBySpecie(Guid birdSpecieId, int orderBy);
+
+        Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId);
     }
 }

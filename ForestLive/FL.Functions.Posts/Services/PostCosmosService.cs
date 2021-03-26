@@ -37,12 +37,12 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task AddVotePostAsync(VotePost vote)
+        public async Task AddVotePostAsync(VotePostDto vote)
         {
             try
             {
                 var obj = new dynamic[] { vote.PostId, vote };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("createVote", new PartitionKey(vote.PostId.ToString()), obj);
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("createVote", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
@@ -61,7 +61,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task DeleteVotePostAsync(VotePost vote)
+        public async Task DeleteVotePostAsync(VotePostDto vote)
         {
             try
             {

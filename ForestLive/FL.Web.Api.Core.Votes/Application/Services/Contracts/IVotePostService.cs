@@ -13,6 +13,6 @@ namespace FL.Web.Api.Core.Votes.Application.Services.Contracts
 
         Task<VotePost> AddVotePost(VotePost votePost);
 
-        Task<bool> DeleteVotePost(Guid voteId, string partitionKey, string userId);
+        Task<bool> DeleteVotePost(Guid voteId, string userId);
     }
 }

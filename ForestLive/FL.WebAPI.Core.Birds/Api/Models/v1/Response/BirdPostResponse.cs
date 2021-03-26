@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 {
-    public class BirdSpeciePostResponse
+    public class BirdPostResponse
     {
         public Guid Id { get; set; }
 
@@ -22,20 +22,20 @@ namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 
         public int CommentCount { get; set; }
 
-        public double Latitude { get; set; }
-
-        public double Longitude { get; set; }
-
         public string[] Labels { get; set; }
 
         public string BirdSpecie { get; set; }
 
-        public Guid SpecieId { get; set; }
+        public Guid? SpecieId { get; set; }
+
+        public string UserUrl { get; set; }
 
         public string UserPhoto { get; set; }
 
-        public string ObservationDate { get; set; }
-
         public Guid PostId { get; set; }
+
+        public bool HasVote { get; set; }
+
+        public Guid? VoteId { get; set; }
     }
 }
