@@ -112,5 +112,33 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             }
             return result;
         }
+
+        public PostListResponse ConvertToList(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
+        {
+            var result = default(PostListResponse);
+            if (source != null)
+            {
+                var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.PostId == source.PostId) : null;
+                result = new PostListResponse()
+                {
+                    PostId = source.PostId,
+                    Title = source.Title,
+                    Text = source.Text,
+                    ImageUrl = source.ImageUrl,
+                    AltImage = source.AltImage,
+                    CreationDate = source.CreationDate,
+                    UserId = source.UserId,
+                    BirdSpecie = source.SpecieName,
+                    SpecieId = source.SpecieId,
+                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
+                    VoteCount = source.VoteCount,
+                    CommentCount = source.CommentCount,
+                    HasVote = vote != null,
+                    VoteId = vote != null ? vote.VoteId : Guid.Empty,
+                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
+                };
+            }
+            return result;
+        }
     }
 }

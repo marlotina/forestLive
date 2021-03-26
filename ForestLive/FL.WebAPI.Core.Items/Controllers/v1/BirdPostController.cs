@@ -181,7 +181,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
                     var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
 
-                    var itemResponse = result.Select(x => this.postMapper.Convert(x, postVotes));
+                    var itemResponse = result.Select(x => this.postMapper.ConvertToList(x, postVotes));
                     return this.Ok(itemResponse);
                 }
                 else
@@ -211,7 +211,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
 
                     var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
 
-                    var itemResponse = result.Select(x => this.postMapper.Convert(x, postVotes));
+                    var itemResponse = result.Select(x => this.postMapper.ConvertToList(x, postVotes));
                     return this.Ok(itemResponse);
                 }
                 else
