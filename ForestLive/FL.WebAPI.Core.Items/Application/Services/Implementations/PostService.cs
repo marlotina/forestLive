@@ -217,12 +217,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return null;
         }
 
-        public async  Task<List<PostDto>> GetAllPosts(int orderBy)
-        {
-            var order = this.GerOrderCondition(orderBy);
-            return await this.postRepository.GetAllPostsAsync(order);
-        }
-
         private async Task<bool> SavePhoto(byte[] imageBytes, string imageName, string folder)
         {
             var contents = new StreamContent(new MemoryStream(imageBytes));

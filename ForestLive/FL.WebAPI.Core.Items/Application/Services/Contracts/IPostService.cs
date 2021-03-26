@@ -19,7 +19,5 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
         Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId);
 
         Task<List<PostDto>> GetPosts(int orderBy);
-
-        Task<List<PostDto>> GetAllPosts(int orderBy);
     }
 }

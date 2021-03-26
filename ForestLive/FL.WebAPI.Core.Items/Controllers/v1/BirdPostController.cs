@@ -125,9 +125,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 this.logger.LogError(ex);
                 return this.Problem();
             }
-        }
-
-        
+        }        
 
         [HttpGet]
         [AllowAnonymous]
@@ -152,36 +150,6 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
 
                     var itemResponse = this.postMapper.Convert(result, postVotes);
-                    return this.Ok(itemResponse);
-                }
-                else
-                    return this.NoContent();
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex);
-                return this.Problem();
-            }
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("GetAllPosts", Name = "GetAllPosts")]
-        public async Task<IActionResult> GetAllPosts(int orderBy)
-        {
-            try
-            {
-                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-
-                var result = await this.postService.GetAllPosts(orderBy);
-
-                if (result != null)
-                {
-                    var postList = result.Select(x => x.PostId);
-
-                    var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
-
-                    var itemResponse = result.Select(x => this.postMapper.ConvertToList(x, postVotes));
                     return this.Ok(itemResponse);
                 }
                 else
