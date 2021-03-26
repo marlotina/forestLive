@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             this.searchMapRepository = searchMapRepository;
         }
 
-        public async Task<BirdPost> GetPostByPostId(string postId, string specieId)
+        public async Task<BirdPost> GetPostModalInfo(string postId, string specieId)
         {
             try
             {

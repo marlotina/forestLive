@@ -7,7 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.16.0" />
+    <PackageReference Include="Microsoft.Azure.ServiceBus" Version="5.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="4.9.3" />
     <PackageReference Include="RestSharp" Version="106.11.7" />
@@ -18,6 +20,7 @@
     <ProjectReference Include="..\..\FL.Pereza.Helpers.Standard\FL.Pereza.Helpers.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.Cache.Standard\FL.Cache.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.CosmosDb.Standard\FL.CosmosDb.Standard.csproj" />
+    <ProjectReference Include="..\..\Framework\FL.Infrastructure.Standard\FL.Infrastructure.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.Logging.Implementation.Standard\FL.Logging.Implementation.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.LogTrace.Contracts.Standard\FL.LogTrace.Contracts.Standard.csproj" />
   </ItemGroup>

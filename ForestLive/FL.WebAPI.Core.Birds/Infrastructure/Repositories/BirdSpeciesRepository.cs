@@ -13,26 +13,31 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
 {
     public class BirdSpeciesRepository : IBirdSpeciesRepository
     {
-        private IClientFactory clientFactory;
-        private IBirdsConfiguration birdsConfiguration;
+        private IClientFactory iClientFactory;
+        private IBirdsConfiguration iBirdsConfiguration;
         private readonly Container birdContainer;
 
-        public BirdSpeciesRepository(IClientFactory clientFactory,
-            IBirdsConfiguration birdsConfiguration)
+        public BirdSpeciesRepository(IClientFactory iClientFactory,
+            IBirdsConfiguration iBirdsConfiguration)
         {
-            this.clientFactory = clientFactory;
-            this.birdsConfiguration = birdsConfiguration;
-            this.birdContainer = InitialClient();
+            this.iClientFactory = iClientFactory;
+            this.iBirdsConfiguration = iBirdsConfiguration;
+            this.birdContainer = this.InitialClient();
         }
 
         private Container InitialClient()
         {
-            var config = this.birdsConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
+            var config = this.iBirdsConfiguration.CosmosConfiguration;
+            var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
         }
 
-        public async Task<List<PostDto>> GetBirdsPostsBySpecieId(string specieId, string orderCondition)
+        public async Task<BirdPost> CreatePostAsync(BirdPost post)
+        {
+            return await this.birdContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.SpecieId.ToString()));
+        }
+
+        public async Task<List<PostDto>> GetPostsBySpecieAsync(string specieId, string orderCondition)
         {
             var posts = new List<PostDto>();
             try
@@ -55,6 +60,20 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
 
             return posts;
+        }
+
+        public async Task<BirdPost> GetPostsAsync(Guid postId, Guid specieId)
+        {
+            try
+            {
+                var response = await this.birdContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
+                var ru = response.RequestCharge;
+                return response.Resource;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿
-using FL.WebAPI.Core.Birds.Configuration.Models;
+﻿using FL.WebAPI.Core.Birds.Configuration.Models;
 
 namespace FL.WebAPI.Core.Birds.Configuration.Contracts
 {
@@ -10,5 +9,9 @@ namespace FL.WebAPI.Core.Birds.Configuration.Contracts
         string VoteApiDomain { get; }
 
         string VoteUrlService { get; }
+
+        string BirdPhotoContainer { get; }
+
+        ServiceBusConfig ServiceBusConfig { get; }
     }
 }

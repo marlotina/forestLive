@@ -13,17 +13,17 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     [ApiController]
     public class SearchMapController : ControllerBase
     {
-        private readonly ILogger<SearchMapController> logger;
-        private readonly ISearchMapService searchMapService;
-        private readonly IBirdSpeciePostMapper birdSpeciePostMapper;
+        private readonly ILogger<SearchMapController> iLogger;
+        private readonly ISearchMapService iSearchMapService;
+        private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
 
-        public SearchMapController(ISearchMapService searchMapService,
-            IBirdSpeciePostMapper birdSpeciePostMapper,
-            ILogger<SearchMapController> logger)
+        public SearchMapController(ISearchMapService iSearchMapService,
+            IBirdSpeciePostMapper iBirdSpeciePostMapper,
+            ILogger<SearchMapController> iLogger)
         {
-            this.logger = logger;
-            this.searchMapService = searchMapService ?? throw new ArgumentNullException(nameof(searchMapService));
-            this.birdSpeciePostMapper = birdSpeciePostMapper ?? throw new ArgumentNullException(nameof(birdSpeciePostMapper));
+            this.iLogger = iLogger;
+            this.iSearchMapService = iSearchMapService ?? throw new ArgumentNullException(nameof(iSearchMapService));
+            this.iBirdSpeciePostMapper = iBirdSpeciePostMapper ?? throw new ArgumentNullException(nameof(iBirdSpeciePostMapper));
         }
 
         [HttpGet]
@@ -39,11 +39,11 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                     specidIdGuid = Guid.Parse(specieId);
                 }
 
-                var result = await this.searchMapService.GetPostsByRadio(latitude, longitude, zoom, specidIdGuid);
+                var result = await this.iSearchMapService.GetPostsByRadio(latitude, longitude, zoom, specidIdGuid);
 
                 if (result != null)
                 {
-                    var itemResponse = result.Select(x => this.birdSpeciePostMapper.MapConvert(x));
+                    var itemResponse = result.Select(x => this.iBirdSpeciePostMapper.MapConvert(x));
                     return this.Ok(itemResponse);
                 }
                 else
@@ -51,7 +51,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
         }
@@ -63,11 +63,11 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         {
             try
             {
-                var result = await this.searchMapService.GetPostByPostId(postId, specieId);
+                var result = await this.iSearchMapService.GetPostModalInfo(postId, specieId);
 
                 if (result != null)
                 {
-                    var itemResponse = this.birdSpeciePostMapper.ModalConvert(result);
+                    var itemResponse = this.iBirdSpeciePostMapper.ModalConvert(result);
                     return this.Ok(itemResponse);
                 }
                 else
@@ -75,7 +75,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
         }

@@ -1,8 +1,10 @@
 ﻿using FL.Pereza.Helpers.Standard.Images;
 using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
+using FL.WebAPI.Core.Birds.Api.Models.v1.Request;
 using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
 using FL.WebAPI.Core.Birds.Domain.Dto;
 using FL.WebAPI.Core.Birds.Domain.Model;
+using Microsoft.Azure.Cosmos.Spatial;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,6 +46,57 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
             return result;
         }
 
+        public BirdPost Convert(PostRequest source)
+        {
+            var result = default(BirdPost);
+            if (source != null)
+            {
+                result = new BirdPost()
+                {
+                    Title = source.Title,
+                    Text = source.Text,
+                    UserId = source.UserId,
+                    SpecieName = source.SpecieName,
+                    Labels = source.Labels,
+                    AltImage = source.AltImage,
+                    ObservationDate = source.ObservationDate,
+                    SpecieId = source.SpecieId
+                };
+
+                if (source.Longitude.HasValue && source.Latitude.HasValue)
+                {
+                    result.Location = new Point(source.Longitude.Value, source.Latitude.Value);
+                }
+            }
+            return result;
+        }
+
+        public BirdPostResponse Convert(BirdPost source)
+        {
+            var result = default(BirdPostResponse);
+            if (source != null)
+            {
+                result = new BirdPostResponse()
+                {
+                    PostId = source.PostId,
+                    Title = source.Title,
+                    Text = source.Text,
+                    ImageUrl = source.ImageUrl,
+                    AltImage = source.AltImage,
+                    CreationDate = source.CreationDate,
+                    UserId = source.UserId,
+                    BirdSpecie = source.SpecieName,
+                    SpecieId = source.SpecieId,
+                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
+                    VoteCount = source.VoteCount,
+                    CommentCount = source.CommentCount,
+                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
+                };
+            }
+
+            return result;
+        }
+
         public BirdMapResponse MapConvert(BirdPost source)
         {
             var result = default(BirdMapResponse);
@@ -52,7 +105,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                 result = new BirdMapResponse()
                 {
                     PostId = source.PostId,
-                    SpecieId = source.SpecieId.Value,
+                    SpecieId = source.SpecieId,
                     Location = new PositionResponse
                     {
                         Lat = source.Location.Position.Latitude,

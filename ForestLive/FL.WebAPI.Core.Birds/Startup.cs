@@ -1,16 +1,12 @@
 using FL.WebAPI.Core.Birds.IoC;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace FL.WebAPI.Core.Birds
 {
@@ -29,10 +25,25 @@ namespace FL.WebAPI.Core.Birds
             IoCApi.AddInjection(services);
 
             services.AddCors();
-
             services.AddControllers();
 
-            services.AddMemoryCache();
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+           .AddJwtBearer(x =>
+           {
+               x.RequireHttpsMetadata = false;
+               x.SaveToken = true;
+               x.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Get<string>())),
+                   ValidateIssuer = false,
+                   ValidateAudience = false
+               };
+           });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,12 +58,13 @@ namespace FL.WebAPI.Core.Birds
 
             app.UseRouting();
 
+            app.UseAuthorization();
+            app.UseAuthentication();
+
             app.UseCors(x => x
                .AllowAnyOrigin()
                .AllowAnyMethod()
                .AllowAnyHeader());
-
-            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

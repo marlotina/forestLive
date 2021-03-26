@@ -12,22 +12,22 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
 {
     public class SearchMapRepository : ISearchMapRepository
     {
-        private IClientFactory clientFactory;
-        private IBirdsConfiguration birdsConfiguration;
+        private IClientFactory iClientFactory;
+        private IBirdsConfiguration iBirdsConfiguration;
         private Container postContainer;
 
-        public SearchMapRepository(IClientFactory clientFactory,
-            IBirdsConfiguration birdsConfiguration)
+        public SearchMapRepository(IClientFactory iClientFactory,
+            IBirdsConfiguration iBirdsConfiguration)
         {
-            this.clientFactory = clientFactory;
-            this.birdsConfiguration = birdsConfiguration;
+            this.iClientFactory = iClientFactory;
+            this.iBirdsConfiguration = iBirdsConfiguration;
             this.postContainer = InitialCLient();
         }
 
         private Container InitialCLient()
         {
-            var config = this.birdsConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
+            var config = this.iBirdsConfiguration.CosmosConfiguration;
+            var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
         }
 
