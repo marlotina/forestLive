@@ -22,24 +22,28 @@ namespace FL.Functions.BirdPost
         [FunctionName("VotePosts")]
         public void Run([ServiceBusTrigger(
                 "vote",
-                "votePostTopic",
+                "voteBirdTopic",
                 Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
                 var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
-                if (vote.Id != null && vote.Id != Guid.Empty)
+                if (vote.SpecieId.HasValue && vote.SpecieId.Value != Guid.Empty)
                 {
-                    if (message.Label == "voteCreated")
+                    if (vote.Id != null && vote.Id != Guid.Empty)
                     {
-                        this.birdsCosmosService.AddVotePostAsync(vote);
-                    }
-                    else if (message.Label == "voteDeleted")
-                    {
-                        this.birdsCosmosService.DeleteVotePostAsync(vote);
+                        if (message.Label == "voteCreated")
+                        {
+                            this.birdsCosmosService.AddVotePostAsync(vote);
+                        }
+                        else if (message.Label == "voteDeleted")
+                        {
+                            this.birdsCosmosService.DeleteVotePostAsync(vote);
+                        }
                     }
                 }
+                    
             }
             catch (Exception ex)
             {
