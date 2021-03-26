@@ -14,16 +14,13 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
     {
         private readonly IBirdUserRepository iUserRepository;
         private readonly ILogger<UserPostService> iLogger;
-        private readonly IUserVotesRestRepository iUserVotesRepository;
 
         public UserPostService(
             IBirdUserRepository iUserRepository,
-            IUserVotesRestRepository iUserVotesRepository,
-            ILogger<UserPostService> logger)
+            ILogger<UserPostService> iLogger)
         {
-            this.iUserVotesRepository = iUserVotesRepository;
             this.iUserRepository = iUserRepository;
-            this.iLogger = logger;
+            this.iLogger = iLogger;
         }
 
         public async Task<IEnumerable<PointPostDto>> GetMapPointsByUserId(string userId)
@@ -58,7 +55,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<PostDto>> GetPostsByLabelByUserId(string label, string userId)
+        public async Task<IEnumerable<PostDto>> GetUserPostByLabel(string label, string userId)
         {
             try
             {

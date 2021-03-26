@@ -70,7 +70,7 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
 
-                var result = await this.userPostService.GetPostsByLabelByUserId(label, userId);
+                var result = await this.userPostService.GetUserPostByLabel(label, userId);
 
                 if (result != null && result.Any())
                 {

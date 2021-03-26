@@ -9,7 +9,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Contracts
     {
         Task<IEnumerable<PostDto>> GetPostsByUserId(string userId);
 
-        Task<IEnumerable<PostDto>> GetPostsByLabelByUserId(string label, string userId);
+        Task<IEnumerable<PostDto>> GetUserPostByLabel(string label, string userId);
 
         Task<BirdPost> GetPostByPostId(string postId, string userId);
 
