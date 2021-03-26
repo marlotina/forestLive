@@ -75,7 +75,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
                 var result = await this.votePostService.DeleteVotePost(voteId, userId);
 
                 if (result)
-                    return this.Ok();
+                    return this.Ok(result);
                 else
                     return this.BadRequest();
 
