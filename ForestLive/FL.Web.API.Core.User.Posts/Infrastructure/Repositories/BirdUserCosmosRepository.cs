@@ -57,7 +57,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             var posts = new List<PointPostDto>();
 
 
-            var queryString = $"SELECT p.postId, p.location FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
+            var queryString = $"SELECT p.postId, p.location FROM p WHERE p.type='post' AND p.location != null AND p.userId = @UserId ORDER BY p.creationDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
