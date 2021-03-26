@@ -26,10 +26,14 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     SpecieName = source.SpecieName,
                     Labels = source.Labels,
                     AltImage = source.AltImage,
-                    Location = new Point(source.Longitude,source.Latitude),
                     ObservationDate = source.ObservationDate,
                     SpecieId = source.SpecieId
                 };
+
+                if (source.Longitude.HasValue && source.Latitude.HasValue) {
+
+                    result.Location = new Point(source.Longitude.Value, source.Latitude.Value);
+                }
             }
             return result;
         }
@@ -55,13 +59,16 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
-                    Latitude = source.Location.Position.Latitude,
-                    Longitude = source.Location.Position.Longitude,
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
                     HasVote = vote != null,
                     VoteId = vote != null ? vote.VoteId : Guid.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
+
+                if (source.Location != null) {
+                    result.Latitude = source.Location.Position.Latitude;
+                    result.Longitude = source.Location.Position.Longitude;
+                }
             }
             return result;
         }
