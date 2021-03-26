@@ -381,3 +381,10 @@ ForestLive/FL.Web.API.Core.UserLabels/nlog.QA.config
 ForestLive/FL.Web.API.Core.UserLabels/nlog.config
 ForestLive/FL.Web.API.Core.UserLabels/nlog.Prod.config
 ForestLive/FL.Web.API.Core.UserLabels/nlog.Development.config
+ForestLive/FL.Web.API.Core.Species/nlog.config
+ForestLive/FL.Web.API.Core.Species/appsettings.json
+ForestLive/FL.Web.API.Core.Species/appsettings.QA.json
+ForestLive/FL.Web.API.Core.Species/appsettings.Development.json
+ForestLive/FL.Web.API.Core.Species/nlog.Prod.config
+ForestLive/FL.Web.API.Core.Species/nlog.Development.config
+ForestLive/FL.Web.API.Core.Species/nlog.QA.config

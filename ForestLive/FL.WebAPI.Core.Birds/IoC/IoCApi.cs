@@ -22,20 +22,17 @@ namespace FL.WebAPI.Core.Birds.IoC
     {
         public static void AddInjection(IServiceCollection services) 
         {
-            services.AddSingleton<IAutocompleteMapper, AutocompleteMapper>();
             services.AddSingleton<IBirdSpeciePostMapper, BirdSpeciePostMapper>();
 
             services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
             services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
 
             services.AddTransient<IBirdSpeciesService, BirdSpeciesService>();
-            services.AddTransient<IAutocompleteService, AutocompleteService>();
             services.AddTransient<ISearchMapService, SearchMapService>();
             services.AddTransient<IUserVotesRepository, UserVotesRepository>();
 
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IBirdSpeciesRepository, BirdSpeciesRepository>();
-            services.AddTransient<ISpeciesRepository, SpeciesRepository>();
             services.AddTransient<ISearchMapRepository, SearchMapRepository>();
 
             services.AddSingleton(typeof(ICustomMemoryCache<>), typeof(CustomMemoryCache<>));

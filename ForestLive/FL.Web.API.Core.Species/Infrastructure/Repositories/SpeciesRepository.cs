@@ -1,11 +1,11 @@
-﻿using FL.WebAPI.Core.Birds.Configuration.Contracts;
-using FL.WebAPI.Core.Birds.Domain.Model;
-using FL.WebAPI.Core.Birds.Domain.Repository;
+﻿using FL.Web.API.Core.Species.Configuration.Contracts;
+using FL.Web.API.Core.Species.Domain.Model;
+using FL.Web.API.Core.Species.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
-namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
+namespace FL.Web.API.Core.Species.Infrastructure.Repositories
 {
     public class SpeciesRepository : ISpeciesRepository
     {

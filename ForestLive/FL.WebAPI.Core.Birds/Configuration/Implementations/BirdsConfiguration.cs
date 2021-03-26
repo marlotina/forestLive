@@ -13,8 +13,6 @@ namespace FL.WebAPI.Core.Birds.Configuration.Implementations
             this.configuration = configuration;
         }
 
-        public string ConnectionString => this.configuration.GetSection("ConnectionString").Get<string>();
-
         public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
 
         public string VoteApiDomain => this.configuration.GetSection("VoteApiDomain").Get<string>();

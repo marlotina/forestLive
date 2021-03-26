@@ -1,8 +1,8 @@
-﻿using FL.WebAPI.Core.Birds.Domain.Model;
+﻿using FL.Web.API.Core.Species.Domain.Model;
 using System;
 using System.Collections.Generic;
 
-namespace FL.WebAPI.Core.Birds.Domain.Repository
+namespace FL.Web.API.Core.Species.Domain.Repository
 {
     public interface ISpeciesRepository
     {

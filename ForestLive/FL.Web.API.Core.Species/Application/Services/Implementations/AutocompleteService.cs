@@ -1,14 +1,14 @@
 ﻿using FL.Cache.Standard.Contracts;
 using FL.Pereza.Helpers.Standard.Extensions;
-using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
-using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
-using FL.WebAPI.Core.Birds.Application.Services.Contracts;
-using FL.WebAPI.Core.Birds.Domain.Repository;
+using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
+using FL.Web.API.Core.Species.Api.Models.v1.Response;
+using FL.Web.API.Core.Species.Application.Services.Contracts;
+using FL.Web.API.Core.Species.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
+namespace FL.Web.API.Core.Species.Application.Services.Implementations
 {
     public class AutocompleteService : IAutocompleteService
     {

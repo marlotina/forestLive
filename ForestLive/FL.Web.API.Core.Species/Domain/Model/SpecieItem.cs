@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FL.WebAPI.Core.Birds.Domain.Model
+namespace FL.Web.API.Core.Species.Domain.Model
 {
     public class SpecieItem
     {

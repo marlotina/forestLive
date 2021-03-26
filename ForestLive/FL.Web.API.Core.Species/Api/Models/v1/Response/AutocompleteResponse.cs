@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
+namespace FL.Web.API.Core.Species.Api.Models.v1.Response
 {
     public class AutocompleteResponse
     {

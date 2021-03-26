@@ -1,11 +1,11 @@
 ﻿using FL.Pereza.Helpers.Standard.Language;
-using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
-using FL.WebAPI.Core.Birds.Application.Services.Contracts;
+using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
+using FL.Web.API.Core.Species.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FL.WebAPI.Core.Birds.Controllers.v1
+namespace FL.Web.API.Core.Species.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]

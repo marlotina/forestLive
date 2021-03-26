@@ -1,10 +1,10 @@
 ﻿using FL.Pereza.Helpers.Standard.Extensions;
-using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
-using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
-using FL.WebAPI.Core.Birds.Domain.Model;
+using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
+using FL.Web.API.Core.Species.Api.Models.v1.Response;
+using FL.Web.API.Core.Species.Domain.Model;
 using System.Web;
 
-namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
+namespace FL.Web.API.Core.Species.Api.Mappers.v1.Implementations
 {
     public class AutocompleteMapper : IAutocompleteMapper
     {

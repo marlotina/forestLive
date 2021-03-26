@@ -1,8 +1,8 @@
-﻿using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
+﻿using FL.Web.API.Core.Species.Api.Models.v1.Response;
 using System;
 using System.Collections.Generic;
 
-namespace FL.WebAPI.Core.Birds.Application.Services.Contracts
+namespace FL.Web.API.Core.Species.Application.Services.Contracts
 {
     public interface IAutocompleteService
     {
