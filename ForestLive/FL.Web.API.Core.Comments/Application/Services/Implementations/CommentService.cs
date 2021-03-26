@@ -29,7 +29,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
             this.logger = logger;
         }
 
-        public async Task<BirdComment> AddComment(BirdComment comment, Guid specieId)
+        public async Task<BirdComment> AddComment(BirdComment comment)
         {
             try
             {
@@ -39,7 +39,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
 
                 var response = await this.commentRepository.CreateCommentAsync(comment);
 
-                var message = this.Convert(comment, specieId);
+                var message = this.Convert(comment);
                 await this.serviceBusCommentTopicSender.SendMessage(message, TopicHelper.LABEL_COMMENT_CREATED);
 
                 return response;
@@ -66,7 +66,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
             return new List<BirdComment>();
         }
 
-        public async Task<bool> DeleteComment(Guid commentId, string userId, Guid specieId)
+        public async Task<bool> DeleteComment(Guid commentId, string userId)
         {
             try
             {
@@ -77,7 +77,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
 
                     if (result)
                     {
-                        var message = this.Convert(comment, specieId);
+                        var message = this.Convert(comment);
                         await this.serviceBusCommentTopicSender.SendMessage(message, TopicHelper.LABEL_COMMENT_DELETED);
                         return true;
                     }
@@ -100,7 +100,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
             return await this.commentRepository.GetCommentsByUserIdAsync(userId);
         }
 
-        private BirdCommentDto Convert(BirdComment source, Guid specieId)
+        private BirdCommentDto Convert(BirdComment source)
         {
             var result = default(BirdCommentDto);
             if (source != null)
@@ -108,7 +108,7 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
                 result = new BirdCommentDto()
                 {
                     PostId = source.PostId,
-                    SpecieId = specieId,
+                    SpecieId = source.SpecieId,
                     UserId = source.UserId,
                     Id = source.Id,
                     CreationDate = source.CreationDate,

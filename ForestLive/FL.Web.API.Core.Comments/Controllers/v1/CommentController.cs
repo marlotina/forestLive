@@ -37,7 +37,7 @@ namespace FL.Web.API.Core.Comments.Controllers.v1
             try
             {
                 var comment = this.commentMapper.Convert(request);
-                var result = await this.commentService.AddComment(comment, request.SpecieId);
+                var result = await this.commentService.AddComment(comment);
 
                 if (result != null)
                 {
@@ -84,7 +84,7 @@ namespace FL.Web.API.Core.Comments.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteComment", Name = "DeleteComment")]
-        public async Task<IActionResult> DeleteComment(Guid commentId, Guid postId, Guid specieId)
+        public async Task<IActionResult> DeleteComment(Guid commentId, Guid postId)
         {
             try
             {
@@ -94,7 +94,7 @@ namespace FL.Web.API.Core.Comments.Controllers.v1
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
 
-                var result = await this.commentService.DeleteComment(commentId, userId, specieId);
+                var result = await this.commentService.DeleteComment(commentId, userId);
 
                 if (result)
                     return this.Ok();

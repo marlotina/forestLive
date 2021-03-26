@@ -28,5 +28,8 @@ namespace FL.Web.API.Core.Comments.Domain.Entities
         
         [JsonProperty(PropertyName = "authorPostUserId")]
         public string AuthorPostUserId { get; set; }
+
+        [JsonProperty(PropertyName = "specieId")]
+        public Guid? SpecieId { get; set; }
     }
 }

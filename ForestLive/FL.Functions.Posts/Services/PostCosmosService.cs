@@ -42,7 +42,7 @@ namespace FL.Functions.Posts.Services
             try
             {
                 var obj = new dynamic[] { vote.PostId, vote };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("createVote", new PartitionKey(vote.PostId.ToString()), obj);
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("createVote", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
