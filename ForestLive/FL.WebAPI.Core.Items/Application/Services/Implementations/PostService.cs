@@ -164,20 +164,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return new List<BirdComment>();
         }
 
-        public async Task<List<PostDto>> GetPosts()
-        {
-            try
-            {
-                return await this.postRepository.GetPostsAsync();
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "GetBirdItem");
-            }
-
-            return null;
-        }
-
         public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
         {
             try
@@ -216,6 +202,27 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return listLabel;
         }
 
+        public async Task<List<PostDto>> GetPosts(int orderBy)
+        {
+            try
+            {
+                var order = this.GerOrderCondition(orderBy);
+                return await this.postRepository.GetPostsAsync(order);
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "GetBirdItem");
+            }
+
+            return null;
+        }
+
+        public async  Task<List<PostDto>> GetAllPosts(int orderBy)
+        {
+            var order = this.GerOrderCondition(orderBy);
+            return await this.postRepository.GetAllPostsAsync(order);
+        }
+
         private async Task<bool> SavePhoto(byte[] imageBytes, string imageName, string folder)
         {
             var contents = new StreamContent(new MemoryStream(imageBytes));
@@ -228,6 +235,17 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             stream.Position = 0;
 
             return await this.blobContainerRepository.UploadFileToStorage(stream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
+        }
+
+        private string GerOrderCondition(int orderBy)
+        {
+            switch (orderBy)
+            {
+                case 1: return "creationDate DESC";
+                case 2: return "voteCount DESC";
+                case 3: return "commentCount DESC";
+                default: return "creationDate DESC";
+            }
         }
     }
 }

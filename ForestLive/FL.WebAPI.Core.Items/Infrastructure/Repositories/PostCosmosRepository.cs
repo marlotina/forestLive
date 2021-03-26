@@ -79,22 +79,42 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             return comments;
         }
 
-        public async Task<List<PostDto>> GetPostsAsync()
+        public async Task<List<PostDto>> GetPostsAsync(string orderBy)
         {
-            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' ORDER BY p.creationDate ASC";
+            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' AND p.specieId = null ORDER BY p.{orderBy}";
 
             var queryDef = new QueryDefinition(queryString);
             var query = this.postContainer.GetItemQueryIterator<PostDto>(queryDef);
 
-            var comments = new List<PostDto>();
+            var posts = new List<PostDto>();
             while (query.HasMoreResults)
             {
                 var response = await query.ReadNextAsync();
                 var ru = response.RequestCharge;
-                comments.AddRange(response.ToList());
+                posts.AddRange(response.ToList());
             }
 
-            return comments;
+            return posts;
+        }
+
+        public async Task<List<PostDto>> GetAllPostsAsync(string orderBy)
+        {
+            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' AND p.specieId != null ORDER BY p.{orderBy}";
+
+            var queryDef = new QueryDefinition(queryString);
+            var query = this.postContainer.GetItemQueryIterator<PostDto>(queryDef);
+
+            var posts = new List<PostDto>();
+            double wop = 0;
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                var ru = response.RequestCharge;
+                wop = wop + ru;
+                posts.AddRange(response.ToList());
+            }
+
+            return posts;
         }
     }
 }
