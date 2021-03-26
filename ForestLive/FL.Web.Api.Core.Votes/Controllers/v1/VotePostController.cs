@@ -72,7 +72,7 @@ namespace FL.Web.Api.Core.Votes.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.votePostService.DeleteVotePost(voteId, userId, userId);
+                var result = await this.votePostService.DeleteVotePost(voteId, userId);
 
                 if (result)
                     return this.Ok();

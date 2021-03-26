@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Web.Api.Core.Votes.Domain.Entities
+namespace FL.Web.Api.Core.Votes.Domain.Dto
 {
-    public class VotePost
+    public class VotePostDto
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }

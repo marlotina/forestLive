@@ -17,7 +17,8 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
                     TitlePost = source.TitlePost,
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    AuthorPostUserId = source.AuthorPostUserId
+                    AuthorPostUserId = source.AuthorPostUserId,
+                    SpecieId = source.SpecieId
                 };
             }
             return result;
@@ -35,7 +36,8 @@ namespace FL.Web.Api.Core.Votes.Api.Mapper.v1.Implementation
                     PostId = source.PostId,
                     CreationDate = source.CreationDate.ToString("ddMMyyyhhmm"),
                     Id = source.Id,
-                    AuthorPostUserId = source.AuthorPostUserId
+                    AuthorPostUserId = source.AuthorPostUserId,
+                    SpecieId = source.SpecieId
                 };
             }
             return result;

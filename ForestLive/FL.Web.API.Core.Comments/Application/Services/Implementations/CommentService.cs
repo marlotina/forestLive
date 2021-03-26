@@ -117,7 +117,6 @@ namespace FL.Web.API.Core.Comments.Application.Services.Implementations
                 };
             }
             return result;
-
         }
     }
 }
