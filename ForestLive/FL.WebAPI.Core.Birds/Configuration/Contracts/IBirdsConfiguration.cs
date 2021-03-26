@@ -8,5 +8,9 @@ namespace FL.WebAPI.Core.Birds.Configuration.Contracts
         string ConnectionString { get; }
 
         CosmosConfiguration CosmosConfiguration { get; }
+
+        string VoteApiDomain { get; }
+
+        string VoteUrlService { get; }
     }
 }

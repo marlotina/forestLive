@@ -31,6 +31,7 @@ namespace FL.WebAPI.Core.Birds.IoC
             services.AddTransient<IBirdSpeciesService, BirdSpeciesService>();
             services.AddTransient<IAutocompleteService, AutocompleteService>();
             services.AddTransient<ISearchMapService, SearchMapService>();
+            services.AddTransient<IUserVotesRepository, UserVotesRepository>();
 
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IBirdSpeciesRepository, BirdSpeciesRepository>();

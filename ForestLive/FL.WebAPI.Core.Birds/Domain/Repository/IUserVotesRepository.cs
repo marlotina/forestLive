@@ -1,11 +1,12 @@
 ﻿using FL.WebAPI.Core.Birds.Domain.Dto;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Domain.Repository
 {
-    public interface IBirdSpeciesRepository
+    public interface IUserVotesRepository
     {
-        Task<List<PostDto>> GetBirdsPostsBySpecieId(string specieId, string orderCondition);
+        Task<IEnumerable<VotePostResponse>> GetUserVoteByPosts(IEnumerable<Guid> listPosts, string userId);
     }
 }
