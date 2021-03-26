@@ -1,21 +1,22 @@
 using System;
 using System.Text;
-using FL.Functions.Posts.Dto;
-using FL.Functions.Posts.Services;
+using FL.Functions.BirdPost.Dto;
+using FL.Functions.BirdPost.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 
-namespace FL.Functions.Posts
+namespace FL.Functions.BirdPost
+
 {
     public class VotePostFunction
     {
-        private readonly IPostCosmosService postCosmosService;
+        private readonly IBirdsCosmosService birdsCosmosService;
 
-        public VotePostFunction(IPostCosmosService postCosmosService)
+        public VotePostFunction(IBirdsCosmosService birdsCosmosService)
         {
-            this.postCosmosService = postCosmosService;
+            this.birdsCosmosService = birdsCosmosService;
         }
 
         [FunctionName("VotePosts")]
@@ -32,11 +33,11 @@ namespace FL.Functions.Posts
                 {
                     if (message.Label == "voteCreated")
                     {
-                        this.postCosmosService.AddVotePostAsync(vote);
+                        this.birdsCosmosService.AddVotePostAsync(vote);
                     }
                     else if (message.Label == "voteDeleted")
                     {
-                        this.postCosmosService.DeleteVotePostAsync(vote);
+                        this.birdsCosmosService.DeleteVotePostAsync(vote);
                     }
                 }
             }

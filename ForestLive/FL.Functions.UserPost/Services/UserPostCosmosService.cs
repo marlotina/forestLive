@@ -40,7 +40,7 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task AddVoteAsync(VotePost vote)
+        public async Task AddVoteAsync(VotePostDto vote)
         {
             try
             {
@@ -54,7 +54,7 @@ namespace FL.Functions.UserPost.Services
             
         }
 
-        public async Task DeleteVoteAsync(VotePost vote)
+        public async Task DeleteVoteAsync(VotePostDto vote)
         {
 
             var obj = new dynamic[] { vote.PostId };

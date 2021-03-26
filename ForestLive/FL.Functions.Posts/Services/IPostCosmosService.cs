@@ -1,5 +1,4 @@
 ﻿using FL.Functions.Posts.Dto;
-using FL.Functions.Posts.Model;
 using System.Threading.Tasks;
 
 namespace FL.Functions.Posts.Services
@@ -10,8 +9,8 @@ namespace FL.Functions.Posts.Services
 
         Task DeleteCommentPostAsync(BirdCommentDto comment);
 
-        Task AddVotePostAsync(VotePost vote);
+        Task AddVotePostAsync(VotePostDto vote);
 
-        Task DeleteVotePostAsync(VotePost vote);
+        Task DeleteVotePostAsync(VotePostDto vote);
     }
 }
