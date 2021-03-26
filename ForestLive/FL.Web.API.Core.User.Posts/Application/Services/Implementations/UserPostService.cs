@@ -12,31 +12,31 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
 {
     public class UserPostService : IUserPostService
     {
-        private readonly IBirdUserRepository userRepository;
-        private readonly ILogger<UserPostService> logger;
-        private readonly IUserVotesRepository userVotesRepository;
+        private readonly IBirdUserRepository iUserRepository;
+        private readonly ILogger<UserPostService> iLogger;
+        private readonly IUserVotesRestRepository iUserVotesRepository;
 
         public UserPostService(
-            IBirdUserRepository userRepository,
-            IUserVotesRepository userVotesRepository,
+            IBirdUserRepository iUserRepository,
+            IUserVotesRestRepository iUserVotesRepository,
             ILogger<UserPostService> logger)
         {
-            this.userVotesRepository = userVotesRepository;
-            this.userRepository = userRepository;
-            this.logger = logger;
+            this.iUserVotesRepository = iUserVotesRepository;
+            this.iUserRepository = iUserRepository;
+            this.iLogger = logger;
         }
 
         public async Task<IEnumerable<PointPostDto>> GetMapPointsByUserId(string userId)
         {
             try
             {
-                var posts = await this.userRepository.GetMapPointsForUserId(userId);
+                var posts = await this.iUserRepository.GetMapPointsForUserIdAsync(userId);
 
                 return posts;
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
             }
 
             return null;
@@ -46,13 +46,13 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
         {
             try
             {
-                var post = await this.userRepository.GetPostsByPostId(postId, userId);
+                var post = await this.iUserRepository.GetPostsByPostIdAsync(postId, userId);
 
                 return post;
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
             }
 
             return null;
@@ -62,13 +62,13 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
         {
             try
             {
-                var posts = await this.userRepository.GetPostsByLabelByUserId(label, userId);
+                var posts = await this.iUserRepository.GetPostsByLabelByUserIdAsync(label, userId);
 
                 return posts;
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
             }
 
             return null;
@@ -78,13 +78,13 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
         {
             try 
             {
-                var posts = await this.userRepository.GetPostsByUserId(userId);
+                var posts = await this.iUserRepository.GetPostsByUserIdAsync(userId);
 
                 return posts;
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
             }
 
             return null;

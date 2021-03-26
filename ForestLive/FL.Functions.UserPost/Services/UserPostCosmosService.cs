@@ -1,8 +1,6 @@
 ﻿using FL.Functions.UserPost.Dto;
-using FL.Functions.UserPost.Model;
 using Microsoft.Azure.Cosmos;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.Functions.UserPost.Services
@@ -13,10 +11,10 @@ namespace FL.Functions.UserPost.Services
 
         public UserPostCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.usersContainer = dbClient.GetContainer(databaseName, "users");
+            this.usersContainer = dbClient.GetContainer(databaseName, "post");
         }
 
-        public async Task CreatePostInPendingAsync(Model.BirdPost post)
+        public async Task CreatePostAsync(Model.BirdPost post)
         {
             try
             {
@@ -28,7 +26,7 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task DeletePostInPendingAsync(Model.BirdPost post)
+        public async Task DeletePostAsync(Model.BirdPost post)
         {
             try
             {
@@ -45,7 +43,7 @@ namespace FL.Functions.UserPost.Services
             try
             {
                 var obj = new dynamic[] { vote.PostId };
-                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addVote", new PartitionKey(vote.UserId), obj);
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.UserId), obj);
             }
             catch (Exception ex)
             {
@@ -58,19 +56,19 @@ namespace FL.Functions.UserPost.Services
         {
 
             var obj = new dynamic[] { vote.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteVote", new PartitionKey(vote.UserId), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.UserId), obj);
         }
 
         public async Task DeleteCommentAsync(BirdCommentDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(comment.UserId), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.UserId), obj);
         }
 
         public async Task AddCommentAsync(BirdCommentDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("addComment", new PartitionKey(comment.UserId), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseCommentCount", new PartitionKey(comment.UserId), obj);
         }
     }
 }

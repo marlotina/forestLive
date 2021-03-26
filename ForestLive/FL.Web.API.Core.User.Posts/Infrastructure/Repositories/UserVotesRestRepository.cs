@@ -13,11 +13,11 @@ using System.Web;
 
 namespace FL.Web.API.Core.User.Posts.Infrastructure.Repositories
 {
-    public class UserVotesRepository : IUserVotesRepository
+    public class UserVotesRestRepository : IUserVotesRestRepository
     {
         private readonly IUserPostConfiguration userPostConfiguration;
 
-        public UserVotesRepository(
+        public UserVotesRestRepository(
             IUserPostConfiguration userPostConfiguration)
         {
             this.userPostConfiguration = userPostConfiguration;

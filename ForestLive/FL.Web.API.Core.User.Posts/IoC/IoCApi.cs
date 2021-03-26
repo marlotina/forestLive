@@ -33,7 +33,7 @@ namespace FL.WebAPI.Core.User.Posts.IoC
 
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IBirdUserRepository, BirdUserCosmosRepository>();
-            services.AddTransient<IUserVotesRepository, UserVotesRepository>();
+            services.AddTransient<IUserVotesRestRepository, UserVotesRestRepository>();
 
 
             //loggin

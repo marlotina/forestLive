@@ -5,9 +5,9 @@ namespace FL.Functions.UserPost.Services
 {
     public interface IUserPostCosmosService
     {
-        Task CreatePostInPendingAsync(Model.BirdPost post);
+        Task CreatePostAsync(Model.BirdPost post);
 
-        Task DeletePostInPendingAsync(Model.BirdPost post);
+        Task DeletePostAsync(Model.BirdPost post);
 
         Task AddVoteAsync(VotePostDto vote);
 

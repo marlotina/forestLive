@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.User.Posts.Domain.Repositories
 {
-    public interface IUserVotesRepository
+    public interface IUserVotesRestRepository
     {
         Task<IEnumerable<VotePostResponse>> GetUserVoteByPosts(IEnumerable<Guid> listPosts, string userId);
     }

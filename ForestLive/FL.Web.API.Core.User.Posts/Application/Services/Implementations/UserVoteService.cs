@@ -13,10 +13,10 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
     public class UserVoteService : IUserVoteService
     {
         private readonly ILogger<UserPostService> logger;
-        private readonly IUserVotesRepository userVotesRepository;
+        private readonly IUserVotesRestRepository userVotesRepository;
 
         public UserVoteService(
-            IUserVotesRepository userVotesRepository,
+            IUserVotesRestRepository userVotesRepository,
             ILogger<UserPostService> logger)
         {
             this.userVotesRepository = userVotesRepository;

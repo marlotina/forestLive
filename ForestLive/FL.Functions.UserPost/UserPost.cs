@@ -34,11 +34,11 @@ namespace FL.Functions.UserPost
                 {
                     if (message.Label == "postCreated")
                     {
-                        this.userPostCosmosDbService.CreatePostInPendingAsync(post);
+                        this.userPostCosmosDbService.CreatePostAsync(post);
                     }
                     else if (message.Label == "postDeleted")
                     {
-                        this.userPostCosmosDbService.DeletePostInPendingAsync(post);
+                        this.userPostCosmosDbService.DeletePostAsync(post);
                     }
                 }
             }

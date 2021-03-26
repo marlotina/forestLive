@@ -12,26 +12,26 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
 {
     public class BirdUserCosmosRepository : IBirdUserRepository
     {
-        private IClientFactory clientFactory;
-        private IUserPostConfiguration userPostConfiguration;
+        private IClientFactory iClientFactory;
+        private IUserPostConfiguration iUserPostConfiguration;
         private Container usersContainer;
 
-        public BirdUserCosmosRepository(IClientFactory clientFactory,
-            IUserPostConfiguration userPostConfiguration)
+        public BirdUserCosmosRepository(IClientFactory iClientFactory,
+            IUserPostConfiguration iUserPostConfiguration)
         {
-            this.clientFactory = clientFactory;
-            this.userPostConfiguration = userPostConfiguration;
+            this.iClientFactory = iClientFactory;
+            this.iUserPostConfiguration = iUserPostConfiguration;
             this.usersContainer = InitialClient();
         }
 
         private Container InitialClient()
         {
-            var config = this.userPostConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
+            var config = this.iUserPostConfiguration.CosmosConfiguration;
+            var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task<List<PostDto>> GetPostsByUserId(string userId)
+        public async Task<List<PostDto>> GetPostsByUserIdAsync(string userId)
         {
             var posts = new List<PostDto>();
 
@@ -52,7 +52,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             return posts;
         }
 
-        public async Task<List<PointPostDto>> GetMapPointsForUserId(string userId)
+        public async Task<List<PointPostDto>> GetMapPointsForUserIdAsync(string userId)
         {
             var posts = new List<PointPostDto>();
 
@@ -73,7 +73,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             return posts;
         }
 
-        public async Task<BirdPost> GetPostsByPostId(string postId, string userId)
+        public async Task<BirdPost> GetPostsByPostIdAsync(string postId, string userId)
         {
             try
             {
@@ -87,7 +87,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<PostDto>> GetPostsByLabelByUserId(string label, string userId)
+        public async Task<IEnumerable<PostDto>> GetPostsByLabelByUserIdAsync(string label, string userId)
         {
             var posts = new List<PostDto>();
 
