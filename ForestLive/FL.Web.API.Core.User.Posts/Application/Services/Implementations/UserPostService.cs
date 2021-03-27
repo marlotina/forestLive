@@ -27,7 +27,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
         {
             try
             {
-                var posts = await this.iUserRepository.GetMapPointsForUserIdAsync(userId);
+                var posts = await this.iUserRepository.GetMapPointsByUserAsync(userId);
 
                 return posts;
             }
@@ -39,11 +39,11 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<BirdPost> GetPostByPostId(string postId, string userId)
+        public async Task<BirdPost> GetPostByPostId(Guid postId, string userId)
         {
             try
             {
-                var post = await this.iUserRepository.GetPostsByPostIdAsync(postId, userId);
+                var post = await this.iUserRepository.GetPostsAsync(postId, userId);
 
                 return post;
             }
@@ -55,13 +55,15 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<PostDto>> GetUserPostByLabel(string label, string userId)
+        public async Task<IEnumerable<PostDto>> GetUserPost(string label, string userId)
         {
             try
             {
-                var posts = await this.iUserRepository.GetPostsByLabelByUserIdAsync(label, userId);
-
-                return posts;
+                if (string.IsNullOrEmpty(label)) {
+                    return await this.iUserRepository.GetPostsByLabelAsync(label, userId);
+                }
+                
+                return await this.iUserRepository.GetPostsByUserAsync(userId);
             }
             catch (Exception ex)
             {
@@ -71,13 +73,14 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<PostDto>> GetPostsByUserId(string userId)
+        public async Task<IEnumerable<PostDto>> GetUserBirds(string userId, Guid? specieId)
         {
             try 
             {
-                var posts = await this.iUserRepository.GetPostsByUserIdAsync(userId);
+                if(specieId.HasValue)
+                    return await this.iUserRepository.GetBirdsBySpecieAsync(userId, specieId.Value);
 
-                return posts;
+                return await this.iUserRepository.GetAllBirdsAsync(userId);
             }
             catch (Exception ex)
             {
