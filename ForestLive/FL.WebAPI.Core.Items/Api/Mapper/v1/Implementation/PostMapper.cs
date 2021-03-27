@@ -77,24 +77,6 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public BirdCommentResponse Convert(BirdComment source)
-        {
-            var result = default(BirdCommentResponse);
-            if (source != null)
-            {
-                result = new BirdCommentResponse()
-                {
-                    Id = source.Id,
-                    Text = source.Text,
-                    UserId = source.UserId,
-                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
-                    PostId = source.PostId,
-                    UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION
-                };
-            }
-            return result;
-        }
-
         public PostResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
         {
             var result = default(PostResponse);

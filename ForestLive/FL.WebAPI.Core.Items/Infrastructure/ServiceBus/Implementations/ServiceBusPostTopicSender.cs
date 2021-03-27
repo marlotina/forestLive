@@ -12,18 +12,18 @@ namespace FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Implementations
     public class ServiceBusPostTopicSender<T> : IServiceBusPostTopicSender<T> where T : class
     {
         private readonly TopicClient topicClient;
-        private readonly IPostConfiguration itemConfiguration;
+        private readonly IPostConfiguration iPostConfiguration;
         private readonly ILogger<ServiceBusPostTopicSender<T>> logger;
 
         public ServiceBusPostTopicSender(
-            IPostConfiguration itemConfiguration,
+            IPostConfiguration iPostConfiguration,
             ILogger<ServiceBusPostTopicSender<T>> logger)
         {
-            this.itemConfiguration = itemConfiguration;
+            this.iPostConfiguration = iPostConfiguration;
             this.logger = logger;
             topicClient = new TopicClient(
-                this.itemConfiguration.ServiceBusConfig.ConnectionString,
-                this.itemConfiguration.ServiceBusConfig.TopicPost
+                this.iPostConfiguration.ServiceBusConfig.ConnectionString,
+                this.iPostConfiguration.ServiceBusConfig.TopicPost
             );
         }
 

@@ -1,14 +1,11 @@
 ﻿using System;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Exceptions;
-using FL.WebAPI.Core.Items.Application.Services.Contracts;
+using FL.WebAPI.Core.Items.Application.Services.Implementations;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -19,16 +16,16 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     [ApiController]
     public class ManagePostController : ControllerBase
     {
-        private readonly ILogger<ManagePostController> logger;
-        private readonly IPostService iPostService;
+        private readonly ILogger<ManagePostController> iLogger;
+        private readonly ManagePostService iManagePostService;
         private readonly IPostMapper iPostMapper;
 
-        public ManagePostController(IPostService iPostService,
+        public ManagePostController(ManagePostService iManagePostService,
             IPostMapper iPostMapper,
-            ILogger<ManagePostController> logger)
+            ILogger<ManagePostController> iLogger)
         {
-            this.logger = logger;
-            this.iPostService = iPostService ?? throw new ArgumentNullException(nameof(iPostService));
+            this.iLogger = iLogger;
+            this.iManagePostService = iManagePostService ?? throw new ArgumentNullException(nameof(iManagePostService));
             this.iPostMapper = iPostMapper ?? throw new ArgumentNullException(nameof(iPostMapper));
         }
 
@@ -49,7 +46,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
 
 
-                var result = await this.iPostService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
+                var result = await this.iManagePostService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
                 
                 if (result != null)
                 {
@@ -61,7 +58,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
         }
@@ -77,7 +74,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.iPostService.DeleteBirdPost(postId, userId);
+                var result = await this.iManagePostService.DeleteBirdPost(postId, userId);
 
                 if (result)
                 {
@@ -88,12 +85,12 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             }
             catch (UnauthorizedRemove ex)
             {
-                this.logger.LogInfo(ex);
+                this.iLogger.LogInfo(ex);
                 return this.Unauthorized();
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
         }  

@@ -12,18 +12,18 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
     public class UserVotesRepository : IUserVotesRepository
     {
-        private readonly IPostConfiguration postConfiguration;
+        private readonly IPostConfiguration iPostConfiguration;
 
         public UserVotesRepository(
-            IPostConfiguration postConfiguration)
+            IPostConfiguration iPostConfiguration)
         {
-            this.postConfiguration = postConfiguration;
+            this.iPostConfiguration = iPostConfiguration;
         }
 
         public async Task<IEnumerable<VotePostResponse>> GetUserVoteByPosts(IEnumerable<Guid> listPosts, string userId)
         {
-            var client = new RestClient(this.postConfiguration.VoteApiDomain);
-            var restRequest = new RestRequest(this.postConfiguration.VoteUrlService, Method.POST);
+            var client = new RestClient(this.iPostConfiguration.VoteApiDomain);
+            var restRequest = new RestRequest(this.iPostConfiguration.VoteUrlService, Method.POST);
             
             var requestVoteUser = new VotePostRequest() {
                 ListPosts = listPosts,

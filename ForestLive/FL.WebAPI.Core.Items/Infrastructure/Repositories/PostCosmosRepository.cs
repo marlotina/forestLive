@@ -13,21 +13,21 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
     public class PostCosmosRepository : IPostRepository
     {
-        private IClientFactory clientFactory;
-        private IPostConfiguration postConfiguration; 
+        private IClientFactory iClientFactory;
+        private IPostConfiguration iPostConfiguration; 
         private Container postContainer;
 
-        public PostCosmosRepository(IClientFactory clientFactory,
-            IPostConfiguration postConfiguration)
+        public PostCosmosRepository(IClientFactory iClientFactory,
+            IPostConfiguration iPostConfiguration)
         {
-            this.clientFactory = clientFactory;
-            this.postConfiguration = postConfiguration;
+            this.iClientFactory = iClientFactory;
+            this.iPostConfiguration = iPostConfiguration;
             this.postContainer = InitialCLient();
         }
 
         private Container InitialCLient() {
-            var config = this.postConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
+            var config = this.iPostConfiguration.CosmosConfiguration;
+            var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosPostContainer);
         }
 

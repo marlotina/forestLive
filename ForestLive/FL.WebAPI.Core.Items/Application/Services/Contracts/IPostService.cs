@@ -8,10 +8,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 {
     public interface IPostService
     {
-        Task<BirdPost> AddBirdPost(BirdPost birdPost, byte[] imageBytes, string imageName, bool isPost);
-
-        Task<bool> DeleteBirdPost(Guid birdPostId, string userId);
-
         Task<BirdPost> GetBirdPost(Guid birdPostId);
 
         Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId);

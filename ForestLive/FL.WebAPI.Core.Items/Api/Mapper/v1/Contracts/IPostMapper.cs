@@ -15,8 +15,6 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts
 
         PostResponse Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes = null);
 
-        BirdCommentResponse Convert(BirdComment source);
-
         PostResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null);
     }
 }

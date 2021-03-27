@@ -78,7 +78,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
 
         public async Task DeletePostAsync(Guid postId, Guid specieId)
         {
-            await this.birdContainer.DeleteItemAsync(postId.ToString(), new PartitionKey(specieId.ToString()));
+            await this.birdContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
         }
     }
 }

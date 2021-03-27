@@ -1,13 +1,9 @@
 ﻿using System;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
-using FL.WebAPI.Core.Items.Api.Models.v1.Request;
-using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -19,17 +15,17 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     [ApiController]
     public class BirdPostController : ControllerBase
     {
-        private readonly ILogger<BirdPostController> logger;
-        private readonly IPostService postService;
-        private readonly IPostMapper postMapper;
+        private readonly ILogger<BirdPostController> iLogger;
+        private readonly IPostService iPostService;
+        private readonly IPostMapper iPostMapper;
 
-        public BirdPostController(IPostService postService,
-            IPostMapper postMapper,
-            ILogger<BirdPostController> logger)
+        public BirdPostController(IPostService iPostService,
+            IPostMapper iPostMapper,
+            ILogger<BirdPostController> iLogger)
         {
-            this.logger = logger;
-            this.postService = postService ?? throw new ArgumentNullException(nameof(postService));
-            this.postMapper = postMapper ?? throw new ArgumentNullException(nameof(postMapper));
+            this.iLogger = iLogger;
+            this.iPostService = iPostService ?? throw new ArgumentNullException(nameof(iPostService));
+            this.iPostMapper = iPostMapper ?? throw new ArgumentNullException(nameof(iPostMapper));
         } 
 
         [HttpGet]
@@ -46,15 +42,15 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = await this.postService.GetBirdPost(postId);
+                var result = await this.iPostService.GetBirdPost(postId);
 
                 if (result != null)
                 {
                     var postList = new Guid[] { postId };
 
-                    var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
+                    var postVotes = await this.iPostService.GetVoteByUserId(postList, webUserId);
 
-                    var itemResponse = this.postMapper.Convert(result, postVotes);
+                    var itemResponse = this.iPostMapper.Convert(result, postVotes);
                     return this.Ok(itemResponse);
                 }
                 else
@@ -62,7 +58,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
         }
@@ -76,15 +72,15 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
 
-                var result = await this.postService.GetPosts(orderBy);
+                var result = await this.iPostService.GetPosts(orderBy);
 
                 if (result != null)
                 {
                     var postList = result.Select(x => x.PostId);
 
-                    var postVotes = await this.postService.GetVoteByUserId(postList, webUserId);
+                    var postVotes = await this.iPostService.GetVoteByUserId(postList, webUserId);
 
-                    var itemResponse = result.Select(x => this.postMapper.ConvertToList(x, postVotes));
+                    var itemResponse = result.Select(x => this.iPostMapper.ConvertToList(x, postVotes));
                     return this.Ok(itemResponse);
                 }
                 else
@@ -92,7 +88,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
         }
