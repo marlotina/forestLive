@@ -388,3 +388,11 @@ ForestLive/FL.Web.API.Core.Species/appsettings.Development.json
 ForestLive/FL.Web.API.Core.Species/nlog.Prod.config
 ForestLive/FL.Web.API.Core.Species/nlog.Development.config
 ForestLive/FL.Web.API.Core.Species/nlog.QA.config
+ForestLive/FL.Web.API.Core.Post.Interactions/appsettings.json
+ForestLive/FL.Web.API.Core.Post.Interactions/appsettings.QA.json
+ForestLive/FL.Web.API.Core.Post.Interactions/appsettings.Prod.json
+ForestLive/FL.Web.API.Core.Post.Interactions/appsettings.Development.json
+ForestLive/FL.Web.API.Core.Post.Interactions/nlog.config
+ForestLive/FL.Web.API.Core.Post.Interactions/nlog.QA.config
+ForestLive/FL.Web.API.Core.Post.Interactions/nlog.Prod.config
+ForestLive/FL.Web.API.Core.Post.Interactions/nlog.Development.config
