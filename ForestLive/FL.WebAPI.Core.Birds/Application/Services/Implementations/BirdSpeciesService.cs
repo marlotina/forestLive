@@ -1,5 +1,6 @@
 ﻿using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Dto;
+using FL.WebAPI.Core.Birds.Domain.Model;
 using FL.WebAPI.Core.Birds.Domain.Repository;
 using System;
 using System.Collections.Generic;
@@ -24,6 +25,11 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
         {
             var orderCondition = this.GerOrderCondition(orderBy);
             return await this.iBirdSpeciesRepository.GetPostsBySpecieAsync(birdSpecieId, orderCondition);
+        }
+
+        public async Task<BirdPost> GetPost(Guid postId, Guid specieId)
+        {
+            return await this.iBirdSpeciesRepository.GetPostsAsync(postId, specieId);
         }
 
         public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)

@@ -14,6 +14,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts
 
         BirdPost Convert(PostRequest source);
 
+        PostResponse ConvertPost(BirdPost source, IEnumerable<VotePostResponse> postVotes = null);
 
         BirdPostResponse Convert(BirdPost source);
 

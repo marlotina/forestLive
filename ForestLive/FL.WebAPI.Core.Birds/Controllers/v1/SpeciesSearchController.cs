@@ -51,5 +51,24 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
 
             return this.NoContent();
         }
+
+        [HttpGet, Route("GetPost", Name = "GetPost")]
+        public async Task<IActionResult> GetPost(Guid postId, Guid specieId)
+        {
+            var result = await this.iBirdSpeciesService.GetPost(postId, specieId);
+
+            if (result != null)
+            {
+                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                var postList = new Guid[] { postId };
+                var postVotes = await this.iBirdSpeciesService.GetVoteByUserId(postList, webUserId);
+
+                var response = this.iBirdSpeciePostMapper.ConvertPost(result, postVotes);
+                return this.Ok(response);
+            }
+
+            return this.NoContent();
+        }
     }
 }
