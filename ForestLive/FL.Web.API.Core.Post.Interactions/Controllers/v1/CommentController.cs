@@ -18,10 +18,10 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
     public class CommentController : Controller
     {
         private readonly ILogger<CommentController> logger;
-        private readonly IBirdCommentMapper commentMapper;
+        private readonly ICommentMapper commentMapper;
         private readonly ICommentService commentService;
 
-        public CommentController(IBirdCommentMapper commentMapper,
+        public CommentController(ICommentMapper commentMapper,
             ICommentService commentService,
             ILogger<CommentController> logger)
         {
@@ -32,7 +32,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
 
         [HttpPost]
         [Route("AddComment", Name = "AddComment")]
-        public async Task<IActionResult> AddComment([FromBody] BirdCommentRequest request) 
+        public async Task<IActionResult> AddComment([FromBody] CommentRequest request) 
         {
             try
             {
@@ -65,7 +65,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = await this.commentService.GetCommentByPostId(postId);
+                var result = await this.commentService.GetCommentByPost(postId);
 
                 if (result != null)
                 {

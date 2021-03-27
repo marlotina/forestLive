@@ -6,9 +6,9 @@ using FL.Web.API.Core.Post.Interactions.Models.v1.Response;
 
 namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
 {
-    public class BirdCommentMapper : IBirdCommentMapper
+    public class CommentMapper : ICommentMapper
     {
-        public BirdComment Convert(BirdCommentRequest source)
+        public BirdComment Convert(CommentRequest source)
         {
             var result = default(BirdComment);
             if (source != null)
@@ -26,12 +26,12 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
             return result;
         }
 
-        public BirdCommentResponse Convert(BirdComment source)
+        public CommentResponse Convert(BirdComment source)
         {
-            var result = default(BirdCommentResponse);
+            var result = default(CommentResponse);
             if (source != null)
             {
-                result = new BirdCommentResponse()
+                result = new CommentResponse()
                 {
                     Id = source.Id,
                     Text = source.Text,

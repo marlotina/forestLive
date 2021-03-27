@@ -13,14 +13,14 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     [ApiController]
     public class PostSpecieController : Controller
     {
-        private readonly IBirdSpeciesService birdSpeciesService;
-        private readonly IBirdSpeciePostMapper birdSpeciePostMapper;
+        private readonly IBirdSpeciesService iBirdSpeciesService;
+        private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
         public PostSpecieController(
-            IBirdSpeciesService birdSpeciesService,
-            IBirdSpeciePostMapper birdSpeciePostMapper)
+            IBirdSpeciesService iBirdSpeciesService,
+            IBirdSpeciePostMapper iBirdSpeciePostMapper)
         {
-            this.birdSpeciesService = birdSpeciesService;
-            this.birdSpeciePostMapper = birdSpeciePostMapper;
+            this.iBirdSpeciesService = iBirdSpeciesService;
+            this.iBirdSpeciePostMapper = iBirdSpeciePostMapper;
         }
 
         [HttpPost]
@@ -36,15 +36,15 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                     || string.IsNullOrWhiteSpace(request.ImageData))
                     return this.BadRequest();
 
-                var post = this.birdSpeciePostMapper.Convert(request);
+                var post = this.iBirdSpeciePostMapper.Convert(request);
                 var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
 
 
-                var result = await this.birdSpeciesService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
+                var result = await this.iBirdSpeciesService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
 
                 if (result != null)
                 {
-                    var postResponse = this.birdSpeciePostMapper.Convert(result);
+                    var postResponse = this.iBirdSpeciePostMapper.Convert(result);
                     return this.CreatedAtRoute("GetPost", new { id = postResponse.PostId }, postResponse);
                 }
                 else
@@ -59,6 +59,13 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
 
         [HttpGet, Route("GetPost", Name = "GetPost")]
         public async Task<IActionResult> GetPost(Guid postId, Guid specieId)
+        {
+
+            return this.NoContent();
+        }
+
+        [HttpDelete, Route("DeletePost", Name = "DeletePost")]
+        public async Task<IActionResult> DeletePost(Guid postId, Guid specieId)
         {
 
             return this.NoContent();

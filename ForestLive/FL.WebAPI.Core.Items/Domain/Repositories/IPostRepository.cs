@@ -16,8 +16,6 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 
         Task<BirdPost> GetPostAsync(Guid postId);
 
-        Task<List<BirdComment>> GetCommentsAsync(Guid postId);
-
         Task<List<PostDto>> GetPostsAsync(string orderBy);
     }
 }

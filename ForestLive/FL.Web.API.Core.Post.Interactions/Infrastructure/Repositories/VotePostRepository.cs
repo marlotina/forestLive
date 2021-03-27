@@ -73,7 +73,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             
         }
 
-        public async Task<IEnumerable<VotePost>> GetVoteByPost(Guid postId)
+        public async Task<IEnumerable<VotePost>> GetVoteByPostAsync(Guid postId)
         {
             //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
             var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";

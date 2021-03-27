@@ -25,7 +25,7 @@ namespace FL.Web.Api.Core.Post.Interactions.IoC
         public static void AddInjection(IServiceCollection services)
         {
             services.AddSingleton<IVoteMapper, VoteMapper>();
-            services.AddSingleton<IBirdCommentMapper, BirdCommentMapper>();
+            services.AddSingleton<ICommentMapper, CommentMapper>();
 
             services.AddSingleton<IPostConfiguration, PostConfiguration>();
             services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();

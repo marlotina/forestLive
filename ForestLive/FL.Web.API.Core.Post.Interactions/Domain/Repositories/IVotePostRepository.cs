@@ -13,6 +13,6 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Repositories
 
         Task<VotePost> GetVoteAsync(Guid voteId, Guid postId);
 
-        Task<IEnumerable<VotePost>> GetVoteByPost(Guid postId);
+        Task<IEnumerable<VotePost>> GetVoteByPostAsync(Guid postId);
     }
 }

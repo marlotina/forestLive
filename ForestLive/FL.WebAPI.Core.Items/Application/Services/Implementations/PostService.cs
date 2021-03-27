@@ -22,29 +22,29 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 {
     public class PostService : IPostService
     {
-        private readonly IPostConfiguration postConfiguration;
-        private readonly IBlobContainerRepository blobContainerRepository;
-        private readonly IPostRepository postRepository;
-        private readonly ILogger<PostService> logger;
-        private readonly IUserVotesRepository userVotesRepository;
-        private readonly IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic;
-        private readonly IServiceBusLabelTopicSender<List<UserLabel>> serviceBusLabelTopicSender;
+        private readonly IPostConfiguration iPostConfiguration;
+        private readonly IBlobContainerRepository iBlobContainerRepository;
+        private readonly IPostRepository iPostRepository;
+        private readonly ILogger<PostService> iLogger;
+        private readonly IUserVotesRepository iUserVotesRepository;
+        private readonly IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic;
+        private readonly IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender;
 
-        public PostService(IPostConfiguration postConfiguration,
-            IBlobContainerRepository blobContainerRepository,
-            IPostRepository postRepository,
-            IUserVotesRepository userVotesRepository,
-            IServiceBusPostTopicSender<BirdPost> serviceBusCreatedPostTopic,
-            IServiceBusLabelTopicSender<List<UserLabel>> serviceBusLabelTopicSender,
-            ILogger<PostService> logger)
+        public PostService(IPostConfiguration iPostConfiguration,
+            IBlobContainerRepository iBlobContainerRepository,
+            IPostRepository iPostRepository,
+            IUserVotesRepository iUserVotesRepository,
+            IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic,
+            IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender,
+            ILogger<PostService> iLogger)
         {
-            this.userVotesRepository = userVotesRepository;
-            this.blobContainerRepository = blobContainerRepository;
-            this.postConfiguration = postConfiguration;
-            this.postRepository = postRepository;
-            this.serviceBusCreatedPostTopic = serviceBusCreatedPostTopic;
-            this.serviceBusLabelTopicSender = serviceBusLabelTopicSender;
-            this.logger = logger;
+            this.iUserVotesRepository = iUserVotesRepository;
+            this.iBlobContainerRepository = iBlobContainerRepository;
+            this.iPostConfiguration = iPostConfiguration;
+            this.iPostRepository = iPostRepository;
+            this.iServiceBusCreatedPostTopic = iServiceBusCreatedPostTopic;
+            this.iServiceBusLabelTopicSender = iServiceBusLabelTopicSender;
+            this.iLogger = iLogger;
         }
 
         public async Task<BirdPost> AddBirdPost(BirdPost birdPost, byte[] imageBytes, string imageName, bool isPost)
@@ -83,18 +83,18 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     if (birdPost.Labels != null && birdPost.Labels.Any())
                     {
                         var dtoLabels = this.GetListLabel(birdPost.Labels.ToList(), birdPost.UserId);
-                        await this.serviceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
+                        await this.iServiceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
                     }
 
-                    var post = await this.postRepository.CreatePostAsync(birdPost);
-                    await this.serviceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
+                    var post = await this.iPostRepository.CreatePostAsync(birdPost);
+                    await this.iServiceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
                     
                     return post;
                 }
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "AddBirdItem");
+                this.iLogger.LogError(ex, "AddBirdItem");
             }
 
             return null;
@@ -104,19 +104,19 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var post = await this.postRepository.GetPostAsync(birdPostId);
+                var post = await this.iPostRepository.GetPostAsync(birdPostId);
                 if (userId == post.UserId)
                 {
                     var image = post.ImageUrl;
                     var partitionKey = post.PostId.ToString();
                     var id = post.Id;
                     var userPartitionKey = post.UserId;
-                    var result = await this.blobContainerRepository.DeleteFileToStorage(image, this.postConfiguration.BirdPhotoContainer);
+                    var result = await this.iBlobContainerRepository.DeleteFileToStorage(image, this.iPostConfiguration.BirdPhotoContainer);
 
                     if (result)
                     {
-                        await this.postRepository.DeletePostAsync(id, partitionKey);
-                        await this.serviceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
+                        await this.iPostRepository.DeletePostAsync(id, partitionKey);
+                        await this.iServiceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
                     }
 
                     return true;
@@ -130,7 +130,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "DeleteBirdItem");
+                this.iLogger.LogError(ex, "DeleteBirdItem");
             }
 
             return false;
@@ -140,28 +140,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                return await this.postRepository.GetPostAsync(birdPostId);
+                return await this.iPostRepository.GetPostAsync(birdPostId);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBirdItem");
+                this.iLogger.LogError(ex, "GetBirdItem");
             }
 
             return null;
-        }
-
-        public async Task<List<BirdComment>> GetCommentByPost(Guid postId)
-        {
-            try
-            {
-                return await this.postRepository.GetCommentsAsync(postId);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "GetCommentByItem");
-            }
-
-            return new List<BirdComment>();
         }
 
         public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
@@ -170,14 +156,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             {
                 if (webUserId != null)
                 {
-                    return await this.userVotesRepository.GetUserVoteByPosts(listPost, webUserId);
+                    return await this.iUserVotesRepository.GetUserVoteByPosts(listPost, webUserId);
                 }
 
                 return new List<VotePostResponse>();
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBlogPostsForUserId");
+                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
                 return null;
             }
         }
@@ -207,11 +193,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             try
             {
                 var order = this.GerOrderCondition(orderBy);
-                return await this.postRepository.GetPostsAsync(order);
+                return await this.iPostRepository.GetPostsAsync(order);
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex, "GetBirdItem");
+                this.iLogger.LogError(ex, "GetBirdItem");
             }
 
             return null;
@@ -228,7 +214,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             thumb.Save(stream, ImageFormat.Jpeg);
             stream.Position = 0;
 
-            return await this.blobContainerRepository.UploadFileToStorage(stream, imageName, this.postConfiguration.BirdPhotoContainer, folder);
+            return await this.iBlobContainerRepository.UploadFileToStorage(stream, imageName, this.iPostConfiguration.BirdPhotoContainer, folder);
         }
 
         private string GerOrderCondition(int orderBy)

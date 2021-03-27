@@ -4,10 +4,10 @@ using FL.Web.API.Core.Post.Interactions.Models.v1.Response;
 
 namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Contracts
 {
-    public interface IBirdCommentMapper
+    public interface ICommentMapper
     {
-        BirdComment Convert(BirdCommentRequest source);
+        BirdComment Convert(CommentRequest source);
 
-        BirdCommentResponse Convert(BirdComment source);
+        CommentResponse Convert(BirdComment source);
     }
 }

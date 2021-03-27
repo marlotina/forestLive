@@ -157,5 +157,41 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
 
             return listLabel;
         }
+
+        public Task<bool> DeleteBirdPost(Guid postId, string userId)
+        {
+            try
+            {
+                var post = await this.iPostRepository.GetPostAsync(birdPostId);
+                if (userId == post.UserId)
+                {
+                    var image = post.ImageUrl;
+                    var partitionKey = post.PostId.ToString();
+                    var id = post.Id;
+                    var userPartitionKey = post.UserId;
+                    var result = await this.iBlobContainerRepository.DeleteFileToStorage(image, this.iPostConfiguration.BirdPhotoContainer);
+
+                    if (result)
+                    {
+                        await this.iPostRepository.DeletePostAsync(id, partitionKey);
+                        await this.iServiceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    throw new UnauthorizedRemove();
+                }
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex, "DeleteBirdItem");
+            }
+
+            return false;
+        }
     }
 }

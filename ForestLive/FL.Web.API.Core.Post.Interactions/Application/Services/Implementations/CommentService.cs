@@ -82,7 +82,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             return false;
         }
 
-        public async Task<List<BirdComment>> GetCommentByPostId(Guid postId)
+        public async Task<List<BirdComment>> GetCommentByPost(Guid postId)
         {
             return await this.iCommentRepository.GetCommentsByPostIdAsync(postId);
         }

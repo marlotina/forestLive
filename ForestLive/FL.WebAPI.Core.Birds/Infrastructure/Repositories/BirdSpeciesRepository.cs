@@ -37,7 +37,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             return await this.birdContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.SpecieId.ToString()));
         }
 
-        public async Task<List<PostDto>> GetPostsBySpecieAsync(string specieId, string orderCondition)
+        public async Task<List<PostDto>> GetPostsBySpecieAsync(Guid specieId, string orderCondition)
         {
             var posts = new List<PostDto>();
             try
@@ -45,7 +45,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
                 var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.specieId = @SpecieId ORDER BY p.{orderCondition}";
 
                 var queryDef = new QueryDefinition(queryString);
-                queryDef.WithParameter("@SpecieId", Guid.Parse(specieId));
+                queryDef.WithParameter("@SpecieId", specieId);
                 var query = this.birdContainer.GetItemQueryIterator<PostDto>(queryDef);
 
                 while (query.HasMoreResults)
@@ -74,6 +74,11 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             {
                 return null;
             }
+        }
+
+        public async Task DeletePostAsync(Guid postId, Guid specieId)
+        {
+            await this.birdContainer.DeleteItemAsync(postId.ToString(), new PartitionKey(specieId.ToString()));
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace FL.Web.API.Core.Post.Interactions.Models.v1.Request
 {
-    public class BirdCommentRequest
+    public class CommentRequest
     {
         public Guid PostId { get; set; }
 

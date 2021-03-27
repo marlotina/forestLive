@@ -60,25 +60,6 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             }
         }
 
-        public async Task<List<BirdComment>> GetCommentsAsync(Guid postId)
-        {
-            var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.postId = @PostId ORDER BY p.creationDate ASC";
-
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@PostId", postId);
-            var query = this.postContainer.GetItemQueryIterator<BirdComment>(queryDef);
-
-            List<BirdComment> comments = new List<BirdComment>();
-            while (query.HasMoreResults)
-            {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                comments.AddRange(response.ToList());
-            }
-
-            return comments;
-        }
-
         public async Task<List<PostDto>> GetPostsAsync(string orderBy)
         {
             var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' ORDER BY p.{orderBy}";

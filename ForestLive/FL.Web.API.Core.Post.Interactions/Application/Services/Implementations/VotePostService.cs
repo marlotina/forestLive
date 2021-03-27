@@ -15,15 +15,15 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
 {
     public class VotePostService : IVotePostService
     {
-        private readonly IServiceBusVotePostTopicSender<VotePostDto> serviceBusVotePostTopicSender;
-        private readonly IVotePostRepository votePostRepository;
+        private readonly IServiceBusVotePostTopicSender<VotePostDto> iServiceBusVotePostTopicSender;
+        private readonly IVotePostRepository iVotePostRepository;
 
         public VotePostService(
-            IServiceBusVotePostTopicSender<VotePostDto> serviceBusVotePostTopicSender,
-            IVotePostRepository votePostRepository)
+            IServiceBusVotePostTopicSender<VotePostDto> iServiceBusVotePostTopicSender,
+            IVotePostRepository iVotePostRepository)
         {
-            this.votePostRepository = votePostRepository;
-            this.serviceBusVotePostTopicSender = serviceBusVotePostTopicSender;
+            this.iVotePostRepository = iVotePostRepository;
+            this.iServiceBusVotePostTopicSender = iServiceBusVotePostTopicSender;
         }
 
         public async Task<VotePost> AddVotePost(VotePost votePost)
@@ -32,23 +32,23 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             votePost.CreationDate = DateTime.UtcNow;
             votePost.Type = ItemHelper.VOTE_TYPE;
 
-            var result = await this.votePostRepository.AddVote(votePost);
+            var result = await this.iVotePostRepository.AddVote(votePost);
             var voteDto = this.Convert(result);
-            await this.serviceBusVotePostTopicSender.SendMessage(voteDto, TopicHelper.LABEL_VOTE_CREATED);
+            await this.iServiceBusVotePostTopicSender.SendMessage(voteDto, TopicHelper.LABEL_VOTE_CREATED);
 
             return result;
         }
 
         public async Task<bool> DeleteVotePost(Guid voteId, Guid postId, string userId)
         {
-            var vote = await this.votePostRepository.GetVoteAsync(voteId, postId);
+            var vote = await this.iVotePostRepository.GetVoteAsync(voteId, postId);
             if (userId == vote.UserId && vote != null)
             {
-                var result = await this.votePostRepository.DeleteVoteAsync(voteId, vote.PostId);
+                var result = await this.iVotePostRepository.DeleteVoteAsync(voteId, vote.PostId);
                 if (result)
                 {
                     var voteDto = this.Convert(vote);
-                    await this.serviceBusVotePostTopicSender.SendMessage(voteDto, TopicHelper.LABEL_VOTE_DELETED);
+                    await this.iServiceBusVotePostTopicSender.SendMessage(voteDto, TopicHelper.LABEL_VOTE_DELETED);
                     return true;
                 }
 
@@ -62,7 +62,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
 
         public async Task<IEnumerable<VotePost>> GetVoteByPost(Guid postId)
         {
-            return await this.votePostRepository.GetVoteByPost(postId);
+            return await this.iVotePostRepository.GetVoteByPostAsync(postId);
         }
 
         private VotePostDto Convert(VotePost source)
