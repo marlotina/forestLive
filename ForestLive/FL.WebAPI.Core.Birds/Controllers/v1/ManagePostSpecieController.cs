@@ -1,5 +1,8 @@
-﻿using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
+﻿using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.JwtToken;
+using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Api.Models.v1.Request;
+using FL.WebAPI.Core.Birds.Application.Exceptions;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,16 +14,20 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class PostSpecieController : Controller
+    public class ManagePostSpecieController : Controller
     {
-        private readonly IBirdSpeciesService iBirdSpeciesService;
+        private readonly IManagePostSpeciesService iManagePostSpeciesService;
         private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
-        public PostSpecieController(
-            IBirdSpeciesService iBirdSpeciesService,
+        private readonly ILogger<ManagePostSpecieController> iLogger;
+
+        public ManagePostSpecieController(
+            IManagePostSpeciesService iManagePostSpeciesService,
+            ILogger<ManagePostSpecieController> iLogger,
             IBirdSpeciePostMapper iBirdSpeciePostMapper)
         {
-            this.iBirdSpeciesService = iBirdSpeciesService;
+            this.iManagePostSpeciesService = iManagePostSpeciesService;
             this.iBirdSpeciePostMapper = iBirdSpeciePostMapper;
+            this.iLogger = iLogger;
         }
 
         [HttpPost]
@@ -40,7 +47,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                 var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
 
 
-                var result = await this.iBirdSpeciesService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
+                var result = await this.iManagePostSpeciesService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
 
                 if (result != null)
                 {
@@ -67,9 +74,33 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         [HttpDelete, Route("DeletePost", Name = "DeletePost")]
         public async Task<IActionResult> DeletePost(Guid postId, Guid specieId)
         {
+            try
+            {
+                if (postId == Guid.Empty || postId == null)
+                {
+                    this.BadRequest();
+                }
 
-            return this.NoContent();
+                var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                var result = await this.iManagePostSpeciesService.DeleteBirdPost(postId, specieId, userId);
+
+                if (result)
+                {
+                    return this.Ok();
+                }
+                else
+                    return this.BadRequest();
+            }
+            catch (UnauthorizedRemove ex)
+            {
+                this.iLogger.LogInfo(ex);
+                return this.Unauthorized();
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex);
+                return this.Problem();
+            }
         }
-
     }
 }

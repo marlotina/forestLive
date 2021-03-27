@@ -14,6 +14,8 @@ namespace FL.WebAPI.Core.Birds.Domain.Repository
 
         Task<BirdPost> CreatePostAsync(BirdPost post);
 
-        Task<BirdPost> DeletePostAsync(Guid postId, Guid specieId);
+        Task DeletePostAsync(Guid postId, Guid specieId);
+
+        Task<List<PostDto>> GetAllSpecieAsync(string orderCondition);
     }
 }

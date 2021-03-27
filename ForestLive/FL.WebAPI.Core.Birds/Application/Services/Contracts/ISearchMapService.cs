@@ -9,6 +9,6 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Contracts
     {
         Task<List<BirdPost>> GetPostsByRadio(double latitude, double longitude, int zoom, Guid? specieId);
 
-        Task<BirdPost> GetPostModalInfo(string postId, string specieId);
+        Task<BirdPost> GetPostModalInfo(Guid postId, Guid specieId);
     }
 }

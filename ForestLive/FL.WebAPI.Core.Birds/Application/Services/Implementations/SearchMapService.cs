@@ -9,20 +9,18 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
 {
     public class SearchMapService : ISearchMapService
     {
-        private readonly ISearchMapRepository searchMapRepository; 
+        private readonly ISearchMapRepository iSearchMapRepository; 
 
-        public SearchMapService(ISearchMapRepository searchMapRepository)
+        public SearchMapService(ISearchMapRepository iSearchMapRepository)
         {
-            this.searchMapRepository = searchMapRepository;
+            this.iSearchMapRepository = iSearchMapRepository;
         }
 
-        public async Task<BirdPost> GetPostModalInfo(string postId, string specieId)
+        public async Task<BirdPost> GetPostModalInfo(Guid postId, Guid specieId)
         {
             try
             {
-                var post = await this.searchMapRepository.GetPostsByPostId(postId, specieId);
-
-                return post;
+                return await this.iSearchMapRepository.GetPostsByPostId(postId, specieId);
             }
             catch (Exception ex)
             {
@@ -34,13 +32,13 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
         public async Task<List<BirdPost>> GetPostsByRadio(double latitude, double longitude, int zoom, Guid? specieId)
         {
             var meters = 200000;
-            if (specieId.HasValue && specieId.Value != Guid.Empty)
+            if (specieId.HasValue)
             {
-                return await this.searchMapRepository.GetSpeciePostByRadio(latitude, longitude, meters, specieId.Value);
+                return await this.iSearchMapRepository.GetSpeciePostByRadio(latitude, longitude, meters, specieId.Value);
             }
             else {
 
-                return await this.searchMapRepository.GetPostByRadio(latitude, longitude, meters);
+                return await this.iSearchMapRepository.GetPostByRadio(latitude, longitude, meters);
             }
         }
     }

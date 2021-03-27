@@ -1,5 +1,4 @@
 ﻿using FL.WebAPI.Core.Birds.Domain.Dto;
-using FL.WebAPI.Core.Birds.Domain.Model;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,8 +11,6 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Contracts
 
         Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId);
 
-        Task<BirdPost> AddBirdPost(BirdPost birdPost, byte[] imageBytes, string imageName, bool isPost);
-
-        Task<bool> DeleteBirdPost(Guid postId, Guid specieId, string userId);
+        Task<List<PostDto>> GetBirds(int orderBy);
     }
 }

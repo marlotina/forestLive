@@ -5,7 +5,6 @@ using FL.WebAPI.Core.Items.Api.Models.v1.Response;
 using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using Microsoft.Azure.Cosmos.Spatial;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 

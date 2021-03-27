@@ -59,11 +59,11 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             return null;
         }
 
-        public async Task<BirdPost> GetPostsByPostId(string postId, string specieId)
+        public async Task<BirdPost> GetPostsByPostId(Guid postId, Guid specieId)
         {
             try
             {
-                var response = await this.postContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId));
+                var response = await this.postContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
                 var ru = response.RequestCharge;
                 return response.Resource;
             }

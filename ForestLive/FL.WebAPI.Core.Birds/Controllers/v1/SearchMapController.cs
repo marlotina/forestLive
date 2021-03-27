@@ -29,17 +29,11 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         [HttpGet]
         [AllowAnonymous]
         [Route("GetPoints", Name = "GetPoints")]
-        public async Task<IActionResult> GetPoints(double latitude, double longitude, int zoom, string specieId)
+        public async Task<IActionResult> GetPoints(double latitude, double longitude, int zoom, Guid? specieId)
         {
             try
             {
-                var specidIdGuid = default(Guid);
-                if (!string.IsNullOrEmpty(specieId))
-                {
-                    specidIdGuid = Guid.Parse(specieId);
-                }
-
-                var result = await this.iSearchMapService.GetPostsByRadio(latitude, longitude, zoom, specidIdGuid);
+                var result = await this.iSearchMapService.GetPostsByRadio(latitude, longitude, zoom, specieId);
 
                 if (result != null)
                 {
@@ -59,7 +53,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         [HttpGet]
         [AllowAnonymous]
         [Route("GetModalInfo", Name = "GetModalInfo")]
-        public async Task<IActionResult> GetModalInfo(string postId, string specieId)
+        public async Task<IActionResult> GetModalInfo(Guid postId, Guid specieId)
         {
             try
             {

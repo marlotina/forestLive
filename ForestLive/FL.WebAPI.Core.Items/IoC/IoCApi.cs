@@ -37,6 +37,7 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddTransient(typeof(IServiceBusLabelTopicSender<>), typeof(ServiceBusLabelTopicSender<>));
 
             services.AddTransient<IPostService, PostService>();
+            services.AddTransient<IManagePostService, ManagePostService>();
 
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IPostRepository, PostCosmosRepository>();

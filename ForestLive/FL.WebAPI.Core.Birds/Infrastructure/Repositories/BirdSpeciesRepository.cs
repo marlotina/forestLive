@@ -62,6 +62,30 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             return posts;
         }
 
+        public async Task<List<PostDto>> GetAllSpecieAsync(string orderCondition)
+        {
+            var posts = new List<PostDto>();
+            try
+            {
+                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p ORDER BY p.{orderCondition}";
+
+                var queryDef = new QueryDefinition(queryString);
+                var query = this.birdContainer.GetItemQueryIterator<PostDto>(queryDef);
+
+                while (query.HasMoreResults)
+                {
+                    var response = await query.ReadNextAsync();
+                    var ru = response.RequestCharge;
+                    posts.AddRange(response.ToList());
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return posts;
+        }
+
         public async Task<BirdPost> GetPostsAsync(Guid postId, Guid specieId)
         {
             try
