@@ -12,25 +12,15 @@ namespace FL.Functions.Posts.Services
 
         public PostCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.postContainer = dbClient.GetContainer(databaseName, "posts");
+            this.postContainer = dbClient.GetContainer(databaseName, "post");
         }
 
         public async Task AddCommentPostAsync(BirdCommentDto comment)
         {
             try
             {
-                var document = new BirdComment()
-                {
-                    Id = comment.Id,
-                    PostId = comment.PostId,
-                    Type = comment.Type,
-                    Text = comment.Text,
-                    CreationDate = comment.CreationDate,
-                    UserId = comment.UserId 
-                };
-
-                var obj = new dynamic[] { comment.PostId, document };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("createComment", new PartitionKey(comment.PostId.ToString()), obj);
+                var obj = new dynamic[] { comment.PostId };
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("increaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
@@ -42,7 +32,7 @@ namespace FL.Functions.Posts.Services
             try
             {
                 var obj = new dynamic[] { vote.PostId, vote };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("createVote", new PartitionKey(vote.PostId.ToString()), obj);
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
@@ -53,8 +43,8 @@ namespace FL.Functions.Posts.Services
         {
             try
             {
-                var obj = new dynamic[] { comment.PostId, comment.Id };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(comment.PostId.ToString()), obj);
+                var obj = new dynamic[] { comment.PostId };
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
@@ -66,7 +56,7 @@ namespace FL.Functions.Posts.Services
             try
             {
                 var obj = new dynamic[] { vote.PostId, vote.Id };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteVote", new PartitionKey(vote.PostId.ToString()), obj);
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {

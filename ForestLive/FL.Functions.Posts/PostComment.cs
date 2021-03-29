@@ -28,17 +28,20 @@ namespace FL.Functions.Posts
             try
             {
                 var post = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
-                if (post.Id != null && post.Id != Guid.Empty)
-                {
-                    if (message.Label == "commentCreated")
+                if (post.SpecieId == null) {
+                    if (post.Id != null && post.Id != Guid.Empty)
                     {
-                        this.postDbService.AddCommentPostAsync(post);
-                    }
-                    else if (message.Label == "commentDeleted")
-                    {
-                        this.postDbService.DeleteCommentPostAsync(post);
+                        if (message.Label == "commentCreated")
+                        {
+                            this.postDbService.AddCommentPostAsync(post);
+                        }
+                        else if (message.Label == "commentDeleted")
+                        {
+                            this.postDbService.DeleteCommentPostAsync(post);
+                        }
                     }
                 }
+                
             }
             catch (Exception ex)
             {
