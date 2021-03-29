@@ -26,13 +26,14 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         }
 
         [HttpGet, Route("GetBirds", Name = "GetBirds")]
-        public async Task<IActionResult> GetBirds(Guid? specieId, int orderBy)
+        public async Task<IActionResult> GetBirds(int orderBy, string specieId)
         {
             var result = default(List<PostDto>);
 
-            if (specieId.HasValue)
+            if (!string.IsNullOrWhiteSpace(specieId) && specieId != "null")
             {
-                result = await this.iBirdSpeciesService.GetBirdBySpecie(specieId.Value, orderBy);
+                var specieIdGuid = Guid.Parse(specieId);
+                result = await this.iBirdSpeciesService.GetBirdBySpecie(specieIdGuid, orderBy);
             }
             else 
             {
