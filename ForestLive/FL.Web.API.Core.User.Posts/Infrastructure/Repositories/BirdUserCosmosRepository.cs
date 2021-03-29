@@ -36,7 +36,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
         {
             var posts = new List<PostDto>();
 
-            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
+            var queryString = $"SELECT p.postId, p.title, p.type,  p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
@@ -56,7 +56,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
         {
             var posts = new List<PostDto>();
 
-            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.userId = @UserId ORDER BY p.creationDate DESC";
+            var queryString = $"SELECT p.postId, p.title, p.type, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.userId = @UserId ORDER BY p.creationDate DESC";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
@@ -110,7 +110,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
         {
             var posts = new List<PostDto>();
 
-            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' AND p.userId = @UserId AND ARRAY_CONTAINS(p.labels, @Label)";
+            var queryString = $"SELECT p.postId, p.type, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='post' AND p.userId = @UserId AND ARRAY_CONTAINS(p.labels, @Label)";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
@@ -131,7 +131,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
         {
             var posts = new List<PostDto>();
 
-            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='bird' AND p.userId = @UserId AND p.specieId = @SpecieId ORDER BY p.creationDate";
+            var queryString = $"SELECT p.postId, p.type, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='bird' AND p.userId = @UserId AND p.specieId = @SpecieId ORDER BY p.creationDate";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
@@ -152,7 +152,7 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
         {
             var posts = new List<PostDto>();
 
-            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='bird' AND p.userId = @UserId ORDER BY p.creationDate";
+            var queryString = $"SELECT p.postId, p.title, p.type, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.type='bird' AND p.userId = @UserId ORDER BY p.creationDate";
 
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);

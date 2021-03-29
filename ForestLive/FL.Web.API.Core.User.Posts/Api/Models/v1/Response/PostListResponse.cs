@@ -10,6 +10,8 @@ namespace FL.WebAPI.Core.User.Posts.Api.Models.v1.Response
 
         public string ImageUrl { get; set; }
 
+        public string Type { get; set; }
+
         public string AltImage { get; set; }
 
         public DateTime CreationDate { get; set; }

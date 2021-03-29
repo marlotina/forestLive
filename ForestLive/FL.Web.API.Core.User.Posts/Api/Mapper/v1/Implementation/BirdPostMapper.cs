@@ -12,47 +12,6 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
 {
     public class BirdPostMapper : IBirdPostMapper
     {
-        public BirdPostResponse Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes)
-        {
-            var result = default(BirdPostResponse);
-            if (source != null)
-            {
-                var vote = postVotes.FirstOrDefault(x => x.PostId == source.PostId);
-                result = new BirdPostResponse()
-                {
-                    Id = source.Id,
-                    PostId = source.PostId,
-                    Title = source.Title,
-                    Text = source.Text,
-                    ImageUrl = source.ImageUrl,
-                    AltImage = source.AltImage,
-                    CreationDate = source.CreationDate,
-                    UserId = source.UserId,
-                    BirdSpecie = source.SpecieName,
-                    SpecieId = source.SpecieId,
-                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
-                    VoteCount = source.VoteCount,
-                    CommentCount = source.CommentCount,
-                    ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
-                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
-                };
-
-                if (vote != null)
-                {
-                    result.HasVote = true;
-                    result.VoteId = vote.VoteId;
-                }
-
-                if (source.Location != null)
-                {
-                    result.Latitude = source.Location.Position.Latitude;
-                    result.Longitude = source.Location.Position.Longitude;
-                }
-            }
-
-            return result;
-        }
-
         public PostListResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes)
         {
             var result = default(PostListResponse);
@@ -65,6 +24,7 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
+                    Type = source.Type,
                     CreationDate = source.CreationDate,
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
@@ -125,11 +85,6 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
             }
 
             return result;
-        }
-
-        PostDto IBirdPostMapper.Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes)
-        {
-            throw new NotImplementedException();
         }
     }
 }
