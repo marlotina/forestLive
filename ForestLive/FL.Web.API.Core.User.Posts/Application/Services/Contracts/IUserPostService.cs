@@ -16,5 +16,6 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Contracts
 
         Task<IEnumerable<PointPostDto>> GetMapPointsByUserId(string userId);
 
+        Task<List<PostDto>> GetAllByUserAsync(string userId);
     }
 }     

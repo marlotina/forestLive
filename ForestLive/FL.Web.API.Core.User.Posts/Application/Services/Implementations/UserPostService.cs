@@ -39,6 +39,8 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
+
+
         public async Task<BirdPost> GetPostByPostId(Guid postId, string userId)
         {
             try
@@ -88,6 +90,11 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             }
 
             return null;
+        }
+
+        public async Task<List<PostDto>> GetAllByUserAsync(string userId)
+        {
+            return await this.iUserRepository.GetAllByUserAsync(userId);
         }
     }
 }

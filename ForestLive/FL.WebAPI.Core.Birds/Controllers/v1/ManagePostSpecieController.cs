@@ -64,13 +64,6 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             }
         }
 
-        [HttpGet, Route("GetPost", Name = "GetPost")]
-        public async Task<IActionResult> GetPost(Guid postId, Guid specieId)
-        {
-
-            return this.NoContent();
-        }
-
         [HttpDelete, Route("DeletePost", Name = "DeletePost")]
         public async Task<IActionResult> DeletePost(Guid postId, Guid specieId)
         {

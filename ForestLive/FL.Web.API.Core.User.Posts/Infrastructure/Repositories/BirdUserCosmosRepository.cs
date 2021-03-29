@@ -52,6 +52,26 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             return posts;
         }
 
+        public async Task<List<PostDto>> GetAllByUserAsync(string userId)
+        {
+            var posts = new List<PostDto>();
+
+            var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.userId = @UserId ORDER BY p.creationDate DESC";
+
+            var queryDef = new QueryDefinition(queryString);
+            queryDef.WithParameter("@UserId", userId);
+            var query = this.usersContainer.GetItemQueryIterator<PostDto>(queryDef);
+
+            while (query.HasMoreResults)
+            {
+                var response = await query.ReadNextAsync();
+                var ru = response.RequestCharge;
+                posts.AddRange(response.ToList());
+            }
+
+            return posts;
+        }
+
         public async Task<List<PointPostDto>> GetMapPointsByUserAsync(string userId)
         {
             var posts = new List<PointPostDto>();

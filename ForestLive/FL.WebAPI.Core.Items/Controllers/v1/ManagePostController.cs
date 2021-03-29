@@ -5,7 +5,7 @@ using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Exceptions;
-using FL.WebAPI.Core.Items.Application.Services.Implementations;
+using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,10 +17,10 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     public class ManagePostController : ControllerBase
     {
         private readonly ILogger<ManagePostController> iLogger;
-        private readonly ManagePostService iManagePostService;
+        private readonly IManagePostService iManagePostService;
         private readonly IPostMapper iPostMapper;
 
-        public ManagePostController(ManagePostService iManagePostService,
+        public ManagePostController(IManagePostService iManagePostService,
             IPostMapper iPostMapper,
             ILogger<ManagePostController> iLogger)
         {

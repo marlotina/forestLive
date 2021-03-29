@@ -58,7 +58,6 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
             var result = default(PostListResponse);
             if (source != null)
             {
-                var vote = postVotes.FirstOrDefault(x => x.PostId == source.PostId);
                 result = new PostListResponse()
                 {
                     PostId = source.PostId,
@@ -76,7 +75,9 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
 
-                if (vote != null) {
+                if (postVotes != null)
+                {
+                    var vote = postVotes.FirstOrDefault(x => x.PostId == source.PostId);
                     result.HasVote = true;
                     result.VoteId = vote.VoteId;
                 }
