@@ -1,15 +1,15 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
 using FL.Web.API.Core.User.Posts.Domain.Entities;
-using FL.Web.API.Core.User.Posts.Domain.Repositories;
 using FL.Web.API.Core.UserLabels.Domain.Dto;
 using FL.WebAPI.Core.UserLabels.Configuration.Contracts;
+using FL.WebAPI.Core.UserLabels.Domain.Repositories;
 using Microsoft.Azure.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace FL.Web.API.Core.User.Posts.Infrastructure.Repositories
+namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
 {
     public class UserLabelRepository : IUserLabelRepository
     {

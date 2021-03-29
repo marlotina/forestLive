@@ -3,7 +3,7 @@ using FL.Web.API.Core.UserLabels.Domain.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FL.Web.API.Core.User.Posts.Application.Services.Contracts
+namespace FL.WebAPI.Core.UserLabels.Application.Services.Contracts
 {
     public interface IUserLabelService
     {

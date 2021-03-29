@@ -1,13 +1,13 @@
 ﻿using FL.Web.API.Core.User.Posts.Application.Exceptions;
-using FL.Web.API.Core.User.Posts.Application.Services.Contracts;
 using FL.Web.API.Core.User.Posts.Domain.Entities;
-using FL.Web.API.Core.User.Posts.Domain.Repositories;
 using FL.Web.API.Core.UserLabels.Domain.Dto;
+using FL.WebAPI.Core.UserLabels.Application.Services.Contracts;
+using FL.WebAPI.Core.UserLabels.Domain.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace FL.Web.API.Core.User.Posts.Application.Services.Implementations
+namespace FL.WebAPI.Core.UserLabels.Application.Services.Implementations
 {
     public class UserLabelService : IUserLabelService
     {

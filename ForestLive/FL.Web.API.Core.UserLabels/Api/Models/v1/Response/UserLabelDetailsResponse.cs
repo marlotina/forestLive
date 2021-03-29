@@ -1,4 +1,4 @@
-﻿namespace FL.Web.API.Core.User.Posts.Api.Models.v1.Response
+﻿namespace FL.WebAPI.Core.UserLabels.Api.Models.v1.Response
 {
     public class UserLabelDetailsResponse
     {
