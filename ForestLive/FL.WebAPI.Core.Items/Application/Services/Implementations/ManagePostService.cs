@@ -55,7 +55,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     var postId = Guid.NewGuid();
                     birdPost.PostId = postId;
                     birdPost.Id = postId;
-                    birdPost.Type = ItemHelper.BIRD_TYPE;
+                    birdPost.Type = ItemHelper.POST_TYPE;
                     birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
                     birdPost.CreationDate = DateTime.UtcNow;
