@@ -35,7 +35,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
         {
             try 
             {
-                var queryString = @"SELECT p.postId, p.location, p.specieId FROM p WHERE p.type='post' AND ST_DISTANCE(p.location, {'type': 'Point', 'coordinates':[@Longitude, @Latitude]}) < @Distance";
+                var queryString = @"SELECT p.postId, p.location, p.specieId FROM p WHERE ST_DISTANCE(p.location, {'type': 'Point', 'coordinates':[@Longitude, @Latitude]}) < @Distance";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@Latitude", latitude);
@@ -77,7 +77,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
         {
             try
             {
-                var queryString = @"SELECT p.postId, p.location, p.specieId FROM p WHERE p.type='post' AND p.specieId = @SpecieId  AND ST_DISTANCE(p.location, {'type': 'Point', 'coordinates':[@Longitude, @Latitude]}) < @Distance";
+                var queryString = @"SELECT p.postId, p.location, p.specieId FROM p WHERE p.specieId = @SpecieId  AND ST_DISTANCE(p.location, {'type': 'Point', 'coordinates':[@Longitude, @Latitude]}) < @Distance";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@Latitude", latitude);
