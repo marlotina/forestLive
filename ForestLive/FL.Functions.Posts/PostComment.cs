@@ -11,11 +11,11 @@ namespace FL.Functions.Posts
 {
     public class PostComment
     {
-        private readonly IPostCosmosService postDbService;
+        private readonly IPostCosmosService iPostDbService;
 
-        public PostComment(IPostCosmosService postDbService)
+        public PostComment(IPostCosmosService iPostDbService)
         {
-            this.postDbService = postDbService;
+            this.iPostDbService = iPostDbService;
         }
 
         [FunctionName("CommentPost")]
@@ -33,11 +33,11 @@ namespace FL.Functions.Posts
                     {
                         if (message.Label == "commentCreated")
                         {
-                            this.postDbService.AddCommentPostAsync(post);
+                            this.iPostDbService.AddCommentPostAsync(post);
                         }
                         else if (message.Label == "commentDeleted")
                         {
-                            this.postDbService.DeleteCommentPostAsync(post);
+                            this.iPostDbService.DeleteCommentPostAsync(post);
                         }
                     }
                 }

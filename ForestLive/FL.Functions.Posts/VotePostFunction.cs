@@ -11,11 +11,11 @@ namespace FL.Functions.Posts
 {
     public class VotePostFunction
     {
-        private readonly IPostCosmosService postCosmosService;
+        private readonly IPostCosmosService iPostCosmosService;
 
-        public VotePostFunction(IPostCosmosService postCosmosService)
+        public VotePostFunction(IPostCosmosService iPostCosmosService)
         {
-            this.postCosmosService = postCosmosService;
+            this.iPostCosmosService = iPostCosmosService;
         }
 
         [FunctionName("VotePosts")]
@@ -34,11 +34,11 @@ namespace FL.Functions.Posts
                     {
                         if (message.Label == "voteCreated")
                         {
-                            this.postCosmosService.AddVotePostAsync(vote);
+                            this.iPostCosmosService.AddVotePostAsync(vote);
                         }
                         else if (message.Label == "voteDeleted")
                         {
-                            this.postCosmosService.DeleteVotePostAsync(vote);
+                            this.iPostCosmosService.DeleteVotePostAsync(vote);
                         }
                     }
                 }
