@@ -38,8 +38,11 @@ namespace FL.WebAPI.Core.User.Posts.Api.Mapper.v1.Implementation
                 if (postVotes != null)
                 {
                     var vote = postVotes.FirstOrDefault(x => x.PostId == source.PostId);
-                    result.HasVote = true;
-                    result.VoteId = vote.VoteId;
+                    if (vote != null)
+                    {
+                        result.HasVote = true;
+                        result.VoteId = vote.VoteId;
+                    }
                 }
             }
 

@@ -72,7 +72,6 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
         {
             try
             {
-
                 if (string.IsNullOrWhiteSpace(userId))
                     return this.BadRequest();
 

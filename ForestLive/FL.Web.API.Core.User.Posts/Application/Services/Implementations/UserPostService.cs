@@ -61,7 +61,7 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
         {
             try
             {
-                if (!string.IsNullOrEmpty(label)) {
+                if (!string.IsNullOrEmpty(label) && label != "null") {
                     return await this.iUserRepository.GetPostsByLabelAsync(label, userId);
                 }
                 

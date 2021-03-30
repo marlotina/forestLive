@@ -16,7 +16,7 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation
                     TitlePost = source.TitlePost,
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    CreationDate = source.CreationDate.ToString("ddMMyyyhhmm"),
+                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     Id = source.Id,
                     AuthorPostUserId = source.AuthorPostUserId,
                     SpecieId = source.SpecieId
