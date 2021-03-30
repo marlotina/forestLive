@@ -97,6 +97,8 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
                     PostId = source.PostId,
                     SpecieId = source.SpecieId,
                     UserId = source.UserId,
+                    AuthorPostUserId = source.AuthorPostUserId,
+                    TitlePost = source.TitlePost,
                     Id = source.Id,
                     CreationDate = source.CreationDate,
                     Type = source.Type,

@@ -25,5 +25,11 @@ namespace FL.Functions.UserInteractions.Dto
 
         [JsonProperty(PropertyName = "specieId")]
         public Guid? SpecieId { get; set; }
+
+        [JsonProperty(PropertyName = "ttlePost")]
+        public string TitlePost { get; set; }
+
+        [JsonProperty(PropertyName = "authorPostUserId")]
+        public string AuthorPostUserId { get; set; }
     }
 }

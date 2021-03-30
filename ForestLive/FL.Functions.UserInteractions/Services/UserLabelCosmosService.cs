@@ -95,10 +95,10 @@ namespace FL.Functions.UserPost.Services
                 Id = source.Id,
                 Type = source.Type,
                 PostId = source.PostId,
-                //AuthorPostUserId = source.Text,
+                AuthorPostUserId = source.AuthorPostUserId,
                 Text = source.Text,
                 UserId = source.UserId,
-                //TitlePost = source.TitlePost,
+                TitlePost = source.TitlePost,
                 CreationDate = source.CreationDate,
                 SpecieId = source.SpecieId
             };
