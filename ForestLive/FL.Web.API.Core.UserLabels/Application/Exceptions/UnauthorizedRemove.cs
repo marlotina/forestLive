@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FL.Web.API.Core.User.Posts.Application.Exceptions
+namespace FL.WebAPI.Core.UserLabels.Application.Exceptions
 {
     public class UnauthorizedRemove : Exception
     {
