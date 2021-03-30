@@ -3,7 +3,7 @@ using System;
 
 namespace FL.Functions.BirdPost.Dto
 {
-    public class BirdCommentDto
+    public class CommentPostDto
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }

@@ -14,17 +14,7 @@ namespace FL.Functions.BirdPost.Services
             this.birdsContainer = dbClient.GetContainer(databaseName, "specie");
         }
 
-        public async Task CreatePostAsync(Model.Post post)
-        {
-            await this.birdsContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
-        }
-
-        public async Task DeletePostAsync(Model.Post post)
-        {
-            await this.birdsContainer.DeleteItemAsync<Model.Post>(post.Id.ToString(), new PartitionKey(post.SpecieId.ToString()));
-        }
-
-        public async Task AddCommentAsync(BirdCommentDto comment)
+        public async Task AddCommentAsync(CommentPostDto comment)
         {
             try
             {
@@ -37,7 +27,7 @@ namespace FL.Functions.BirdPost.Services
             }
         }
 
-        public async Task DeleteCommentAsync(BirdCommentDto comment)
+        public async Task DeleteCommentAsync(CommentPostDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
             await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string> ("decreaseCommentCount", new PartitionKey(comment.SpecieId.ToString()), obj);

@@ -12,11 +12,11 @@ namespace FL.Functions.BirdPost
 {
     public class VotePostFunction
     {
-        private readonly IBirdsCosmosService birdsCosmosService;
+        private readonly IBirdsCosmosService iBirdsCosmosService;
 
-        public VotePostFunction(IBirdsCosmosService birdsCosmosService)
+        public VotePostFunction(IBirdsCosmosService iBirdsCosmosService)
         {
-            this.birdsCosmosService = birdsCosmosService;
+            this.iBirdsCosmosService = iBirdsCosmosService;
         }
 
         [FunctionName("VotePosts")]
@@ -35,11 +35,11 @@ namespace FL.Functions.BirdPost
                     {
                         if (message.Label == "voteCreated")
                         {
-                            this.birdsCosmosService.AddVotePostAsync(vote);
+                            this.iBirdsCosmosService.AddVotePostAsync(vote);
                         }
                         else if (message.Label == "voteDeleted")
                         {
-                            this.birdsCosmosService.DeleteVotePostAsync(vote);
+                            this.iBirdsCosmosService.DeleteVotePostAsync(vote);
                         }
                     }
                 }
