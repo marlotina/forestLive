@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace FL.Web.API.Core.Post.Interactions.Controllers
+namespace FL.Web.API.Core.User.Interactions.Controllers
 {
     [ApiController]
     [Route("[controller]")]
