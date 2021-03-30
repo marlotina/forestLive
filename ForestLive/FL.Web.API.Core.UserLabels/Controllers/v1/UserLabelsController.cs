@@ -3,6 +3,7 @@ using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.Web.API.Core.User.Posts.Application.Exceptions;
 using FL.WebAPI.Core.UserLabels.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.UserLabels.Api.Models.v1.Request;
+using FL.WebAPI.Core.UserLabels.Application.Exceptions;
 using FL.WebAPI.Core.UserLabels.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

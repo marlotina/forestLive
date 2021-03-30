@@ -4,14 +4,14 @@ using FL.CosmosDb.Standard.Contracts;
 using FL.CosmosDb.Standard.Implementations;
 using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
-using FL.Web.API.Core.User.Posts.Application.Services.Contracts;
-using FL.Web.API.Core.User.Posts.Application.Services.Implementations;
-using FL.Web.API.Core.User.Posts.Domain.Repositories;
-using FL.Web.API.Core.User.Posts.Infrastructure.Repositories;
 using FL.WebAPI.Core.UserLabels.Api.Mapper.v1.Contracts;
 using FL.WebAPI.Core.UserLabels.Api.Mapper.v1.Implementation;
+using FL.WebAPI.Core.UserLabels.Application.Services.Contracts;
+using FL.WebAPI.Core.UserLabels.Application.Services.Implementations;
 using FL.WebAPI.Core.UserLabels.Configuration.Contracts;
 using FL.WebAPI.Core.UserLabels.Configuration.Implementations;
+using FL.WebAPI.Core.UserLabels.Domain.Repositories;
+using FL.WebAPI.Core.UserLabels.Infrastructure.Repositories;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FL.WebAPI.Core.UserLabels.IoC
