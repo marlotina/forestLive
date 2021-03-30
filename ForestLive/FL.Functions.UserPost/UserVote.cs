@@ -12,11 +12,11 @@ namespace FL.Functions.BirdPost
 {
     public class UserVote
     {
-        private readonly IUserPostCosmosService userPostCosmosService;
+        private readonly IUserPostCosmosService iUserPostCosmosDbService;
 
-        public UserVote(IUserPostCosmosService userPostCosmosService)
+        public UserVote(IUserPostCosmosService iUserPostCosmosDbService)
         {
-            this.userPostCosmosService = userPostCosmosService;
+            this.iUserPostCosmosDbService = iUserPostCosmosDbService;
         }
 
         [FunctionName("UserVote")]
@@ -33,11 +33,11 @@ namespace FL.Functions.BirdPost
                 {
                     if (message.Label == "voteCreated")
                     {
-                        this.userPostCosmosService.AddVoteAsync(vote);
+                        this.iUserPostCosmosDbService.AddVoteAsync(vote);
                     }
                     else if (message.Label == "voteDeleted")
                     {
-                        this.userPostCosmosService.DeleteVoteAsync(vote);
+                        this.iUserPostCosmosDbService.DeleteVoteAsync(vote);
                     }
                 }
             }

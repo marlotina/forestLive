@@ -13,11 +13,11 @@ namespace FL.Functions.UserLabel
 {
     public class UserLabelFunction
     {
-        private readonly IUserLabelCosmosService userLabelCosmosService;
+        private readonly IUserLabelCosmosService iUserLabelCosmosService;
 
-        public UserLabelFunction(IUserLabelCosmosService userLabelCosmosService)
+        public UserLabelFunction(IUserLabelCosmosService iUserLabelCosmosService)
         {
-            this.userLabelCosmosService = userLabelCosmosService;
+            this.iUserLabelCosmosService = iUserLabelCosmosService;
         }
 
         [FunctionName("UserLabel")]
@@ -32,12 +32,12 @@ namespace FL.Functions.UserLabel
                 if (message.Label == "labelCreated")
                 {
                     var labels = JsonConvert.DeserializeObject<IEnumerable<Fl.Functions.UserLabel.Model.UserLabel>>(Encoding.UTF8.GetString(message.Body));
-                    this.userLabelCosmosService.AddLabelAsync(labels);
+                    this.iUserLabelCosmosService.AddLabelAsync(labels);
                 }
                 else if (message.Label == "labelPostRemove") 
                 {
                     var labels = JsonConvert.DeserializeObject<IEnumerable<RemoveLabelDto>>(Encoding.UTF8.GetString(message.Body));
-                    this.userLabelCosmosService.RemovePostLabelAsync(labels);
+                    this.iUserLabelCosmosService.RemovePostLabelAsync(labels);
                 }
             }
             catch (Exception ex)

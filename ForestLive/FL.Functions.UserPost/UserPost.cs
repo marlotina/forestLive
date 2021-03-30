@@ -11,11 +11,11 @@ namespace FL.Functions.UserPost
 {
     public class UserPost
     {
-        private readonly IUserPostCosmosService userPostCosmosDbService;
+        private readonly IUserPostCosmosService iUserPostCosmosDbService;
 
-        public UserPost(IUserPostCosmosService userPostCosmosDbService)
+        public UserPost(IUserPostCosmosService iUserPostCosmosDbService)
         {
-            this.userPostCosmosDbService = userPostCosmosDbService;
+            this.iUserPostCosmosDbService = iUserPostCosmosDbService;
         }
 
         [FunctionName("UserPost")]
@@ -34,11 +34,11 @@ namespace FL.Functions.UserPost
                 {
                     if (message.Label == "postCreated")
                     {
-                        this.userPostCosmosDbService.CreatePostAsync(post);
+                        this.iUserPostCosmosDbService.CreatePostAsync(post);
                     }
                     else if (message.Label == "postDeleted")
                     {
-                        this.userPostCosmosDbService.DeletePostAsync(post);
+                        this.iUserPostCosmosDbService.DeletePostAsync(post);
                     }
                 }
             }

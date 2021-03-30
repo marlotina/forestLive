@@ -12,11 +12,11 @@ namespace FL.Functions.BirdPost
 {
     public class UserComment
     {
-        private readonly IUserPostCosmosService userPostCosmosService;
+        private readonly IUserPostCosmosService iUserPostCosmosService;
 
-        public UserComment(IUserPostCosmosService userPostCosmosService)
+        public UserComment(IUserPostCosmosService iUserPostCosmosService)
         {
-            this.userPostCosmosService = userPostCosmosService;
+            this.iUserPostCosmosService = iUserPostCosmosService;
         }
 
         [FunctionName("BirdComment")]
@@ -33,11 +33,11 @@ namespace FL.Functions.BirdPost
                 {
                     if (message.Label == "commentCreated")
                     {
-                        this.userPostCosmosService.AddCommentAsync(comment);
+                        this.iUserPostCosmosService.AddCommentAsync(comment);
                     }
                     else if (message.Label == "commentDeleted")
                     {
-                        this.userPostCosmosService.DeleteCommentAsync(comment);
+                        this.iUserPostCosmosService.DeleteCommentAsync(comment);
                     }
                 }
             }
