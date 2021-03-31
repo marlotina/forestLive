@@ -25,7 +25,7 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Models.v1.Request
 
         public string SpecieName { get; set; }
 
-        public Guid SpecieId { get; set; }
+        public Guid? SpecieId { get; set; }
 
         public string[] Labels { get; set; }
 

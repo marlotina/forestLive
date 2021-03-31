@@ -25,6 +25,7 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
                     Title = source.Title,
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
+                    Type = "Pending",
                     AltImage = source.AltImage,
                     CreationDate = source.CreationDate,
                     UserId = source.UserId,
@@ -59,8 +60,7 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
                     SpecieName = source.SpecieName,
                     Labels = source.Labels,
                     AltImage = source.AltImage,
-                    ObservationDate = source.ObservationDate,
-                    SpecieId = source.SpecieId
+                    ObservationDate = source.ObservationDate
                 };
 
                 if (source.Longitude.HasValue && source.Latitude.HasValue)
@@ -83,6 +83,7 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
+                    Type = "Pending",
                     CreationDate = source.CreationDate,
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,

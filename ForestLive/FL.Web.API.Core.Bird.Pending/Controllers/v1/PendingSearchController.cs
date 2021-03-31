@@ -13,11 +13,11 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class SpeciesSearchController : Controller
+    public class PendingSearchController : Controller
     {
         private readonly IBirdPendingService iBirdPendingService;
         private readonly IBirdPendingMapper iBirdPendingPostMapper;
-        public SpeciesSearchController(
+        public PendingSearchController(
             IBirdPendingService iBirdPendingService,
             IBirdPendingMapper iBirdPendingPostMapper)
         {
@@ -25,8 +25,8 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
             this.iBirdPendingPostMapper = iBirdPendingPostMapper;
         }
 
-        [HttpGet, Route("GetBirds", Name = "GetBirds")]
-        public async Task<IActionResult> GetBirds(int orderBy)
+        [HttpGet, Route("GetPendings", Name = "GetPendings")]
+        public async Task<IActionResult> GetPendings(int orderBy)
         {
             var result = default(List<PostDto>);
             

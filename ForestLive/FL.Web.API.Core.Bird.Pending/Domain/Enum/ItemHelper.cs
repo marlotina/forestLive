@@ -6,6 +6,8 @@
 
         public const string BIRD_TYPE = "bird";
 
+        public const string BIRD_PENDING_TYPE = "pending";
+
         public const string COMMENT_TYPE = "comment";
 
         public const string LIKE_TYPE = "like";

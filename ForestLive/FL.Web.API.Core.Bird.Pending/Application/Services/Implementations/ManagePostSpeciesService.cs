@@ -53,19 +53,12 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
                     var postId = Guid.NewGuid();
                     birdPost.PostId = postId;
                     birdPost.Id = postId;
-                    birdPost.Type = ItemHelper.BIRD_TYPE;
+                    birdPost.Type = ItemHelper.BIRD_PENDING_TYPE;
                     birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
                     birdPost.CreationDate = DateTime.UtcNow;
                     birdPost.ImageUrl = folder + "/" + imageName;
-                    birdPost.VoteCount = 0;
-                    
-                    if (birdPost.SpecieId == null || birdPost.SpecieId == Guid.Empty)
-                    {
-                        birdPost.SpecieId = Guid.Parse(StatusSpecie.NoSpecieId);
-                        birdPost.SpecieName = string.Empty;
-                    }
-                    
+                    birdPost.VoteCount = 0;                    
 
                     if (birdPost.Labels != null && birdPost.Labels.Any())
                     {
