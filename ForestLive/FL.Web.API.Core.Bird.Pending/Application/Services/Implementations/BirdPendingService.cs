@@ -8,28 +8,28 @@ using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
 {
-    public class BirdSpeciesService : IBirdSpeciesService
+    public class BirdPendingService : IBirdPendingService
     {
-        private readonly IBirdSpeciesRepository iBirdSpeciesRepository;
+        private readonly IBirdPendingRepository iBirdPendingRepository;
         private readonly IUserVotesRestRepository iUserVotesRepository;
 
-        public BirdSpeciesService(
+        public BirdPendingService(
             IUserVotesRestRepository iUserVotesRepository,
-            IBirdSpeciesRepository iBirdSpeciesRepository)
+            IBirdPendingRepository iBirdPendingRepository)
         {
-            this.iBirdSpeciesRepository = iBirdSpeciesRepository;
+            this.iBirdPendingRepository = iBirdPendingRepository;
             this.iUserVotesRepository = iUserVotesRepository;
         }
 
-        public async Task<List<PostDto>> GetBirdBySpecie(Guid birdSpecieId, int orderBy)
+        public async Task<List<PostDto>> GetBirdBySpecie(int orderBy)
         {
             var orderCondition = this.GerOrderCondition(orderBy);
-            return await this.iBirdSpeciesRepository.GetPostsBySpecieAsync(birdSpecieId, orderCondition);
+            return await this.iBirdPendingRepository.GetAllSpecieAsync(orderCondition);
         }
 
-        public async Task<BirdPost> GetPost(Guid postId, Guid specieId)
+        public async Task<BirdPost> GetPost(Guid postId)
         {
-            return await this.iBirdSpeciesRepository.GetPostsAsync(postId, specieId);
+            return await this.iBirdPendingRepository.GetPostsAsync(postId);
         }
 
         public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
@@ -52,7 +52,7 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
 
         public async Task<List<PostDto>> GetBirds(int orderBy)
         {
-            return await this.iBirdSpeciesRepository.GetAllSpecieAsync(this.GerOrderCondition(orderBy));
+            return await this.iBirdPendingRepository.GetAllSpecieAsync(this.GerOrderCondition(orderBy));
         }
 
         private string GerOrderCondition(int orderBy)

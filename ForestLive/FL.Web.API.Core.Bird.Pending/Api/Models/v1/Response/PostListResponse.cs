@@ -2,7 +2,7 @@
 
 namespace FL.Web.API.Core.Bird.Pending.Api.Models.v1.Response
 {
-    public class BirdPostResponse
+    public class PostListResponse
     {
         public Guid Id { get; set; }
 

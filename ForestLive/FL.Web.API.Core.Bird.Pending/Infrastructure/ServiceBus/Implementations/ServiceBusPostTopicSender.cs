@@ -12,11 +12,11 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.ServiceBus.Implementations
     public class ServiceBusPostTopicSender<T> : IServiceBusPostTopicSender<T> where T : class
     {
         private readonly TopicClient topicClient;
-        private readonly IBirdsConfiguration iBirdsConfiguration;
+        private readonly IBirdPendingConfiguration iBirdsConfiguration;
         private readonly ILogger<ServiceBusPostTopicSender<T>> logger;
 
         public ServiceBusPostTopicSender(
-            IBirdsConfiguration iBirdsConfiguration,
+            IBirdPendingConfiguration iBirdsConfiguration,
             ILogger<ServiceBusPostTopicSender<T>> logger)
         {
             this.iBirdsConfiguration = iBirdsConfiguration;

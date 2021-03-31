@@ -2,7 +2,7 @@
 
 namespace FL.Web.API.Core.Bird.Pending.Configuration.Contracts
 {
-    public interface IBirdsConfiguration
+    public interface IBirdPendingConfiguration
     {
         CosmosConfiguration CosmosConfiguration { get; }
 

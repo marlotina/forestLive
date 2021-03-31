@@ -21,16 +21,16 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
 {
     public class ManagePostSpeciesService : IManagePostSpeciesService
     {
-        private readonly IBirdSpeciesRepository iBirdSpeciesRepository;
+        private readonly IBirdPendingRepository iBirdSpeciesRepository;
         private readonly IBlobContainerRepository iBlobContainerRepository;
-        private readonly IBirdsConfiguration iBirdsConfiguration;
+        private readonly IBirdPendingConfiguration iBirdsConfiguration;
         private readonly IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic;
         private readonly IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender;
 
         public ManagePostSpeciesService(
             IBlobContainerRepository iBlobContainerRepository,
-            IBirdsConfiguration iBirdsConfiguration,
-            IBirdSpeciesRepository iBirdSpeciesRepository,
+            IBirdPendingConfiguration iBirdsConfiguration,
+            IBirdPendingRepository iBirdSpeciesRepository,
             IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic,
             IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender)
         {
@@ -87,11 +87,11 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
             return null;
         }
 
-        public async Task<bool> DeleteBirdPost(Guid postId, Guid specieId, string userId)
+        public async Task<bool> DeleteBirdPost(Guid postId, string userId)
         {
             try
             {
-                var post = await this.iBirdSpeciesRepository.GetPostsAsync(postId, specieId);
+                var post = await this.iBirdSpeciesRepository.GetPostsAsync(postId);
                 if (userId == post.UserId)
                 {
                     var image = post.ImageUrl;
@@ -102,7 +102,7 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
 
                     if (result)
                     {
-                        await this.iBirdSpeciesRepository.DeletePostAsync(postId, specieId);
+                        await this.iBirdSpeciesRepository.DeletePostAsync(postId);
                         await this.iServiceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
                     }
 

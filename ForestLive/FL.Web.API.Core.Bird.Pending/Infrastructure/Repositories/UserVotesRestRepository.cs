@@ -12,10 +12,10 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
 {
     public class UserVotesRestRepository : IUserVotesRestRepository
     {
-        private readonly IBirdsConfiguration iBirdsConfiguration;
+        private readonly IBirdPendingConfiguration iBirdsConfiguration;
 
         public UserVotesRestRepository(
-            IBirdsConfiguration iBirdsConfiguration)
+            IBirdPendingConfiguration iBirdsConfiguration)
         {
             this.iBirdsConfiguration = iBirdsConfiguration;
         }

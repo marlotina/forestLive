@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Bird.Pending.Application.Services.Contracts
 {
-    public interface IBirdSpeciesService
+    public interface IBirdPendingService
     {
-        Task<List<PostDto>> GetBirdBySpecie(Guid birdSpecieId, int orderBy);
+        Task<List<PostDto>> GetBirdBySpecie(int orderBy);
 
         Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId);
 
         Task<List<PostDto>> GetBirds(int orderBy);
 
-        Task<BirdPost> GetPost(Guid postId, Guid specieId);
+        Task<BirdPost> GetPost(Guid postId);
     }
 }

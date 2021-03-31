@@ -11,15 +11,15 @@ using System.Linq;
 
 namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
 {
-    public class BirdSpeciePostMapper : IBirdSpeciePostMapper
+    public class BirdPendingMapper : IBirdPendingMapper
     {
-        public BirdPostResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
+        public PostListResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
         {
-            var result = default(BirdPostResponse);
+            var result = default(PostListResponse);
             if (source != null)
             {
                 var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.PostId == source.PostId) : null;
-                result = new BirdPostResponse()
+                result = new PostListResponse()
                 {
                     PostId = source.PostId,
                     Title = source.Title,
@@ -71,12 +71,12 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
             return result;
         }
 
-        public BirdPostResponse Convert(BirdPost source)
+        public PostListResponse Convert(BirdPost source)
         {
-            var result = default(BirdPostResponse);
+            var result = default(PostListResponse);
             if (source != null)
             {
-                result = new BirdPostResponse()
+                result = new PostListResponse()
                 {
                     PostId = source.PostId,
                     Title = source.Title,
@@ -97,7 +97,7 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
             return result;
         }
 
-        public PostResponse ConvertPost(BirdPost source, IEnumerable<VotePostResponse> postVotes = null)
+        public PostResponse Convert(BirdPost source, IEnumerable<VotePostResponse> postVotes = null)
         {
             var result = default(PostResponse);
             if (source != null)
@@ -134,48 +134,6 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
                     result.Longitude = source.Location.Position.Longitude;
                 }
             }
-            return result;
-        }
-
-        public BirdMapResponse MapConvert(BirdPost source)
-        {
-            var result = default(BirdMapResponse);
-            if (source != null)
-            {
-                result = new BirdMapResponse()
-                {
-                    PostId = source.PostId,
-                    SpecieId = source.SpecieId,
-                    Location = new PositionResponse
-                    {
-                        Lat = source.Location.Position.Latitude,
-                        Lng = source.Location.Position.Longitude,
-                    }
-                };
-            }
-
-            return result;
-        }
-
-        public ModalBirdPostResponse ModalConvert(BirdPost source)
-        {
-            var result = default(ModalBirdPostResponse);
-            if (source != null)
-            {
-                result = new ModalBirdPostResponse()
-                {
-                    PostId = source.Id,
-                    Title = source.Title,
-                    Text = source.Text,
-                    ImageUrl = source.ImageUrl,
-                    AltImage = source.AltImage,
-                    UserId = source.UserId,
-                    BirdSpecie = source.SpecieName,
-                    SpecieId = source.SpecieId,
-                    ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty
-                };
-            }
-
             return result;
         }
     }

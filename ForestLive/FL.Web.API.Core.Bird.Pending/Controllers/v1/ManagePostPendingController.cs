@@ -14,16 +14,16 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class ManagePostSpecieController : Controller
+    public class ManagePostPendingController : Controller
     {
         private readonly IManagePostSpeciesService iManagePostSpeciesService;
-        private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
-        private readonly ILogger<ManagePostSpecieController> iLogger;
+        private readonly IBirdPendingMapper iBirdSpeciePostMapper;
+        private readonly ILogger<ManagePostPendingController> iLogger;
 
-        public ManagePostSpecieController(
+        public ManagePostPendingController(
             IManagePostSpeciesService iManagePostSpeciesService,
-            ILogger<ManagePostSpecieController> iLogger,
-            IBirdSpeciePostMapper iBirdSpeciePostMapper)
+            ILogger<ManagePostPendingController> iLogger,
+            IBirdPendingMapper iBirdSpeciePostMapper)
         {
             this.iManagePostSpeciesService = iManagePostSpeciesService;
             this.iBirdSpeciePostMapper = iBirdSpeciePostMapper;
@@ -65,7 +65,7 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
         }
 
         [HttpDelete, Route("DeletePost", Name = "DeletePost")]
-        public async Task<IActionResult> DeletePost(Guid postId, Guid specieId)
+        public async Task<IActionResult> DeletePost(Guid postId)
         {
             try
             {
@@ -75,7 +75,7 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.iManagePostSpeciesService.DeleteBirdPost(postId, specieId, userId);
+                var result = await this.iManagePostSpeciesService.DeleteBirdPost(postId, userId);
 
                 if (result)
                 {

@@ -4,6 +4,6 @@
     {
         public string CosmosDatabaseId { get; set; }
 
-        public string CosmosBirdContainer { get; set; }
+        public string CosmosBirdPendingContainer { get; set; }
     }
 }

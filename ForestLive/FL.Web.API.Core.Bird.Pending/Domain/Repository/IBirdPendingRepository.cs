@@ -6,15 +6,13 @@ using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Bird.Pending.Domain.Repository
 {
-    public interface IBirdSpeciesRepository
+    public interface IBirdPendingRepository
     {
-        Task<List<PostDto>> GetPostsBySpecieAsync(Guid specieId, string orderCondition);
-
-        Task<BirdPost> GetPostsAsync(Guid postId, Guid specieId);
+        Task<BirdPost> GetPostsAsync(Guid postId);
 
         Task<BirdPost> CreatePostAsync(BirdPost post);
 
-        Task DeletePostAsync(Guid postId, Guid specieId);
+        Task DeletePostAsync(Guid postId);
 
         Task<List<PostDto>> GetAllSpecieAsync(string orderCondition);
     }

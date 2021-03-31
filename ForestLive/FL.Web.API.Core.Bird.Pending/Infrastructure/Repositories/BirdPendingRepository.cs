@@ -11,55 +11,30 @@ using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
 {
-    public class BirdSpeciesRepository : IBirdSpeciesRepository
+    public class BirdPendingRepository : IBirdPendingRepository
     {
         private IClientFactory iClientFactory;
-        private IBirdsConfiguration iBirdsConfiguration;
+        private readonly IBirdPendingConfiguration iBirdPendingConfiguration;
         private readonly Container birdContainer;
 
-        public BirdSpeciesRepository(IClientFactory iClientFactory,
-            IBirdsConfiguration iBirdsConfiguration)
+        public BirdPendingRepository(IClientFactory iClientFactory,
+            IBirdPendingConfiguration iBirdPendingConfiguration)
         {
             this.iClientFactory = iClientFactory;
-            this.iBirdsConfiguration = iBirdsConfiguration;
+            this.iBirdPendingConfiguration = iBirdPendingConfiguration;
             this.birdContainer = this.InitialClient();
         }
 
         private Container InitialClient()
         {
-            var config = this.iBirdsConfiguration.CosmosConfiguration;
+            var config = this.iBirdPendingConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdPendingContainer);
         }
 
         public async Task<BirdPost> CreatePostAsync(BirdPost post)
         {
-            return await this.birdContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.SpecieId.ToString()));
-        }
-
-        public async Task<List<PostDto>> GetPostsBySpecieAsync(Guid specieId, string orderCondition)
-        {
-            var posts = new List<PostDto>();
-            try
-            {
-                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.specieId = @SpecieId ORDER BY p.{orderCondition}";
-
-                var queryDef = new QueryDefinition(queryString);
-                queryDef.WithParameter("@SpecieId", specieId);
-                var query = this.birdContainer.GetItemQueryIterator<PostDto>(queryDef);
-
-                while (query.HasMoreResults)
-                {
-                    var response = await query.ReadNextAsync();
-                    var ru = response.RequestCharge;
-                    posts.AddRange(response.ToList());
-                }
-            }
-            catch (Exception ex) 
-            {
-            }
-
-            return posts;
+            return await this.birdContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
         }
 
         public async Task<List<PostDto>> GetAllSpecieAsync(string orderCondition)
@@ -86,11 +61,11 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
             return posts;
         }
 
-        public async Task<BirdPost> GetPostsAsync(Guid postId, Guid specieId)
+        public async Task<BirdPost> GetPostsAsync(Guid postId)
         {
             try
             {
-                var response = await this.birdContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
+                var response = await this.birdContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(postId.ToString()));
                 var ru = response.RequestCharge;
                 return response.Resource;
             }
@@ -100,9 +75,9 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
             }
         }
 
-        public async Task DeletePostAsync(Guid postId, Guid specieId)
+        public async Task DeletePostAsync(Guid postId)
         {
-            await this.birdContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
+            await this.birdContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(postId.ToString()));
         }
     }
 }

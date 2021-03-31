@@ -1,6 +1,4 @@
-﻿using FL.Cache.Standard.Contracts;
-using FL.Cache.Standard.Implementations;
-using FL.CosmosDb.Standard.Configuration.Contracts;
+﻿using FL.CosmosDb.Standard.Configuration.Contracts;
 using FL.CosmosDb.Standard.Configuration.Implementations;
 using FL.CosmosDb.Standard.Contracts;
 using FL.CosmosDb.Standard.Implementations;
@@ -28,26 +26,23 @@ namespace FL.Web.API.Core.Bird.Pending.IoC
     {
         public static void AddInjection(IServiceCollection services) 
         {
-            services.AddSingleton<IBirdSpeciePostMapper, BirdSpeciePostMapper>();
+            services.AddSingleton<IBirdPendingMapper, BirdPendingMapper>();
 
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
             services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
-            services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
+            services.AddSingleton<IBirdPendingConfiguration, BirdPendingConfiguration>();
 
-            services.AddTransient<IBirdSpeciesService, BirdSpeciesService>();
-            services.AddTransient<ISearchMapService, SearchMapService>();
+            services.AddTransient<IBirdPendingService, BirdPendingService>();
             services.AddTransient<IManagePostSpeciesService, ManagePostSpeciesService>();
 
             services.AddTransient<IUserVotesRestRepository, UserVotesRestRepository>();
 
             services.AddSingleton<IClientFactory, ClientFactory>();
-            services.AddTransient<IBirdSpeciesRepository, BirdSpeciesRepository>();
-            services.AddTransient<ISearchMapRepository, SearchMapRepository>();
+            services.AddTransient<IBirdPendingRepository, BirdPendingRepository>();
 
             services.AddTransient(typeof(IServiceBusPostTopicSender<>), typeof(ServiceBusPostTopicSender<>));
             services.AddTransient(typeof(IServiceBusLabelTopicSender<>), typeof(ServiceBusLabelTopicSender<>));
 
-            services.AddSingleton(typeof(ICustomMemoryCache<>), typeof(CustomMemoryCache<>));
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
 
             ////loggin

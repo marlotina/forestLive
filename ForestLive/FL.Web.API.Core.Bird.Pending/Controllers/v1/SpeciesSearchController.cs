@@ -15,38 +15,30 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
     [ApiController]
     public class SpeciesSearchController : Controller
     {
-        private readonly IBirdSpeciesService iBirdSpeciesService;
-        private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
+        private readonly IBirdPendingService iBirdPendingService;
+        private readonly IBirdPendingMapper iBirdPendingPostMapper;
         public SpeciesSearchController(
-            IBirdSpeciesService iBirdSpeciesService,
-            IBirdSpeciePostMapper iBirdSpeciePostMapper)
+            IBirdPendingService iBirdPendingService,
+            IBirdPendingMapper iBirdPendingPostMapper)
         {
-            this.iBirdSpeciesService = iBirdSpeciesService;
-            this.iBirdSpeciePostMapper = iBirdSpeciePostMapper;
+            this.iBirdPendingService = iBirdPendingService;
+            this.iBirdPendingPostMapper = iBirdPendingPostMapper;
         }
 
         [HttpGet, Route("GetBirds", Name = "GetBirds")]
-        public async Task<IActionResult> GetBirds(int orderBy, string specieId)
+        public async Task<IActionResult> GetBirds(int orderBy)
         {
             var result = default(List<PostDto>);
-
-            if (!string.IsNullOrWhiteSpace(specieId) && specieId != "null")
-            {
-                var specieIdGuid = Guid.Parse(specieId);
-                result = await this.iBirdSpeciesService.GetBirdBySpecie(specieIdGuid, orderBy);
-            }
-            else 
-            {
-                result = await this.iBirdSpeciesService.GetBirds(orderBy);
-            }
+            
+            result = await this.iBirdPendingService.GetBirdBySpecie(orderBy);
 
             if (result.Any())
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
                 var postList = result.Select(x => x.PostId);
-                var postVotes = await this.iBirdSpeciesService.GetVoteByUserId(postList, webUserId);
+                var postVotes = await this.iBirdPendingService.GetVoteByUserId(postList, webUserId);
 
-                var response = result.Select(x => this.iBirdSpeciePostMapper.Convert(x, postVotes));
+                var response = result.Select(x => this.iBirdPendingPostMapper.Convert(x, postVotes));
                 return this.Ok(response);
             }
 
@@ -54,18 +46,18 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
         }
 
         [HttpGet, Route("GetPost", Name = "GetPost")]
-        public async Task<IActionResult> GetPost(Guid postId, Guid specieId)
+        public async Task<IActionResult> GetPost(Guid postId)
         {
-            var result = await this.iBirdSpeciesService.GetPost(postId, specieId);
+            var result = await this.iBirdPendingService.GetPost(postId);
 
             if (result != null)
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
 
                 var postList = new Guid[] { postId };
-                var postVotes = await this.iBirdSpeciesService.GetVoteByUserId(postList, webUserId);
+                var postVotes = await this.iBirdPendingService.GetVoteByUserId(postList, webUserId);
 
-                var response = this.iBirdSpeciePostMapper.ConvertPost(result, postVotes);
+                var response = this.iBirdPendingPostMapper.Convert(result, postVotes);
                 return this.Ok(response);
             }
 

@@ -4,11 +4,11 @@ using Microsoft.Extensions.Configuration;
 
 namespace FL.Web.API.Core.Bird.Pending.Configuration.Implementations
 {
-    public class BirdsConfiguration : IBirdsConfiguration
+    public class BirdPendingConfiguration : IBirdPendingConfiguration
     {
         private readonly IConfiguration configuration;
 
-        public BirdsConfiguration(IConfiguration configuration)
+        public BirdPendingConfiguration(IConfiguration configuration)
         {
             this.configuration = configuration;
         }
