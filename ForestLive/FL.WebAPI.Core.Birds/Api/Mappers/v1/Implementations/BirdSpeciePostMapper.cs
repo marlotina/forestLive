@@ -13,17 +13,18 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
 {
     public class BirdSpeciePostMapper : IBirdSpeciePostMapper
     {
-        public BirdPostResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
+        public PostListResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
         {
-            var result = default(BirdPostResponse);
+            var result = default(PostListResponse);
             if (source != null)
             {
                 var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.PostId == source.PostId) : null;
-                result = new BirdPostResponse()
+                result = new PostListResponse()
                 {
                     PostId = source.PostId,
                     Title = source.Title,
                     Text = source.Text,
+                    Type = "bird",
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
                     CreationDate = source.CreationDate,
@@ -71,16 +72,17 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
             return result;
         }
 
-        public BirdPostResponse Convert(BirdPost source)
+        public PostListResponse Convert(BirdPost source)
         {
-            var result = default(BirdPostResponse);
+            var result = default(PostListResponse);
             if (source != null)
             {
-                result = new BirdPostResponse()
+                result = new PostListResponse()
                 {
                     PostId = source.PostId,
                     Title = source.Title,
                     Text = source.Text,
+                    Type = "bird",
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
                     CreationDate = source.CreationDate,
@@ -167,6 +169,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     PostId = source.Id,
                     Title = source.Title,
                     Text = source.Text,
+                    Type = source.Type,
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
                     UserId = source.UserId,

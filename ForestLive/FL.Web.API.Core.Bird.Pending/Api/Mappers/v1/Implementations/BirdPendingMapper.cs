@@ -25,7 +25,7 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
                     Title = source.Title,
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
-                    Type = "Pending",
+                    Type = "pending",
                     AltImage = source.AltImage,
                     CreationDate = source.CreationDate,
                     UserId = source.UserId,

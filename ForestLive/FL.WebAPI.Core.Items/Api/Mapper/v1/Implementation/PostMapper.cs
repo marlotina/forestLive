@@ -121,6 +121,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Title = source.Title,
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
+                    Type = "post",
                     AltImage = source.AltImage,
                     CreationDate = source.CreationDate,
                     UserId = source.UserId,
