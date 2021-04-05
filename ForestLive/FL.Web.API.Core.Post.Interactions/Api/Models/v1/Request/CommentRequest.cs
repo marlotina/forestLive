@@ -15,5 +15,7 @@ namespace FL.Web.API.Core.Post.Interactions.Models.v1.Request
         public string TitlePost { get; set; }
 
         public string AuthorPostUserId { get; set; }
+
+        public Guid? CommentParentId { get; set; }
     }
 }

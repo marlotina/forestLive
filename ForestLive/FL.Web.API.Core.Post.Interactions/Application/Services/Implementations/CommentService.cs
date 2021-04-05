@@ -36,7 +36,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
                 comment.Id = Guid.NewGuid();
                 comment.CreationDate = DateTime.UtcNow;
                 comment.Type = ItemHelper.COMMENT_TYPE;
-
+                comment.CommentParentId = comment.CommentParentId;
                 var response = await this.iCommentRepository.CreateCommentAsync(comment);
 
                 var message = this.Convert(comment);

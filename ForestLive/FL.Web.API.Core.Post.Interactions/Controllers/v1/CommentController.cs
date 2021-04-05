@@ -31,6 +31,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
         }
 
         [HttpPost]
+        [AllowAnonymous]
         [Route("AddComment", Name = "AddComment")]
         public async Task<IActionResult> AddComment([FromBody] CommentRequest request) 
         {
@@ -55,6 +56,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
         }
 
         [HttpGet]
+        [AllowAnonymous]
         [Route("GetCommentsByPost", Name = "GetCommentsByPost")]
         public async Task<IActionResult> GetCommentsByPost(Guid postId)
         {
@@ -69,8 +71,8 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
 
                 if (result != null)
                 {
-                    var itemResponse = result.Select(x => this.commentMapper.Convert(x));
-                    return this.Ok(itemResponse);
+                    var response = this.commentMapper.Convert(result);
+                    return this.Ok(response);
                 }
                 else
                     return this.BadRequest();
