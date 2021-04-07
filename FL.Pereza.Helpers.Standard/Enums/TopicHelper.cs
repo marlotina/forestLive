@@ -8,6 +8,8 @@
 
         public const string LABEL_ASSIGN_SPECIE = "assignSpecie";
 
+        public const string LABEL_UPDATE_SPECIE = "updateSpecie";
+
         public const string LABEL_COMMENT_CREATED = "commentCreated";
 
         public const string LABEL_COMMENT_DELETED = "commentDeleted";

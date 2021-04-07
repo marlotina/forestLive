@@ -46,6 +46,8 @@ namespace FL.WebAPI.Core.Birds.IoC
 
             services.AddTransient(typeof(IServiceBusPostTopicSender<>), typeof(ServiceBusPostTopicSender<>));
             services.AddTransient(typeof(IServiceBusLabelTopicSender<>), typeof(ServiceBusLabelTopicSender<>));
+            services.AddTransient(typeof(IServiceBusAssignSpecieTopicSender<>), typeof(ServiceBusAssignSpecieTopicSender<>));
+            
 
             services.AddSingleton(typeof(ICustomMemoryCache<>), typeof(CustomMemoryCache<>));
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
