@@ -56,18 +56,5 @@ namespace FL.Functions.BirdPost.Services
 
             }
         }
-
-        public async Task UpdateSpecieAsync(Dto.BirdPost post)
-        {
-            try
-            {
-                var obj = new dynamic[] { post };
-                var response = await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string>("updateSpecie", new PartitionKey(post.SpecieId.ToString()), obj);
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
     }
 }

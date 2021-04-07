@@ -36,10 +36,6 @@ namespace FL.Functions.BirdPost
                         {
                             this.iBirdsCosmosService.CreatePostAsync(post);
                         }
-                        else if (message.Label == "updateSpecie")
-                        {
-                            this.iBirdsCosmosService.UpdateSpecieAsync(post);
-                        }
                     }
                 }
                 
