@@ -42,7 +42,10 @@ namespace FL.Web.API.Core.Bird.Pending.IoC
 
             services.AddTransient(typeof(IServiceBusPostTopicSender<>), typeof(ServiceBusPostTopicSender<>));
             services.AddTransient(typeof(IServiceBusLabelTopicSender<>), typeof(ServiceBusLabelTopicSender<>));
+            services.AddTransient(typeof(IServiceBusAssignSpecieTopicSender<>), typeof(ServiceBusAssignSpecieTopicSender<>));
 
+
+            
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
 
             ////loggin

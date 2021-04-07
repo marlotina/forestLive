@@ -79,5 +79,10 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
         {
             await this.birdContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(postId.ToString()));
         }
+
+        public async Task<BirdPost> UpdatePostAsync(BirdPost post)
+        {
+            return await this.birdContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
+        }
     }
 }

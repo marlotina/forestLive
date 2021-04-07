@@ -53,5 +53,8 @@ namespace FL.Web.API.Core.Bird.Pending.Domain.Model
 
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime? ObservationDate { get; set; }
+
+        [JsonProperty(PropertyName = "isClose")]
+        public bool IsClose { get; set; }
     }
 }

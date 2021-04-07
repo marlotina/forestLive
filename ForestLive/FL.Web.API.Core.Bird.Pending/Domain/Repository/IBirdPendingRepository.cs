@@ -14,6 +14,8 @@ namespace FL.Web.API.Core.Bird.Pending.Domain.Repository
 
         Task DeletePostAsync(Guid postId);
 
+        Task<BirdPost> UpdatePostAsync(BirdPost post);
+
         Task<List<PostDto>> GetAllSpecieAsync(string orderCondition);
     }
 }
