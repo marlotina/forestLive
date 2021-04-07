@@ -6,7 +6,7 @@
 
         public const string LABEL_POST_DELETED = "postDeleted";
 
-        public const string LABEL_ASSIGN_SPECIE = "assignSpeciePost";
+        public const string LABEL_ASSIGN_SPECIE = "assignSpecie";
 
         public const string LABEL_COMMENT_CREATED = "commentCreated";
 

@@ -70,5 +70,17 @@ namespace FL.Functions.UserPost.Services
             var obj = new dynamic[] { comment.PostId };
             await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseCommentCount", new PartitionKey(comment.UserId), obj);
         }
+
+        public async Task UpdatePostAsync(Model.BirdPost post)
+        {
+            try
+            {
+                await this.usersContainer.UpsertItemAsync(post, new PartitionKey(post.UserId));
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }

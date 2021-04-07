@@ -78,6 +78,7 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Mappers.v1.Implementations
             {
                 result = new PostListResponse()
                 {
+                    Id = source.Id,
                     PostId = source.PostId,
                     Title = source.Title,
                     Text = source.Text,
