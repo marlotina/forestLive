@@ -96,6 +96,7 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
                 {
                     post.SpecieId = request.SpecieId;
                     post.SpecieName = request.SpecieName;
+                    post.Type = ItemHelper.BIRD_TYPE;
                     post.IsClose = true;
                     var response = await this.iBirdSpeciesRepository.UpdatePostAsync(post);
 
