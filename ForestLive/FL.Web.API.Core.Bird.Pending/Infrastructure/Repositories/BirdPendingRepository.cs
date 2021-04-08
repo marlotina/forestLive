@@ -42,7 +42,7 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
             var posts = new List<PostDto>();
             try
             {
-                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p ORDER BY p.{orderCondition}";
+                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.isClose = false ORDER BY p.{orderCondition}";
 
                 var queryDef = new QueryDefinition(queryString);
                 var query = this.birdContainer.GetItemQueryIterator<PostDto>(queryDef);
