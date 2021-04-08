@@ -31,5 +31,8 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Entities
 
         [JsonProperty(PropertyName = "specieId")]
         public Guid? SpecieId { get; set; }
+
+        [JsonProperty(PropertyName = "commentParentId")]
+        public Guid? CommentParentId { get; set; }
     }
 }

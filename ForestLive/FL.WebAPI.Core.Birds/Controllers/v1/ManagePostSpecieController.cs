@@ -64,6 +64,36 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             }
         }
 
+        [HttpPut]
+        [Route("UpdateSpecieId", Name = "UpdateSpecieId")]
+        public async Task<IActionResult> UpdateSpecieId([FromBody] UpdateSpecieRequest request)
+        {
+            try
+            {
+                if (request == null)
+                    return this.BadRequest();
+
+                if (request.SpecieId == null
+                    || string.IsNullOrWhiteSpace(request.SpecieName))
+                    return this.BadRequest();
+
+                var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                var result = await this.iManagePostSpeciesService.UpdateSpecieToPost(request, userId);
+
+                if (result)
+                {
+                    return this.Ok();
+                }
+                else
+                    return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
         [HttpDelete, Route("DeletePost", Name = "DeletePost")]
         public async Task<IActionResult> DeletePost(Guid postId, Guid specieId)
         {

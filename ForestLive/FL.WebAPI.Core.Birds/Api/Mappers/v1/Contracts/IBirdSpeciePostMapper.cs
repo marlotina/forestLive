@@ -8,7 +8,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts
 {
     public interface IBirdSpeciePostMapper
     {
-        BirdPostResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null);
+        PostListResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null);
 
         BirdMapResponse MapConvert(BirdPost source);
 
@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts
 
         PostResponse ConvertPost(BirdPost source, IEnumerable<VotePostResponse> postVotes = null);
 
-        BirdPostResponse Convert(BirdPost source);
+        PostListResponse Convert(BirdPost source);
 
         ModalBirdPostResponse ModalConvert(BirdPost source);
     }

@@ -396,3 +396,10 @@ ForestLive/FL.Web.API.Core.Post.Interactions/nlog.config
 ForestLive/FL.Web.API.Core.Post.Interactions/nlog.QA.config
 ForestLive/FL.Web.API.Core.Post.Interactions/nlog.Prod.config
 ForestLive/FL.Web.API.Core.Post.Interactions/nlog.Development.config
+ForestLive/FL.Web.API.Core.Bird.Pending/appsettings.Development.json
+ForestLive/FL.Web.API.Core.Bird.Pending/appsettings.json
+ForestLive/FL.Web.API.Core.Bird.Pending/appsettings.QA.json
+ForestLive/FL.Web.API.Core.Bird.Pending/nlog.config
+ForestLive/FL.Web.API.Core.Bird.Pending/nlog.QA.config
+ForestLive/FL.Web.API.Core.Bird.Pending/nlog.Prod.config
+ForestLive/FL.Web.API.Core.Bird.Pending/nlog.Development.config

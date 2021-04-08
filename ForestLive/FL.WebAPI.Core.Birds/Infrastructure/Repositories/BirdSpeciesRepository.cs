@@ -100,9 +100,34 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
         }
 
-        public async Task DeletePostAsync(Guid postId, Guid specieId)
+        public async Task<bool> DeletePostAsync(Guid postId, Guid specieId)
         {
-            await this.birdContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
+            try
+            {
+                await this.birdContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
+                return true;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+            }
+
+            return false;
+
+        }
+
+        public async Task<bool> UpdatePostAsync(BirdPost post)
+        {
+            try
+            {
+                var obj = new dynamic[] { post };
+                var response = await this.birdContainer.Scripts.ExecuteStoredProcedureAsync<string>("updateSpecie", new PartitionKey(post.SpecieId.ToString()), obj);
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+            }
+            return false;
         }
     }
 }

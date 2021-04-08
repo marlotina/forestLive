@@ -7,6 +7,8 @@ namespace FL.Functions.UserPost.Services
     {
         Task CreatePostAsync(Model.BirdPost post);
 
+        Task UpdatePostAsync(Model.BirdPost post);
+
         Task DeletePostAsync(Model.BirdPost post);
 
         Task AddVoteAsync(VotePostDto vote);

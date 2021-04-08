@@ -2,13 +2,15 @@
 
 namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 {
-    public class BirdPostResponse
+    public class PostListResponse
     {
         public Guid Id { get; set; }
 
         public string Title { get; set; }
 
         public string Text { get; set; }
+
+        public string Type { get; set; }
 
         public string ImageUrl { get; set; }
 

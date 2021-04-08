@@ -1,5 +1,6 @@
 ﻿using FL.Infrastructure.Standard.Contracts;
 using FL.Pereza.Helpers.Standard.Enums;
+using FL.WebAPI.Core.Birds.Api.Models.v1.Request;
 using FL.WebAPI.Core.Birds.Application.Exceptions;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Configuration.Contracts;
@@ -8,6 +9,7 @@ using FL.WebAPI.Core.Birds.Domain.Enum;
 using FL.WebAPI.Core.Birds.Domain.Model;
 using FL.WebAPI.Core.Birds.Domain.Repository;
 using FL.WebAPI.Core.Birds.Infrastructure.ServiceBus.Contracts;
+using FL.WebAPI.Core.Birds.Infrastructure.ServiceBus.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -26,17 +28,20 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
         private readonly IBirdsConfiguration iBirdsConfiguration;
         private readonly IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic;
         private readonly IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender;
+        private readonly IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender;
 
         public ManagePostSpeciesService(
             IBlobContainerRepository iBlobContainerRepository,
             IBirdsConfiguration iBirdsConfiguration,
             IBirdSpeciesRepository iBirdSpeciesRepository,
             IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic,
+            IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender,
             IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender)
         {
             this.iBirdsConfiguration = iBirdsConfiguration;
             this.iBirdSpeciesRepository = iBirdSpeciesRepository;
             this.iBlobContainerRepository = iBlobContainerRepository;
+            this.iServiceBusAssignSpecieTopicSender = iServiceBusAssignSpecieTopicSender;
             this.iServiceBusCreatedPostTopic = iServiceBusCreatedPostTopic;
             this.iServiceBusLabelTopicSender = iServiceBusLabelTopicSender;
         }
@@ -85,6 +90,40 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             }
 
             return null;
+        }
+
+        public async Task<bool> UpdateSpecieToPost(UpdateSpecieRequest request, string userId)
+        {
+            try
+            {
+                var post = await this.iBirdSpeciesRepository.GetPostsAsync(request.PostId, request.OldSpecieId);
+                if (userId == post.UserId)
+                {
+                    post.SpecieId = request.SpecieId;
+                    post.SpecieName = request.SpecieName;
+
+                    var response = await this.iBirdSpeciesRepository.DeletePostAsync(request.PostId, request.OldSpecieId);
+                    if (response)
+                    {
+                        var newPost = await this.iBirdSpeciesRepository.CreatePostAsync(post);
+                        if (newPost != null)
+                        {
+                            await this.iServiceBusAssignSpecieTopicSender.SendMessage(post, TopicHelper.LABEL_UPDATE_SPECIE);
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new UnauthorizedRemove();
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.iLogger.LogError(ex, "DeleteBirdItem");
+            }
+
+            return false;
         }
 
         public async Task<bool> DeleteBirdPost(Guid postId, Guid specieId, string userId)
