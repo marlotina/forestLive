@@ -100,11 +100,11 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
         [HttpGet]
         [AllowAnonymous]
         [Route("GetBirds", Name = "GetBirds")]
-        public async Task<IActionResult> GetBirds(string userId, string label)
+        public async Task<IActionResult> GetBirds(string userId, Guid specieId)
         {
             try
             {
-                var result = await this.iUserPostService.GetUserBirds(userId, null);
+                var result = await this.iUserPostService.GetUserBirds(userId, specieId);
 
                 if (result != null && result.Any())
                 {
