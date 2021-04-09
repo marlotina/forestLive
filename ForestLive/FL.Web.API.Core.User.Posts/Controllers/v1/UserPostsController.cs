@@ -31,80 +31,17 @@ namespace FL.WebAPI.Core.User.Posts.Controllers.v1
             this.iLogger = iLogger;
         }
 
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("GetAll", Name = "GetAll")]
-        public async Task<IActionResult> GetAll(string userId)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(userId))
-                    return this.BadRequest();
-                                
-                var result = await this.iUserPostService.GetAllByUserAsync(userId);
-
-                if (result != null && result.Any())
-                {
-                    var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                    var postList = result.Select(x => x.PostId);
-
-                    var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
-                    var response = result.Select(x => this.iBirdPostMapper.Convert(x, postVotes));
-
-                    return this.Ok(response);
-                }
-                else
-                    return this.Ok(result);
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex);
-                return this.Problem();
-            }
-        }
-
-
         [HttpGet]
         [AllowAnonymous]
         [Route("GetPosts", Name = "GetPosts")]
-        public async Task<IActionResult> GetPosts(string userId, string label)
+        public async Task<IActionResult> GetPosts(string userId, string type, string label)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(userId))
                     return this.BadRequest();
 
-                var result = await this.iUserPostService.GetUserPost(label, userId);
-
-                if (result != null && result.Any())
-                {
-                    var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                    var postList = result.Select(x => x.PostId);
-
-                    var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
-                    var response = result.Select(x => this.iBirdPostMapper.Convert(x, postVotes));
-
-                    return this.Ok(response);
-                }
-                else
-                    return this.Ok(result);
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex);
-                return this.Problem();
-            }
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("GetBirds", Name = "GetBirds")]
-        public async Task<IActionResult> GetBirds(string userId, Guid specieId)
-        {
-            try
-            {
-                var result = await this.iUserPostService.GetUserBirds(userId, specieId);
+                var result = await this.iUserPostService.GetUserPosts(userId, label, type);
 
                 if (result != null && result.Any())
                 {

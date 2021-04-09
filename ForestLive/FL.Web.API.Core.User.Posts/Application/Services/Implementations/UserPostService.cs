@@ -57,44 +57,9 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<PostDto>> GetUserPost(string label, string userId)
+        public Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type)
         {
-            try
-            {
-                if (!string.IsNullOrEmpty(label) && label != "null") {
-                    return await this.iUserRepository.GetPostsByLabelAsync(label, userId);
-                }
-                
-                return await this.iUserRepository.GetPostsByUserAsync(userId);
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
-            }
-
-            return null;
-        }
-
-        public async Task<IEnumerable<PostDto>> GetUserBirds(string userId, Guid? specieId)
-        {
-            try 
-            {
-                if(specieId.HasValue)
-                    return await this.iUserRepository.GetBirdsBySpecieAsync(userId, specieId.Value);
-
-                return await this.iUserRepository.GetAllBirdsAsync(userId);
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
-            }
-
-            return null;
-        }
-
-        public async Task<List<PostDto>> GetAllByUserAsync(string userId)
-        {
-            return await this.iUserRepository.GetAllByUserAsync(userId);
+            return this.iUserRepository.GetUserPosts(userId, label, type);
         }
     }
 }

@@ -8,18 +8,11 @@ namespace FL.WebAPI.Core.User.Posts.Domain.Repositories
 {
     public interface IBirdUserRepository
     {
-        Task<List<PostDto>> GetPostsByUserAsync(string userId);
-
-        Task<List<PostDto>> GetBirdsBySpecieAsync(string userId, Guid specieId);
-
-        Task<List<PostDto>> GetAllBirdsAsync(string userId);
-
         Task<List<PointPostDto>> GetMapPointsByUserAsync(string userId);
 
         Task<BirdPost> GetPostsAsync(Guid postId, string userId);
 
-        Task<IEnumerable<PostDto>> GetPostsByLabelAsync(string label, string userId);
+        Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type);
 
-        Task<List<PostDto>> GetAllByUserAsync(string userId);
     }
 }

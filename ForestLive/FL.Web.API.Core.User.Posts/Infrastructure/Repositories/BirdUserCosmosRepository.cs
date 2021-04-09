@@ -7,6 +7,7 @@ using Microsoft.Azure.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
@@ -30,46 +31,6 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             var config = this.iUserPostConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
-        }
-
-        public async Task<List<PostDto>> GetPostsByUserAsync(string userId)
-        {
-            var posts = new List<PostDto>();
-
-            var queryString = $"SELECT p.postId, p.title, p.type,  p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
-
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@UserId", userId);
-            var query = this.usersContainer.GetItemQueryIterator<PostDto>(queryDef);
-
-            while (query.HasMoreResults)
-            {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                posts.AddRange(response.ToList());
-            }
-
-            return posts;
-        }
-
-        public async Task<List<PostDto>> GetAllByUserAsync(string userId)
-        {
-            var posts = new List<PostDto>();
-
-            var queryString = $"SELECT p.postId, p.title, p.type, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate  FROM p WHERE p.userId = @UserId ORDER BY p.creationDate DESC";
-
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@UserId", userId);
-            var query = this.usersContainer.GetItemQueryIterator<PostDto>(queryDef);
-
-            while (query.HasMoreResults)
-            {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                posts.AddRange(response.ToList());
-            }
-
-            return posts;
         }
 
         public async Task<List<PointPostDto>> GetMapPointsByUserAsync(string userId)
@@ -106,56 +67,35 @@ namespace FL.WebAPI.Core.User.Posts.Infrastructure.Repositories
             }
         }
 
-        public async Task<IEnumerable<PostDto>> GetPostsByLabelAsync(string label, string userId)
+        public async Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type)
         {
             var posts = new List<PostDto>();
+            var queryString = new StringBuilder();
+            var parameters = new Dictionary<string, string>();
+            queryString.Append("SELECT p.postId, p.title, p.type,  p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p WHERE p.userId = @UserId ");
+            parameters.Add("@UserId", userId);
 
-            var queryString = $"SELECT p.postId, p.type, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate  FROM p WHERE p.type='post' AND p.userId = @UserId AND ARRAY_CONTAINS(p.labels, @Label)";
-
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@UserId", userId);
-            queryDef.WithParameter("@Label", label);
-            var query = this.usersContainer.GetItemQueryIterator<PostDto>(queryDef);
-
-            while (query.HasMoreResults)
-            {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                posts.AddRange(response.ToList());
+            if (!string.IsNullOrEmpty(type) && type != "all") {
+                queryString.Append("AND p.type=@Type ");
+                parameters.Add("@Type", type);
             }
 
-            return posts;
-        }
-
-        public async Task<List<PostDto>> GetBirdsBySpecieAsync(string userId, Guid specieId)
-        {
-            var posts = new List<PostDto>();
-
-            var queryString = $"SELECT p.postId, p.type, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate  FROM p WHERE p.type='bird' AND p.userId = @UserId AND p.specieId = @SpecieId ORDER BY p.creationDate";
-
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@UserId", userId);
-            queryDef.WithParameter("@SpecieId", specieId);
-            var query = this.usersContainer.GetItemQueryIterator<PostDto>(queryDef);
-
-            while (query.HasMoreResults)
+            if (label != "none")
             {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                posts.AddRange(response.ToList());
+                queryString.Append("AND ARRAY_CONTAINS(p.labels, @Label) ");
+                parameters.Add("@Label", label);
             }
 
-            return posts;
-        }
+            queryString.Append("ORDER BY p.creationDate DESC");
 
-        public async Task<List<PostDto>> GetAllBirdsAsync(string userId)
-        {
-            var posts = new List<PostDto>();
+            //var queryString = $"SELECT p.postId, p.title, p.type,  p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p WHERE p.type='post' AND p.userId = @UserId ORDER BY p.creationDate DESC";
 
-            var queryString = $"SELECT p.postId, p.title, p.type, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate  FROM p WHERE p.type='bird' AND p.userId = @UserId ORDER BY p.creationDate";
+            var queryDef = new QueryDefinition(queryString.ToString());
 
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@UserId", userId);
+            foreach (var param in parameters)
+            {
+                queryDef.WithParameter(param.Key, param.Value);
+            }
             var query = this.usersContainer.GetItemQueryIterator<PostDto>(queryDef);
 
             while (query.HasMoreResults)
