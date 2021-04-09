@@ -48,6 +48,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Id = source.Id,
                     PostId = source.PostId,
                     Title = source.Title,
+                    Type = source.Type,
                     Text = source.Text,
                     ImageUrl = source.ImageUrl,
                     AltImage = source.AltImage,
