@@ -15,6 +15,35 @@ namespace FL.Functions.Posts.Services
             this.postContainer = dbClient.GetContainer(databaseName, "post");
         }
 
+        public async Task CreatePostAsync(Model.BirdPost post)
+        {
+            try
+            {
+                await this.postContainer.CreateItemAsync(post, new PartitionKey(post.PostId.ToString()));
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public async Task UpdatePostAsync(BirdPost post)
+        {
+            await this.postContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
+        }
+
+        public async Task DeletePostAsync(Model.BirdPost post)
+        {
+            try
+            {
+                await this.postContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.PostId.ToString()));
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         public async Task AddCommentPostAsync(BirdCommentDto comment)
         {
             try

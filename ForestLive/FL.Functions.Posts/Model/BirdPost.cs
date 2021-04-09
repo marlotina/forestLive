@@ -2,7 +2,7 @@
 using Newtonsoft.Json;
 using System;
 
-namespace FL.Functions.UserPost.Model
+namespace FL.Functions.Posts.Model
 {
     public class BirdPost
     {
