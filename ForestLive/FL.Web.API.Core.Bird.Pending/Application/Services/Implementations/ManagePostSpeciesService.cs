@@ -65,7 +65,6 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
                     birdPost.CreationDate = DateTime.UtcNow;
                     birdPost.ImageUrl = folder + "/" + imageName;
                     birdPost.VoteCount = 0;
-                    birdPost.IsClose = false;
 
                     if (birdPost.Labels != null && birdPost.Labels.Any())
                     {
@@ -97,12 +96,12 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
                     post.SpecieId = request.SpecieId;
                     post.SpecieName = request.SpecieName;
                     post.Type = ItemHelper.BIRD_TYPE;
-                    post.IsClose = true;
-                    var response = await this.iBirdSpeciesRepository.UpdatePostAsync(post);
+                    post.UserHelpedIdentification = request.UserHelpedIdentification;
 
+                    await this.iBirdSpeciesRepository.DeletePostAsync(post.PostId);
                     await this.iServiceBusAssignSpecieTopicSender.SendMessage(post, TopicHelper.LABEL_ASSIGN_SPECIE);
 
-                    return response;
+                    return post;
                 }
                 else
                 {

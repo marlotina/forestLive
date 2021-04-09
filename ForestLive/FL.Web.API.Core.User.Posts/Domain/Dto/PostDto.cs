@@ -43,5 +43,8 @@ namespace FL.Web.API.Core.User.Posts.Domain.Dto
 
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
+
+        [JsonProperty(PropertyName = "observationDate")]
+        public DateTime? ObservationDate { get; set; }
     }
 }
