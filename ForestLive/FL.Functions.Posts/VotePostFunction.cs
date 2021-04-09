@@ -28,20 +28,19 @@ namespace FL.Functions.Posts
             try
             {
                 var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
-                if (vote.SpecieId == null && vote.SpecieId != Guid.Empty) 
+               
+                if (vote.Id != null && vote.Id != Guid.Empty)
                 {
-                    if (vote.Id != null && vote.Id != Guid.Empty)
+                    if (message.Label == "voteCreated")
                     {
-                        if (message.Label == "voteCreated")
-                        {
-                            this.iPostCosmosService.AddVotePostAsync(vote);
-                        }
-                        else if (message.Label == "voteDeleted")
-                        {
-                            this.iPostCosmosService.DeleteVotePostAsync(vote);
-                        }
+                        this.iPostCosmosService.AddVotePostAsync(vote);
+                    }
+                    else if (message.Label == "voteDeleted")
+                    {
+                        this.iPostCosmosService.DeleteVotePostAsync(vote);
                     }
                 }
+                
             }
             catch (Exception ex)
             {

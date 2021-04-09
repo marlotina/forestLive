@@ -60,7 +60,7 @@ namespace FL.Functions.Posts.Services
         {
             try
             {
-                var obj = new dynamic[] { vote.PostId, vote };
+                var obj = new dynamic[] { vote.PostId };
                 var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
@@ -84,7 +84,7 @@ namespace FL.Functions.Posts.Services
         {
             try
             {
-                var obj = new dynamic[] { vote.PostId, vote.Id };
+                var obj = new dynamic[] { vote.PostId };
                 var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
