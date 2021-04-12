@@ -42,7 +42,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             var posts = new List<PostDto>();
             try
             {
-                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate FROM p WHERE p.specieId = @SpecieId ORDER BY p.{orderCondition}";
+                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p WHERE p.specieId = @SpecieId ORDER BY p.{orderCondition}";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@SpecieId", specieId);

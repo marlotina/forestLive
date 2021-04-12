@@ -6,6 +6,7 @@ using Microsoft.Azure.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
@@ -83,7 +84,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
                 queryDef.WithParameter("@Latitude", latitude);
                 queryDef.WithParameter("@Longitude", longitude);
                 queryDef.WithParameter("@Distance", meters);
-                queryDef.WithParameter("@SpecieId", specieId);
+                queryDef.WithParameter("@SpecieId", specieId.ToString());
 
                 var query = this.postContainer.GetItemQueryIterator<BirdPost>(queryDef);
 
