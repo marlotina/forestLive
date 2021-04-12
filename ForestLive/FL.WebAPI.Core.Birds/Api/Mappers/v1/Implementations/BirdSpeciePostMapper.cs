@@ -34,6 +34,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
+                    HasVote = false,
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy"): string.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
@@ -121,6 +122,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
+                    HasVote = false,
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };
