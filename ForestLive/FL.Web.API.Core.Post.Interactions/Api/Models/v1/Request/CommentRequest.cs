@@ -14,8 +14,10 @@ namespace FL.Web.API.Core.Post.Interactions.Models.v1.Request
 
         public string TitlePost { get; set; }
 
-        public string AuthorPostUserId { get; set; }
+        public string AuthorPostId { get; set; }
 
-        public Guid? CommentParentId { get; set; }
+        public string ImagePost { get; set; }
+
+        public Guid? ParentId { get; set; }
     }
 }

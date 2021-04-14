@@ -11,9 +11,9 @@ namespace FL.Functions.Posts.Services
 
         Task UpdatePostAsync(Model.BirdPost post);
 
-        Task AddCommentPostAsync(BirdCommentDto comment);
+        Task AddCommentPostAsync(CommentBaseDto comment);
 
-        Task DeleteCommentPostAsync(BirdCommentDto comment);
+        Task DeleteCommentPostAsync(CommentBaseDto comment);
 
         Task AddVotePostAsync(VotePostDto vote);
 

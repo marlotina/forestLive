@@ -17,7 +17,7 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation
                     TitlePost = source.TitlePost,
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    AuthorPostUserId = source.AuthorPostUserId,
+                    AuthorPostId = source.AuthorPostId,
                     SpecieId = source.SpecieId
                 };
             }
@@ -36,7 +36,7 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation
                     PostId = source.PostId,
                     CreationDate = source.CreationDate.ToString("ddMMyyyhhmm"),
                     Id = source.Id,
-                    AuthorPostUserId = source.AuthorPostUserId,
+                    AuthorPostId = source.AuthorPostId,
                     SpecieId = source.SpecieId
                 };
             }

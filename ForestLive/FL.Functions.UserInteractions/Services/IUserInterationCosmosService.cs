@@ -3,11 +3,11 @@ using System.Threading.Tasks;
 
 namespace FL.Functions.UserInteractions.Services
 {
-    public interface IUserLabelCosmosService
+    public interface IUserInterationCosmosService
     {
-        Task AddCommentPostAsync(BirdCommentDto comment);
+        Task AddCommentPostAsync(CommentDto comment);
 
-        Task DeleteCommentPostAsync(BirdCommentDto comment);
+        Task DeleteCommentPostAsync(CommentBaseDto comment);
 
         Task AddVotePostAsync(VotePostDto vote);
 

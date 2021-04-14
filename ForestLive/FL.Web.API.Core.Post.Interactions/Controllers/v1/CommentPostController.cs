@@ -15,15 +15,15 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class CommentController : Controller
+    public class CommentPostController : Controller
     {
-        private readonly ILogger<CommentController> logger;
+        private readonly ILogger<CommentPostController> logger;
         private readonly ICommentMapper commentMapper;
         private readonly ICommentService commentService;
 
-        public CommentController(ICommentMapper commentMapper,
+        public CommentPostController(ICommentMapper commentMapper,
             ICommentService commentService,
-            ILogger<CommentController> logger)
+            ILogger<CommentPostController> logger)
         {
             this.commentService = commentService;
             this.commentMapper = commentMapper;

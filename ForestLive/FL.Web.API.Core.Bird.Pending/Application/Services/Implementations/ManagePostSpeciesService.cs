@@ -96,7 +96,6 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
                     post.SpecieId = request.SpecieId;
                     post.SpecieName = request.SpecieName;
                     post.Type = ItemHelper.BIRD_TYPE;
-                    post.UserHelpedIdentification = request.UserHelpedIdentification;
 
                     await this.iBirdSpeciesRepository.DeletePostAsync(post.PostId);
                     await this.iServiceBusAssignSpecieTopicSender.SendMessage(post, TopicHelper.LABEL_ASSIGN_SPECIE);

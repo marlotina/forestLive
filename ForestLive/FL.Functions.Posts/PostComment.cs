@@ -27,7 +27,7 @@ namespace FL.Functions.Posts
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
+                var post = JsonConvert.DeserializeObject<CommentBaseDto>(Encoding.UTF8.GetString(message.Body));
                
                 if (post.Id != null && post.Id != Guid.Empty)
                 {

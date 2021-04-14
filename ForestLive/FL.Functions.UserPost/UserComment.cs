@@ -28,7 +28,7 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var comment = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
+                var comment = JsonConvert.DeserializeObject<CommentBaseDto>(Encoding.UTF8.GetString(message.Body));
                 if (comment.Id != null && comment.Id != Guid.Empty)
                 {
                     if (message.Label == "commentCreated")

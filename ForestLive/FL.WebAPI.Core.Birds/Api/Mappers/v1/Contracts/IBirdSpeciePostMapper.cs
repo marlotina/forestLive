@@ -19,5 +19,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts
         PostListResponse Convert(BirdPost source);
 
         ModalBirdPostResponse ModalConvert(BirdPost source);
+
+        PostHomeResponse Convert(PostHomeDto source);
     }
 }

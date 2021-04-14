@@ -16,11 +16,9 @@ namespace FL.Web.API.Core.User.Interactions.Mapper.v1.Implementation
                 {
                     Id = source.Id,
                     Text = source.Text,
-                    UserId = source.UserId,
                     CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     PostId = source.PostId,
-                    UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
-                    AuthorPostUserId = source.AuthorPostUserId,
+                    AuthorPostId = source.AuthorPostId,
                     TitlePost = source.TitlePost,
                     SpecieId = source.SpecieId
                 };

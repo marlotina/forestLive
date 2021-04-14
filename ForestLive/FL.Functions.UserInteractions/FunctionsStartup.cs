@@ -29,9 +29,9 @@ namespace FL.Functions.UserInteractions
                 .WithSerializerOptions(new CosmosSerializationOptions() { PropertyNamingPolicy = CosmosPropertyNamingPolicy.CamelCase })
                 .Build();
 
-            var userLabelCosmosDbService = new UserLabelCosmosService(client, databaseName);
+            var userLabelCosmosDbService = new UserInteractionCosmosService(client, databaseName);
 
-            builder.Services.AddSingleton<IUserLabelCosmosService>(userLabelCosmosDbService);
+            builder.Services.AddSingleton<IUserInterationCosmosService>(userLabelCosmosDbService);
         }
     }
 }

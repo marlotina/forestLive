@@ -59,16 +59,24 @@ namespace FL.Functions.UserPost.Services
             await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.UserId), obj);
         }
 
-        public async Task DeleteCommentAsync(BirdCommentDto comment)
+        public async Task DeleteCommentAsync(CommentBaseDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.UserId), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.AuthorPostId), obj);
         }
 
-        public async Task AddCommentAsync(BirdCommentDto comment)
+        public async Task AddCommentAsync(CommentBaseDto comment)
         {
-            var obj = new dynamic[] { comment.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseCommentCount", new PartitionKey(comment.UserId), obj);
+            try
+            {
+
+                var obj = new dynamic[] { comment.PostId.ToString() };
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseCommentCount", new PartitionKey(comment.AuthorPostId), obj);
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public async Task UpdatePostAsync(Model.BirdPost post)

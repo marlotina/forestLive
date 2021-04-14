@@ -15,8 +15,8 @@ namespace FL.Functions.UserPost.Services
 
         Task DeleteVoteAsync(VotePostDto vote);
 
-        Task AddCommentAsync(BirdCommentDto comment);
+        Task AddCommentAsync(CommentBaseDto comment);
 
-        Task DeleteCommentAsync(BirdCommentDto comment);
+        Task DeleteCommentAsync(CommentBaseDto comment);
     }
 }

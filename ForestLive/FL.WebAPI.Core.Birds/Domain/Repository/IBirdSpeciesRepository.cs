@@ -18,6 +18,8 @@ namespace FL.WebAPI.Core.Birds.Domain.Repository
 
         Task<List<PostDto>> GetAllSpecieAsync(string orderCondition);
 
+        Task<List<PostHomeDto>> GetLastSpecieAsync();
+
         Task<bool> UpdatePostAsync(BirdPost post);
     }
 }

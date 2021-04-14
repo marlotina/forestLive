@@ -14,6 +14,9 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Contracts
 
         Task<List<PostDto>> GetBirds(int orderBy);
 
+
+        Task<List<PostHomeDto>> GetLastBirds();
+
         Task<BirdPost> GetPost(Guid postId, Guid specieId);
     }
 }

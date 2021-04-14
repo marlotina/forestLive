@@ -78,7 +78,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
                     Id = source.Id,
                     CreationDate = source.CreationDate,
                     Type = source.Type,
-                    AuthorPostUserId = source.AuthorPostUserId,
+                    AuthorPostId = source.AuthorPostId,
                     TitlePost = source.TitlePost
                 };
             }

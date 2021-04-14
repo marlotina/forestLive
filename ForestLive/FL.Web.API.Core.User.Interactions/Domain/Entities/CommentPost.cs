@@ -23,11 +23,11 @@ namespace FL.Web.API.Core.User.Interactions.Domain.Entities
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
-        [JsonProperty(PropertyName = "ttlePost")]
+        [JsonProperty(PropertyName = "titlePost")]
         public string TitlePost { get; set; }
         
-        [JsonProperty(PropertyName = "authorPostUserId")]
-        public string AuthorPostUserId { get; set; }
+        [JsonProperty(PropertyName = "AuthorPostId")]
+        public string AuthorPostId { get; set; }
 
         [JsonProperty(PropertyName = "specieId")]
         public Guid? SpecieId { get; set; }

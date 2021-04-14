@@ -7,9 +7,9 @@ namespace FL.Functions.BirdPost.Services
     {
         Task CreatePostAsync(Dto.BirdPost post);
 
-        Task AddCommentAsync(CommentPostDto comment);
+        Task AddCommentAsync(CommentBaseDto comment);
 
-        Task DeleteCommentAsync(CommentPostDto comment);
+        Task DeleteCommentAsync(CommentBaseDto comment);
 
         Task AddVotePostAsync(VotePostDto vote);
 

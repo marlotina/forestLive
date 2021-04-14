@@ -65,5 +65,10 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
                 default: return "creationDate DESC";
             }
         }
+
+        public async Task<List<PostHomeDto>> GetLastBirds()
+        {
+            return await this.iBirdSpeciesRepository.GetLastSpecieAsync();
+        }
     }
 }

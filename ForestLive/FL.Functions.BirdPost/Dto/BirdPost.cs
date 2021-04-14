@@ -53,8 +53,5 @@ namespace FL.Functions.BirdPost.Dto
 
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime? ObservationDate { get; set; }
-
-        [JsonProperty(PropertyName = "userHelpedIdentification ")]
-        public string UserHelpedIdentification { get; set; }
     }
 }

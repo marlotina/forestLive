@@ -14,7 +14,7 @@ namespace FL.Functions.BirdPost.Services
             this.birdsContainer = dbClient.GetContainer(databaseName, "specie");
         }
 
-        public async Task AddCommentAsync(CommentPostDto comment)
+        public async Task AddCommentAsync(CommentBaseDto comment)
         {
             try
             {
@@ -27,7 +27,7 @@ namespace FL.Functions.BirdPost.Services
             }
         }
 
-        public async Task DeleteCommentAsync(CommentPostDto comment)
+        public async Task DeleteCommentAsync(CommentBaseDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
             await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string> ("decreaseCommentCount", new PartitionKey(comment.SpecieId.ToString()), obj);

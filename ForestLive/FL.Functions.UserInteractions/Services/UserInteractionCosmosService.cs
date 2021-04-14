@@ -7,24 +7,22 @@ using System.Threading.Tasks;
 
 namespace FL.Functions.UserPost.Services
 {
-    public class UserLabelCosmosService : IUserLabelCosmosService
+    public class UserInteractionCosmosService : IUserInterationCosmosService
     {
         private Container usersCommentContainer;
         private Container usersVoteContainer;
 
-        public UserLabelCosmosService(CosmosClient dbClient, string databaseName)
+        public UserInteractionCosmosService(CosmosClient dbClient, string databaseName)
         {
             this.usersCommentContainer = dbClient.GetContainer(databaseName, "usercomment");
             this.usersVoteContainer = dbClient.GetContainer(databaseName, "uservote");
         }
 
-        public async Task AddCommentPostAsync(BirdCommentDto comment)
+        public async Task AddCommentPostAsync(CommentDto comment)
         {
             try
             {
-                var request = this.ConvertComment(comment);
-                var obj = new dynamic[] { request };
-                var result = await this.usersCommentContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("addComment", new PartitionKey(comment.UserId), obj);
+                await this.usersCommentContainer.CreateItemAsync<CommentDto>(comment, new PartitionKey(comment.UserId));
             }
             catch (Exception ex)
             {
@@ -44,12 +42,11 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task DeleteCommentPostAsync(BirdCommentDto comment)
+        public async Task DeleteCommentPostAsync(CommentBaseDto comment)
         {
             try
             {
-                var obj = new dynamic[] { comment.Id };
-                var result = await this.usersCommentContainer.Scripts.ExecuteStoredProcedureAsync<string>("deleteComment", new PartitionKey(comment.UserId), obj);
+                await this.usersCommentContainer.DeleteItemAsync<CommentDto>(comment.Id.ToString(), new PartitionKey(comment.UserId));
             }
             catch (Exception ex)
             {
@@ -76,27 +73,7 @@ namespace FL.Functions.UserPost.Services
                 Id = source.Id,
                 Type = source.Type,
                 PostId = source.PostId,
-                AuthorPostUserId = source.AuthorPostUserId,
-                UserId = source.UserId,
-                TitlePost = source.TitlePost,
-                CreationDate = source.CreationDate,
-                SpecieId = source.SpecieId
-            };
-
-            return response;
-        }
-
-        private BirdComment ConvertComment(BirdCommentDto source)
-        {
-            var response = default(BirdComment);
-
-            response = new BirdComment()
-            {
-                Id = source.Id,
-                Type = source.Type,
-                PostId = source.PostId,
-                AuthorPostUserId = source.AuthorPostUserId,
-                Text = source.Text,
+                AuthorPostId = source.AuthorPostId,
                 UserId = source.UserId,
                 TitlePost = source.TitlePost,
                 CreationDate = source.CreationDate,

@@ -25,6 +25,21 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             this.iBirdSpeciePostMapper = iBirdSpeciePostMapper;
         }
 
+        [HttpGet, Route("GetLastBirds", Name = "GetLastBirds")]
+        public async Task<IActionResult> GetLastBirds()
+        {
+            var result = default(List<PostHomeDto>);
+            result = await this.iBirdSpeciesService.GetLastBirds();
+
+            if (result.Any())
+            {
+                var response = result.Select(x => this.iBirdSpeciePostMapper.Convert(x));
+                return this.Ok(response);
+            }
+
+            return this.NoContent();
+        }
+
         [HttpGet, Route("GetBirds", Name = "GetBirds")]
         public async Task<IActionResult> GetBirds(int orderBy, string specieId)
         {

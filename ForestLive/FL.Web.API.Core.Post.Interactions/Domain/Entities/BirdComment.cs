@@ -23,16 +23,13 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Entities
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
-        [JsonProperty(PropertyName = "ttlePost")]
-        public string TitlePost { get; set; }
-        
-        [JsonProperty(PropertyName = "authorPostUserId")]
-        public string AuthorPostUserId { get; set; }
+        [JsonProperty(PropertyName = "parentId")]
+        public Guid? ParentId { get; set; }
 
         [JsonProperty(PropertyName = "specieId")]
         public Guid? SpecieId { get; set; }
 
-        [JsonProperty(PropertyName = "commentParentId")]
-        public Guid? CommentParentId { get; set; }
+        [JsonProperty(PropertyName = "authorPostId")]
+        public string AuthorPostId { get; set; }
     }
 }

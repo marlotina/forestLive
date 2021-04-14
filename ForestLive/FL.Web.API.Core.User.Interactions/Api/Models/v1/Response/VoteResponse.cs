@@ -8,7 +8,7 @@ namespace FL.Web.API.Core.User.Interactions.Api.Models.v1.Response
 
         public Guid PostId { get; set; }
 
-        public string AuthorPostUserId { get; set; }
+        public string AuthorPostId { get; set; }
 
         public string UserId { get; set; }
 

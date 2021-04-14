@@ -18,7 +18,7 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation
                     PostId = source.PostId,
                     CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     Id = source.Id,
-                    AuthorPostUserId = source.AuthorPostUserId,
+                    AuthorPostId = source.AuthorPostId,
                     SpecieId = source.SpecieId
                 };
             }

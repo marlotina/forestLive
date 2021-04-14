@@ -1,4 +1,5 @@
 ﻿using FL.Pereza.Helpers.Standard.Images;
+using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Models.v1.Request;
@@ -11,24 +12,24 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
 {
     public class CommentMapper : ICommentMapper
     {
-        public BirdComment Convert(CommentRequest source)
+        public CommentDto Convert(CommentRequest source)
         {
-            var result = default(BirdComment);
+            var result = default(CommentDto);
             if (source != null)
             {
-                result = new BirdComment()
+                result = new CommentDto()
                 {
                     PostId = source.PostId,
-                    Text = source.Text,
-                    UserId = source.UserId,
-                    AuthorPostUserId = source.AuthorPostUserId,
-                    TitlePost = source.TitlePost,
                     SpecieId = source.SpecieId,
-                    CommentParentId = source.CommentParentId
+                    UserId = source.UserId,
+                    AuthorPostId = source.AuthorPostId,
+                    TitlePost = source.TitlePost,
+                    ParentId = source.ParentId,
+                    Text = source.Text
                 };
             }
             return result;
-        }
+        }        
 
         public CommentResponse Convert(BirdComment source)
         {
@@ -40,7 +41,7 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
                     Id = source.Id,
                     Text = source.Text,
                     UserId = source.UserId,
-                    ParentId = source.CommentParentId,
+                    ParentId = source.ParentId,
                     CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
                     Replies = new List<CommentResponse>()

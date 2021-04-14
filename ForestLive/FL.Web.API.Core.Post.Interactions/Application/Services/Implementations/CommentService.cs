@@ -17,11 +17,11 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
     {
         private readonly ICommentRepository iCommentRepository;
         private readonly ILogger<CommentService> iLogger;
-        private readonly IServiceBusCommentTopicSender<BirdCommentDto> iServiceBusCommentTopicSender;
+        private readonly IServiceBusCommentTopicSender<CommentBaseDto> iServiceBusCommentTopicSender;
 
         public CommentService(
             ICommentRepository iCommentRepository,
-            IServiceBusCommentTopicSender<BirdCommentDto> iServiceBusCommentTopicSender,
+            IServiceBusCommentTopicSender<CommentBaseDto> iServiceBusCommentTopicSender,
             ILogger<CommentService> iLogger)
         {
             this.iCommentRepository = iCommentRepository;
@@ -29,18 +29,18 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             this.iLogger = iLogger;
         }
 
-        public async Task<BirdComment> AddComment(BirdComment comment)
+        public async Task<BirdComment> AddComment(CommentDto commentItem)
         {
             try
             {
-                comment.Id = Guid.NewGuid();
-                comment.CreationDate = DateTime.UtcNow;
-                comment.Type = ItemHelper.COMMENT_TYPE;
-                comment.CommentParentId = comment.CommentParentId;
+                commentItem.Id = Guid.NewGuid();
+                commentItem.CreationDate = DateTime.UtcNow;
+                commentItem.Type = ItemHelper.COMMENT_TYPE;
+
+                var comment = this.Convert(commentItem);
                 var response = await this.iCommentRepository.CreateCommentAsync(comment);
 
-                var message = this.Convert(comment);
-                await this.iServiceBusCommentTopicSender.SendMessage(message, TopicHelper.LABEL_COMMENT_CREATED);
+                await this.iServiceBusCommentTopicSender.SendMessage(commentItem, TopicHelper.LABEL_COMMENT_CREATED);
 
                 return response;
             }
@@ -64,8 +64,8 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
 
                     if (result)
                     {
-                        var message = this.Convert(comment);
-                        await this.iServiceBusCommentTopicSender.SendMessage(message, TopicHelper.LABEL_COMMENT_DELETED);
+                        var messageComment = this.Convert(comment);
+                        await this.iServiceBusCommentTopicSender.SendMessage(messageComment, TopicHelper.LABEL_COMMENT_DELETED);
                         return true;
                     }
                 }
@@ -87,25 +87,47 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             return await this.iCommentRepository.GetCommentsByPostIdAsync(postId);
         }
 
-        private BirdCommentDto Convert(BirdComment source)
+        public BirdComment Convert(CommentDto source)
         {
-            var result = default(BirdCommentDto);
+            var result = default(BirdComment);
             if (source != null)
             {
-                result = new BirdCommentDto()
+                result = new BirdComment()
                 {
-                    PostId = source.PostId,
-                    SpecieId = source.SpecieId,
-                    UserId = source.UserId,
-                    AuthorPostUserId = source.AuthorPostUserId,
-                    TitlePost = source.TitlePost,
                     Id = source.Id,
-                    CreationDate = source.CreationDate,
+                    PostId = source.PostId,
+                    Text = source.Text,
                     Type = source.Type,
-                    Text = source.Text
+                    UserId = source.UserId,
+                    ParentId = source.ParentId,
+                    SpecieId = source.SpecieId,
+                    AuthorPostId = source.AuthorPostId,
+                    CreationDate = source.CreationDate
                 };
             }
             return result;
         }
+
+        public CommentDto Convert(BirdComment source)
+        {
+            var result = default(CommentDto);
+            if (source != null)
+            {
+                result = new CommentDto()
+                {
+                    Id = source.Id,
+                    PostId = source.PostId,
+                    Text = source.Text,
+                    Type = source.Type,
+                    UserId = source.UserId,
+                    ParentId = source.ParentId,
+                    SpecieId = source.SpecieId,
+                    AuthorPostId = source.AuthorPostId,
+                    CreationDate = source.CreationDate
+                };
+            }
+            return result;
+        }
+        
     }
 }

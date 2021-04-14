@@ -44,7 +44,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task AddCommentPostAsync(BirdCommentDto comment)
+        public async Task AddCommentPostAsync(CommentBaseDto comment)
         {
             try
             {
@@ -68,7 +68,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task DeleteCommentPostAsync(BirdCommentDto comment)
+        public async Task DeleteCommentPostAsync(CommentBaseDto comment)
         {
             try
             {

@@ -11,9 +11,9 @@ namespace FL.Functions.UserInteractions
 {
     public class VoteUserFunction
     {
-        private readonly IUserLabelCosmosService postCosmosService;
+        private readonly IUserInterationCosmosService postCosmosService;
 
-        public VoteUserFunction(IUserLabelCosmosService postCosmosService)
+        public VoteUserFunction(IUserInterationCosmosService postCosmosService)
         {
             this.postCosmosService = postCosmosService;
         }

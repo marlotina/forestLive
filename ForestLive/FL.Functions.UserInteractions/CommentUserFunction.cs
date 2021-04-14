@@ -13,9 +13,9 @@ namespace FL.Functions.UserInteractions
 {
     public class CommentUserFunction
     {
-        private readonly IUserLabelCosmosService userLabelCosmosService;
+        private readonly IUserInterationCosmosService userLabelCosmosService;
 
-        public CommentUserFunction(IUserLabelCosmosService userLabelCosmosService)
+        public CommentUserFunction(IUserInterationCosmosService userLabelCosmosService)
         {
             this.userLabelCosmosService = userLabelCosmosService;
         }
@@ -31,12 +31,12 @@ namespace FL.Functions.UserInteractions
             {
                 if (message.Label == "commentCreated")
                 {
-                    var comment = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
+                    var comment = JsonConvert.DeserializeObject<CommentDto>(Encoding.UTF8.GetString(message.Body));
                     this.userLabelCosmosService.AddCommentPostAsync(comment);
                 }
                 else if (message.Label == "commentDeleted") 
                 {
-                    var comment = JsonConvert.DeserializeObject<BirdCommentDto>(Encoding.UTF8.GetString(message.Body));
+                    var comment = JsonConvert.DeserializeObject<CommentBaseDto>(Encoding.UTF8.GetString(message.Body));
                     this.userLabelCosmosService.DeleteCommentPostAsync(comment);
                 }
             }

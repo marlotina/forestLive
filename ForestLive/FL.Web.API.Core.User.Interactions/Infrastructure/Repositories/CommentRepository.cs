@@ -34,7 +34,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         public async Task<List<CommentPost>> GetCommentsByUserIdAsync(string userId)
         {
             //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
-            var queryString = $"SELECT * FROM p WHERE p.userId = @UserId ORDER BY p.creationDate ASC";
+            var queryString = $"SELECT p.id, p.text, p.specieId, p.creationDate, p.postId, p.authorPostId, p.titlePost FROM p WHERE p.userId = @UserId ORDER BY p.creationDate ASC";
             var queryDef = new QueryDefinition(queryString);
             queryDef.WithParameter("@UserId", userId);
             var query = this.commentContainer.GetItemQueryIterator<CommentPost>(queryDef);

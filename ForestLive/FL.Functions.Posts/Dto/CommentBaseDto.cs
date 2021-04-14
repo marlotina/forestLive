@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Functions.UserInteractions.Model
+namespace FL.Functions.Posts.Dto
 {
-    public class BirdComment
+    public class CommentBaseDto
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }
@@ -23,13 +23,13 @@ namespace FL.Functions.UserInteractions.Model
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
-        [JsonProperty(PropertyName = "ttlePost")]
-        public string TitlePost { get; set; }
-        
-        [JsonProperty(PropertyName = "authorPostUserId")]
-        public string AuthorPostUserId { get; set; }
+        [JsonProperty(PropertyName = "parentId")]
+        public Guid? ParentId { get; set; }
 
         [JsonProperty(PropertyName = "specieId")]
         public Guid? SpecieId { get; set; }
+
+        [JsonProperty(PropertyName = "authorPostId")]
+        public string AuthorPostId { get; set; }
     }
 }

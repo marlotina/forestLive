@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Functions.BirdPost.Dto
+namespace FL.Functions.UserPost.Dto
 {
-    public class CommentPostDto
+    public class CommentBaseDto
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }
@@ -23,7 +23,13 @@ namespace FL.Functions.BirdPost.Dto
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
+        [JsonProperty(PropertyName = "parentId")]
+        public Guid? ParentId { get; set; }
+
         [JsonProperty(PropertyName = "specieId")]
         public Guid? SpecieId { get; set; }
+
+        [JsonProperty(PropertyName = "authorPostId")]
+        public string AuthorPostId { get; set; }
     }
 }

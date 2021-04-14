@@ -53,8 +53,5 @@ namespace FL.Functions.UserPost.Model
 
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime? ObservationDate { get; set; }
-
-        [JsonProperty(PropertyName = "userHelpedIdentification ")]
-        public string UserHelpedIdentification { get; set; }
     }
 }
