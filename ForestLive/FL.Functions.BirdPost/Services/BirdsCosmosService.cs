@@ -33,13 +33,13 @@ namespace FL.Functions.BirdPost.Services
             await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string> ("decreaseCommentCount", new PartitionKey(comment.SpecieId.ToString()), obj);
         }
 
-        public async Task AddVotePostAsync(VotePostDto vote)
+        public async Task AddVotePostAsync(VotePostBaseDto vote)
         {
             var obj = new dynamic[] { vote.PostId };
             await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.SpecieId.ToString()), obj);
         }
 
-        public async Task DeleteVotePostAsync(VotePostDto vote)
+        public async Task DeleteVotePostAsync(VotePostBaseDto vote)
         {
             var obj = new dynamic[] { vote.PostId };
             await this.birdsContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.SpecieId.ToString()), obj);

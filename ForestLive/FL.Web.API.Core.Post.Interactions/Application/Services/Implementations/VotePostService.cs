@@ -15,26 +15,26 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
 {
     public class VotePostService : IVotePostService
     {
-        private readonly IServiceBusVotePostTopicSender<VotePostDto> iServiceBusVotePostTopicSender;
+        private readonly IServiceBusVotePostTopicSender<VotePostBaseDto> iServiceBusVotePostTopicSender;
         private readonly IVotePostRepository iVotePostRepository;
 
         public VotePostService(
-            IServiceBusVotePostTopicSender<VotePostDto> iServiceBusVotePostTopicSender,
+            IServiceBusVotePostTopicSender<VotePostBaseDto> iServiceBusVotePostTopicSender,
             IVotePostRepository iVotePostRepository)
         {
             this.iVotePostRepository = iVotePostRepository;
             this.iServiceBusVotePostTopicSender = iServiceBusVotePostTopicSender;
         }
 
-        public async Task<VotePost> AddVotePost(VotePost votePost)
+        public async Task<VotePost> AddVotePost(VotePostDto votePost)
         {
             votePost.Id = Guid.NewGuid();
             votePost.CreationDate = DateTime.UtcNow;
-            votePost.Type = ItemHelper.VOTE_TYPE;
+            votePost.Type = ItemHelper.VOTE_POST_TYPE;
 
-            var result = await this.iVotePostRepository.AddVote(votePost);
-            var voteDto = this.Convert(result);
-            await this.iServiceBusVotePostTopicSender.SendMessage(voteDto, TopicHelper.LABEL_VOTE_CREATED);
+            var vote = this.Convert(votePost);
+            var result = await this.iVotePostRepository.AddVote(vote);
+            await this.iServiceBusVotePostTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_CREATED);
 
             return result;
         }
@@ -65,6 +65,25 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             return await this.iVotePostRepository.GetVoteByPostAsync(postId);
         }
 
+        private VotePost Convert(VotePostDto source)
+        {
+            var result = default(VotePost);
+            if (source != null)
+            {
+                result = new VotePost()
+                {
+                    PostId = source.PostId,
+                    SpecieId = source.SpecieId,
+                    UserId = source.UserId,
+                    Id = source.Id,
+                    CreationDate = source.CreationDate,
+                    Type = source.Type,
+                    AuthorPostId = source.AuthorPostId
+                };
+            }
+            return result;
+        }
+
         private VotePostDto Convert(VotePost source)
         {
             var result = default(VotePostDto);
@@ -78,8 +97,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
                     Id = source.Id,
                     CreationDate = source.CreationDate,
                     Type = source.Type,
-                    AuthorPostId = source.AuthorPostId,
-                    TitlePost = source.TitlePost
+                    AuthorPostId = source.AuthorPostId
                 };
             }
             return result;

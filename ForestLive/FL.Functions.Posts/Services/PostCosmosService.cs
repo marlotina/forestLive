@@ -56,7 +56,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task AddVotePostAsync(VotePostDto vote)
+        public async Task AddVotePostAsync(VotePostBaseDto vote)
         {
             try
             {
@@ -80,7 +80,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task DeleteVotePostAsync(VotePostDto vote)
+        public async Task DeleteVotePostAsync(VotePostBaseDto vote)
         {
             try
             {

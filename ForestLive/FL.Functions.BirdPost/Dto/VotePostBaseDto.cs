@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Web.API.Core.Post.Interactions.Domain.Entities
+namespace FL.Functions.BirdPost.Dto
 {
-    public class VotePost
+    public class VotePostBaseDto
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }

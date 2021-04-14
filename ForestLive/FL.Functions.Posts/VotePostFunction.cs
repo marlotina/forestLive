@@ -27,7 +27,7 @@ namespace FL.Functions.Posts
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
+                var vote = JsonConvert.DeserializeObject<VotePostBaseDto>(Encoding.UTF8.GetString(message.Body));
                
                 if (vote.Id != null && vote.Id != Guid.Empty)
                 {

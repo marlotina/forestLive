@@ -26,19 +26,16 @@ namespace FL.Functions.UserInteractions
             ILogger log)
         {
             try
-            {
-                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
-                
-                if (vote.Id != null && vote.Id != Guid.Empty)
+            {      
+                if (message.Label == "voteCreated")
                 {
-                    if (message.Label == "voteCreated")
-                    {
-                        this.postCosmosService.AddVotePostAsync(vote);
-                    }
-                    else if (message.Label == "voteDeleted")
-                    {
-                        this.postCosmosService.DeleteVotePostAsync(vote);
-                    }
+                    var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
+                    this.postCosmosService.AddVotePostAsync(vote);
+                }
+                else if (message.Label == "voteDeleted")
+                {
+                    var vote = JsonConvert.DeserializeObject<VotePostBaseDto>(Encoding.UTF8.GetString(message.Body));
+                    this.postCosmosService.DeleteVotePostAsync(vote);
                 }
             }
             catch (Exception ex)

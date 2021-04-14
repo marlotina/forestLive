@@ -38,12 +38,12 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task AddVoteAsync(VotePostDto vote)
+        public async Task AddVoteAsync(VotePostBaseDto vote)
         {
             try
             {
                 var obj = new dynamic[] { vote.PostId };
-                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.UserId), obj);
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.AuthorPostId), obj);
             }
             catch (Exception ex)
             {
@@ -52,11 +52,11 @@ namespace FL.Functions.UserPost.Services
             
         }
 
-        public async Task DeleteVoteAsync(VotePostDto vote)
+        public async Task DeleteVoteAsync(VotePostBaseDto vote)
         {
 
             var obj = new dynamic[] { vote.PostId };
-            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.UserId), obj);
+            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.AuthorPostId), obj);
         }
 
         public async Task DeleteCommentAsync(CommentBaseDto comment)

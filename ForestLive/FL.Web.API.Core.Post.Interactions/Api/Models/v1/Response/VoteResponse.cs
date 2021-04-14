@@ -14,8 +14,6 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Models.v1.Response
 
         public string CreationDate { get; set; }
 
-        public string TitlePost { get; set; }
-
         public Guid? SpecieId { get; set; }
     }
 }

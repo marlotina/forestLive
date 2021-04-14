@@ -28,7 +28,7 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
+                var vote = JsonConvert.DeserializeObject<VotePostBaseDto>(Encoding.UTF8.GetString(message.Body));
                 if (vote.SpecieId.HasValue && vote.SpecieId.Value != Guid.Empty)
                 {
                     if (vote.Id != null && vote.Id != Guid.Empty)

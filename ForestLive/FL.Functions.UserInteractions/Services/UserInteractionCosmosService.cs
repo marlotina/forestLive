@@ -53,7 +53,7 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task DeleteVotePostAsync(VotePostDto vote)
+        public async Task DeleteVotePostAsync(VotePostBaseDto vote)
         {
             try
             {

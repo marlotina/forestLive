@@ -8,8 +8,6 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Models.v1.Request
 
         public Guid PostId { get; set; }
 
-        public int Vote { get; set; }
-
         public string AuthorPostId { get; set; }
 
         public string TitlePost { get; set; }

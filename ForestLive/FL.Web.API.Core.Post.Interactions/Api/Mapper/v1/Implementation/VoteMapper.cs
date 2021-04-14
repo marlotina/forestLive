@@ -1,24 +1,26 @@
 ﻿using FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Api.Models.v1.Request;
 using FL.Web.API.Core.Post.Interactions.Api.Models.v1.Response;
+using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 
 namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation
 {
     public class VoteMapper : IVoteMapper
     {
-        public VotePost Convert(VoteRequest source)
+        public VotePostDto Convert(VoteRequest source)
         {
-            var result = default(VotePost);
+            var result = default(VotePostDto);
             if (source != null)
             {
-                result = new VotePost()
+                result = new VotePostDto()
                 {
                     TitlePost = source.TitlePost,
                     UserId = source.UserId,
                     PostId = source.PostId,
                     AuthorPostId = source.AuthorPostId,
-                    SpecieId = source.SpecieId
+                    SpecieId = source.SpecieId,
+
                 };
             }
             return result;
@@ -31,7 +33,6 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation
             {
                 result = new VoteResponse()
                 {
-                    TitlePost = source.TitlePost,
                     UserId = source.UserId,
                     PostId = source.PostId,
                     CreationDate = source.CreationDate.ToString("ddMMyyyhhmm"),
