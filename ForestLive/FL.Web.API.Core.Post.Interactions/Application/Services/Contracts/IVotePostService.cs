@@ -10,7 +10,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Contracts
     {
         Task<VotePost> AddVotePost(VotePostDto votePost);
 
-        Task<bool> DeleteVotePost(Guid voteId, Guid postId, string userId);
+        Task<bool> DeleteVotePost(string voteId, Guid postId, string userId);
 
         Task<IEnumerable<VotePost>> GetVoteByPost(Guid postId);
     }

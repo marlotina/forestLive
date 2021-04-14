@@ -74,11 +74,11 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.votePostService.DeleteVotePost(voteId, postId, userId);
+                //var result = await this.votePostService.DeleteVotePost(voteId, postId, userId);
 
-                if (result)
-                    return this.Ok(result);
-                else
+                //if (result)
+                //    return this.Ok(result);
+                //else
                     return this.BadRequest();
 
             }

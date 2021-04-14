@@ -6,7 +6,7 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Entities
     public class VotePost
     {
         [JsonProperty(PropertyName = "id")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }

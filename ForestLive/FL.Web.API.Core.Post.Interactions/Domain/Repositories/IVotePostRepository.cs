@@ -9,9 +9,9 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Repositories
     {
         Task<VotePost> AddVote(VotePost votePost);
 
-        Task<bool> DeleteVoteAsync(Guid id, Guid postId);
+        Task<bool> DeleteVoteAsync(string id, Guid postId);
 
-        Task<VotePost> GetVoteAsync(Guid voteId, Guid postId);
+        Task<VotePost> GetVoteAsync(string voteId, Guid postId);
 
         Task<IEnumerable<VotePost>> GetVoteByPostAsync(Guid postId);
     }

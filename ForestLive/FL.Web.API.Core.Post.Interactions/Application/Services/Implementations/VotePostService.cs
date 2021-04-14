@@ -28,7 +28,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
 
         public async Task<VotePost> AddVotePost(VotePostDto votePost)
         {
-            votePost.Id = Guid.NewGuid();
+            votePost.Id = $"{votePost.PostId}_{votePost.UserId}";
             votePost.CreationDate = DateTime.UtcNow;
             votePost.Type = ItemHelper.VOTE_POST_TYPE;
 
@@ -39,9 +39,13 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             return result;
         }
 
-        public async Task<bool> DeleteVotePost(Guid voteId, Guid postId, string userId)
+        public async Task<bool> DeleteVotePost(string voteId, Guid postId, string userId)
         {
             var vote = await this.iVotePostRepository.GetVoteAsync(voteId, postId);
+
+            if (vote == null)
+                return false;
+
             if (userId == vote.UserId && vote != null)
             {
                 var result = await this.iVotePostRepository.DeleteVoteAsync(voteId, vote.PostId);

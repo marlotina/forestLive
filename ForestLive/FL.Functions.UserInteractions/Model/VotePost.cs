@@ -6,7 +6,7 @@ namespace FL.Functions.UserInteractions.Model
     public class VotePost
     {
         [JsonProperty(PropertyName = "id")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }

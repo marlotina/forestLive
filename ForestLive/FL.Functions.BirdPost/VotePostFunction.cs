@@ -31,17 +31,16 @@ namespace FL.Functions.BirdPost
                 var vote = JsonConvert.DeserializeObject<VotePostBaseDto>(Encoding.UTF8.GetString(message.Body));
                 if (vote.SpecieId.HasValue && vote.SpecieId.Value != Guid.Empty)
                 {
-                    if (vote.Id != null && vote.Id != Guid.Empty)
+                    
+                    if (message.Label == "voteCreated")
                     {
-                        if (message.Label == "voteCreated")
-                        {
-                            this.iBirdsCosmosService.AddVotePostAsync(vote);
-                        }
-                        else if (message.Label == "voteDeleted")
-                        {
-                            this.iBirdsCosmosService.DeleteVotePostAsync(vote);
-                        }
+                        this.iBirdsCosmosService.AddVotePostAsync(vote);
                     }
+                    else if (message.Label == "voteDeleted")
+                    {
+                        this.iBirdsCosmosService.DeleteVotePostAsync(vote);
+                    }
+                   
                 }
                     
             }

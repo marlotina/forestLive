@@ -6,7 +6,7 @@ namespace FL.Web.API.Core.User.Interactions.Domain.Entities
     public class VotePost
     {
         [JsonProperty(PropertyName = "id")]
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         [JsonProperty(PropertyName = "type")]
         public string Type { get; set; }
@@ -14,7 +14,7 @@ namespace FL.Web.API.Core.User.Interactions.Domain.Entities
         [JsonProperty(PropertyName = "postId")]
         public Guid PostId { get; set; }
 
-        [JsonProperty(PropertyName = "AuthorPostId")]
+        [JsonProperty(PropertyName = "authorPostId")]
         public string AuthorPostId { get; set; }
 
         [JsonProperty(PropertyName = "userId")]

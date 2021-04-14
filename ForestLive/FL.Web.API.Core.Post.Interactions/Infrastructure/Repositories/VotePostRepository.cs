@@ -31,11 +31,11 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosVoteContainer);
         }
 
-        public async Task<VotePost> GetVoteAsync(Guid voteId, Guid postId)
+        public async Task<VotePost> GetVoteAsync(string voteId, Guid postId)
         {
             try
             {
-                ItemResponse<VotePost> response = await this.voteContainer.ReadItemAsync<VotePost>(voteId.ToString(), new PartitionKey(postId.ToString()));
+                ItemResponse<VotePost> response = await this.voteContainer.ReadItemAsync<VotePost>(voteId, new PartitionKey(postId.ToString()));
                 var ru = response.RequestCharge;
                 return response.Resource;
             }
@@ -52,18 +52,19 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             {
                 result = await this.voteContainer.CreateItemAsync<VotePost>(votePost, new PartitionKey(votePost.PostId.ToString()));
             }
-            catch (Exception ex)
-            {
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+            { 
+                throw ex;
             }
 
             return result;
         }
 
-        public async Task<bool> DeleteVoteAsync(Guid id, Guid postId)
+        public async Task<bool> DeleteVoteAsync(string id, Guid postId)
         {
             try
             {
-                await this.voteContainer.DeleteItemAsync<VotePost>(id.ToString(), new PartitionKey(postId.ToString()));
+                await this.voteContainer.DeleteItemAsync<VotePost>(id, new PartitionKey(postId.ToString()));
                 return true;
             }
             catch (Exception ex)

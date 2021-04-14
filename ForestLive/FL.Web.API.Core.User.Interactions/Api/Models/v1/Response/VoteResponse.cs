@@ -4,7 +4,7 @@ namespace FL.Web.API.Core.User.Interactions.Api.Models.v1.Response
 {
     public class VoteResponse
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public Guid PostId { get; set; }
 

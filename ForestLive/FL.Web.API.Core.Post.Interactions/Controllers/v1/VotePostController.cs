@@ -6,6 +6,7 @@ using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using System;
 using System.Threading.Tasks;
 
@@ -55,6 +56,10 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
                 else
                     return this.BadRequest();
             }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
+            {
+                return this.BadRequest();
+            }
             catch (Exception ex)
             {
                 this.logger.LogError(ex);
@@ -64,11 +69,11 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteVote", Name = "DeleteVote")]
-        public async Task<IActionResult> DeleteVote(Guid voteId, Guid postId)
+        public async Task<IActionResult> DeleteVote(string voteId, Guid postId)
         {
             try
             {
-                if (voteId == null || voteId == Guid.Empty || postId == null || postId == Guid.Empty)
+                if (string.IsNullOrWhiteSpace(voteId) || postId == null || postId == Guid.Empty)
                 {
                     return this.BadRequest();
                 }
