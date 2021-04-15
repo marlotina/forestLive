@@ -23,6 +23,7 @@ namespace FL.Web.API.Core.User.Interactions.IoC
         public static void AddInjection(IServiceCollection services)
         {
             services.AddSingleton<IVoteMapper, VoteMapper>();
+            services.AddSingleton<IFollowMapper, FollowMapper>();
             services.AddSingleton<ICommentMapper, CommentMapper>();
 
             services.AddSingleton<IVoteConfiguration, VoteConfiguration>();
@@ -36,6 +37,7 @@ namespace FL.Web.API.Core.User.Interactions.IoC
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddSingleton<IVotePostRepository, VotePostRepository>();
             services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();
+            services.AddSingleton<IFollowRepository, FollowRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
 
             //loggin
