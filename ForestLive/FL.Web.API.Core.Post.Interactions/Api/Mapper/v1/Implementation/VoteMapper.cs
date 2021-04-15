@@ -70,7 +70,8 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation
                 {
                     UserId = source.UserId,
                     PostId = source.PostId,
-                    CommentId = source.CommentId
+                    CommentId = source.CommentId,
+                    Id = source.Id
                 };
             }
             return result;
