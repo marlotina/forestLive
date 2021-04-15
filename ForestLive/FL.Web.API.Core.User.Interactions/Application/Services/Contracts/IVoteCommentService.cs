@@ -10,6 +10,6 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Contracts
     {
         Task<List<VoteInfoDto>> GetVoteUserByComment(List<Guid> listComment, string userId);
 
-        Task<List<VotePost>> GetCommentVotesByUserId(string userId);
+        Task<List<VoteCommentPost>> GetCommentVotesByUserId(string userId);
     }
 }

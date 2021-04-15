@@ -38,5 +38,24 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation
             }
             return result;
         }
+
+        public VoteCommentResponse Convert(VoteCommentPost source)
+        {
+            var result = default(VoteCommentResponse);
+            if (source != null)
+            {
+                result = new VoteCommentResponse()
+                {
+                    Text = source.Text,
+                    UserId = source.UserId,
+                    PostId = source.PostId,
+                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
+                    Id = source.Id,
+                    AuthorPostId = source.AuthorPostId,
+                    CommentId = source.CommentId
+                };
+            }
+            return result;
+        }
     }
 }

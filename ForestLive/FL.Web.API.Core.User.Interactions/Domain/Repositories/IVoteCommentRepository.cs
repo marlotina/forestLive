@@ -10,6 +10,6 @@ namespace FL.Web.API.Core.User.Interactions.Domain.Repositories
     {
         Task<List<VoteInfoDto>> GetVoteCommentsAsync(List<Guid> listComment, string userId);
 
-        Task<List<VotePost>> GetVotesByUserId(string userId);
+        Task<List<VoteCommentPost>> GetVotesByUserId(string userId);
     }
 }

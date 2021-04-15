@@ -18,7 +18,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
             this.voteCommentRepository = voteCommentRepository;
         }
 
-        public async Task<List<VotePost>> GetCommentVotesByUserId(string userId)
+        public async Task<List<VoteCommentPost>> GetCommentVotesByUserId(string userId)
         {
             return await this.voteCommentRepository.GetVotesByUserId(userId);
         }

@@ -60,16 +60,16 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             return votes;
         }
 
-        public async Task<List<VotePost>> GetVotesByUserId(string userId)
+        public async Task<List<VoteCommentPost>> GetVotesByUserId(string userId)
         {
-            var votes = new List<VotePost>();
+            var votes = new List<VoteCommentPost>();
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.type='votePost' AND p.userId = @UserId";
+                var queryString = $"SELECT * FROM p WHERE p.type='voteComment' AND p.userId = @UserId";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@UserId", userId);
-                var query = this.commentVoteContainer.GetItemQueryIterator<VotePost>(queryDef);
+                var query = this.commentVoteContainer.GetItemQueryIterator<VoteCommentPost>(queryDef);
 
                 while (query.HasMoreResults)
                 {
