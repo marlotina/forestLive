@@ -44,24 +44,5 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
 
             return this.NoContent();
         }
-
-        [HttpGet, Route("GetPost", Name = "GetPost")]
-        public async Task<IActionResult> GetPost(Guid postId)
-        {
-            var result = await this.iBirdPendingService.GetPost(postId);
-
-            if (result != null)
-            {
-                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-
-                var postList = new Guid[] { postId };
-                var postVotes = await this.iBirdPendingService.GetVoteByUserId(postList, webUserId);
-
-                var response = this.iBirdPendingPostMapper.Convert(result, postVotes);
-                return this.Ok(response);
-            }
-
-            return this.NoContent();
-        }
     }
 }
