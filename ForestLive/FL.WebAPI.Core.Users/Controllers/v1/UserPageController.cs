@@ -101,5 +101,30 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
 
             return NotFound();
         }
+
+        [HttpGet, Route("AutocompleteByUserName", Name = "AutocompleteByUserName")]
+        [AllowAnonymous]
+        public async Task<IActionResult> AutocompleteByUserName(string keys)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(keys))
+                    return this.BadRequest();
+
+                var result = await this.usersService.AutocompleteByUserName(keys);
+
+                if (result != null)
+                {
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+
+            return NotFound();
+        }
     }
 }

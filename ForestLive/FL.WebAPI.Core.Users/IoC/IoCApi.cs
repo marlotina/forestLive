@@ -22,6 +22,8 @@ using FL.Infrastructure.Standard.Configuration.Contracts;
 using FL.Infrastructure.Standard.Configuration.Implementations;
 using FL.Infrastructure.Standard.Contracts;
 using FL.Infrastructure.Standard.Implementations;
+using FL.Cache.Standard.Contracts;
+using FL.Cache.Standard.Implementations;
 
 namespace FL.WebAPI.Core.Users.IoC
 {
@@ -48,6 +50,7 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
 
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
+            services.AddSingleton(typeof(ICustomMemoryCache<>), typeof(CustomMemoryCache<>));
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

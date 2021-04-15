@@ -15,8 +15,8 @@ namespace FL.Cache.Standard.Implementations
 
         public void Add(object key, T items)
         {
-            var entryOptions = new MemoryCacheEntryOptions().SetPriority(CacheItemPriority.NeverRemove);
-            this.cache.Set(key, items, entryOptions);
+            //var entryOptions = new MemoryCacheEntryOptions().;
+            this.cache.Set(key, items, TimeSpan.FromMinutes(5));
         }
 
         public T Get(object key)
