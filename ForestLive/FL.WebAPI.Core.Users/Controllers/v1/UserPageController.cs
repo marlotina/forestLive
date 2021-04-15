@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
 using FL.WebAPI.Core.Users.Api.Mappers.v1.Contracts;
 using FL.LogTrace.Contracts.Standard;
+using Microsoft.AspNetCore.Authorization;
+using System.Linq;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -48,6 +50,56 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 this.logger.LogError( ex);
                 return this.Problem();
             }
+        }
+
+        [HttpGet, Route("GetUsers", Name = "GetUsers")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUsers()
+        {
+            try
+            {
+
+                var result = await this.usersService.GetUsersAsync();
+
+                if (result != null)
+                {
+                    var response = result.Select(x => this.userPageMapper.ConvertList(x));
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet, Route("UserGetByUserName", Name = "UserGetByUserName")]
+        [AllowAnonymous]
+        public async Task<IActionResult> UserGetByUserName(string userName)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(userName))
+                    return this.BadRequest();
+
+                var result = await this.usersService.GetByUserNameAsync(userName);
+
+                if (result != null)
+                {
+                    var response = this.userPageMapper.ConvertList(result);
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+
+            return NotFound();
         }
     }
 }

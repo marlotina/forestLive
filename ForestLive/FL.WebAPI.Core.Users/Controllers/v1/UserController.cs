@@ -17,16 +17,16 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
     public class UserController : ControllerBase
     {
         private readonly ILogger<UserController> logger;
-        private readonly IUserService usersService;
+        private readonly IUserManagedService usersManagedService;
         private readonly IUserMapper userMapper;
 
         public UserController(
-            IUserService usersService,
+            IUserManagedService usersManagedService,
             IUserMapper userMapper,
             ILogger<UserController> logger)
         {
             this.logger = logger;
-            this.usersService = usersService;            
+            this.usersManagedService = usersManagedService;            
             this.userMapper = userMapper;
         }
 
@@ -38,62 +38,11 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (id == null || id == Guid.Empty)
                     return this.BadRequest();
 
-                var result = await this.usersService.GetByIdAsync(id);
+                var result = await this.usersManagedService.GetByIdAsync(id);
 
                 if (result != null)
                 {
                     var response = this.userMapper.Convert(result);
-                    return Ok(response);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex);
-                return this.Problem();
-            }
-
-            return NotFound();
-        }
-
-        [HttpGet, Route("UserGetByUserName", Name = "UserGetByUserName")]
-        [AllowAnonymous]
-        public async Task<IActionResult> UserGetByUserName(string userName)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(userName))
-                    return this.BadRequest();
-
-                var result = await this.usersService.GetByUserNameAsync(userName);
-
-                if (result != null)
-                {
-                    var response = this.userMapper.ConvertUserInfo(result);
-                    return Ok(response);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex);
-                return this.Problem();
-            }
-
-            return NotFound();
-        }
-
-        [HttpGet, Route("UserFindByEmail", Name = "UserFindByEmail")]
-        public async Task<IActionResult> Find(string email)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(email))
-                    return this.BadRequest();
-
-                var result = await this.usersService.FindByEmailAsync(email);
-
-                if (result != null && result.Any())
-                {
-                    var response = result.Select(x => this.userMapper.Convert(x)).ToList();
                     return Ok(response);
                 }
             }
@@ -112,7 +61,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             try
             {
                 var user = this.userMapper.Convert(request);
-                if (await this.usersService.UpdateAsync(user))
+                if (await this.usersManagedService.UpdateAsync(user))
                     return Ok();
                 else
                     return this.NotFound(); ;
@@ -134,7 +83,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
-                if (await this.usersService.DeleteAsync(userId))
+                if (await this.usersManagedService.DeleteAsync(userId))
                     return NoContent();
 
                 return this.NotFound();

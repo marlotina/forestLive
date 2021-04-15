@@ -37,10 +37,12 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
 
             services.AddTransient<IUserService, UserService>();
+            services.AddTransient<IUserManagedService, UserManagedService>();
             services.AddTransient<IUserImageService, UserImageService>();
             services.AddTransient<IAccountService, AccountService>();
 
             services.AddTransient<IUserRepository, UserRepository>();
+            services.AddTransient<IUserManagedRepository, UserManagedRepository>();
             services.AddTransient<IUserImageRepository, UserImageRepository>();
 
             services.AddSingleton<IDataBaseFactory, DataBaseFactory>();

@@ -11,16 +11,16 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
     {
         private readonly IUserImageRepository uploadImageRepository;
         private readonly ILogger<UserImageService> logger;
-        private readonly IUserService userService;
+        private readonly IUserManagedService userManagedService;
 
         public UserImageService(
             IUserImageRepository uploadImageRepository,
-            IUserService userService,
+            IUserManagedService userManagedService,
             ILogger<UserImageService> logger)
         {
             this.logger = logger;
             this.uploadImageRepository = uploadImageRepository;
-            this.userService = userService;
+            this.userManagedService = userManagedService;
         }
 
         public async Task<bool> DeleteImageAsync(Guid userId)
@@ -59,7 +59,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         {
             try
             {
-                if (await this.userService.UpdatePhotoAsync(userId, photo))
+                if (await this.userManagedService.UpdatePhotoAsync(userId, photo))
                 {
                     return true;
                 }
@@ -76,7 +76,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         {
             try
             {
-                var user = await this.userService.GetByIdAsync(userId);
+                var user = await this.userManagedService.GetByIdAsync(userId);
 
                 if (user != null && !string.IsNullOrEmpty(user.Photo))
                 {
