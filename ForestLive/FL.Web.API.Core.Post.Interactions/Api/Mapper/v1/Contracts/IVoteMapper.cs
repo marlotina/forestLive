@@ -7,8 +7,11 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Contracts
 {
     public interface IVoteMapper
     {
-        VotePostDto Convert(VoteRequest source);
+        VoteCommentPostDto Convert(VoteCommentRequest source);
 
+        VoteCommentPostDto Convert(VoteCommentPost source);
+
+        VotePostDto Convert(VoteRequest source);
 
         VoteResponse Convert(VotePost source);
 

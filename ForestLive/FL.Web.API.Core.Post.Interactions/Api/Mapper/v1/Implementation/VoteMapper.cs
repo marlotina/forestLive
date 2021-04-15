@@ -8,6 +8,23 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation
 {
     public class VoteMapper : IVoteMapper
     {
+        public VoteCommentPostDto Convert(VoteCommentRequest source)
+        {
+            var result = default(VoteCommentPostDto);
+            if (source != null)
+            {
+                result = new VoteCommentPostDto()
+                {
+                    Text = source.Text,
+                    UserId = source.UserId,
+                    PostId = source.PostId,
+                    AuthorPostId = source.AuthorPostId,
+                    CommentId = source.CommentId
+                };
+            }
+            return result;
+        }
+
         public VotePostDto Convert(VoteRequest source)
         {
             var result = default(VotePostDto);
@@ -39,6 +56,21 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation
                     Id = source.Id,
                     AuthorPostId = source.AuthorPostId,
                     SpecieId = source.SpecieId
+                };
+            }
+            return result;
+        }
+
+        public VoteCommentPostDto Convert(VoteCommentPost source)
+        {
+            var result = default(VoteCommentPostDto);
+            if (source != null)
+            {
+                result = new VoteCommentPostDto()
+                {
+                    UserId = source.UserId,
+                    PostId = source.PostId,
+                    CommentId = source.CommentId
                 };
             }
             return result;

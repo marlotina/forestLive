@@ -8,5 +8,7 @@
 
         public string CosmosVoteContainer { get; set; }
 
+        public string CosmosCommentVoteContainer { get; set; }
+
     }
 }

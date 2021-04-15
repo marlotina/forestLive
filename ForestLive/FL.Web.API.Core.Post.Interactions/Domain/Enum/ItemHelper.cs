@@ -10,6 +10,8 @@
 
         public const string VOTE_POST_TYPE = "votePost";
 
+        public const string VOTE_COMMENT_TYPE = "voteComment";
+
         public const string LABEL_TYPE = "label";
     }
 }

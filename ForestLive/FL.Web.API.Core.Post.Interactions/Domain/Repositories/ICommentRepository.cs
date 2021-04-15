@@ -14,5 +14,9 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Repositories
         Task<List<BirdComment>> GetCommentsByPostIdAsync(Guid postId);
 
         Task<BirdComment> GetCommentAsync(Guid commentId, Guid postId);
+
+        Task IncreaseVoteCommentCountAsync(Guid commentId, Guid postId);
+
+        Task DecreaseVoteCommentCountAsync(Guid commentId, Guid postId);
     }
 }

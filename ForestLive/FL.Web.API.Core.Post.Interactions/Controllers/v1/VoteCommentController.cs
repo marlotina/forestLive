@@ -4,6 +4,7 @@ using FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Api.Models.v1.Request;
 using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
+using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -18,21 +19,22 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
     {
         private readonly IVoteMapper voteMapper;
         private readonly ILogger<VoteCommentController> logger;
-        private readonly IVotePostService votePostService;
+        private readonly IVoteCommentService iVoteCommentService;
 
         public VoteCommentController(
             IVoteMapper voteMapper,
             IVotePostService votePostService,
+            IVoteCommentService iVoteCommentService,
             ILogger<VoteCommentController> logger)
         {
             this.logger = logger;
             this.voteMapper = voteMapper;
-            this.votePostService = votePostService ?? throw new ArgumentNullException(nameof(votePostService));
+            this.iVoteCommentService = iVoteCommentService ?? throw new ArgumentNullException(nameof(iVoteCommentService));
         }
 
         [HttpPost]
         [Route("AddVoteComment", Name = "AddVoteComment")]
-        public async Task<IActionResult> AddVoteComment([FromBody] VoteRequest request)
+        public async Task<IActionResult> AddVoteComment([FromBody] VoteCommentRequest request)
         {
             try
             {
@@ -44,8 +46,8 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
                     return this.BadRequest();
 
                 var votePost = this.voteMapper.Convert(request);
-
-                var result = await this.votePostService.AddVotePost(votePost);
+                
+                var result = await this.iVoteCommentService.AddVoteCommentPost(votePost);
 
                 if (result != null)
                 {
@@ -64,21 +66,21 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteVoteComment", Name = "DeleteVoteComment")]
-        public async Task<IActionResult> DeleteVoteComment(Guid voteId, Guid postId)
+        public async Task<IActionResult> DeleteVoteComment(string voteCommentId, Guid postId)
         {
             try
             {
-                if (voteId == null || voteId == Guid.Empty || postId == null || postId == Guid.Empty)
+                if (string.IsNullOrWhiteSpace(voteCommentId) || postId == null || postId == Guid.Empty)
                 {
                     return this.BadRequest();
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                //var result = await this.votePostService.DeleteVotePost(voteId, postId, userId);
+                var result = await this.iVoteCommentService.DeleteVoteComment(voteCommentId, postId, userId);
 
-                //if (result)
-                //    return this.Ok(result);
-                //else
+                if (result)
+                    return this.Ok(result);
+                else
                     return this.BadRequest();
 
             }

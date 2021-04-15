@@ -91,5 +91,32 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
 
             return true;
         }
+
+        public async Task IncreaseVoteCommentCountAsync(Guid commentId, Guid postId)
+        {
+            try
+            {
+                var obj = new dynamic[] { commentId.ToString() };
+                await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(postId.ToString()), obj);
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+        }
+
+        public async Task DecreaseVoteCommentCountAsync(Guid commentId, Guid postId)
+        {
+            try
+            {
+                var obj = new dynamic[] { commentId.ToString() };
+                await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(postId.ToString()), obj);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
     }
 }

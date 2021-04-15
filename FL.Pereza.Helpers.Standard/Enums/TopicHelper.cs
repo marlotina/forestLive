@@ -18,6 +18,10 @@
 
         public const string LABEL_VOTE_DELETED = "voteDeleted";
 
+        public const string LABEL_VOTE_COMMENT_CREATED = "commentVoteCreated";
+
+        public const string LABEL_VOTE_COMMENT_DELETED = "commentVoteDeleted";
+
         public const string LABEL_USER_LABEL_CREATED = "labelCreated";
     }
 }
