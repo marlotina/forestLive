@@ -27,31 +27,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             this.userPageMapper = userPageMapper;
         }
 
-        [HttpGet, Route("UserByUsername", Name = "UserByUsername")]
-        public async Task<IActionResult> GetByUserName(string username)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(username))
-                    return this.BadRequest();
-
-                var result = await this.usersService.GetByUserNameAsync(username);
-
-                if (result != null)
-                {
-                    var response = this.userPageMapper.Convert(result);
-                    return Ok(response);
-                }
-
-                return NotFound();
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError( ex);
-                return this.Problem();
-            }
-        }
-
         [HttpGet, Route("GetUsers", Name = "GetUsers")]
         [AllowAnonymous]
         public async Task<IActionResult> GetUsers()
@@ -115,6 +90,32 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
 
                 if (result != null)
                 {
+                    return Ok(result);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+
+            return NotFound();
+        }
+
+        [HttpGet, Route("GetUsersByKey", Name = "GetUsersByKey")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUsersByKey(string keys)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(keys))
+                    return this.BadRequest();
+
+                var result = await this.usersService.GetUsersByKey(keys);
+
+                if (result != null)
+                {
+                    var response = result.Select(x => this.userPageMapper.Convert(x));
                     return Ok(result);
                 }
             }

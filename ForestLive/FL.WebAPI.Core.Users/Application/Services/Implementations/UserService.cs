@@ -52,6 +52,22 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             return null;
         }
 
+        public async Task<IEnumerable<User>> GetUsersByKey(string keys)
+        {
+            var itemsCache = this.customMemoryCache.Get("users");
+
+            if (itemsCache == null || !itemsCache.Any())
+            {
+                itemsCache = await this.iUserRepository.GetUsersAsync();
+
+                this.customMemoryCache.Add("users", itemsCache);
+            }
+            var request = keys.ToUpper().NormalizeName();
+            var filter = itemsCache.Where(x => x.NormalizedUserName.Contains(request));
+
+            return filter;
+        }
+
         public async Task<User> GetByUserNameAsync(string userName)
         {
             var response = new User();
