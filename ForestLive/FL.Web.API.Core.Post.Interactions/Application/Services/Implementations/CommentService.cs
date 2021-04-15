@@ -102,7 +102,8 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
                     ParentId = source.ParentId,
                     SpecieId = source.SpecieId,
                     AuthorPostId = source.AuthorPostId,
-                    CreationDate = source.CreationDate
+                    CreationDate = source.CreationDate,
+                    VoteCount = 0
                 };
             }
             return result;

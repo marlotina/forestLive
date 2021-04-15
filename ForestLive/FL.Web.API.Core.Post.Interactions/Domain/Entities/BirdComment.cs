@@ -20,6 +20,9 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Entities
         [JsonProperty(PropertyName = "creationDate")]
         public DateTime CreationDate { get; set; }
 
+        [JsonProperty(PropertyName = "voteCount")]
+        public int VoteCount { get; set; }
+
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 

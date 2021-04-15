@@ -43,7 +43,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             await this.iCommentRepository.IncreaseVoteCommentCountAsync(votePost.CommentId, vote.PostId);
             await this.iServiceBusVoteCommentTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_COMMENT_CREATED);
 
-            return null;
+            return result;
         }
 
 

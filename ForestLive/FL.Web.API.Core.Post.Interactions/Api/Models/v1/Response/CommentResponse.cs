@@ -15,6 +15,8 @@ namespace FL.Web.API.Core.Post.Interactions.Models.v1.Response
 
         public Guid? ParentId { get; set; }
 
+        public int VoteCount { get; set; }
+
         public List<CommentResponse> Replies { get; set; }
         public string UserImage { get; set; }
     }

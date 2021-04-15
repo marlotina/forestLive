@@ -42,6 +42,7 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
                     Text = source.Text,
                     UserId = source.UserId,
                     ParentId = source.ParentId,
+                    VoteCount = source.VoteCount,
                     CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
                     Replies = new List<CommentResponse>()
