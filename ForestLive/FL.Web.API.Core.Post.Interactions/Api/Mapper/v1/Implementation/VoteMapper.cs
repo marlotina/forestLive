@@ -76,12 +76,12 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation
             return result;
         }
 
-        public VotePostResponse ConvertUserVote(VotePost source)
+        public Models.v1.Response.VotePostResponse ConvertUserVote(VotePost source)
         {
-            var result = default(VotePostResponse);
+            var result = default(Models.v1.Response.VotePostResponse);
             if (source != null)
             {
-                result = new VotePostResponse()
+                result = new Models.v1.Response.VotePostResponse()
                 {
                     VoteId = source.Id,
                     PostId = source.PostId,

@@ -41,6 +41,8 @@ namespace FL.Web.Api.Core.Post.Interactions.IoC
             services.AddSingleton<IVotePostRepository, VotePostRepository>();
             services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
+            services.AddSingleton<IUserVotesRestRepository, UserVotesRestRepository>();
+            
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

@@ -30,10 +30,12 @@ namespace FL.Web.API.Core.User.Interactions.IoC
 
             
             services.AddTransient<IVotePostService, VotePostService>();
+            services.AddTransient<IVoteCommentService, VoteCommentService>(); 
             services.AddTransient<ICommentService, CommentService>();
 
             services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddSingleton<IVotePostRepository, VotePostRepository>();
+            services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
 
             //loggin

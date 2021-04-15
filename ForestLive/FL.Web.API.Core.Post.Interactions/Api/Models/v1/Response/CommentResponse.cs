@@ -17,7 +17,12 @@ namespace FL.Web.API.Core.Post.Interactions.Models.v1.Response
 
         public int VoteCount { get; set; }
 
+        public bool HasVote { get; set; }
+
+        public string VoteId { get; set; }
+
         public List<CommentResponse> Replies { get; set; }
+
         public string UserImage { get; set; }
     }
 }

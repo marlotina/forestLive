@@ -31,11 +31,12 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
             return result;
         }        
 
-        public CommentResponse Convert(BirdComment source)
+        public CommentResponse Convert(BirdComment source, IEnumerable<VotePostResponse> postVotes = null)
         {
             var result = default(CommentResponse);
             if (source != null)
             {
+                var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.CommentId == source.Id) : null;
                 result = new CommentResponse()
                 {
                     Id = source.Id,
@@ -43,19 +44,26 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
                     UserId = source.UserId,
                     ParentId = source.ParentId,
                     VoteCount = source.VoteCount,
+                    HasVote = false,
                     CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
                     UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
                     Replies = new List<CommentResponse>()
                 };
+
+                if (vote != null)
+                {
+                    result.HasVote = true;
+                    result.VoteId = vote.Id;
+                }
             }
             return result;
         }
 
-        public IEnumerable<CommentResponse> Convert(IEnumerable<BirdComment> source)
+        public IEnumerable<CommentResponse> ConvertList(IEnumerable<BirdComment> source, IEnumerable<VotePostResponse> postVotes = null)
         {
             var response = new List<CommentResponse>();
             
-            var comentList = source.Select(x => this.Convert(x));
+            var comentList = source.Select(x => this.Convert(x, postVotes));
             var childComments = comentList.Where(x => x.ParentId != null);
 
             foreach (var comment in comentList.Where(x => x.ParentId == null))

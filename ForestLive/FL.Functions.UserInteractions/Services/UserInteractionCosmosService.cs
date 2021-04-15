@@ -11,11 +11,13 @@ namespace FL.Functions.UserPost.Services
     {
         private Container usersCommentContainer;
         private Container usersVoteContainer;
+        private Container usersCommentVoteContainer;
 
         public UserInteractionCosmosService(CosmosClient dbClient, string databaseName)
         {
             this.usersCommentContainer = dbClient.GetContainer(databaseName, "usercomment");
             this.usersVoteContainer = dbClient.GetContainer(databaseName, "uservote");
+            this.usersCommentVoteContainer = dbClient.GetContainer(databaseName, "usercommentvote");
         }
 
         public async Task AddCommentPostAsync(CommentDto comment)
@@ -23,6 +25,17 @@ namespace FL.Functions.UserPost.Services
             try
             {
                 await this.usersCommentContainer.CreateItemAsync<CommentDto>(comment, new PartitionKey(comment.UserId));
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public async Task AddCommentVotePostAsync(VoteCommentPostDto vote)
+        {
+            try
+            {
+                await this.usersCommentVoteContainer.CreateItemAsync<VoteCommentPostDto>(vote, new PartitionKey(vote.UserId));
             }
             catch (Exception ex)
             {
@@ -47,6 +60,17 @@ namespace FL.Functions.UserPost.Services
             try
             {
                 await this.usersCommentContainer.DeleteItemAsync<CommentDto>(comment.Id.ToString(), new PartitionKey(comment.UserId));
+            }
+            catch (Exception ex)
+            {
+            }
+        }
+
+        public async Task DeleteCommentVotePostAsync(VoteCommentPostDto vote)
+        {
+            try
+            {
+                await this.usersCommentVoteContainer.DeleteItemAsync<VoteCommentPostDto>(vote.Id.ToString(), new PartitionKey(vote.UserId));
             }
             catch (Exception ex)
             {

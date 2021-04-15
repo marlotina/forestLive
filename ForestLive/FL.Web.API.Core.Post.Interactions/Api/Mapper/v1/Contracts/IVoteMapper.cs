@@ -15,6 +15,6 @@ namespace FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Contracts
 
         VoteResponse Convert(VotePost source);
 
-        VotePostResponse ConvertUserVote(VotePost source);
+        Models.v1.Response.VotePostResponse ConvertUserVote(VotePost source);
     }
 }

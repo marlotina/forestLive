@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Web.API.Core.Post.Interactions.Domain.Dto
+namespace FL.Functions.UserInteractions.Dto
 {
     public class VoteCommentPostDto
     {

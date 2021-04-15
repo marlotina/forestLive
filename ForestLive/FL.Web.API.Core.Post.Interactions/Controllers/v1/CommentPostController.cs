@@ -2,6 +2,7 @@
 using FL.Pereza.Helpers.Standard.JwtToken;
 using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
+using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
 using FL.Web.API.Core.Post.Interactions.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Models.v1.Request;
 using Microsoft.AspNetCore.Authorization;
@@ -20,11 +21,16 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
         private readonly ILogger<CommentPostController> logger;
         private readonly ICommentMapper commentMapper;
         private readonly ICommentService commentService;
+        private readonly IUserVotesRestRepository iUserVotesRestRepository;
 
-        public CommentPostController(ICommentMapper commentMapper,
+
+        public CommentPostController(
+            ICommentMapper commentMapper,
+            IUserVotesRestRepository iUserVotesRestRepository,
             ICommentService commentService,
             ILogger<CommentPostController> logger)
         {
+            this.iUserVotesRestRepository = iUserVotesRestRepository;
             this.commentService = commentService;
             this.commentMapper = commentMapper;
             this.logger = logger;
@@ -71,7 +77,13 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
 
                 if (result != null)
                 {
-                    var response = this.commentMapper.Convert(result);
+
+                    var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                    var listComments = result.Where(x => x.VoteCount > 0).Select(x => x.Id);
+                    var votes = await this.iUserVotesRestRepository.GetUserVoteByComments(listComments, userId);
+
+                    var response = this.commentMapper.ConvertList(result, votes);
                     return this.Ok(response);
                 }
                 else
