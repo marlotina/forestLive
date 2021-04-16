@@ -13,11 +13,11 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.ServiceBus.Implementations
     {
         private readonly TopicClient topicClient;
         private readonly IBirdsConfiguration iBirdsConfiguration;
-        private readonly ILogger<ServiceBusPostTopicSender<T>> logger;
+        private readonly ILogger<ServiceBusLabelTopicSender<T>> logger;
 
         public ServiceBusLabelTopicSender(
             IBirdsConfiguration iBirdsConfiguration,
-            ILogger<ServiceBusPostTopicSender<T>> logger)
+            ILogger<ServiceBusLabelTopicSender<T>> logger)
         {
             this.iBirdsConfiguration = iBirdsConfiguration;
             this.logger = logger;

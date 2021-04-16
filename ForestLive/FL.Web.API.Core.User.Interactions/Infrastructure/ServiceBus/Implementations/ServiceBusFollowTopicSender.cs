@@ -1,29 +1,29 @@
 ﻿using FL.LogTrace.Contracts.Standard;
-using FL.WebAPI.Core.Birds.Configuration.Contracts;
-using FL.WebAPI.Core.Birds.Infrastructure.ServiceBus.Contracts;
+using FL.Web.API.Core.User.Interactions.Configuration.Contracts;
+using FL.Web.API.Core.User.Interactions.Infrastructure.ServiceBus.Contracts;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FL.WebAPI.Core.Birds.Infrastructure.ServiceBus.Implementations
+namespace FL.Web.API.Core.User.Interactions.Infrastructure.ServiceBus.Implementations
 {
-    public class ServiceBusAssignSpecieTopicSender<T> : IServiceBusAssignSpecieTopicSender<T> where T : class
+    public class ServiceBusFollowTopicSender<T> : IServiceBusFollowTopicSender<T> where T : class
     {
         private readonly TopicClient topicClient;
-        private readonly IBirdsConfiguration iBirdsConfiguration;
-        private readonly ILogger<ServiceBusAssignSpecieTopicSender<T>> logger;
+        private readonly IVoteConfiguration iBirdsConfiguration;
+        private readonly ILogger<ServiceBusFollowTopicSender<T>> logger;
 
-        public ServiceBusAssignSpecieTopicSender(
-            IBirdsConfiguration iBirdsConfiguration,
-            ILogger<ServiceBusAssignSpecieTopicSender<T>> logger)
+        public ServiceBusFollowTopicSender(
+            IVoteConfiguration iBirdsConfiguration,
+            ILogger<ServiceBusFollowTopicSender<T>> logger)
         {
             this.iBirdsConfiguration = iBirdsConfiguration;
             this.logger = logger;
             topicClient = new TopicClient(
                 this.iBirdsConfiguration.ServiceBusConfig.ConnectionString,
-                this.iBirdsConfiguration.ServiceBusConfig.TopicAssignSpecie
+                this.iBirdsConfiguration.ServiceBusConfig.TopicFollow
             );
         }
 

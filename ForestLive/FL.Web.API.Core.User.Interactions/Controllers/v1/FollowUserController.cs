@@ -28,6 +28,35 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
             this.iFollowService = iFollowService ?? throw new ArgumentNullException(nameof(iFollowService));
         }
 
+        [HttpGet]
+        [Route("FollowUser", Name = "FollowUser")]
+        public async Task<IActionResult> FollowUser(string userId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId))
+                    return null;
+
+
+                var follow = this.voteMapper.Convert(request);
+
+                var result = await this.iFollowService.AddFollow(follow);
+
+                if (result != null)
+                {
+                    var response = this.voteMapper.Convert(result);
+                    return this.Ok(response);
+                }
+                else
+                    return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
         [HttpPost]
         [Route("FollowUser", Name = "FollowUser")]
         public async Task<IActionResult> FollowUser([FromBody] FollowUserRequest request)

@@ -18,5 +18,7 @@ namespace FL.Web.API.Core.User.Interactions.Configuration.Implementations
         public string Host => this.configuration.GetSection("Host").Get<string>();
 
         public string Secret => this.configuration.GetSection("Secret").Get<string>();
+
+        public ServiceBusConfig ServiceBusConfig => this.configuration.GetSection("ServiceBusConfig").Get<ServiceBusConfig>();
     }
 }

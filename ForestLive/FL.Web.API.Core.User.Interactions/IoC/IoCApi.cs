@@ -12,6 +12,8 @@ using FL.Web.API.Core.User.Interactions.Configuration.Contracts;
 using FL.Web.API.Core.User.Interactions.Configuration.Implementations;
 using FL.Web.API.Core.User.Interactions.Domain.Repositories;
 using FL.Web.API.Core.User.Interactions.Infrastructure.Repositories;
+using FL.Web.API.Core.User.Interactions.Infrastructure.ServiceBus.Contracts;
+using FL.Web.API.Core.User.Interactions.Infrastructure.ServiceBus.Implementations;
 using FL.Web.API.Core.User.Interactions.Mapper.v1.Contracts;
 using FL.Web.API.Core.User.Interactions.Mapper.v1.Implementation;
 using Microsoft.Extensions.DependencyInjection;
@@ -39,6 +41,8 @@ namespace FL.Web.API.Core.User.Interactions.IoC
             services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();
             services.AddSingleton<IFollowRepository, FollowRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
+
+            services.AddTransient(typeof(IServiceBusFollowTopicSender<>), typeof(ServiceBusFollowTopicSender<>));
 
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

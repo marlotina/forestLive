@@ -9,5 +9,7 @@ namespace FL.Web.API.Core.User.Interactions.Configuration.Contracts
         string Host { get; }
 
         CosmosConfiguration CosmosConfiguration { get; }
+
+        ServiceBusConfig ServiceBusConfig { get; }
     }
 }

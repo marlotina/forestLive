@@ -9,5 +9,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Contracts
         Task<FollowUser> AddFollow(FollowUser followUser);
 
         Task<bool> DeleteFollow(DeleteFollowUserResquest followUser);
+
+        Task<FollowUser> GetFollow(string userId, string followUserId);
     }
 }

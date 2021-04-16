@@ -31,7 +31,14 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
 
         public async Task<FollowUser> AddFollow(FollowUser followUser)
         {
-            return await this.followContainer.CreateItemAsync<FollowUser>(followUser, new PartitionKey(followUser.UserId));
+            try
+            {
+                return await this.followContainer.CreateItemAsync<FollowUser>(followUser, new PartitionKey(followUser.UserId));
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
         }
 
         public async Task<bool> DeleteFollow(string userId, string id)
@@ -46,6 +53,20 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             }
             return false;
 
+        }
+
+        public async Task<FollowUser> GetFollow(string userId, string followUserId)
+        {
+            try
+            {
+                var response = await this.followContainer.ReadItemAsync<FollowUser>(followUserId, new PartitionKey(userId));
+                var ru = response.RequestCharge;
+                return response.Resource;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                return null;
+            }
         }
     }
 }

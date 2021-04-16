@@ -1,4 +1,5 @@
 ﻿using FL.Functions.UserPost.Dto;
+using FL.Functions.UserPost.Model;
 using System.Threading.Tasks;
 
 namespace FL.Functions.UserPost.Services
@@ -18,5 +19,9 @@ namespace FL.Functions.UserPost.Services
         Task AddCommentAsync(CommentBaseDto comment);
 
         Task DeleteCommentAsync(CommentBaseDto comment);
+
+        Task AddFollowAsync(FollowerUser comment);
+
+        Task DeleteFollowAsync(FollowerUser comment);
     }
 }
