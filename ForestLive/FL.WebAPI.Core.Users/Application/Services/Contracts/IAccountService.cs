@@ -16,6 +16,6 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
 
         Task<bool> Delete(string email, string password);
 
-        AuthResponse Authenticate(string username, string password);
+        Task<AuthResponse> Authenticate(string username, string password);
     }
 }

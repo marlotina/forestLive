@@ -10,5 +10,7 @@ namespace FL.WebAPI.Core.Users.Domain.Entities
         public bool AcceptedConditions { get; set; }
 
         public DateTime? AcceptedConditionsDate { get; set; }
+
+        public Guid LanguageId { get; set; }
     }
 }

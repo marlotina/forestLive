@@ -1,5 +1,6 @@
 ﻿using FL.WebAPI.Core.Users.Domain.Entities;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Repositories
@@ -8,10 +9,15 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
     {
         Task<UserInfo> CreateUserInfoAsync(UserInfo user);
 
-        Task<UserInfo> UpdateUserInfoAsync(UserInfo user);
+        Task<bool> UpdateUserInfoAsync(UserInfo user);
 
-        Task DeleteUserInfoAsync(string userId);
+        Task DeleteUserInfoAsync(Guid userId, string userNameId);
 
-        Task<UserInfo> GetUser(string userId);
+        Task<UserInfo> GetUser(Guid userId, string userNameId);
+
+
+        Task<UserInfo> GetUserByName(string userNameId);
+
+        Task<IEnumerable<UserInfo>> GetUsersAsync();
     }
 }

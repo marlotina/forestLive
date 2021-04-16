@@ -46,6 +46,16 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 throw new UserNotFoundException();
             }
             var identityResult = await this.userManager.ConfirmEmailAsync(user, code);
+
+            await this.iUserCosmosRepository.CreateUserInfoAsync(new Domain.Entities.UserInfo { 
+                Id = user.Id,
+                UserId = user.UserName.ToLower(),
+                RegistrationDate = user.RegistrationDate,
+                Type = "user",
+                Photo = "profile.png",
+                LanguageId = user.LanguageId
+            });
+
             if (!identityResult.Succeeded)
             {
                 throw new Exception("INVALID_CONFIRMATION");
@@ -117,9 +127,9 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             return token;
         }
 
-        public AuthResponse Authenticate(string username, string password)
+        public async Task<AuthResponse> Authenticate(string username, string password)
         {
-            var user = userManager.FindByEmailAsync(username).Result;
+            var user = await this.userManager.FindByEmailAsync(username);
 
             if (user == null)
                 return null;
@@ -127,7 +137,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             if (!user.EmailConfirmed)
                 throw new UserNotEmailConfirm();
 
-            var result = userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            var result = this.userManager.PasswordHasher.VerifyHashedPassword(user, user.PasswordHash, password);
 
             if (result == PasswordVerificationResult.Success)
             {
@@ -144,16 +154,15 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 };
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
+                var userImage = await this.iUserCosmosRepository.GetUser(user.Id, user.UserName);
 
                 return new AuthResponse
                 {
                     Id = user.Id,
-                    UserName = user.UserName,
+                    UserId = user.UserName,
                     Email = user.Email,
-                    FirstName = user.Name,
-                    LastName = user.Surname,
                     Token = tokenHandler.WriteToken(token),
-                    Photo = user.Photo
+                    Photo = userImage.Photo
                 };
             }
 

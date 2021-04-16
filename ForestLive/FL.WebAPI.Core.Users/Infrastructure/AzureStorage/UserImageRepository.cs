@@ -26,7 +26,6 @@ namespace FL.WebAPI.Core.Users.Infrastructure.AzureStorage
 
         public async Task DeleteFileToStorage(string fileName)
         {
-            
             await this.blobContainerRepository.DeleteFileToStorage(fileName, this.userConfiguration.ImageProfileContainer);
         }
     }

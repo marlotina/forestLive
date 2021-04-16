@@ -2,7 +2,9 @@
 using System.IO;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
+using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
+using FL.WebAPI.Core.Users.Domain.Entities;
 using FL.WebAPI.Core.Users.Domain.Repositories;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
@@ -12,86 +14,65 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         private readonly IUserImageRepository uploadImageRepository;
         private readonly ILogger<UserImageService> logger;
         private readonly IUserManagedService userManagedService;
+        private readonly IUserCosmosRepository iUserCosmosRepository;
 
         public UserImageService(
             IUserImageRepository uploadImageRepository,
             IUserManagedService userManagedService,
+            IUserCosmosRepository iUserCosmosRepository,
             ILogger<UserImageService> logger)
         {
             this.logger = logger;
+            this.iUserCosmosRepository = iUserCosmosRepository;
             this.uploadImageRepository = uploadImageRepository;
             this.userManagedService = userManagedService;
         }
 
-        public async Task<bool> DeleteImageAsync(Guid userId)
+        public async Task<bool> DeleteImageAsync(Guid userId, string webUserId)
         {
+
             try
             {
-                return await this.DeleteImageAsync(userId, string.Empty);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "UploadFileToStorage");
-            }
+                var user = await this.iUserCosmosRepository.GetUser(userId, webUserId);
 
-            return false;
-        }
-        
-        public async Task<bool> UploadImageAsync(Stream fileStream, string fileName, Guid userId)
-        {
-            try
-            {
-                if (await this.DeleteImageAsync(userId, fileName)) {
-
-                    await this.uploadImageRepository.UploadFileToStorage(fileStream, fileName);       
-                    return await this.UpdateImageAsync(userId, fileName);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "UploadFileToStorage");
-            }
-
-            return false;
-        }
-
-        private async Task<bool> UpdateImageAsync(Guid userId, string photo)
-        {
-            try
-            {
-                if (await this.userManagedService.UpdatePhotoAsync(userId, photo))
+                if (user != null && user.UserId == webUserId && user.Photo != "profile.png")
                 {
-                    return true;
+                    await this.uploadImageRepository.DeleteFileToStorage(user.Photo);
+                    user.Photo = "profile.png";
+                    return await this.userManagedService.UpdateAsync(user, webUserId);
                 }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "AddImageAsync");
-            }
-
-            return false;
-        }
-
-        private async Task<bool> DeleteImageAsync(Guid userId, string fileName)
-        {
-            try
-            {
-                var user = await this.userManagedService.GetByIdAsync(userId);
-
-                if (user != null && !string.IsNullOrEmpty(user.Photo))
-                {
-                    if (string.IsNullOrEmpty(fileName) || fileName != user.Photo)
-                    {
-                        await this.uploadImageRepository.DeleteFileToStorage(user.Photo);
-                        return await this.UpdateImageAsync(userId, string.Empty);
-                    }
-                }
-
-                return true;
+                //ojo no rights to update
             }
             catch (Exception ex)
             {
                 this.logger.LogError(ex, "DeleteImageAsync");
+            }
+
+            return false;
+        }
+
+        public async Task<bool> UploadImageAsync(Stream fileStream, string fileName, Guid userId, string webUserId)
+        {
+            try
+            {
+                var user = await this.iUserCosmosRepository.GetUser(userId, webUserId);
+
+                if (user != null && user.UserId == webUserId)
+                {
+                    if (user.Photo != "profile.png")
+                    {
+                        await this.uploadImageRepository.DeleteFileToStorage(user.Photo);
+                    }
+
+                    await this.uploadImageRepository.UploadFileToStorage(fileStream, fileName);
+
+                    user.Photo = fileName;
+                    return await this.userManagedService.UpdateAsync(user, webUserId);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex, "UploadFileToStorage");
             }
 
             return false;

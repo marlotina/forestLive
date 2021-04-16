@@ -33,7 +33,6 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
-
                 var result = await this.usersService.GetUsersAsync();
 
                 if (result != null)

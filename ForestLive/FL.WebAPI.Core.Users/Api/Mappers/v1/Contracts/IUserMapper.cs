@@ -6,7 +6,7 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Contracts
 {
     public interface IUserMapper
     {
-        User Convert(UserRequest source);
+        UserInfo Convert(UserRequest source);
 
         UserResponse Convert(UserInfo source);
 

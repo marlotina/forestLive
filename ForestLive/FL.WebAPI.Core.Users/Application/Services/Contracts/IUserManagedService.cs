@@ -1,16 +1,18 @@
-﻿using System;
+﻿using FL.WebAPI.Core.Users.Domain.Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Contracts
 {
     public interface IUserManagedService
     {
-        Task<Domain.Entities.User> GetByIdAsync(Guid userId);
+        Task<bool> UpdateAsync(UserInfo newUserData, string userIdRequest);
 
-        Task<bool> UpdateAsync(Domain.Entities.User user);
+        Task<bool> DeleteAsync(Guid userId, string userIdRequest);
 
-        Task<bool> DeleteAsync(Guid userId);
+        Task<UserInfo> GetUserAsync(string userId);
 
-        Task<bool> UpdatePhotoAsync(Guid userId, string photo);
+        Task<UserInfo> GetUserAsync(Guid userId, string userName);
+        
     }
 }

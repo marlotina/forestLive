@@ -7,16 +7,27 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
 {
     public class UserMapper : IUserMapper
     {
-        public Domain.Entities.User Convert(UserRequest source)
+        public UserInfo Convert(UserRequest source)
         {
-            var result = default(Domain.Entities.User);
+            var result = default(UserInfo);
             if (source != null)
             {
-                result = new Domain.Entities.User()
+                result = new UserInfo()
                 {
                     Id = source.Id,
-                    Email = source.Email,
-                    UserName = source.UserName,
+                    Name = source.Name,
+                    Surname = source.Surname,
+                    UrlWebSite = source.UrlWebSite,
+                    IsCompany = source.IsCompany,
+                    LanguageId = source.LanguageId,
+                    Description = source.Description,
+                    Photo = source.Photo,
+                    Location = source.Location,
+                    UserId = source.UserName,
+                    FacebookUrl = source.FacebookUrl,
+                    InstagramUrl = source.InstagramUrl,
+                    TwitterUrl = source.TwitterUrl,
+                    LinkedlinUrl = source.LinkedlinUrl
                 };
             }
             return result;

@@ -7,7 +7,7 @@ using System;
 
 namespace FL.WebAPI.Core.Users.Entity.Database
 {
-    public class UserDbContext : IdentityDbContext<Domain.Entities.User, IdentityRole<Guid>, Guid>
+    public class UserDbContext : IdentityDbContext<User, IdentityRole<Guid>, Guid>
     {
         public UserDbContext(DbContextOptions options)
             : base(options)

@@ -43,7 +43,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (!string.IsNullOrEmpty(token))
                 {
                     var userResponse = this.registerMapper.Convert(user);
-                    return this.CreatedAtRoute("UserGetById", new { id = userResponse.Id }, userResponse);
+                    return this.Ok();
                 }
                 else
                     return this.BadRequest();
@@ -91,11 +91,11 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
 
         [AllowAnonymous]
         [HttpPost("login")]
-        public IActionResult Login([FromBody]LoginRequest model)
+        public async Task<IActionResult> Login([FromBody]LoginRequest model)
         {
             try
             {
-                var user = this.accountService.Authenticate(model.Email, model.Password);
+                var user = await this.accountService.Authenticate(model.Email, model.Password);
 
                 if (user == null)
                     return BadRequest("EMAIL_PASS");

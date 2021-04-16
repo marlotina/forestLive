@@ -7,12 +7,12 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
 {
     public interface IUserService
     {
-        Task<User> GetByUserNameAsync(string userName);
+        Task<UserInfo> GetByUserNameAsync(string userName);
 
         Task<IEnumerable<AutocompleteResponse>> AutocompleteByUserName(string keys); 
 
-        Task<IEnumerable<User>> GetUsersAsync();
+        Task<IEnumerable<UserInfo>> GetUsersAsync();
 
-        Task<IEnumerable<User>> GetUsersByKey(string keys);
+        Task<IEnumerable<UserInfo>> GetUsersByKey(string keys);
     }
 }

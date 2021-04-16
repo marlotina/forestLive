@@ -6,8 +6,8 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
 {
     public interface IUserImageService
     {
-        Task<bool> DeleteImageAsync(Guid userId);
+        Task<bool> DeleteImageAsync (Guid userId, string webUserId);
 
-        Task<bool> UploadImageAsync(Stream fileStream, string fileName, Guid userId);
+        Task<bool> UploadImageAsync (Stream fileStream, string fileName, Guid userId, string webUserId);
     }
 }

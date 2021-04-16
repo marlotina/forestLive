@@ -9,22 +9,23 @@ using System.Collections.Generic;
 using FL.WebAPI.Core.Users.Domain.Dto;
 using FL.Pereza.Helpers.Standard.Extensions;
 using System.Linq;
+using FL.WebAPI.Core.Items.Domain.Repositories;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository iUserRepository;
-        private readonly ICustomMemoryCache<IEnumerable<User>> customMemoryCache;
+        private readonly IUserCosmosRepository iUserCosmosRepository;
+        private readonly ICustomMemoryCache<IEnumerable<UserInfo>> customMemoryCache;
         private readonly ILogger<UserService> logger;
 
         public UserService(
-            IUserRepository iUserRepository,
-            ICustomMemoryCache<IEnumerable<User>> customMemoryCache,
+            IUserCosmosRepository iUserCosmosRepository,
+            ICustomMemoryCache<IEnumerable<UserInfo>> customMemoryCache,
             ILogger<UserService> logger)
         {
             this.customMemoryCache = customMemoryCache;
-            this.iUserRepository = iUserRepository;
+            this.iUserCosmosRepository = iUserCosmosRepository;
             this.logger = logger;
         }
 
@@ -34,17 +35,17 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
             if (itemsCache == null || !itemsCache.Any())
             {
-                itemsCache = await this.iUserRepository.GetUsersAsync();
+                itemsCache = await this.iUserCosmosRepository.GetUsersAsync();
                 
                 this.customMemoryCache.Add("users", itemsCache);
             }
             var request = keys.ToUpper().NormalizeName();
-            var filter = itemsCache.Where(x => x.NormalizedUserName.Contains(request));
+            var filter = itemsCache.Where(x => x.UserId.ToLower().Contains(request));
 
             if (filter != null && filter.Any())
             {
                 return filter.Select(x => new AutocompleteResponse {
-                    UserName = x.UserName,
+                    UserName = x.UserId,
                     UserPhoto = x.Photo
                 });
             }
@@ -52,28 +53,28 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             return null;
         }
 
-        public async Task<IEnumerable<User>> GetUsersByKey(string keys)
+        public async Task<IEnumerable<UserInfo>> GetUsersByKey(string keys)
         {
             var itemsCache = this.customMemoryCache.Get("users");
 
             if (itemsCache == null || !itemsCache.Any())
             {
-                itemsCache = await this.iUserRepository.GetUsersAsync();
+                itemsCache = await this.iUserCosmosRepository.GetUsersAsync();
 
                 this.customMemoryCache.Add("users", itemsCache);
             }
             var request = keys.ToUpper().NormalizeName();
-            var filter = itemsCache.Where(x => x.NormalizedUserName.Contains(request));
+            var filter = itemsCache.Where(x => x.UserId.ToLower().Contains(request));
 
             return filter;
         }
 
-        public async Task<User> GetByUserNameAsync(string userName)
+        public async Task<UserInfo> GetByUserNameAsync(string userName)
         {
-            var response = new User();
+            var response = new UserInfo();
             try
             {
-                response = await this.iUserRepository.GetByUserNameAsync(userName);
+                response = await this.iUserCosmosRepository.GetUserByName(userName);
             }
             catch (Exception ex)
             {
@@ -83,11 +84,11 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             return response;
         }
 
-        public async  Task<IEnumerable<User>> GetUsersAsync()
+        public async  Task<IEnumerable<UserInfo>> GetUsersAsync()
         {
             try
             {
-                return await this.iUserRepository.GetUsersAsync();
+                return await this.iUserCosmosRepository.GetUsersAsync();
             }
             catch (Exception ex)
             {

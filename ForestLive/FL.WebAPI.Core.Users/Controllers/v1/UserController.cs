@@ -8,6 +8,7 @@ using FL.WebAPI.Core.Users.Application.Exceptions;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using FL.LogTrace.Contracts.Standard;
+using FL.Pereza.Helpers.Standard.JwtToken;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -30,38 +31,16 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             this.userMapper = userMapper;
         }
 
-        [HttpGet, Route("UserGetById", Name = "UserGetById")]
-        public async Task<IActionResult> Get(Guid id)
-        {
-            try
-            {
-                if (id == null || id == Guid.Empty)
-                    return this.BadRequest();
-
-                var result = await this.usersManagedService.GetByIdAsync(id);
-
-                if (result != null)
-                {
-                    var response = this.userMapper.Convert(result);
-                    return Ok(response);
-                }
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex);
-                return this.Problem();
-            }
-
-            return NotFound();
-        }
-
         [HttpPut]
         public async Task<IActionResult> Update(UserRequest request)
         {
             try
             {
                 var user = this.userMapper.Convert(request);
-                if (await this.usersManagedService.UpdateAsync(user))
+
+                var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                if (await this.usersManagedService.UpdateAsync(user, userId))
                     return Ok();
                 else
                     return this.NotFound(); ;
@@ -83,8 +62,36 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
-                if (await this.usersManagedService.DeleteAsync(userId))
+                var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                if (await this.usersManagedService.DeleteAsync(userId, userWebId))
                     return NoContent();
+
+                return this.NotFound();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+
+        [HttpGet]
+        [Route("GetUserProfile", Name = "GetUserProfile")]
+        public async Task<IActionResult> GetUserProfile([FromQuery] Guid userId)
+        {
+            try
+            {
+                var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                var result = await this.usersManagedService.GetUserAsync(userId, userWebId);
+
+                if (result != null)
+                {
+                    var response = this.userMapper.Convert(result);
+                    return Ok(response);
+                }
 
                 return this.NotFound();
             }

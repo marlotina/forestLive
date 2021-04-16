@@ -8,6 +8,7 @@ using System.IO;
 using FL.WebAPI.Core.Users.Api.Models.v1.Request;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Images;
+using FL.Pereza.Helpers.Standard.JwtToken;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -17,14 +18,14 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
     public class UserImageController : ControllerBase
     {
         private readonly ILogger<UserController> logger;
-        private readonly IUserImageService userImageService;
+        private readonly IUserImageService iUserImageService;
 
         public UserImageController(
-            IUserImageService userImageService,
+            IUserImageService iUserImageService,
             ILogger<UserController> logger)
         {
             this.logger = logger;
-            this.userImageService = userImageService;
+            this.iUserImageService = iUserImageService;
         }
 
 
@@ -50,7 +51,10 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 var contents = new StreamContent(new MemoryStream(bytes));
                 var imageStream = await contents.ReadAsStreamAsync();
 
-                var result = await this.userImageService.UploadImageAsync(imageStream, nameFile, request.UserId);
+
+                var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                var result = await this.iUserImageService.UploadImageAsync(imageStream, nameFile, request.UserId, userWebId);
                 if (result)
                 {
                     return this.Ok();
@@ -73,7 +77,9 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (userId == null || userId == Guid.Empty)
                     return this.BadRequest();
 
-                if (await this.userImageService.DeleteImageAsync(userId))
+                var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                if (await this.iUserImageService.DeleteImageAsync(userId, userWebId))
                     return NoContent();
                 else
                     return this.NotFound();
