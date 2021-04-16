@@ -24,6 +24,12 @@ using FL.Infrastructure.Standard.Contracts;
 using FL.Infrastructure.Standard.Implementations;
 using FL.Cache.Standard.Contracts;
 using FL.Cache.Standard.Implementations;
+using FL.WebAPI.Core.Items.Infrastructure.Repositories;
+using FL.WebAPI.Core.Items.Domain.Repositories;
+using FL.CosmosDb.Standard.Contracts;
+using FL.CosmosDb.Standard.Implementations;
+using FL.CosmosDb.Standard.Configuration.Contracts;
+using FL.CosmosDb.Standard.Configuration.Implementations;
 
 namespace FL.WebAPI.Core.Users.IoC
 {
@@ -37,6 +43,7 @@ namespace FL.WebAPI.Core.Users.IoC
 
             services.AddSingleton<IUserConfiguration, UserConfiguration>();
             services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
+            services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
 
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IUserManagedService, UserManagedService>();
@@ -46,12 +53,16 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddTransient<IUserRepository, UserRepository>();
             services.AddTransient<IUserManagedRepository, UserManagedRepository>();
             services.AddTransient<IUserImageRepository, UserImageRepository>();
+            services.AddTransient<IUserCosmosRepository, UserCosmosRepository>();
 
+            services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
 
             services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
             services.AddSingleton(typeof(ICustomMemoryCache<>), typeof(CustomMemoryCache<>));
 
+
+            
             //loggin
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
 

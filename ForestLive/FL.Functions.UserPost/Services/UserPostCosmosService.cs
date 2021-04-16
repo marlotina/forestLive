@@ -94,13 +94,12 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task AddFollowAsync(FollowerUser followUser)
+        public async Task AddFollowerAsync(FollowerUser follower)
         {
             try
             {
-                await this.usersFollowContainer.CreateItemAsync(followUser, new PartitionKey(followUser.UserId));
-                var obj = new dynamic[] { followUser.UserId };
-                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseCommentCount", new PartitionKey(followUser.UserId), obj);
+                var obj = new dynamic[] { follower.UserId };
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseFollowerCount", new PartitionKey(follower.UserId), obj);
             }
             catch (Exception ex)
             {
@@ -108,13 +107,12 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task DeleteFollowAsync(FollowerUser followUser)
+        public async Task DeleteFollowerAsync(FollowerUser follower)
         {
             try
             {
-                await this.usersContainer.DeleteItemAsync<Model.BirdPost>(followUser.Id.ToString(), new PartitionKey(followUser.UserId));
-                var obj = new dynamic[] { followUser.UserId };
-                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseCommentCount", new PartitionKey(followUser.UserId), obj);
+                var obj = new dynamic[] { follower.UserId };
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseFollowerCount", new PartitionKey(follower.UserId), obj);
             }
             catch (Exception ex)
             {

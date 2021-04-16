@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using FL.WebAPI.Core.Users.Domain.Entities;
 using FL.WebAPI.Core.Users.Application.Exceptions;
 using FL.LogTrace.Contracts.Standard;
+using FL.WebAPI.Core.Items.Domain.Repositories;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
@@ -12,11 +13,14 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
     {
         private readonly IUserManagedRepository iUserManagedRepository;
         private readonly ILogger<UserManagedService> logger;
+        private readonly IUserCosmosRepository iUserCosmosRepository;
 
         public UserManagedService(
             IUserManagedRepository iUserManagedRepository,
-        ILogger<UserManagedService> logger)
+            IUserCosmosRepository iUserCosmosRepository,
+            ILogger<UserManagedService> logger)
         {
+            this.iUserCosmosRepository = iUserCosmosRepository;
             this.iUserManagedRepository = iUserManagedRepository;
             this.logger = logger;
         }
@@ -124,6 +128,8 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                     user.LinkedlinUrl = newUserData.LinkedlinUrl;
 
                     result = await this.UpdateUser(user);
+
+                    //ojo  call update method in cosmos 
                 }
             }
             catch (Exception ex)

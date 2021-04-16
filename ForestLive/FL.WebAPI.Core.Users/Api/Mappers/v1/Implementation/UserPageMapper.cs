@@ -7,7 +7,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
 {
     public class UserPageMapper : IUserPageMapper
     {
-        public UserPageResponse Convert(User source)
+        public UserPageResponse Convert(UserInfo source)
         {
             var result = default(UserPageResponse);
             if (source != null)
@@ -22,7 +22,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
                     Description = source.Description,
                     Photo = source.Photo,
                     Location = source.Location,
-                    UserName = source.UserName,
+                    UserName = source.UserId,
                     FacebookUrl = source.FacebookUrl,
                     InstagramUrl = source.InstagramUrl,
                     TwitterUrl = source.TwitterUrl,
@@ -32,7 +32,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
             return result;
         }
 
-        public UserListSiteResponse ConvertList(User source)
+        public UserListSiteResponse ConvertList(UserInfo source)
         {
             var result = default(UserListSiteResponse);
             if (source != null)
@@ -46,7 +46,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
                     Description = source.Description,
                     Photo = source.Photo,
                     Location = source.Location,
-                    UserName = source.UserName,
+                    UserName = source.UserId,
                     FacebookUrl = source.FacebookUrl,
                     InstagramUrl = source.InstagramUrl,
                     TwitterUrl = source.TwitterUrl,

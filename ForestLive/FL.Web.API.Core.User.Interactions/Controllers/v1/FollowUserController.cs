@@ -30,7 +30,7 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
 
         [HttpGet]
         [Route("FollowUser", Name = "FollowUser")]
-        public async Task<IActionResult> FollowUser(string userId)
+        public async Task<IActionResult> FollowUser(string userId, string followerId)
         {
             try
             {
@@ -38,9 +38,7 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
                     return null;
 
 
-                var follow = this.voteMapper.Convert(request);
-
-                var result = await this.iFollowService.AddFollow(follow);
+                var result = await this.iFollowService.GetFollow(userId, followerId);
 
                 if (result != null)
                 {

@@ -1,4 +1,6 @@
-﻿namespace FL.WebAPI.Core.Users.Configuration.Contracts
+﻿using FL.WebAPI.Core.Users.Configuration.Dto;
+
+namespace FL.WebAPI.Core.Users.Configuration.Contracts
 {
     public interface IUserConfiguration
     {
@@ -21,5 +23,7 @@
         string ConnectionStringUsersSite { get; }
 
         string UrlForgotPasswordEmail { get; }
+
+        CosmosConfiguration CosmosConfiguration { get; }
     }
 }

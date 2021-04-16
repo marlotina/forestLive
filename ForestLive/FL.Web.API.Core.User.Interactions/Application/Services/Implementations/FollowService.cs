@@ -11,10 +11,10 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
     public class FollowService : IFollowService
     {
         private readonly IFollowRepository iFollowRepository;
-        private readonly IServiceBusFollowTopicSender<FollowerUser> iServiceBusFollowTopicSender;
+        private readonly IServiceBusFollowTopicSender<FollowUser> iServiceBusFollowTopicSender;
 
         public FollowService(
-            IServiceBusFollowTopicSender<FollowerUser> iServiceBusFollowTopicSender,
+            IServiceBusFollowTopicSender<FollowUser> iServiceBusFollowTopicSender,
             IFollowRepository iFollowRepository)
         {
             this.iFollowRepository = iFollowRepository;
@@ -30,14 +30,15 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
 
             if (result != null) {
 
-                var followerRequest = new FollowerUser() {
+                var followerRequest = new FollowUser() {
                     Id = followUser.Id,
                     CreationDate = followUser.CreationDate,
                     Type = "follower",
                     UserId = followUser.FollowUserId,
-                    FollowerUserId = followUser.UserId,
+                    FollowUserId = followUser.UserId,
                 };
 
+                await this.iFollowRepository.AddFollow(followerRequest);
                 await this.iServiceBusFollowTopicSender.SendMessage(followerRequest, "createFollow");
             }
 
@@ -50,15 +51,19 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
 
             if (result)
             {
-                var followerRequest = new FollowerUser()
+                var followerRequest = new FollowUser()
                 {
                     Id = followUser.Id,
                     Type = "follower",
                     UserId = followUser.FollowUserId,
-                    FollowerUserId = followUser.UserId,
+                    FollowUserId = followUser.UserId,
                 };
 
-                await this.iServiceBusFollowTopicSender.SendMessage(followerRequest, "deleteFollow");
+                result = await this.iFollowRepository.DeleteFollow(followUser.Id, followUser.FollowUserId);
+                if (result)
+                {
+                    await this.iServiceBusFollowTopicSender.SendMessage(followerRequest, "deleteFollow");
+                }
             }
 
             return result;

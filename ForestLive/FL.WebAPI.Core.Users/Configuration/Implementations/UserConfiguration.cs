@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 using FL.WebAPI.Core.Users.Configuration.Contracts;
+using FL.WebAPI.Core.Users.Configuration.Dto;
 
 namespace FL.WebAPI.Core.Users.Configuration.Implementations
 {
@@ -25,11 +26,13 @@ namespace FL.WebAPI.Core.Users.Configuration.Implementations
         public string SupportEmail => this.configuration.GetSection("SupportEmail").Get<string>();
 
         public string Secret => this.configuration.GetSection("Secret").Get<string>();
-        
+
         public string UrlConfirmEmail => this.configuration.GetSection("UrlConfirmEmail").Get<string>();
-        
+
         public string ConnectionStringUsersSite => this.configuration.GetSection("ConnectionStringUsersSite").Get<string>();
 
         public string UrlForgotPasswordEmail => this.configuration.GetSection("UrlForgotPasswordEmail").Get<string>();
+
+        public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
     }
 }

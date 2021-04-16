@@ -28,15 +28,15 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<FollowerUser>(Encoding.UTF8.GetString(message.Body));
+                var follower = JsonConvert.DeserializeObject<FollowerUser>(Encoding.UTF8.GetString(message.Body));
                 
                 if (message.Label == "createFollow")
                 {
-                    this.iUserPostCosmosDbService.AddVoteAsync(vote);
+                    this.iUserPostCosmosDbService.AddFollowerAsync(follower);
                 }
                 else if (message.Label == "deleteFollow")
                 {
-                    this.iUserPostCosmosDbService.DeleteVoteAsync(vote);
+                    this.iUserPostCosmosDbService.DeleteFollowerAsync(follower);
                 }
                 
             }

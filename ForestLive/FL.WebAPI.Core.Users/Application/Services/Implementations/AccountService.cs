@@ -12,6 +12,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using FL.Mailing.Contracts.Standard;
 using FL.Mailing.Contracts.Standard.Models;
+using FL.WebAPI.Core.Items.Domain.Repositories;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
@@ -20,15 +21,18 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         private readonly UserManager<Domain.Entities.User> userManager;
         private readonly IEmailAccountService iEmailAccountService;
         private readonly IUserConfiguration iUserConfiguration;
+        private readonly IUserCosmosRepository iUserCosmosRepository;
 
         public AccountService(
             UserManager<Domain.Entities.User> userManager,
             IEmailAccountService iEmailAccountService,
+            IUserCosmosRepository iUserCosmosRepository,
             IUserConfiguration iUserConfiguration)
         {
             this.userManager = userManager;
             this.iEmailAccountService = iEmailAccountService;
             this.iUserConfiguration = iUserConfiguration;
+            this.iUserCosmosRepository = iUserCosmosRepository;
         }
 
         public async Task ConfirmEmailAsync(Guid userId, string code)
