@@ -17,6 +17,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
             IServiceBusFollowTopicSender<FollowUser> iServiceBusFollowTopicSender,
             IFollowRepository iFollowRepository)
         {
+            this.iServiceBusFollowTopicSender = iServiceBusFollowTopicSender;
             this.iFollowRepository = iFollowRepository;
         }
 

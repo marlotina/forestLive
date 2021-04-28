@@ -29,8 +29,8 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
         }
 
         [HttpGet]
-        [Route("FollowUser", Name = "FollowUser")]
-        public async Task<IActionResult> FollowUser(string userId, string followerId)
+        [Route("GetFollowUser", Name = "GetFollowUser")]
+        public async Task<IActionResult> GetFollowUser(string userId, string followerId)
         {
             try
             {

@@ -39,7 +39,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 
                 this.customMemoryCache.Add("users", itemsCache);
             }
-            var request = keys.ToUpper().NormalizeName();
+            var request = keys.ToLower().NormalizeName();
             var filter = itemsCache.Where(x => x.UserId.ToLower().Contains(request));
 
             if (filter != null && filter.Any())
