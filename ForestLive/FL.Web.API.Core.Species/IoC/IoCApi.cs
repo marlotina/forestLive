@@ -26,7 +26,6 @@ namespace FL.Web.API.Core.Species.IoC
             services.AddTransient<IAutocompleteService, AutocompleteService>();
 
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
-
         }
     }
 }

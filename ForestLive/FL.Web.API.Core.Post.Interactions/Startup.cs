@@ -27,7 +27,6 @@ namespace FL.Web.API.Core.Post.Interactions
                 new FL.CosmosDb.Standard.IoC.IocModule(),
                 new FL.Logging.Implementation.Standard.IoC.IocModule());
 
-
             services.AddCors();
             services.AddControllers();
 

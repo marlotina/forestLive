@@ -1,10 +1,4 @@
-﻿using FL.CosmosDb.Standard.Configuration.Contracts;
-using FL.CosmosDb.Standard.Configuration.Implementations;
-using FL.CosmosDb.Standard.Contracts;
-using FL.CosmosDb.Standard.Implementations;
-using FL.DependencyInjection.Standard.Contracts;
-using FL.Logging.Implementation.Standard;
-using FL.LogTrace.Contracts.Standard;
+﻿using FL.DependencyInjection.Standard.Contracts;
 using FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;

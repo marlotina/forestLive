@@ -28,7 +28,6 @@ namespace FL.Web.API.Core.Bird.Pending
                 new FL.CosmosDb.Standard.IoC.IocModule(),
                 new FL.Infrastructure.Standard.IoC.IoCModule());
 
-
             services.AddCors();
             services.AddControllers();
 

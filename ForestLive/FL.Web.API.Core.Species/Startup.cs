@@ -1,16 +1,9 @@
-using FL.Web.API.Core.Species.IoC;
+using FL.DependencyInjection.Standard.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Species
 {
@@ -26,7 +19,9 @@ namespace FL.Web.API.Core.Species
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IoCApi.AddInjection(services);
+            services.AddLibraryServices(new IoC.IoCApi(),
+                new FL.Cache.Standard.IoC.IocModule(),
+                new FL.Logging.Implementation.Standard.IoC.IocModule());
 
             services.AddCors();
 

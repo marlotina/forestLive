@@ -1,3 +1,4 @@
+using FL.DependencyInjection.Standard.Extensions;
 using FL.Web.API.Core.User.Interactions.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -22,8 +23,10 @@ namespace FL.Web.API.Core.User.Interactions
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IoCApi.AddInjection(services);
-            
+            services.AddLibraryServices(new IoC.IoCApi(),
+                new FL.CosmosDb.Standard.IoC.IocModule(),
+                new FL.Logging.Implementation.Standard.IoC.IocModule());
+
             services.AddCors();
             services.AddControllers();
 
