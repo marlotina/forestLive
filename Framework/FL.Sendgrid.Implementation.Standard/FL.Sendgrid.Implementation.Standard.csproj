@@ -11,6 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FL.DependencyInjection.Standard\FL.DependencyInjection.Standard.csproj" />
     <ProjectReference Include="..\FL.LogTrace.Contracts.Standard\FL.LogTrace.Contracts.Standard.csproj" />
     <ProjectReference Include="..\FL.Mailing.Contracts.Standard\FL.Mailing.Contracts.Standard.csproj" />
   </ItemGroup>

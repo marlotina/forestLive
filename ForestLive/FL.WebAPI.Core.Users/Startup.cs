@@ -1,7 +1,6 @@
 using System;
 using System.Text;
-using FL.Logging.Implementation.Standard;
-using FL.LogTrace.Contracts.Standard;
+using FL.DependencyInjection.Standard.Extensions;
 using FL.WebAPI.Core.Users.Entity.Database;
 using FL.WebAPI.Core.Users.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -29,7 +28,12 @@ namespace FL.WebAPI.Core.Users
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IoCApi.AddInjection(services);
+            services.AddLibraryServices(new IoCApi(),
+                new FL.CosmosDb.Standard.IoC.IocModule(),
+                new FL.Cache.Standard.IoC.IocModule(),
+                new FL.Infrastructure.Standard.IoC.IoCModule(),
+                new FL.Logging.Implementation.Standard.IoC.IocModule(),
+                new FL.Sendgrid.Implementation.Standard.IoC.IocModule());
 
             services.AddCors();
             services.AddControllers();
