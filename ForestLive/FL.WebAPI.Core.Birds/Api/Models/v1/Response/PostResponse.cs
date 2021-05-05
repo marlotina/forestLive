@@ -1,5 +1,4 @@
-﻿using FL.Pereza.Helpers.Standard.Enums;
-using System;
+﻿using System;
 
 namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 {

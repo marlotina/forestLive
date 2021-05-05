@@ -1,5 +1,4 @@
-﻿using FL.Pereza.Helpers.Standard.Images;
-using FL.Web.API.Core.User.Interactions.Domain.Entities;
+﻿using FL.Web.API.Core.User.Interactions.Domain.Entities;
 using FL.Web.API.Core.User.Interactions.Mapper.v1.Contracts;
 using FL.Web.API.Core.User.Interactions.Models.v1.Response;
 

@@ -26,6 +26,7 @@
     <ProjectReference Include="..\..\Framework\FL.CosmosDb.Standard\FL.CosmosDb.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.Logging.Implementation.Standard\FL.Logging.Implementation.Standard.csproj" />
     <ProjectReference Include="..\..\Framework\FL.LogTrace.Contracts.Standard\FL.LogTrace.Contracts.Standard.csproj" />
+    <ProjectReference Include="..\FL.Pereza.Helpers.Standard\FL.Pereza.Helpers.Standard.csproj" />
   </ItemGroup>
 
   <ItemGroup>

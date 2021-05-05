@@ -24,6 +24,8 @@ namespace FL.Web.API.Core.Bird.Pending
         {
             IoCApi.AddInjection(services);
 
+            //services.AddLi
+
             services.AddCors();
             services.AddControllers();
 

@@ -28,8 +28,8 @@ namespace FL.Web.API.Core.Bird.Pending.IoC
         {
             services.AddSingleton<IBirdPendingMapper, BirdPendingMapper>();
 
-            services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
-            services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
+            //services.AddSingleton<IAzureStorageConfiguration, AzureStorageConfiguration>();
+            //services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
             services.AddSingleton<IBirdPendingConfiguration, BirdPendingConfiguration>();
 
             services.AddTransient<IBirdPendingService, BirdPendingService>();
@@ -37,7 +37,7 @@ namespace FL.Web.API.Core.Bird.Pending.IoC
 
             services.AddTransient<IUserVotesRestRepository, UserVotesRestRepository>();
 
-            services.AddSingleton<IClientFactory, ClientFactory>();
+            //services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddTransient<IBirdPendingRepository, BirdPendingRepository>();
 
             services.AddTransient(typeof(IServiceBusPostTopicSender<>), typeof(ServiceBusPostTopicSender<>));
@@ -46,10 +46,10 @@ namespace FL.Web.API.Core.Bird.Pending.IoC
 
 
             
-            services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
+            //services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
 
             ////loggin
-            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
+            //services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }
