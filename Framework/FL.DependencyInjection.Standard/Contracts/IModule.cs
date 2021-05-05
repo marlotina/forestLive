@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace FL.DependencyInjection.Standard.Contracts
+﻿namespace FL.DependencyInjection.Standard.Contracts
 {
     public interface IModule
     {
