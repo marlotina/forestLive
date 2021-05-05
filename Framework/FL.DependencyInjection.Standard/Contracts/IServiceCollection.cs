@@ -14,6 +14,8 @@ namespace FL.DependencyInjection.Standard.Contracts
             where TService : class
             where TImplementation : class, TService;
 
+        void AddSingleton(Type serviceType, Type implementationType);
+
         void AddScoped<TService, TImplementation>()
             where TService : class
             where TImplementation : class, TService;

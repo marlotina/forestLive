@@ -38,5 +38,10 @@ namespace FL.DependencyInjection.Standard.Implementations
         {
             this.iServiceCollection.AddTransient(serviceType, implementationType);
         }
+
+        public void AddSingleton(Type serviceType, Type implementationType)
+        {
+            this.iServiceCollection.AddSingleton(serviceType, implementationType);
+        }
     }
 }

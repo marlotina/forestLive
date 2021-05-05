@@ -1,5 +1,6 @@
 ﻿using FL.Cache.Standard.Contracts;
 using FL.Cache.Standard.Implementations;
+using FL.DependencyInjection.Standard.Contracts;
 using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
@@ -14,9 +15,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FL.Web.API.Core.Species.IoC
 {
-    public static class IoCApi
+    public class IoCApi : IModule
     {
-        public static void AddInjection(IServiceCollection services) 
+        public void RegisterServices(DependencyInjection.Standard.Contracts.IServiceCollection services)
         {
             services.AddSingleton<IAutocompleteMapper, AutocompleteMapper>();
 
@@ -26,10 +27,6 @@ namespace FL.Web.API.Core.Species.IoC
 
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
 
-            services.AddSingleton(typeof(ICustomMemoryCache<>), typeof(CustomMemoryCache<>));
-
-            ////loggin
-            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }

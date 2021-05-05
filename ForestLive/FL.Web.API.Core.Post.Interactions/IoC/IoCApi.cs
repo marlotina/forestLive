@@ -2,6 +2,7 @@
 using FL.CosmosDb.Standard.Configuration.Implementations;
 using FL.CosmosDb.Standard.Contracts;
 using FL.CosmosDb.Standard.Implementations;
+using FL.DependencyInjection.Standard.Contracts;
 using FL.Logging.Implementation.Standard;
 using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Contracts;
@@ -16,20 +17,18 @@ using FL.Web.API.Core.Post.Interactions.Infrastructure.ServiceBus.Contracts;
 using FL.Web.API.Core.Post.Interactions.Infrastructure.ServiceBus.Implementations;
 using FL.Web.API.Core.Post.Interactions.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FL.Web.Api.Core.Post.Interactions.IoC
 {
-    public static class IoCApi
+    public class IoCApi : IModule
     {
-        public static void AddInjection(IServiceCollection services)
+        public void RegisterServices(DependencyInjection.Standard.Contracts.IServiceCollection services)
         {
             services.AddSingleton<IVoteMapper, VoteMapper>();
             services.AddSingleton<ICommentMapper, CommentMapper>();
 
             services.AddSingleton<IPostConfiguration, PostConfiguration>();
-            services.AddSingleton<ICosmosConfiguration, CosmosConfiguration>();
-            
+
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IVotePostService, VotePostService>();
             services.AddTransient<IVoteCommentService, VoteCommentService>();
@@ -37,15 +36,10 @@ namespace FL.Web.Api.Core.Post.Interactions.IoC
             services.AddTransient(typeof(IServiceBusCommentTopicSender<>), typeof(ServiceBusCommentTopicSender<>));
             services.AddTransient(typeof(IServiceBusVoteCommentTopicSender<>), typeof(ServiceBusVoteCommentTopicSender<>));
 
-            services.AddSingleton<IClientFactory, ClientFactory>();
             services.AddSingleton<IVotePostRepository, VotePostRepository>();
             services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
             services.AddSingleton<IUserVotesRestRepository, UserVotesRestRepository>();
-            
-
-            //loggin
-            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }

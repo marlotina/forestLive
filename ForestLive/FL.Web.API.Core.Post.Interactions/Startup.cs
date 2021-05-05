@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FL.DependencyInjection.Standard.Extensions;
 
 namespace FL.Web.API.Core.Post.Interactions
 {
@@ -22,8 +23,11 @@ namespace FL.Web.API.Core.Post.Interactions
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IoCApi.AddInjection(services);
-            
+            services.AddLibraryServices(new IoCApi(),
+                new FL.CosmosDb.Standard.IoC.IocModule(),
+                new FL.Logging.Implementation.Standard.IoC.IocModule());
+
+
             services.AddCors();
             services.AddControllers();
 

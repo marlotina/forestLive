@@ -44,6 +44,6 @@ namespace FL.Web.API.Core.Bird.Pending.Api.Models.v1.Response
 
         public bool HasVote { get; set; }
 
-        public string? VoteId { get; set; }
+        public string VoteId { get; set; }
     }
 }
