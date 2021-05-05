@@ -1,3 +1,4 @@
+using FL.DependencyInjection.Standard.Extensions;
 using FL.WebAPI.Core.Items.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -22,7 +23,10 @@ namespace FL.WebAPI.Core.Items
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IoCApi.AddInjection(services);
+            services.AddLibraryServices(new IoCApi(),
+                new FL.Infrastructure.Standard.IoC.IoCModule(),
+                new FL.Logging.Implementation.Standard.IoC.IocModule(),
+                new FL.CosmosDb.Standard.IoC.IocModule());
             
             services.AddCors();
             services.AddControllers();
