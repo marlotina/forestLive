@@ -37,7 +37,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
                 
-                if (postId == Guid.Empty || postId == null)
+                if (postId == Guid.Empty)
                 {
                     this.BadRequest();
                 }

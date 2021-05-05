@@ -33,8 +33,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.Infrastructure.Standard", "..\Framework\FL.Infrastructure.Standard\FL.Infrastructure.Standard.csproj", "{A8D9C40E-CF26-4085-B1B9-1E61304CEC40}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Searchs", "Searchs", "{C7894594-9852-4219-BB2D-7903D11B4331}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.ServiceBus.Standard", "..\Framework\FL.ServiceBus.Standard\FL.ServiceBus.Standard.csproj", "{1DA19BBF-64D9-4D31-9563-C62DDE8871AE}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.CosmosDb.Standard", "..\Framework\FL.CosmosDb.Standard\FL.CosmosDb.Standard.csproj", "{E3671825-CFB7-47DE-8DAF-33C3B8E98F07}"

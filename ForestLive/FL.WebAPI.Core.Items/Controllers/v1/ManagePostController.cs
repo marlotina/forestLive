@@ -69,7 +69,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         {
             try
             {
-                if (postId == Guid.Empty || postId == null) {
+                if (postId == Guid.Empty) {
                     this.BadRequest();
                 }
 

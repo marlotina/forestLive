@@ -19,7 +19,7 @@ namespace FL.Web.API.Core.Species.Controllers.v1
         }
 
         [HttpGet, Route("GetNames", Name = "GetNames")]
-        public async Task<IActionResult> GetNames(string text, string languageCode)
+        public IActionResult GetNames(string text, string languageCode)
         {
             if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode)) {
                 return this.BadRequest();
