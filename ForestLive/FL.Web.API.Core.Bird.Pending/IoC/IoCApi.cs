@@ -2,6 +2,7 @@
 using FL.CosmosDb.Standard.Configuration.Implementations;
 using FL.CosmosDb.Standard.Contracts;
 using FL.CosmosDb.Standard.Implementations;
+using FL.DependencyInjection.Standard.Contracts;
 using FL.Infrastructure.Standard.Configuration.Contracts;
 using FL.Infrastructure.Standard.Configuration.Implementations;
 using FL.Infrastructure.Standard.Contracts;
@@ -22,9 +23,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace FL.Web.API.Core.Bird.Pending.IoC
 {
-    public static class IoCApi
+    public class IoCApi : IModule
     {
-        public static void AddInjection(IServiceCollection services) 
+        public void RegisterServices(DependencyInjection.Standard.Contracts.IServiceCollection services)
         {
             services.AddSingleton<IBirdPendingMapper, BirdPendingMapper>();
 
@@ -45,7 +46,7 @@ namespace FL.Web.API.Core.Bird.Pending.IoC
             services.AddTransient(typeof(IServiceBusAssignSpecieTopicSender<>), typeof(ServiceBusAssignSpecieTopicSender<>));
 
 
-            
+
             //services.AddTransient<IBlobContainerRepository, BlobContainerRepository>();
 
             ////loggin

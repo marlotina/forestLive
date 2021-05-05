@@ -8,7 +8,6 @@ namespace FL.ServiceBus.Standard.IoC
     {
         public void RegisterServices(IServiceCollection services)
         {
-            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }

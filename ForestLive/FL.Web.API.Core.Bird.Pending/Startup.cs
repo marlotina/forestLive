@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FL.DependencyInjection.Standard.Extensions;
 
 namespace FL.Web.API.Core.Bird.Pending
 {
@@ -22,9 +23,11 @@ namespace FL.Web.API.Core.Bird.Pending
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            IoCApi.AddInjection(services);
+            services.AddLibraryServices(new IoC.IoCApi(),
+                new FL.Logging.Implementation.Standard.IoC.IocModule(),
+                new FL.CosmosDb.Standard.IoC.IocModule(),
+                new FL.Infrastructure.Standard.IoC.IoCModule());
 
-            //services.AddLi
 
             services.AddCors();
             services.AddControllers();

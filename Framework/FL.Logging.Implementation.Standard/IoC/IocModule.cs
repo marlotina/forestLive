@@ -1,7 +1,5 @@
 ﻿using FL.DependencyInjection.Standard.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Text;
+using FL.LogTrace.Contracts.Standard;
 
 namespace FL.Logging.Implementation.Standard.IoC
 {
@@ -9,7 +7,7 @@ namespace FL.Logging.Implementation.Standard.IoC
     {
         public void RegisterServices(IServiceCollection services)
         {
-            throw new NotImplementedException();
+            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }

@@ -7,7 +7,7 @@ namespace FL.DependencyInjection.Standard.Extensions
         public static Contracts.IServiceCollection AddLibraryServices(this IServiceCollection services, 
                 params Contracts.IModule[] modules)
         {
-            var serviceCollection = new ServiceCollection(services);
+            var serviceCollection = new FL.DependencyInjection.Standard.Implementations.ServiceCollection(services);
 
             foreach (var module in modules)
             {

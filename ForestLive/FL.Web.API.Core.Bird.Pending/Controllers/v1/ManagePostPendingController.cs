@@ -52,7 +52,7 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
                 if (result != null)
                 {
                     var postResponse = this.iBirdSpeciePostMapper.Convert(result);
-                    return this.CreatedAtRoute("GetPost", new { id = postResponse.PostId }, postResponse);
+                    return this.Ok(postResponse);
                 }
                 else
                     return this.BadRequest();
