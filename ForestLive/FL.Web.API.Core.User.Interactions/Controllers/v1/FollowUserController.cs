@@ -56,8 +56,8 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
         }
 
         [HttpPost]
-        [Route("FollowUser", Name = "FollowUser")]
-        public async Task<IActionResult> FollowUser([FromBody] FollowUserRequest request)
+        [Route("AddFollowUser", Name = "AddFollowUser")]
+        public async Task<IActionResult> AddFollowUser([FromBody] FollowUserRequest request)
         {
             try
             {

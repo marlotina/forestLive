@@ -27,6 +27,7 @@ namespace FL.Web.API.Core.User.Interactions.IoC
 
             services.AddTransient<IVotePostService, VotePostService>();
             services.AddTransient<IVoteCommentService, VoteCommentService>();
+            services.AddTransient<IFollowService, FollowService>();
             services.AddTransient<ICommentService, CommentService>();
 
             services.AddSingleton<IVotePostRepository, VotePostRepository>();

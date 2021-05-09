@@ -39,7 +39,6 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
                     FollowUserId = followUser.UserId,
                 };
 
-                await this.iFollowRepository.AddFollow(followerRequest);
                 await this.iServiceBusFollowTopicSender.SendMessage(followerRequest, "createFollow");
             }
 
@@ -59,12 +58,8 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
                     UserId = followUser.FollowUserId,
                     FollowUserId = followUser.UserId,
                 };
-
-                result = await this.iFollowRepository.DeleteFollow(followUser.Id, followUser.FollowUserId);
-                if (result)
-                {
-                    await this.iServiceBusFollowTopicSender.SendMessage(followerRequest, "deleteFollow");
-                }
+                
+                await this.iServiceBusFollowTopicSender.SendMessage(followerRequest, "deleteFollow");
             }
 
             return result;
