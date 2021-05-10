@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.User.Interactions.Configuration.Contracts;
 using FL.Web.API.Core.User.Interactions.Domain.Dto;
 using FL.Web.API.Core.User.Interactions.Domain.Entities;
@@ -13,22 +14,26 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
 {
     public class VoteCommentRepository : IVoteCommentRepository
     {
-        private IClientFactory clientFactory;
-        private IVoteConfiguration voteConfiguration;
+        private readonly IClientFactory iClientFactory;
+        private readonly IVoteConfiguration iVoteConfiguration;
+        private readonly ILogger<VoteCommentRepository> iLogger;
         private Container commentVoteContainer;
 
-        public VoteCommentRepository(IClientFactory clientFactory,
+        public VoteCommentRepository(
+            IClientFactory clientFactory,
+            ILogger<VoteCommentRepository> iLogger,
             IVoteConfiguration voteConfiguration)
         {
-            this.clientFactory = clientFactory;
-            this.voteConfiguration = voteConfiguration;
+            this.iClientFactory = clientFactory;
+            this.iLogger = iLogger;
+            this.iVoteConfiguration = voteConfiguration;
             this.commentVoteContainer = InitialCLient();
         }
 
         private Container InitialCLient()
         {
-            var config = this.voteConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
+            var config = this.iVoteConfiguration.CosmosConfiguration;
+            var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosCommentVoteContainer);
         }
 
@@ -55,6 +60,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
             }
 
             return votes;
@@ -80,6 +86,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
             }
 
             return votes;

@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.User.Interactions.Configuration.Contracts;
 using FL.Web.API.Core.User.Interactions.Domain.Entities;
 using FL.Web.API.Core.User.Interactions.Domain.Repositories;
@@ -10,22 +11,26 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
 {
     public class FollowRepository : IFollowRepository
     {
-        private IClientFactory clientFactory;
-        private IVoteConfiguration voteConfiguration;
+        private IClientFactory iClientFactory;
+        private IVoteConfiguration iVoteConfiguration;
+        private readonly ILogger<FollowRepository> iLogger;
         private Container followContainer;
 
-        public FollowRepository(IClientFactory clientFactory,
-            IVoteConfiguration voteConfiguration)
+        public FollowRepository(
+            IClientFactory iClientFactory,
+            IVoteConfiguration iVoteConfiguration,
+            ILogger<FollowRepository> iLogger)
         {
-            this.clientFactory = clientFactory;
-            this.voteConfiguration = voteConfiguration;
+            this.iClientFactory = iClientFactory;
+            this.iVoteConfiguration = iVoteConfiguration;
             this.followContainer = InitialCLient();
+            this.iLogger = iLogger;
         }
 
         private Container InitialCLient()
         {
-            var config = this.voteConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
+            var config = this.iVoteConfiguration.CosmosConfiguration;
+            var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosFollowContainer);
         }
 
@@ -37,6 +42,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                this.iLogger.LogError(ex.Message);
                 return null;
             }
         }
@@ -50,9 +56,9 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
+                return false;
             }
-            return false;
-
         }
 
         public async Task<FollowUser> GetFollow(string userId, string followUserId)
@@ -65,6 +71,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                this.iLogger.LogError(ex.Message);
                 return null;
             }
         }
