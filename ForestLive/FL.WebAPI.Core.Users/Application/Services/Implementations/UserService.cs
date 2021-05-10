@@ -18,15 +18,22 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         private readonly IUserCosmosRepository iUserCosmosRepository;
         private readonly ICustomMemoryCache<IEnumerable<UserInfo>> customMemoryCache;
         private readonly ILogger<UserService> logger;
+        private readonly IUserFollowRepository iUserFollowRepository;
 
         public UserService(
             IUserCosmosRepository iUserCosmosRepository,
             ICustomMemoryCache<IEnumerable<UserInfo>> customMemoryCache,
+            IUserFollowRepository iUserFollowRepository,
             ILogger<UserService> logger)
         {
             this.customMemoryCache = customMemoryCache;
             this.iUserCosmosRepository = iUserCosmosRepository;
+            this.iUserFollowRepository = iUserFollowRepository;
             this.logger = logger;
+        }
+        public async Task<bool> IsFollow(string userId, string followUserId) 
+        {
+            return await this.iUserFollowRepository.GetFollow(userId, followUserId);
         }
 
         public async Task<IEnumerable<AutocompleteResponse>> AutocompleteByUserName(string keys)

@@ -34,5 +34,9 @@ namespace FL.WebAPI.Core.Users.Configuration.Implementations
         public string UrlForgotPasswordEmail => this.configuration.GetSection("UrlForgotPasswordEmail").Get<string>();
 
         public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
+
+        public string UserInteractionApiDomain => this.configuration.GetSection("UserInteractionApiDomain").Get<string>();
+
+        public string FollowUrlService => this.configuration.GetSection("FollowUrlService").Get<string>();
     }
 }

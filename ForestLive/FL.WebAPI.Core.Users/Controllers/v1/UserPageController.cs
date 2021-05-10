@@ -6,6 +6,7 @@ using FL.WebAPI.Core.Users.Api.Mappers.v1.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using Microsoft.AspNetCore.Authorization;
 using System.Linq;
+using FL.Pereza.Helpers.Standard.JwtToken;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -37,6 +38,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
 
                 if (result != null)
                 {
+
                     var response = result.Select(x => this.userPageMapper.ConvertList(x));
                     return Ok(response);
                 }
@@ -64,6 +66,15 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (result != null)
                 {
                     var response = this.userPageMapper.ConvertList(result);
+                    
+                    var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                    if (!string.IsNullOrWhiteSpace(webUserId)) {
+
+                        if (await this.usersService.IsFollow(webUserId, userName)) {
+                            response.FollowId = userName;
+                            response.HasFollow = true;
+                        }
+                    }
                     return Ok(response);
                 }
             }

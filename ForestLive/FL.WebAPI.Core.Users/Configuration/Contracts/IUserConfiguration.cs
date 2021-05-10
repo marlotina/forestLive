@@ -25,5 +25,7 @@ namespace FL.WebAPI.Core.Users.Configuration.Contracts
         string UrlForgotPasswordEmail { get; }
 
         CosmosConfiguration CosmosConfiguration { get; }
+        string  UserInteractionApiDomain { get; }
+        string FollowUrlService { get; }
     }
 }

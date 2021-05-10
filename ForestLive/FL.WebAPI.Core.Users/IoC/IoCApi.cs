@@ -33,6 +33,7 @@ namespace FL.WebAPI.Core.Users.IoC
 
             services.AddTransient<IUserImageRepository, UserImageRepository>();
             services.AddTransient<IUserCosmosRepository, UserCosmosRepository>();
+            services.AddTransient<IUserFollowRepository, UserFollowRepository>();
 
             services.AddSingleton<IDataBaseFactory, DataBaseFactory>();
         }

@@ -29,5 +29,12 @@ namespace FL.WebAPI.Core.Users.Models.v1.Response
         public string TwitterUrl { get; set; }
 
         public string FacebookUrl { get; set; }
+
+        public string FollowId { get; set; }
+
+        public bool HasFollow { get; set; }
+
+        public int FollowerCount { get; set; }
+        
     }
 }

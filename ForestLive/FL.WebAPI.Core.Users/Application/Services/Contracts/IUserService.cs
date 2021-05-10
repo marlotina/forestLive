@@ -14,5 +14,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
         Task<IEnumerable<UserInfo>> GetUsersAsync();
 
         Task<IEnumerable<UserInfo>> GetUsersByKey(string keys);
+
+        Task<bool> IsFollow(string userId, string followUserId);
     }
 }

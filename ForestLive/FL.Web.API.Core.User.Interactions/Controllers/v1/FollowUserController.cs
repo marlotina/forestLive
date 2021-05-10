@@ -31,14 +31,15 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
 
         [HttpGet]
         [Route("GetFollowUser", Name = "GetFollowUser")]
-        public async Task<IActionResult> GetFollowUser(string userId, string followerId)
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFollowUser(string userId, string followUserId)
         {
             try
             {
                 if (string.IsNullOrEmpty(userId))
                     return null;
 
-                var result = await this.iFollowService.GetFollow(userId, followerId);
+                var result = await this.iFollowService.GetFollow(userId, followUserId);
 
                 if (result != null)
                 {
@@ -46,7 +47,7 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
                     return this.Ok(response);
                 }
                 else
-                    return this.BadRequest();
+                    return this.NotFound();
             }
             catch (Exception ex)
             {

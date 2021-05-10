@@ -51,7 +51,9 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
                     FacebookUrl = source.FacebookUrl,
                     InstagramUrl = source.InstagramUrl,
                     TwitterUrl = source.TwitterUrl,
-                    LinkedlinUrl = source.LinkedlinUrl
+                    LinkedlinUrl = source.LinkedlinUrl,
+                    FollowerCount = source.FollowerCount,
+                    HasFollow = false
                 };
             }
 

@@ -45,7 +45,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         {
             try
             {
-                await this.followContainer.DeleteItemAsync<FollowUser>(id, new PartitionKey(userId));
+                await this.followContainer.DeleteItemAsync<FollowUser>(userId, new PartitionKey(id));
                 return true;
             }
             catch (Exception ex)

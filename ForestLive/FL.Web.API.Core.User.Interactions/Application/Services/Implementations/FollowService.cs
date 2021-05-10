@@ -23,7 +23,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
 
         public async Task<FollowUser> AddFollow(FollowUser followUser, Guid userSystemId)
         {
-            followUser.Id = $"{followUser.UserId}_{followUser.FollowUserId}";
+            followUser.Id = followUser.FollowUserId;
             followUser.CreationDate = DateTime.UtcNow;
             followUser.Type = "follow";
 
@@ -32,7 +32,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
             if (result != null) {
 
                 var followerRequest = new UserFollowDto() {
-                    Id = followUser.Id,
+                    Id = followUser.UserId,
                     CreationDate = followUser.CreationDate,
                     Type = "follower",
                     UserId = followUser.FollowUserId,
