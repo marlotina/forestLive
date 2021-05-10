@@ -5,8 +5,8 @@ namespace FL.WebAPI.Core.Users.Domain.Repositories
 {
     public interface IUserImageRepository
     {
-        Task UploadFileToStorage(Stream fileStream, string fileName);
+        Task<bool> UploadFileToStorage(Stream fileStream, string fileName);
 
-        Task DeleteFileToStorage(string fileName);
+        Task<bool> DeleteFileToStorage(string fileName);
     }
 }

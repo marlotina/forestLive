@@ -1,9 +1,6 @@
 ﻿using FL.WebAPI.Core.Users.Application.Services.Contracts;
-using FL.WebAPI.Core.Users.Domain.Repositories;
-using System;
 using System.Threading.Tasks;
 using FL.WebAPI.Core.Users.Domain.Entities;
-using FL.LogTrace.Contracts.Standard;
 using FL.Cache.Standard.Contracts;
 using System.Collections.Generic;
 using FL.WebAPI.Core.Users.Domain.Dto;
@@ -17,19 +14,16 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
     {
         private readonly IUserCosmosRepository iUserCosmosRepository;
         private readonly ICustomMemoryCache<IEnumerable<UserInfo>> customMemoryCache;
-        private readonly ILogger<UserService> logger;
         private readonly IUserFollowRepository iUserFollowRepository;
 
         public UserService(
             IUserCosmosRepository iUserCosmosRepository,
             ICustomMemoryCache<IEnumerable<UserInfo>> customMemoryCache,
-            IUserFollowRepository iUserFollowRepository,
-            ILogger<UserService> logger)
+            IUserFollowRepository iUserFollowRepository)
         {
             this.customMemoryCache = customMemoryCache;
             this.iUserCosmosRepository = iUserCosmosRepository;
             this.iUserFollowRepository = iUserFollowRepository;
-            this.logger = logger;
         }
         public async Task<bool> IsFollow(string userId, string followUserId) 
         {
@@ -78,31 +72,12 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public async Task<UserInfo> GetByUserNameAsync(string userName)
         {
-            var response = new UserInfo();
-            try
-            {
-                response = await this.iUserCosmosRepository.GetUserByName(userName);
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "DeleteAsync");
-            }
-
-            return response;
+            return await this.iUserCosmosRepository.GetUserByName(userName);
         }
 
         public async  Task<IEnumerable<UserInfo>> GetUsersAsync()
         {
-            try
-            {
-                return await this.iUserCosmosRepository.GetUsersAsync();
-            }
-            catch (Exception ex)
-            {
-                this.logger.LogError(ex, "DeleteAsync");
-            }
-
-            return null;
+            return await this.iUserCosmosRepository.GetUsersAsync();
         }
     }
 }

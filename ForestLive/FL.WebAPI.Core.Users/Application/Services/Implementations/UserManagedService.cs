@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
                 if (entityUser != null && entityUser.UserId == userWebId)
                 {
-                    await this.iUserCosmosRepository.DeleteUserInfoAsync(entityUser.Id, entityUser.UserId);
+                    return await this.iUserCosmosRepository.DeleteUserInfoAsync(entityUser.Id, entityUser.UserId);
                 }
             }
             catch (Exception ex) 

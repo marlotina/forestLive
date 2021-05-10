@@ -1,6 +1,8 @@
 ﻿using FL.Infrastructure.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Users.Configuration.Contracts;
 using FL.WebAPI.Core.Users.Domain.Repositories;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -10,23 +12,44 @@ namespace FL.WebAPI.Core.Users.Infrastructure.AzureStorage
     {
         private readonly IUserConfiguration userConfiguration;
         private readonly IBlobContainerRepository blobContainerRepository;
-
+        private readonly ILogger<UserImageRepository> iLogger;
         public UserImageRepository(
             IUserConfiguration userConfiguration,
-            IBlobContainerRepository blobContainerRepository)
+            IBlobContainerRepository blobContainerRepositor,
+            ILogger<UserImageRepository> iLogger)
         {
             this.userConfiguration = userConfiguration;
-            this.blobContainerRepository = blobContainerRepository;
+            this.blobContainerRepository = blobContainerRepositor;
+            this.iLogger = iLogger;
         }
 
-        public async Task UploadFileToStorage(Stream fileStream, string fileName)
+        public async Task<bool> UploadFileToStorage(Stream fileStream, string fileName)
         {
-            await this.blobContainerRepository.UploadFileToStorage(fileStream, fileName, this.userConfiguration.ImageProfileContainer);
+            try
+            {
+                await this.blobContainerRepository.UploadFileToStorage(fileStream, fileName, this.userConfiguration.ImageProfileContainer);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex.Message);
+                return false;
+            }
         }
 
-        public async Task DeleteFileToStorage(string fileName)
+        public async Task<bool> DeleteFileToStorage(string fileName)
         {
-            await this.blobContainerRepository.DeleteFileToStorage(fileName, this.userConfiguration.ImageProfileContainer);
+            try
+            {
+                await this.blobContainerRepository.DeleteFileToStorage(fileName, this.userConfiguration.ImageProfileContainer);
+                return true;
+            }
+            catch (Exception ex) 
+            {
+                this.iLogger.LogError(ex.Message);
+                return false;
+            }
+            
         }
     }
 }

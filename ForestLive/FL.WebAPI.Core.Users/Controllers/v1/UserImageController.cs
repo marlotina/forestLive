@@ -17,14 +17,14 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
     [ApiController]
     public class UserImageController : ControllerBase
     {
-        private readonly ILogger<UserController> logger;
+        private readonly ILogger<UserController> iLogger;
         private readonly IUserImageService iUserImageService;
 
         public UserImageController(
             IUserImageService iUserImageService,
-            ILogger<UserController> logger)
+            ILogger<UserController> iLogger)
         {
-            this.logger = logger;
+            this.iLogger = iLogger;
             this.iUserImageService = iUserImageService;
         }
 
@@ -37,7 +37,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (request == null)
                     return null;
 
-                if (string.IsNullOrWhiteSpace(request.UserName) || request.UserId == null || request.UserId == Guid.Empty 
+                if (string.IsNullOrWhiteSpace(request.UserName) || request.UserId == Guid.Empty 
                     || string.IsNullOrWhiteSpace(request.ImageBase64) || string.IsNullOrWhiteSpace(request.ImageName))
                     return this.BadRequest();
 
@@ -62,7 +62,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
 
@@ -74,7 +74,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
-                if (userId == null || userId == Guid.Empty)
+                if (userId == Guid.Empty)
                     return this.BadRequest();
 
                 var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
@@ -86,7 +86,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             }
             catch (Exception ex)
             {
-                this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
         }

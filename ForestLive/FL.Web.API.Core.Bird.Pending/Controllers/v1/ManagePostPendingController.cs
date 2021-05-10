@@ -73,7 +73,7 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
                 if (request == null)
                     return this.BadRequest();
 
-                if (request.SpecieId == null
+                if (request.SpecieId == Guid.Empty
                     || string.IsNullOrWhiteSpace(request.SpecieName))
                     return this.BadRequest();
 
@@ -100,7 +100,7 @@ namespace FL.Web.API.Core.Bird.Pending.Controllers.v1
         {
             try
             {
-                if (postId == Guid.Empty || postId == null)
+                if (postId == Guid.Empty)
                 {
                     this.BadRequest();
                 }

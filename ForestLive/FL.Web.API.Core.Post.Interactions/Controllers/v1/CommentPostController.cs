@@ -68,7 +68,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
         {
             try
             {
-                if (postId == null && postId != Guid.Empty)
+                if (postId == Guid.Empty)
                 {
                     this.BadRequest();
                 }

@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Users.Configuration.Contracts;
 using FL.WebAPI.Core.Users.Domain.Entities;
@@ -15,13 +16,16 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         private IClientFactory iClientFactory;
         private IUserConfiguration iUserConfiguration; 
         private Container userContainer;
-
-        public UserCosmosRepository(IClientFactory iClientFactory,
+        private ILogger<UserCosmosRepository> iLogger;
+        public UserCosmosRepository(
+            IClientFactory iClientFactory,
+            ILogger<UserCosmosRepository> iLogger,
             IUserConfiguration iPostConfiguration)
         {
             this.iClientFactory = iClientFactory;
             this.iUserConfiguration = iPostConfiguration;
             this.userContainer = InitialCLient();
+            this.iLogger = iLogger;
         }
 
         private Container InitialCLient()
@@ -39,20 +43,38 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             }
             catch (Exception ex) 
             {
+                this.iLogger.LogError(ex.Message);
                 return null;
             }
-            
         }
 
         public async Task<bool> UpdateUserInfoAsync(UserInfo user)
         {
-             await this.userContainer.UpsertItemAsync<UserInfo>(user, new PartitionKey(user.UserId.ToString()));
-            return true;
+            try
+            {
+                await this.userContainer.UpsertItemAsync<UserInfo>(user, new PartitionKey(user.UserId.ToString()));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex.Message);
+                return false;
+            }
         }
 
-        public async Task DeleteUserInfoAsync(Guid userId, string userNameId)
+        public async Task<bool> DeleteUserInfoAsync(Guid userId, string userNameId)
         {
-            await this.userContainer.DeleteItemAsync<UserInfo>(userId.ToString(), new PartitionKey(userNameId));
+
+            try
+            {
+                await this.userContainer.DeleteItemAsync<UserInfo>(userId.ToString(), new PartitionKey(userNameId));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex.Message);
+                return false;
+            }
         }
 
         public async Task<UserInfo> GetUser(Guid userId, string userNameId)
@@ -65,6 +87,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                this.iLogger.LogError(ex.Message);
                 return null;
             }
         }
@@ -73,16 +96,23 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             var posts = new List<UserInfo>();
 
-            var queryString = $"SELECT * FROM p";
-
-            var queryDef = new QueryDefinition(queryString);
-            var query = this.userContainer.GetItemQueryIterator<UserInfo>(queryDef);
-
-            while (query.HasMoreResults)
+            try
             {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                posts.AddRange(response.ToList());
+                var queryString = $"SELECT * FROM p WHERE p.Type='user'";
+
+                var queryDef = new QueryDefinition(queryString);
+                var query = this.userContainer.GetItemQueryIterator<UserInfo>(queryDef);
+
+                while (query.HasMoreResults)
+                {
+                    var response = await query.ReadNextAsync();
+                    var ru = response.RequestCharge;
+                    posts.AddRange(response.ToList());
+                }
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                this.iLogger.LogError(ex.Message);
             }
 
             return posts;
@@ -90,18 +120,25 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task<UserInfo> GetUserByName(string userNameId)
         {
-            var queryString = $"SELECT * FROM p WHERE p.userId = @UserId AND p.type='user' ";
-
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@UserId", userNameId);
-
-            var query = this.userContainer.GetItemQueryIterator<UserInfo>(queryDef);
-
-            while (query.HasMoreResults)
+            try
             {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                return response.Resource.FirstOrDefault();
+                var queryString = $"SELECT * FROM p WHERE p.userId = @UserId AND p.type='user' ";
+
+                var queryDef = new QueryDefinition(queryString);
+                queryDef.WithParameter("@UserId", userNameId);
+
+                var query = this.userContainer.GetItemQueryIterator<UserInfo>(queryDef);
+
+                while (query.HasMoreResults)
+                {
+                    var response = await query.ReadNextAsync();
+                    var ru = response.RequestCharge;
+                    return response.Resource.FirstOrDefault();
+                }
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                this.iLogger.LogError(ex.Message);
             }
 
             return null;

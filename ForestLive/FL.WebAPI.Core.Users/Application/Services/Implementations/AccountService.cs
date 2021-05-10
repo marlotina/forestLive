@@ -203,7 +203,5 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
             return false;
         }
-
-        
     }
 }

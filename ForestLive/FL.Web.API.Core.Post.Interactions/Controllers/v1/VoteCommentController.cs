@@ -4,7 +4,6 @@ using FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Api.Models.v1.Request;
 using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
-using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -23,7 +22,6 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
 
         public VoteCommentController(
             IVoteMapper voteMapper,
-            IVotePostService votePostService,
             IVoteCommentService iVoteCommentService,
             ILogger<VoteCommentController> logger)
         {
@@ -42,7 +40,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
                     return null;
 
                 if (string.IsNullOrWhiteSpace(request.UserId)
-                    || request.PostId == Guid.Empty || request.PostId == null)
+                    || request.PostId == Guid.Empty)
                     return this.BadRequest();
 
                 var votePost = this.voteMapper.Convert(request);
@@ -70,7 +68,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(voteCommentId) || postId == null || postId == Guid.Empty)
+                if (string.IsNullOrWhiteSpace(voteCommentId) || postId == Guid.Empty)
                 {
                     return this.BadRequest();
                 }
