@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.User.Posts.Domain.Entities;
 using FL.Web.API.Core.UserLabels.Domain.Dto;
 using FL.WebAPI.Core.UserLabels.Configuration.Contracts;
@@ -13,21 +14,26 @@ namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
 {
     public class UserLabelRepository : IUserLabelRepository
     {
-        private IClientFactory clientFactory;
-        private IUserLabelConfiguration userPostConfiguration;
+        private readonly IClientFactory clientFactory;
+        private readonly IUserLabelConfiguration iUserPostConfiguration;
+        private readonly ILogger<UserLabelRepository> iLogger;
         private Container usersContainer;
 
-        public UserLabelRepository(IClientFactory clientFactory,
-            IUserLabelConfiguration userPostConfiguration)
+
+        public UserLabelRepository(
+            ILogger<UserLabelRepository> iLogger,
+            IClientFactory clientFactory,
+            IUserLabelConfiguration iUserPostConfiguration)
         {
             this.clientFactory = clientFactory;
-            this.userPostConfiguration = userPostConfiguration;
+            this.iUserPostConfiguration = iUserPostConfiguration;
             this.usersContainer = InitialClient();
+            this.iLogger = iLogger;
         }
 
         private Container InitialClient()
         {
-            var config = this.userPostConfiguration.CosmosConfiguration;
+            var config = this.iUserPostConfiguration.CosmosConfiguration;
             var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserLabelContainer);
         }
@@ -51,7 +57,8 @@ namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
                 }
             }
             catch (Exception ex) 
-            { 
+            {
+                this.iLogger.LogError(ex);
             }
 
             return labels;
@@ -59,7 +66,15 @@ namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
 
         public async Task<UserLabel> AddLabel(UserLabel userLabel)
         {
-            return await this.usersContainer.CreateItemAsync<UserLabel>(userLabel, new PartitionKey(userLabel.UserId));
+            try
+            {
+                return await this.usersContainer.CreateItemAsync<UserLabel>(userLabel, new PartitionKey(userLabel.UserId));
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex);
+                return null;
+            }
         }
 
         public async Task<bool> DeleteLabel(UserLabel userLabel)
@@ -69,11 +84,11 @@ namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
                 await this.usersContainer.DeleteItemAsync<UserLabel>(userLabel.Id, new PartitionKey(userLabel.UserId));
                 return true;
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
+                this.iLogger.LogError(ex);
                 return false;
             }
-            
         }
 
         public async Task<UserLabel> GetUserLabel(string label, string userId)
