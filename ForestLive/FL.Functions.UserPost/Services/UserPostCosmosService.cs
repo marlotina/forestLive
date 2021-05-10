@@ -139,7 +139,7 @@ namespace FL.Functions.UserPost.Services
                     FollowerUserId = follower.FollowUserId
 
                 };
-                var obj = new dynamic[] { follower.Id, follower.SystemUserId.ToString() };
+                var obj = new dynamic[] { follower.UserId, follower.SystemUserId.ToString() };
                 await this.usersFollowContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseFollowerCount", new PartitionKey(follower.FollowUserId), obj);
             }
             catch (Exception ex)
