@@ -39,6 +39,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
             {
                 result = new UserListSiteResponse()
                 {
+                    Id = source.Id,
                     UrlWebSite = source.UrlWebSite,
                     IsCompany = source.IsCompany,
                     RegistrationDate = source.RegistrationDate,

@@ -22,13 +22,13 @@ namespace FL.Functions.BirdPost
         [FunctionName("UserFollow")]
         public void Run([ServiceBusTrigger(
             "followuser",
-            "followUserSubscription",
+            "followsubscription",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
-                var follower = JsonConvert.DeserializeObject<FollowerUser>(Encoding.UTF8.GetString(message.Body));
+                var follower = JsonConvert.DeserializeObject<UserFollowDto>(Encoding.UTF8.GetString(message.Body));
                 
                 if (message.Label == "createFollow")
                 {

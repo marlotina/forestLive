@@ -20,8 +20,8 @@ namespace FL.Functions.UserPost.Services
 
         Task DeleteCommentAsync(CommentBaseDto comment);
 
-        Task AddFollowerAsync(FollowerUser follower);
+        Task AddFollowerAsync(UserFollowDto follower);
 
-        Task DeleteFollowerAsync(FollowerUser follower);
+        Task DeleteFollowerAsync(UserFollowDto follower);
     }
 }

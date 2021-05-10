@@ -1,4 +1,5 @@
 ﻿using FL.Web.API.Core.User.Interactions.Domain.Entities;
+using System;
 using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.User.Interactions.Domain.Repositories

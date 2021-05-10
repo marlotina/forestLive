@@ -73,7 +73,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(voteId) || postId == null || postId == Guid.Empty)
+                if (string.IsNullOrWhiteSpace(voteId) || postId == Guid.Empty)
                 {
                     return this.BadRequest();
                 }

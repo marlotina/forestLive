@@ -2,8 +2,6 @@
 {
     public class FollowUserResponse
     {
-        public string UserId { get; set; }
-
-        public string FollowUserId { get; set; }
+        public string FollowerId { get; set; }
     }
 }

@@ -29,8 +29,7 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation
             {
                 result = new FollowUserResponse()
                 {
-                    FollowUserId = source.FollowUserId,
-                    UserId = source.UserId
+                    FollowerId = source.Id
                 };
             }
 

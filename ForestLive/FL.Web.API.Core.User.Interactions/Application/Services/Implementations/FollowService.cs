@@ -1,5 +1,5 @@
-﻿using FL.Web.API.Core.User.Interactions.Api.Models.v1.Request;
-using FL.Web.API.Core.User.Interactions.Application.Services.Contracts;
+﻿using FL.Web.API.Core.User.Interactions.Application.Services.Contracts;
+using FL.Web.API.Core.User.Interactions.Domain.Dto;
 using FL.Web.API.Core.User.Interactions.Domain.Entities;
 using FL.Web.API.Core.User.Interactions.Domain.Repositories;
 using FL.Web.API.Core.User.Interactions.Infrastructure.ServiceBus.Contracts;
@@ -11,17 +11,17 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
     public class FollowService : IFollowService
     {
         private readonly IFollowRepository iFollowRepository;
-        private readonly IServiceBusFollowTopicSender<FollowUser> iServiceBusFollowTopicSender;
+        private readonly IServiceBusFollowTopicSender<UserFollowDto> iServiceBusFollowTopicSender;
 
         public FollowService(
-            IServiceBusFollowTopicSender<FollowUser> iServiceBusFollowTopicSender,
+            IServiceBusFollowTopicSender<UserFollowDto> iServiceBusFollowTopicSender,
             IFollowRepository iFollowRepository)
         {
             this.iServiceBusFollowTopicSender = iServiceBusFollowTopicSender;
             this.iFollowRepository = iFollowRepository;
         }
 
-        public async Task<FollowUser> AddFollow(FollowUser followUser)
+        public async Task<FollowUser> AddFollow(FollowUser followUser, Guid userSystemId)
         {
             followUser.Id = $"{followUser.UserId}_{followUser.FollowUserId}";
             followUser.CreationDate = DateTime.UtcNow;
@@ -31,12 +31,13 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
 
             if (result != null) {
 
-                var followerRequest = new FollowUser() {
+                var followerRequest = new UserFollowDto() {
                     Id = followUser.Id,
                     CreationDate = followUser.CreationDate,
                     Type = "follower",
                     UserId = followUser.FollowUserId,
                     FollowUserId = followUser.UserId,
+                    SystemUserId = userSystemId
                 };
 
                 await this.iServiceBusFollowTopicSender.SendMessage(followerRequest, "createFollow");
@@ -45,18 +46,19 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
             return result;
         }
 
-        public async Task<bool> DeleteFollow(DeleteFollowUserResquest followUser)
+        public async Task<bool> DeleteFollow(string followId, string followUserId, string webUser, Guid userSystemId)
         {
-            var result = await this.iFollowRepository.DeleteFollow(followUser.Id, followUser.UserId);
+            var result = await this.iFollowRepository.DeleteFollow(followId, webUser);
 
             if (result)
             {
-                var followerRequest = new FollowUser()
+                var followerRequest = new UserFollowDto()
                 {
-                    Id = followUser.Id,
+                    Id = followId,
                     Type = "follower",
-                    UserId = followUser.FollowUserId,
-                    FollowUserId = followUser.UserId,
+                    UserId = webUser,
+                    FollowUserId = followUserId,
+                    SystemUserId = userSystemId
                 };
                 
                 await this.iServiceBusFollowTopicSender.SendMessage(followerRequest, "deleteFollow");
