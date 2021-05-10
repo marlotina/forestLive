@@ -1,5 +1,4 @@
-﻿using FL.LogTrace.Contracts.Standard;
-using FL.Pereza.Helpers.Standard.Enums;
+﻿using FL.Pereza.Helpers.Standard.Enums;
 using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
 using FL.Web.API.Core.Post.Interactions.Domain.Dto;
@@ -16,69 +15,50 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
     public class CommentService : ICommentService
     {
         private readonly ICommentRepository iCommentRepository;
-        private readonly ILogger<CommentService> iLogger;
         private readonly IServiceBusCommentTopicSender<CommentBaseDto> iServiceBusCommentTopicSender;
 
         public CommentService(
             ICommentRepository iCommentRepository,
-            IServiceBusCommentTopicSender<CommentBaseDto> iServiceBusCommentTopicSender,
-            ILogger<CommentService> iLogger)
+            IServiceBusCommentTopicSender<CommentBaseDto> iServiceBusCommentTopicSender)
         {
             this.iCommentRepository = iCommentRepository;
             this.iServiceBusCommentTopicSender = iServiceBusCommentTopicSender;
-            this.iLogger = iLogger;
         }
 
         public async Task<BirdComment> AddComment(CommentDto commentItem)
         {
-            try
-            {
-                commentItem.Id = Guid.NewGuid();
-                commentItem.CreationDate = DateTime.UtcNow;
-                commentItem.Type = ItemHelper.COMMENT_TYPE;
+            commentItem.Id = Guid.NewGuid();
+            commentItem.CreationDate = DateTime.UtcNow;
+            commentItem.Type = ItemHelper.COMMENT_TYPE;
 
-                var comment = this.Convert(commentItem);
-                var response = await this.iCommentRepository.CreateCommentAsync(comment);
+            var comment = this.Convert(commentItem);
+            var response = await this.iCommentRepository.CreateCommentAsync(comment);
 
-                await this.iServiceBusCommentTopicSender.SendMessage(commentItem, TopicHelper.LABEL_COMMENT_CREATED);
+            await this.iServiceBusCommentTopicSender.SendMessage(commentItem, TopicHelper.LABEL_COMMENT_CREATED);
 
-                return response;
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex, "AddComment");
-            }
-
-            return null;
+            return response;
         }
 
 
         public async Task<bool> DeleteComment(Guid commentId, Guid postId, string userId)
         {
-            try
+            var comment = await this.iCommentRepository.GetCommentAsync(commentId, postId);
+            if (userId == comment.UserId && comment != null)
             {
-                var comment = await this.iCommentRepository.GetCommentAsync(commentId, postId);
-                if (userId == comment.UserId && comment != null)
-                {
-                    var result = await this.iCommentRepository.DeleteCommentAsync(commentId, postId);
+                var result = await this.iCommentRepository.DeleteCommentAsync(commentId, postId);
 
-                    if (result)
-                    {
-                        var messageComment = this.Convert(comment);
-                        await this.iServiceBusCommentTopicSender.SendMessage(messageComment, TopicHelper.LABEL_COMMENT_DELETED);
-                        return true;
-                    }
-                }
-                else
+                if (result)
                 {
-                    throw new UnauthorizedRemove();
+                    var messageComment = this.Convert(comment);
+                    await this.iServiceBusCommentTopicSender.SendMessage(messageComment, TopicHelper.LABEL_COMMENT_DELETED);
+                    return true;
                 }
             }
-            catch (Exception ex)
+            else
             {
-                this.iLogger.LogError(ex, "DeleteComment");
+                throw new UnauthorizedRemove();
             }
-
+            
             return false;
         }
 
@@ -129,6 +109,5 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             }
             return result;
         }
-        
     }
 }

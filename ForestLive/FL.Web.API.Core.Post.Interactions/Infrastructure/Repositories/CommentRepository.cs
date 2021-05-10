@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Post.Interactions.Configuration.Contracts;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
@@ -12,39 +13,50 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
 {
     public class CommentRepository : ICommentRepository
     {
-        private IClientFactory clientFactory;
-        private IPostConfiguration itemConfiguration;
+        private IClientFactory iClientFactory;
+        private IPostConfiguration iItemConfiguration;
+        private readonly ILogger<VotePostRepository> iLogger;
         private Container commentContainer;
 
-        public CommentRepository(IClientFactory clientFactory,
-            IPostConfiguration itemConfiguration)
+        public CommentRepository(
+            IClientFactory iClientFactory,
+            ILogger<VotePostRepository> iLogger,
+            IPostConfiguration iItemConfiguration)
         {
-            this.clientFactory = clientFactory;
-            this.itemConfiguration = itemConfiguration;
+            this.iClientFactory = iClientFactory;
+            this.iItemConfiguration = iItemConfiguration;
             this.commentContainer = InitialCLient();
+            this.iLogger = iLogger;
         }
 
         private Container InitialCLient()
         {
-            var config = this.itemConfiguration.CosmosConfiguration;
-            var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
+            var config = this.iItemConfiguration.CosmosConfiguration;
+            var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosCommentContainer);
         }
 
         public async Task<List<BirdComment>> GetCommentsByPostIdAsync(Guid postId)
         {
-            //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
-            var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@PostId", postId);
-            var query = this.commentContainer.GetItemQueryIterator<BirdComment>(queryDef);
-
-            List<BirdComment> comments = new List<BirdComment>();
-            while (query.HasMoreResults)
+            var comments = new List<BirdComment>();
+            try
             {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                comments.AddRange(response.ToList());
+                //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
+                var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
+                var queryDef = new QueryDefinition(queryString);
+                queryDef.WithParameter("@PostId", postId);
+                var query = this.commentContainer.GetItemQueryIterator<BirdComment>(queryDef);
+
+                while (query.HasMoreResults)
+                {
+                    var response = await query.ReadNextAsync();
+                    var ru = response.RequestCharge;
+                    comments.AddRange(response.ToList());
+                }
+            }
+            catch (Exception ex) 
+            {
+                this.iLogger.LogError(ex.Message);
             }
 
             return comments;
@@ -60,6 +72,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                this.iLogger.LogError(ex.Message);
                 return null;
             }
         }
@@ -68,11 +81,11 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
         {
             try
             {
-
                 return await this.commentContainer.CreateItemAsync<BirdComment>(comment, new PartitionKey(comment.PostId.ToString()));
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
             }
 
             return comment;
@@ -83,39 +96,43 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             try
             {
                 await this.commentContainer.DeleteItemAsync<BirdComment>(commentId.ToString(), new PartitionKey(postId.ToString()));
+                return true;
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
                 return false;
             }
-
-            return true;
         }
 
-        public async Task IncreaseVoteCommentCountAsync(Guid commentId, Guid postId)
+        public async Task<bool> IncreaseVoteCommentCountAsync(Guid commentId, Guid postId)
         {
             try
             {
                 var obj = new dynamic[] { commentId.ToString() };
                 await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(postId.ToString()), obj);
+                return true;
             }
             catch (Exception ex)
             {
-
+                this.iLogger.LogError(ex.Message);
+                return false,
             }
 
         }
 
-        public async Task DecreaseVoteCommentCountAsync(Guid commentId, Guid postId)
+        public async Task<bool> DecreaseVoteCommentCountAsync(Guid commentId, Guid postId)
         {
             try
             {
                 var obj = new dynamic[] { commentId.ToString() };
                 await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(postId.ToString()), obj);
+                return true;
             }
             catch (Exception ex)
             {
-
+                this.iLogger.LogError(ex.Message);
+                return false;
             }
         }
     }

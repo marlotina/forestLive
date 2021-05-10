@@ -40,8 +40,9 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
 
             var vote = this.Convert(votePost);
             var result = await this.iVoteCommentRepository.AddCommentVoteAsync(vote);
-            await this.iCommentRepository.IncreaseVoteCommentCountAsync(votePost.CommentId, vote.PostId);
-            await this.iServiceBusVoteCommentTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_COMMENT_CREATED);
+            if (await this.iCommentRepository.IncreaseVoteCommentCountAsync(votePost.CommentId, vote.PostId)) {
+                await this.iServiceBusVoteCommentTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_COMMENT_CREATED);
+            }
 
             return result;
         }
@@ -57,7 +58,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             if (userId == vote.UserId && vote != null)
             {
                 var result = await this.iVoteCommentRepository.DeleteCommentVoteAsync(voteId, vote.PostId);
-                await this.iCommentRepository.DecreaseVoteCommentCountAsync(vote.CommentId, vote.PostId);
+                result = await this.iCommentRepository.DecreaseVoteCommentCountAsync(vote.CommentId, vote.PostId);
                 if (result)
                 {
                     var voteDto = this.Convert(vote);

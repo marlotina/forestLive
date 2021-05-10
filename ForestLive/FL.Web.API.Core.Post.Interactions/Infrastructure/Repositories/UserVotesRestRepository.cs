@@ -1,4 +1,5 @@
-﻿using FL.Web.API.Core.Post.Interactions.Configuration.Contracts;
+﻿using FL.LogTrace.Contracts.Standard;
+using FL.Web.API.Core.Post.Interactions.Configuration.Contracts;
 using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
 using Newtonsoft.Json;
@@ -14,11 +15,14 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
     public class UserVotesRestRepository : IUserVotesRestRepository
     {
         private IPostConfiguration iVoteConfiguration;
+        private readonly ILogger<VotePostRepository> iLogger;
 
         public UserVotesRestRepository(
+            ILogger<VotePostRepository> iLogger,
             IPostConfiguration iVoteConfiguration)
         {
             this.iVoteConfiguration = iVoteConfiguration;
+            this.iLogger = iLogger;
         }
 
         public async Task<IEnumerable<VotePostResponse>> GetUserVoteByComments(IEnumerable<Guid> listComments, string userId)

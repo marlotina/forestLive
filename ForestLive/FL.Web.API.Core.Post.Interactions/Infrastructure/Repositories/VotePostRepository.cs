@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Post.Interactions.Configuration.Contracts;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
@@ -12,16 +13,20 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
 {
     public class VotePostRepository : IVotePostRepository
     {
-        private IClientFactory iClientFactory;
-        private IPostConfiguration iVoteConfiguration;
+        private readonly IClientFactory iClientFactory;
+        private readonly IPostConfiguration iVoteConfiguration;
         private Container voteContainer;
+        private readonly ILogger<VotePostRepository> iLogger;
 
-        public VotePostRepository(IClientFactory iClientFactory,
+        public VotePostRepository(
+            IClientFactory iClientFactory,
+            ILogger<VotePostRepository> iLogger,
             IPostConfiguration iVoteConfiguration)
         {
             this.iClientFactory = iClientFactory;
             this.iVoteConfiguration = iVoteConfiguration;
             this.voteContainer = InitialCLient();
+            this.iLogger = iLogger;
         }
 
         private Container InitialCLient()
@@ -41,6 +46,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                this.iLogger.LogError(ex.Message);
                 return null;
             }
         }
@@ -53,8 +59,9 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
                 result = await this.voteContainer.CreateItemAsync<VotePost>(votePost, new PartitionKey(votePost.PostId.ToString()));
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
-            { 
-                throw ex;
+            {
+                this.iLogger.LogError(ex.Message);
+                throw;
             }
 
             return result;
@@ -69,6 +76,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
                 return false;
             }
             
@@ -76,18 +84,26 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
 
         public async Task<IEnumerable<VotePost>> GetVoteByPostAsync(Guid postId)
         {
-            //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
-            var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@PostId", postId);
-            var query = this.voteContainer.GetItemQueryIterator<VotePost>(queryDef);
-
-            List<VotePost> votes = new List<VotePost>();
-            while (query.HasMoreResults)
+            var votes = new List<VotePost>();
+            try
             {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                votes.AddRange(response.ToList());
+                //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
+                var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
+                var queryDef = new QueryDefinition(queryString);
+                queryDef.WithParameter("@PostId", postId);
+                var query = this.voteContainer.GetItemQueryIterator<VotePost>(queryDef);
+
+                while (query.HasMoreResults)
+                {
+                    var response = await query.ReadNextAsync();
+                    var ru = response.RequestCharge;
+                    votes.AddRange(response.ToList());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex.Message);
             }
 
             return votes;

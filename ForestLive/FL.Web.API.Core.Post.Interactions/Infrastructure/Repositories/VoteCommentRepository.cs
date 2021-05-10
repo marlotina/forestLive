@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Post.Interactions.Configuration.Contracts;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
@@ -14,14 +15,18 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
     {
         private IClientFactory iClientFactory;
         private IPostConfiguration iVoteConfiguration;
+        private readonly ILogger<VotePostRepository> iLogger;
         private Container voteCommentContainer;
 
-        public VoteCommentRepository(IClientFactory iClientFactory,
+        public VoteCommentRepository(
+            IClientFactory iClientFactory,
+            ILogger<VotePostRepository> iLogger,
             IPostConfiguration iVoteConfiguration)
         {
             this.iClientFactory = iClientFactory;
             this.iVoteConfiguration = iVoteConfiguration;
             this.voteCommentContainer = InitialCLient();
+            this.iLogger = iLogger;
         }
 
         private Container InitialCLient()
@@ -41,6 +46,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                this.iLogger.LogError(ex.Message);
                 return null;
             }
         }
@@ -54,24 +60,33 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
                 return false;
             }
         }
 
         public async Task<IEnumerable<VoteCommentPost>> GetVoteByPostAsync(Guid postId)
-        {
-            //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
-            var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
-            var queryDef = new QueryDefinition(queryString);
-            queryDef.WithParameter("@PostId", postId);
-            var query = this.voteCommentContainer.GetItemQueryIterator<VoteCommentPost>(queryDef);
-
-            List<VoteCommentPost> votes = new List<VoteCommentPost>();
-            while (query.HasMoreResults)
+        {     
+            var votes = new List<VoteCommentPost>();
+            try
             {
-                var response = await query.ReadNextAsync();
-                var ru = response.RequestCharge;
-                votes.AddRange(response.ToList());
+                //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
+                var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
+                var queryDef = new QueryDefinition(queryString);
+                queryDef.WithParameter("@PostId", postId);
+                var query = this.voteCommentContainer.GetItemQueryIterator<VoteCommentPost>(queryDef);
+
+                while (query.HasMoreResults)
+                {
+                    var response = await query.ReadNextAsync();
+                    var ru = response.RequestCharge;
+                    votes.AddRange(response.ToList());
+                }
+
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex.Message);
             }
 
             return votes;
@@ -85,7 +100,8 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.Conflict)
             {
-                throw ex;
+                this.iLogger.LogError(ex.Message);
+                throw;
             }
         }
 
@@ -98,6 +114,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
                 return false;
             }
         }
