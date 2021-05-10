@@ -25,36 +25,14 @@ namespace FL.WebAPI.Core.User.Posts.Application.Services.Implementations
 
         public async Task<IEnumerable<PointPostDto>> GetMapPointsByUserId(string userId)
         {
-            try
-            {
-                var posts = await this.iUserRepository.GetMapPointsByUserAsync(userId);
-
-                return posts;
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
-            }
-
-            return null;
+            return await this.iUserRepository.GetMapPointsByUserAsync(userId);
         }
 
 
 
         public async Task<BirdPost> GetPostByPostId(Guid postId, string userId)
         {
-            try
-            {
-                var post = await this.iUserRepository.GetPostsAsync(postId, userId);
-
-                return post;
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex, "GetBlogPostsForUserId");
-            }
-
-            return null;
+            return await this.iUserRepository.GetPostsAsync(postId, userId);
         }
 
         public Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type)
