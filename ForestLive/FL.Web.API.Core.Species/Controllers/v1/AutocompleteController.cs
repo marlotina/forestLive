@@ -19,7 +19,7 @@ namespace FL.Web.API.Core.Species.Controllers.v1
         }
 
         [HttpGet, Route("GetNames", Name = "GetNames")]
-        public IActionResult GetNames(string text, string languageCode)
+        public async Task<IActionResult> GetNames(string text, string languageCode)
         {
             if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode)) {
                 return this.BadRequest();
@@ -27,7 +27,7 @@ namespace FL.Web.API.Core.Species.Controllers.v1
 
             var languageId = LanguageHelper.GetLanguageByCode(languageCode);
 
-            var result = this.autocompleteService.GetSpeciesByKeys(text, languageId); 
+            var result = await this.autocompleteService.GetSpeciesByKeys(text, languageId); 
 
             if (result.Any()) {
 

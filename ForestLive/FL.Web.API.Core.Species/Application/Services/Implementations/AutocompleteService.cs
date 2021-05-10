@@ -7,6 +7,7 @@ using FL.Web.API.Core.Species.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Species.Application.Services.Implementations
 {
@@ -26,12 +27,12 @@ namespace FL.Web.API.Core.Species.Application.Services.Implementations
             this.customMemoryCache = customMemoryCache;
         }
 
-        public IEnumerable<AutocompleteResponse> GetSpeciesByKeys(string keys, Guid languageId)
+        public async Task<IEnumerable<AutocompleteResponse>> GetSpeciesByKeys(string keys, Guid languageId)
         {
             var itemCache = this.customMemoryCache.Get(languageId);
 
             if (itemCache == null || !itemCache.Any()) {
-                var species = this.speciesRepository.GetSpeciesByLanguage(languageId);
+                var species = await this.speciesRepository.GetSpeciesByLanguage(languageId);
                 itemCache = species.Select(x => this.autocompleteMapper.Convert(x));
 
                 this.customMemoryCache.Add(languageId, itemCache);

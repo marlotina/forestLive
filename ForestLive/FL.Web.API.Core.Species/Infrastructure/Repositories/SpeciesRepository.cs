@@ -1,23 +1,28 @@
-﻿using FL.Web.API.Core.Species.Configuration.Contracts;
+﻿using FL.LogTrace.Contracts.Standard;
+using FL.Web.API.Core.Species.Configuration.Contracts;
 using FL.Web.API.Core.Species.Domain.Model;
 using FL.Web.API.Core.Species.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Species.Infrastructure.Repositories
 {
     public class SpeciesRepository : ISpeciesRepository
     {
         private readonly IBirdsConfiguration birdsConfiguration;
+        private readonly ILogger<SpeciesRepository> iLogger;
 
         public SpeciesRepository(
+            ILogger<SpeciesRepository> iLogger,
             IBirdsConfiguration birdsConfiguration)
         {
+            this.iLogger = iLogger;
             this.birdsConfiguration = birdsConfiguration;
         }
 
-        public List<SpecieItem> GetSpeciesByLanguage(Guid languageId)
+        public async Task<List<SpecieItem>> GetSpeciesByLanguage(Guid languageId)
         {
             var result = new List<SpecieItem>();
 
@@ -29,7 +34,7 @@ namespace FL.Web.API.Core.Species.Infrastructure.Repositories
                 SqlCommand command = new SqlCommand($"SELECT c.SpecieId, c.Name, b.ScienceName FROM BirdSpeciesLanguages c INNER JOIN BirdSpecies b ON b.SpeciesId = c.SpecieId WHERE LanguageId = @languageId", conn);
                 command.Parameters.AddWithValue("@languageId", languageId);
 
-                using (SqlDataReader reader = command.ExecuteReader())
+                using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
@@ -43,7 +48,9 @@ namespace FL.Web.API.Core.Species.Infrastructure.Repositories
                 }
             }
             catch (Exception ex)
-            { }
+            {
+                this.iLogger.LogError(ex.Message);
+            }
             finally
             {
                 conn.Close();
