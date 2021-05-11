@@ -24,6 +24,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     UserId = source.UserId,
                     SpecieName = source.SpecieName,
                     Labels = source.Labels,
+                    Type = source.Type,
                     AltImage = source.AltImage,
                     ObservationDate = source.ObservationDate,
                     SpecieId = source.SpecieId

@@ -406,3 +406,7 @@ ForestLive/FL.Web.API.Core.Bird.Pending/nlog.Development.config
 ForestLive/FL.Web.API.Core.User.Interactions/appsettings.json
 ForestLive/FL.Web.API.Core.User.Interactions/appsettings.QA.json
 ForestLive/FL.Web.API.Core.User.Interactions/appsettings.Development.json
+ForestLive/FL.WebAPI.Core.Posts/appsettings.QA.json
+ForestLive/FL.WebAPI.Core.Posts/appsettings.Prod.json
+ForestLive/FL.WebAPI.Core.Posts/appsettings.Development.json
+ForestLive/FL.WebAPI.Core.Posts/appsettings.json

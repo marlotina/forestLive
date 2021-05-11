@@ -5,7 +5,6 @@ using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
-using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
@@ -43,19 +42,22 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             this.iLogger = iLogger;
         }
 
-        public async Task<BirdPost> AddBirdPost(BirdPost birdPost, byte[] imageBytes, string imageName, bool isPost)
+        public async Task<BirdPost> AddBirdPost(BirdPost birdPost, string imageBytes, string imageName, bool isPost)
         {
             try
             {
+                var result = true;
                 var folder = birdPost.UserId + "/" + DateTime.Now.ToString("ddMMyyyhhmm");
-                var result = await this.SavePhoto(imageBytes, imageName, folder);
+                if (!string.IsNullOrEmpty(imageBytes))
+                {
+                    result = await this.SavePhoto(imageBytes, imageName, folder);
+                }
 
                 if (result)
                 {
                     var postId = Guid.NewGuid();
                     birdPost.PostId = postId;
                     birdPost.Id = postId;
-                    birdPost.Type = ItemHelper.POST_TYPE;
                     birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
                     birdPost.CreationDate = DateTime.UtcNow;
@@ -85,7 +87,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     var post = await this.iPostRepository.CreatePostAsync(birdPost);
                     await this.iServiceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
 
-                    return post;
+                    return birdPost;
                 }
             }
             catch (Exception ex)
@@ -111,8 +113,9 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
                     if (result)
                     {
-                        await this.iPostRepository.DeletePostAsync(id, partitionKey);
-                        await this.iServiceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
+                        result = await this.iPostRepository.DeletePostAsync(id, partitionKey);
+                        if(result)
+                            await this.iServiceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
                     }
 
                     return true;
@@ -130,6 +133,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return false;
         }
 
+
         public async Task<BirdPost> GetBirdPost(Guid birdPostId)
         {
             try
@@ -145,8 +149,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         }
 
 
-        private async Task<bool> SavePhoto(byte[] imageBytes, string imageName, string folder)
+        private async Task<bool> SavePhoto(string imageData, string imageName, string folder)
         {
+
+            var imageBytes = Convert.FromBase64String(imageData.Split(',')[1]);
+
             var contents = new StreamContent(new MemoryStream(imageBytes));
             var imageStream = await contents.ReadAsStreamAsync();
 

@@ -29,7 +29,7 @@ namespace FL.Functions.Posts
             {
                 var post = JsonConvert.DeserializeObject<Model.BirdPost>(Encoding.UTF8.GetString(message.Body));
 
-                if (post.Id != null && post.Id != Guid.Empty)
+                if (post.Id != null && post.Id != Guid.Empty && post.SpecieId.HasValue)
                 {
                     if (message.Label == "postCreated")
                     {

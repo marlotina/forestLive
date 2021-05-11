@@ -10,9 +10,9 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
     {
         Task<BirdPost> CreatePostAsync(BirdPost post);
 
-        Task DeletePostAsync(Guid id, string partitionKey);
+        Task<bool> DeletePostAsync(Guid id, string partitionKey);
 
-        Task UpdatePostAsync(BirdPost post);
+        Task<bool> UpdatePostAsync(BirdPost post);
 
         Task<BirdPost> GetPostAsync(Guid postId);
 

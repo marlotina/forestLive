@@ -38,15 +38,13 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 if (request == null)
                     return null;
 
-                if (string.IsNullOrWhiteSpace(request.UserId)
-                    || string.IsNullOrWhiteSpace(request.ImageData))
+                if (string.IsNullOrWhiteSpace(request.UserId))
                     return this.BadRequest();
 
                 var post = this.iPostMapper.Convert(request);
-                var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
 
 
-                var result = await this.iManagePostService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
+                var result = await this.iManagePostService.AddBirdPost(post, request.ImageData, request.ImageName, request.isPost);
                 
                 if (result != null)
                 {

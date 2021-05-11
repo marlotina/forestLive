@@ -12,14 +12,14 @@ namespace FL.Functions.Posts.Services
 
         public PostCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.postContainer = dbClient.GetContainer(databaseName, "post");
+            this.postContainer = dbClient.GetContainer(databaseName, "specie");
         }
 
         public async Task CreatePostAsync(Model.BirdPost post)
         {
             try
             {
-                await this.postContainer.CreateItemAsync(post, new PartitionKey(post.PostId.ToString()));
+                await this.postContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
             }
             catch (Exception ex)
             {

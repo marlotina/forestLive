@@ -8,6 +8,8 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
 
         public string AltImage { get; set; }
 
+        public string Type { get; set; }
+
         public string ImageName { get; set; }
 
         public string Title { get; set; }
