@@ -5,5 +5,7 @@
         public string CosmosDatabaseId { get; set; }
 
         public string CosmosPostContainer { get; set; }
+
+        public string CosmosBirdContainer { get; set; }
     }
 }

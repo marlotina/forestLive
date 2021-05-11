@@ -1,11 +1,13 @@
 ﻿using FL.Infrastructure.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Enums;
+using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Repositories;
+using FL.WebAPI.Core.Items.Domain.Repository;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.Collections.Generic;
@@ -26,12 +28,16 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly ILogger<PostService> iLogger;
         private readonly IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic;
         private readonly IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender;
-
-        public ManagePostService(IPostConfiguration iPostConfiguration,
+        private readonly IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender;
+        private readonly IBirdSpeciesRepository iBirdSpeciesRepository;
+        public ManagePostService(
+            IBirdSpeciesRepository iBirdSpeciesRepository,
+            IPostConfiguration iPostConfiguration,
             IBlobContainerRepository iBlobContainerRepository,
             IPostRepository iPostRepository,
             IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic,
             IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender,
+            IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender,
             ILogger<PostService> iLogger)
         {
             this.iBlobContainerRepository = iBlobContainerRepository;
@@ -39,6 +45,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             this.iPostRepository = iPostRepository;
             this.iServiceBusCreatedPostTopic = iServiceBusCreatedPostTopic;
             this.iServiceBusLabelTopicSender = iServiceBusLabelTopicSender;
+            this.iServiceBusAssignSpecieTopicSender = iServiceBusAssignSpecieTopicSender;
+            this.iBirdSpeciesRepository = iBirdSpeciesRepository;
             this.iLogger = iLogger;
         }
 
@@ -184,6 +192,41 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
 
             return listLabel;
+        }
+
+        public async Task<bool> UpdateSpecieToPost(UpdateSpecieRequest request, string userId)
+        {
+            try
+            {
+                var post = await this.iBirdSpeciesRepository.GetPostsAsync(request.PostId, request.OldSpecieId);
+                if (userId == post.UserId)
+                {
+                    post.SpecieId = request.SpecieId;
+                    post.SpecieName = request.SpecieName;
+                    post.Type = "bird";
+                    var response = await this.iBirdSpeciesRepository.DeletePostAsync(request.PostId, request.OldSpecieId);
+                    if (response)
+                    {
+                        var newPost = await this.iBirdSpeciesRepository.CreatePostAsync(post);
+                        if (newPost != null)
+                        {
+                            //var respone = await this.iPostRepository.UpdatePostAsync(post);
+                            await this.iServiceBusAssignSpecieTopicSender.SendMessage(post, TopicHelper.LABEL_UPDATE_SPECIE);
+                            return true;
+                        }
+                    }
+                }
+                else
+                {
+                    throw new UnauthorizedRemove();
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.iLogger.LogError(ex, "DeleteBirdItem");
+            }
+
+            return false;
         }
     }
 }

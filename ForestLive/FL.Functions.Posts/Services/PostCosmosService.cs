@@ -8,18 +8,20 @@ namespace FL.Functions.Posts.Services
 {
     public class PostCosmosService : IPostCosmosService
     {
+        private Container specieContainer;
         private Container postContainer;
 
         public PostCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.postContainer = dbClient.GetContainer(databaseName, "specie");
+            this.specieContainer = dbClient.GetContainer(databaseName, "specie");
+            this.postContainer = dbClient.GetContainer(databaseName, "post");
         }
 
         public async Task CreatePostAsync(Model.BirdPost post)
         {
             try
             {
-                await this.postContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
+                await this.specieContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
             }
             catch (Exception ex)
             {
@@ -29,14 +31,21 @@ namespace FL.Functions.Posts.Services
 
         public async Task UpdatePostAsync(BirdPost post)
         {
-            await this.postContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
+            try
+            {
+                await this.postContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
+            }
+            catch (Exception ex)
+            {
+
+            }
         }
 
         public async Task DeletePostAsync(Model.BirdPost post)
         {
             try
             {
-                await this.postContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.PostId.ToString()));
+                await this.specieContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.PostId.ToString()));
             }
             catch (Exception ex)
             {
@@ -49,7 +58,7 @@ namespace FL.Functions.Posts.Services
             try
             {
                 var obj = new dynamic[] { comment.PostId };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("increaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
+                var result = await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("increaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
@@ -61,7 +70,7 @@ namespace FL.Functions.Posts.Services
             try
             {
                 var obj = new dynamic[] { vote.PostId };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
+                var result = await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
@@ -73,7 +82,7 @@ namespace FL.Functions.Posts.Services
             try
             {
                 var obj = new dynamic[] { comment.PostId };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
+                var result = await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
@@ -85,7 +94,7 @@ namespace FL.Functions.Posts.Services
             try
             {
                 var obj = new dynamic[] { vote.PostId };
-                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
+                var result = await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {

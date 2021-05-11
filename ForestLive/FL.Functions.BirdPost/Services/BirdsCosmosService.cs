@@ -49,7 +49,7 @@ namespace FL.Functions.BirdPost.Services
         {
             try
             {
-                await this.birdsContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
+                await this.birdsContainer.UpsertItemAsync(post, new PartitionKey(post.PostId.ToString()));
             }
             catch (Exception ex)
             {

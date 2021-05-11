@@ -7,5 +7,7 @@
         public string TopicPost { get; set; }
 
         public string TopicLabel { get; set; }
+
+        public string TopicAssignSpecie { get; set; }
     }
 }
