@@ -2,7 +2,6 @@
 using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Bird.Pending.Configuration.Contracts;
 using FL.Web.API.Core.Bird.Pending.Domain.Dto;
-using FL.Web.API.Core.Bird.Pending.Domain.Model;
 using FL.Web.API.Core.Bird.Pending.Domain.Repository;
 using Microsoft.Azure.Cosmos;
 using System;

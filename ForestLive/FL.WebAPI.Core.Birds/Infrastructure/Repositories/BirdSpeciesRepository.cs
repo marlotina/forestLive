@@ -31,12 +31,6 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
         }
-
-        public async Task<BirdPost> CreatePostAsync(BirdPost post)
-        {
-            return await this.birdContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.SpecieId.ToString()));
-        }
-
         public async Task<List<PostDto>> GetPostsBySpecieAsync(Guid specieId, string orderCondition)
         {
             var posts = new List<PostDto>();
@@ -98,36 +92,6 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             {
                 return null;
             }
-        }
-
-        public async Task<bool> DeletePostAsync(Guid postId, Guid specieId)
-        {
-            try
-            {
-                await this.birdContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
-                return true;
-            }
-            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-            }
-
-            return false;
-
-        }
-
-        public async Task<bool> UpdatePostAsync(BirdPost post)
-        {
-            try
-            {
-                var obj = new dynamic[] { post };
-                var response = await this.birdContainer.Scripts.ExecuteStoredProcedureAsync<string>("updateSpecie", new PartitionKey(post.SpecieId.ToString()), obj);
-                return true;
-            }
-            catch (Exception ex)
-            {
-
-            }
-            return false;
         }
 
         public async Task<List<PostHomeDto>> GetLastSpecieAsync()
