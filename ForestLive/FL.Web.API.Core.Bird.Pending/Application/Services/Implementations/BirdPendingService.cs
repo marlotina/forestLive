@@ -28,20 +28,7 @@ namespace FL.Web.API.Core.Bird.Pending.Application.Services.Implementations
 
         public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
         {
-            try
-            {
-                if (webUserId != null)
-                {
-                    return await this.iUserVotesRepository.GetUserVoteByPosts(listPost, webUserId);
-                }
-
-                return new List<VotePostResponse>();
-            }
-            catch (Exception ex)
-            {
-                //this.logger.LogError(ex, "GetBlogPostsForUserId");
-                return null;
-            }
+            return await this.iUserVotesRepository.GetUserVoteByPosts(listPost, webUserId);
         }
 
         public async Task<List<PostDto>> GetBirds(int orderBy)

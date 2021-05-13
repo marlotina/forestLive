@@ -9,9 +9,5 @@ namespace FL.Web.API.Core.Bird.Pending.Configuration.Contracts
         string VoteApiDomain { get; }
 
         string VoteUrlService { get; }
-
-        string BirdPhotoContainer { get; }
-
-        ServiceBusConfig ServiceBusConfig { get; }
     }
 }

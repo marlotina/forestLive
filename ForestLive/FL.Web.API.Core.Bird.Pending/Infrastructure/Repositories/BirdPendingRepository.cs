@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Bird.Pending.Configuration.Contracts;
 using FL.Web.API.Core.Bird.Pending.Domain.Dto;
 using FL.Web.API.Core.Bird.Pending.Domain.Model;
@@ -16,13 +17,17 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
         private IClientFactory iClientFactory;
         private readonly IBirdPendingConfiguration iBirdPendingConfiguration;
         private readonly Container birdContainer;
+        private readonly ILogger<BirdPendingRepository> iLogger;
 
-        public BirdPendingRepository(IClientFactory iClientFactory,
+        public BirdPendingRepository(
+            IClientFactory iClientFactory,
+            ILogger<BirdPendingRepository> iLogger,
             IBirdPendingConfiguration iBirdPendingConfiguration)
         {
             this.iClientFactory = iClientFactory;
             this.iBirdPendingConfiguration = iBirdPendingConfiguration;
             this.birdContainer = this.InitialClient();
+            this.iLogger = iLogger;
         }
 
         private Container InitialClient()
@@ -30,11 +35,6 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
             var config = this.iBirdPendingConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdPendingContainer);
-        }
-
-        public async Task<BirdPost> CreatePostAsync(BirdPost post)
-        {
-            return await this.birdContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
         }
 
         public async Task<List<PostDto>> GetAllSpecieAsync(string orderCondition)
@@ -56,33 +56,10 @@ namespace FL.Web.API.Core.Bird.Pending.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
             }
 
             return posts;
-        }
-
-        public async Task<BirdPost> GetPostsAsync(Guid postId)
-        {
-            try
-            {
-                var response = await this.birdContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(postId.ToString()));
-                var ru = response.RequestCharge;
-                return response.Resource;
-            }
-            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                return null;
-            }
-        }
-
-        public async Task DeletePostAsync(Guid postId)
-        {
-            await this.birdContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(postId.ToString()));
-        }
-
-        public async Task<BirdPost> UpdatePostAsync(BirdPost post)
-        {
-            return await this.birdContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
         }
     }
 }
