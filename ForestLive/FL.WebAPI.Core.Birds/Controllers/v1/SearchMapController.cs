@@ -15,10 +15,10 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     {
         private readonly ILogger<SearchMapController> iLogger;
         private readonly ISearchMapService iSearchMapService;
-        private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
+        private readonly IPostMapper iBirdSpeciePostMapper;
 
         public SearchMapController(ISearchMapService iSearchMapService,
-            IBirdSpeciePostMapper iBirdSpeciePostMapper,
+            IPostMapper iBirdSpeciePostMapper,
             ILogger<SearchMapController> iLogger)
         {
             this.iLogger = iLogger;
@@ -37,7 +37,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
 
                 if (result != null)
                 {
-                    var itemResponse = result.Select(x => this.iBirdSpeciePostMapper.MapConvert(x));
+                    var itemResponse = result.Select(x => this.iBirdSpeciePostMapper.Convert(x));
                     return this.Ok(itemResponse);
                 }
                 else

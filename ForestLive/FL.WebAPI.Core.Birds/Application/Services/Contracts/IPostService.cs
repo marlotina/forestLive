@@ -8,7 +8,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Contracts
 {
     public interface IPostService
     {
-        Task<BirdPost> GetBirdPost(Guid birdPostId);
+        Task<BirdPost> GetPost(Guid birdPostId);
 
         Task<List<PostDto>> GetPosts(int orderBy);
     }

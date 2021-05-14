@@ -1,16 +1,15 @@
 ﻿using FL.Pereza.Helpers.Standard.Images;
+using FL.Web.API.Core.User.Posts.Domain.Dto;
 using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
 using FL.WebAPI.Core.Birds.Domain.Dto;
 using FL.WebAPI.Core.Birds.Domain.Model;
-using Microsoft.Azure.Cosmos.Spatial;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
 {
-    public class BirdSpeciePostMapper : IBirdSpeciePostMapper
+    public class PostMapper : IPostMapper
     {
         public PostListResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
         {
@@ -89,7 +88,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
             return result;
         }
 
-        public BirdMapResponse MapConvert(BirdPost source)
+        public BirdMapResponse Convert(PointPostDto source)
         {
             var result = default(BirdMapResponse);
             if (source != null)
@@ -97,7 +96,6 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                 result = new BirdMapResponse()
                 {
                     PostId = source.PostId,
-                    SpecieId = source.SpecieId,
                     Location = new PositionResponse
                     {
                         Lat = source.Location.Position.Latitude,

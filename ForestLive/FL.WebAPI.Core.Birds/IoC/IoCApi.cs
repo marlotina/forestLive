@@ -16,7 +16,7 @@ namespace FL.WebAPI.Core.Birds.IoC
     {
         public void RegisterServices(DependencyInjection.Standard.Contracts.IServiceCollection services)
         {
-            services.AddSingleton<IBirdSpeciePostMapper, BirdSpeciePostMapper>();
+            services.AddSingleton<IPostMapper, PostMapper>();
 
             services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
 

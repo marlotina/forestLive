@@ -1,6 +1,5 @@
 ﻿using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Dto;
-using FL.WebAPI.Core.Birds.Domain.Model;
 using FL.WebAPI.Core.Birds.Domain.Repository;
 using System;
 using System.Collections.Generic;
@@ -11,14 +10,11 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
     public class SpeciesService : ISpeciesService
     {
         private readonly ISpeciesRepository iBirdSpeciesRepository;
-        private readonly IUserVotesRestRepository iUserVotesRepository;
 
         public SpeciesService(
-            IUserVotesRestRepository iUserVotesRepository,
             ISpeciesRepository iBirdSpeciesRepository)
         {
             this.iBirdSpeciesRepository = iBirdSpeciesRepository;
-            this.iUserVotesRepository = iUserVotesRepository;
         }
 
         public async Task<List<PostDto>> GetBirdBySpecie(Guid birdSpecieId, int orderBy)
@@ -27,32 +23,14 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             return await this.iBirdSpeciesRepository.GetPostsBySpecieAsync(birdSpecieId, orderCondition);
         }
 
-        public async Task<BirdPost> GetPost(Guid postId, Guid specieId)
-        {
-            return await this.iBirdSpeciesRepository.GetPostsAsync(postId, specieId);
-        }
-
-        public async Task<IEnumerable<VotePostResponse>> GetVoteByUserId(IEnumerable<Guid> listPost, string webUserId)
-        {
-            try
-            {
-                if (webUserId != null)
-                {
-                    return await this.iUserVotesRepository.GetUserVoteByPosts(listPost, webUserId);
-                }
-
-                return new List<VotePostResponse>();
-            }
-            catch (Exception ex)
-            {
-                //this.logger.LogError(ex, "GetBlogPostsForUserId");
-                return null;
-            }
-        }
-
         public async Task<List<PostDto>> GetBirds(int orderBy)
         {
             return await this.iBirdSpeciesRepository.GetAllSpecieAsync(this.GerOrderCondition(orderBy));
+        }
+
+        public async Task<List<PostHomeDto>> GetLastBirds()
+        {
+            return await this.iBirdSpeciesRepository.GetLastSpecieAsync();
         }
 
         private string GerOrderCondition(int orderBy)
@@ -64,11 +42,6 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
                 case 3: return "commentCount DESC";
                 default: return "creationDate DESC";
             }
-        }
-
-        public async Task<List<PostHomeDto>> GetLastBirds()
-        {
-            return await this.iBirdSpeciesRepository.GetLastSpecieAsync();
         }
     }
 }

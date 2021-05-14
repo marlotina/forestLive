@@ -22,7 +22,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             this.iLogger = iLogger;
         }
 
-        public async Task<BirdPost> GetBirdPost(Guid birdPostId)
+        public async Task<BirdPost> GetPost(Guid birdPostId)
         {
             try
             {

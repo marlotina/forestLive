@@ -17,13 +17,13 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         private readonly ILogger<UserPostsController> iLogger;
         private readonly IUserPostService iUserPostService;
         private readonly IUserVoteService iUserVoteService;
-        private readonly IBirdSpeciePostMapper iBirdPostMapper;
+        private readonly IPostMapper iBirdPostMapper;
 
         public UserPostsController(
             ILogger<UserPostsController> iLogger,
             IUserPostService iUserPostService,
             IUserVoteService iUserVoteService,
-            IBirdSpeciePostMapper iBirdPostMapper)
+            IPostMapper iBirdPostMapper)
         {
             this.iUserPostService = iUserPostService;
             this.iBirdPostMapper = iBirdPostMapper;
@@ -74,7 +74,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
 
                 if (result != null && result.Any())
                 {
-                    var response = result.Select(x => this.iBirdPostMapper.MapConvert(x));
+                    var response = result.Select(x => this.iBirdPostMapper.Convert(x));
                     return this.Ok(response);
                 }
                 else

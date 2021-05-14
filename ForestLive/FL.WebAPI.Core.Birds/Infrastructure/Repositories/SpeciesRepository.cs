@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Birds.Configuration.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Dto;
 using FL.WebAPI.Core.Birds.Domain.Model;
@@ -13,13 +14,17 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
 {
     public class SpeciesRepository : ISpeciesRepository
     {
-        private IClientFactory iClientFactory;
-        private IBirdsConfiguration iBirdsConfiguration;
+        private readonly IClientFactory iClientFactory;
+        private readonly IBirdsConfiguration iBirdsConfiguration;
         private readonly Container birdContainer;
+        private readonly ILogger<SpeciesRepository> iLogger;
 
-        public SpeciesRepository(IClientFactory iClientFactory,
+        public SpeciesRepository(
+            ILogger<SpeciesRepository> iLogger,
+            IClientFactory iClientFactory,
             IBirdsConfiguration iBirdsConfiguration)
         {
+            this.iLogger = iLogger;
             this.iClientFactory = iClientFactory;
             this.iBirdsConfiguration = iBirdsConfiguration;
             this.birdContainer = this.InitialClient();
@@ -51,6 +56,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
             catch (Exception ex) 
             {
+                this.iLogger.LogError(ex.Message);
             }
 
             return posts;
@@ -75,23 +81,10 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
             }
 
             return posts;
-        }
-
-        public async Task<BirdPost> GetPostsAsync(Guid postId, Guid specieId)
-        {
-            try
-            {
-                var response = await this.birdContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
-                var ru = response.RequestCharge;
-                return response.Resource;
-            }
-            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                return null;
-            }
         }
 
         public async Task<List<PostHomeDto>> GetLastSpecieAsync()
@@ -113,6 +106,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex.Message);
             }
 
             return posts;

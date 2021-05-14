@@ -13,18 +13,18 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class BirdPostController : ControllerBase
+    public class PostController : ControllerBase
     {
-        private readonly ILogger<BirdPostController> iLogger;
+        private readonly ILogger<PostController> iLogger;
         private readonly IPostService iPostService;
         private readonly IUserVoteService iUserVoteService;
-        private readonly IBirdSpeciePostMapper iPostMapper;
+        private readonly IPostMapper iPostMapper;
 
-        public BirdPostController(
+        public PostController(
             IUserVoteService iUserVoteService,
             IPostService iPostService,
-            IBirdSpeciePostMapper iPostMapper,
-            ILogger<BirdPostController> iLogger)
+            IPostMapper iPostMapper,
+            ILogger<PostController> iLogger)
         {
             this.iUserVoteService = iUserVoteService;
             this.iLogger = iLogger;
@@ -46,7 +46,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                     this.BadRequest();
                 }
 
-                var result = await this.iPostService.GetBirdPost(postId);
+                var result = await this.iPostService.GetPost(postId);
 
                 if (result != null)
                 {
@@ -74,7 +74,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         {
             try
             {
-                var result = await this.iPostService.GetBirdPost(postId);
+                var result = await this.iPostService.GetPost(postId);
 
                 if (result != null)
                 {

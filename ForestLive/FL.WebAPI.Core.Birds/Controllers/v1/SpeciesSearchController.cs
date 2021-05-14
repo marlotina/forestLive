@@ -16,11 +16,14 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     public class SpeciesSearchController : Controller
     {
         private readonly ISpeciesService iBirdSpeciesService;
-        private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
+        private readonly IPostMapper iBirdSpeciePostMapper;
+        private readonly IUserVoteService iUserVoteService;
         public SpeciesSearchController(
+            IUserVoteService iUserVoteService,
             ISpeciesService iBirdSpeciesService,
-            IBirdSpeciePostMapper iBirdSpeciePostMapper)
+            IPostMapper iBirdSpeciePostMapper)
         {
+            this.iUserVoteService = iUserVoteService;
             this.iBirdSpeciesService = iBirdSpeciesService;
             this.iBirdSpeciePostMapper = iBirdSpeciePostMapper;
         }
@@ -59,7 +62,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
                 var postList = result.Select(x => x.PostId);
-                var postVotes = await this.iBirdSpeciesService.GetVoteByUserId(postList, webUserId);
+                var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
 
                 var response = result.Select(x => this.iBirdSpeciePostMapper.Convert(x, postVotes));
                 return this.Ok(response);
@@ -79,7 +82,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
                 var postList = result.Select(x => x.PostId);
-                var postVotes = await this.iBirdSpeciesService.GetVoteByUserId(postList, webUserId);
+                var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
 
                 var response = result.Select(x => this.iBirdSpeciePostMapper.Convert(x, postVotes));
                 return this.Ok(response);
