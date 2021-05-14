@@ -23,7 +23,7 @@ namespace FL.Functions.UserInteractions
         [FunctionName("CommentUser")]
         public void Run([ServiceBusTrigger(
             "comment",
-            "commentUserTopic",
+            "commentUserSubscription",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

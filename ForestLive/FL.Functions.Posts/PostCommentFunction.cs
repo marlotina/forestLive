@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.Posts
 {
-    public class PostComment
+    public class PostCommentFunction
     {
         private readonly IPostCosmosService iPostDbService;
 
-        public PostComment(IPostCosmosService iPostDbService)
+        public PostCommentFunction(IPostCosmosService iPostDbService)
         {
             this.iPostDbService = iPostDbService;
         }
@@ -21,7 +21,7 @@ namespace FL.Functions.Posts
         [FunctionName("CommentPost")]
         public void Run([ServiceBusTrigger(
             "comment",
-            "PostCommentTopic",
+            "commentPostSubscription",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

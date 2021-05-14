@@ -22,7 +22,7 @@ namespace FL.Functions.UserPost
         public void Run(
             [ServiceBusTrigger(
                 "updatespecie",
-                "SpecieChangeUserSubscription", 
+                "specieChangeUserSubscription", 
                 Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

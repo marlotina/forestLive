@@ -22,7 +22,7 @@ namespace FL.Functions.BirdPost
         [FunctionName("UserVote")]
         public void Run([ServiceBusTrigger(
             "vote",
-            "voteUserPostTopic",
+            "voteUserPostSubscription",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

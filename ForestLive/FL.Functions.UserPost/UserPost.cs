@@ -21,8 +21,8 @@ namespace FL.Functions.UserPost
         [FunctionName("UserPost")]
         public void Run(
             [ServiceBusTrigger(
-                "post", 
-                "UserPostTopic", 
+                "post",
+                "userPostSubscription", 
                 Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

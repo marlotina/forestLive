@@ -5,40 +5,34 @@ using System;
 using Microsoft.Azure.ServiceBus;
 using System.Text;
 using FL.Functions.Posts.Services;
+using FL.Functions.Posts.Model;
 
-namespace FL.Functions.Posts
+namespace FL.Functions.UserPost
 {
-    public class ItemPost
+    public class ChangeSpecieFunction
     {
         private readonly IPostCosmosService iPostCosmosDbService;
 
-        public ItemPost(IPostCosmosService iPostCosmosDbService)
+        public ChangeSpecieFunction(IPostCosmosService iPostCosmosDbService)
         {
             this.iPostCosmosDbService = iPostCosmosDbService;
         }
 
-        [FunctionName("UserPost")]
+        [FunctionName("UserSpecie")]
         public void Run(
             [ServiceBusTrigger(
-                "post", 
-                "PostTopic", 
+                "updatespecie",
+                "specieChangePostSubscription", 
                 Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<Model.BirdPost>(Encoding.UTF8.GetString(message.Body));
+                var post = JsonConvert.DeserializeObject<BirdPost>(Encoding.UTF8.GetString(message.Body));
 
-                if (post.Id != null && post.Id != Guid.Empty && post.SpecieId.HasValue)
+                if (post.Id != null && post.Id != Guid.Empty)
                 {
-                    if (message.Label == "postCreated")
-                    {
-                        this.iPostCosmosDbService.CreatePostAsync(post);
-                    }
-                    else if (message.Label == "postDeleted")
-                    {
-                        this.iPostCosmosDbService.DeletePostAsync(post);
-                    }
+                    this.iPostCosmosDbService.UpdatePostAsync(post);
                 }
             }
             catch (Exception ex)

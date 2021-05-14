@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class BirdCommentFunction
+    public class CommentFunction
     {
         private readonly IBirdsCosmosService iBirdsCosmosService;
 
-        public BirdCommentFunction(IBirdsCosmosService iBirdsCosmosService)
+        public CommentFunction(IBirdsCosmosService iBirdsCosmosService)
         {
             this.iBirdsCosmosService = iBirdsCosmosService;
         }
@@ -21,7 +21,7 @@ namespace FL.Functions.BirdPost
         [FunctionName("FunctionBirdComment")]
         public void Run([ServiceBusTrigger(
             "comment",
-            "commentBirdTopic",
+            "specieCommentSubscription",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

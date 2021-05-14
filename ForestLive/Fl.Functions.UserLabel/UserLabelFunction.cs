@@ -23,7 +23,7 @@ namespace FL.Functions.UserLabel
         [FunctionName("UserLabel")]
         public void Run([ServiceBusTrigger(
             "label",
-            "labelUserPostTopic",
+            "labelUserPostSubscription",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
