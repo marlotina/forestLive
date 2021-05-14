@@ -13,11 +13,11 @@ namespace FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Implementations
     {
         private readonly TopicClient topicClient;
         private readonly IPostConfiguration iPostConfiguration;
-        private readonly ILogger<ServiceBusPostTopicSender<T>> logger;
+        private readonly ILogger<ServiceBusLabelTopicSender<T>> logger;
 
         public ServiceBusLabelTopicSender(
             IPostConfiguration iPostConfiguration,
-            ILogger<ServiceBusPostTopicSender<T>> logger)
+            ILogger<ServiceBusLabelTopicSender<T>> logger)
         {
             this.iPostConfiguration = iPostConfiguration;
             this.logger = logger;

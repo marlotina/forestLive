@@ -11,13 +11,13 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
 {
-    public class BirdSpeciesRepository : IBirdSpeciesRepository
+    public class SpeciesRepository : ISpeciesRepository
     {
         private IClientFactory iClientFactory;
         private IBirdsConfiguration iBirdsConfiguration;
         private readonly Container birdContainer;
 
-        public BirdSpeciesRepository(IClientFactory iClientFactory,
+        public SpeciesRepository(IClientFactory iClientFactory,
             IBirdsConfiguration iBirdsConfiguration)
         {
             this.iClientFactory = iClientFactory;

@@ -15,10 +15,10 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     [ApiController]
     public class SpeciesSearchController : Controller
     {
-        private readonly IBirdSpeciesService iBirdSpeciesService;
+        private readonly ISpeciesService iBirdSpeciesService;
         private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
         public SpeciesSearchController(
-            IBirdSpeciesService iBirdSpeciesService,
+            ISpeciesService iBirdSpeciesService,
             IBirdSpeciePostMapper iBirdSpeciePostMapper)
         {
             this.iBirdSpeciesService = iBirdSpeciesService;
@@ -67,26 +67,6 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
 
             return this.NoContent();
         }
-
-        [HttpGet, Route("GetPost", Name = "GetPost")]
-        public async Task<IActionResult> GetPost(Guid postId, Guid specieId)
-        {
-            var result = await this.iBirdSpeciesService.GetPost(postId, specieId);
-
-            if (result != null)
-            {
-                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-
-                var postList = new Guid[] { postId };
-                var postVotes = await this.iBirdSpeciesService.GetVoteByUserId(postList, webUserId);
-
-                var response = this.iBirdSpeciePostMapper.ConvertPost(result, postVotes);
-                return this.Ok(response);
-            }
-
-            return this.NoContent();
-        }
-
 
         [HttpGet, Route("GetPendings", Name = "GetPendings")]
         public async Task<IActionResult> GetPendings(int orderBy)

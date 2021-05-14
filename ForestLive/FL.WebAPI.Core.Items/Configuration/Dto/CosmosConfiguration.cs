@@ -6,6 +6,6 @@
 
         public string CosmosPostContainer { get; set; }
 
-        public string CosmosBirdContainer { get; set; }
+        public string CosmosUserContainer { get; set; }
     }
 }

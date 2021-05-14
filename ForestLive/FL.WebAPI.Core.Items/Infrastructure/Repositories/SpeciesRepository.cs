@@ -1,4 +1,5 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
+using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Repository;
@@ -8,17 +9,21 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
 {
-    public class BirdSpeciesRepository : IBirdSpeciesRepository
+    public class SpeciesRepository : ISpeciesRepository
     {
         private readonly IClientFactory iClientFactory;
         private readonly IPostConfiguration iPostConfiguration;
         private readonly Container birdContainer;
+        private readonly ILogger<SpeciesRepository> iLogger;
 
-        public BirdSpeciesRepository(IClientFactory iClientFactory,
+        public SpeciesRepository(
+            ILogger<SpeciesRepository> iLogger,
+            IClientFactory iClientFactory,
             IPostConfiguration iPostConfiguration)
         {
             this.iClientFactory = iClientFactory;
             this.iPostConfiguration = iPostConfiguration;
+            this.iLogger = iLogger;
             this.birdContainer = this.InitialClient();
         }
 
@@ -26,12 +31,21 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
         {
             var config = this.iPostConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosBirdContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task<BirdPost> CreatePostAsync(BirdPost post)
+        public async Task<bool> CreatePostAsync(BirdPost post)
         {
-            return await this.birdContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.SpecieId.ToString()));
+            try
+            {
+                await this.birdContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex.Message);
+                return false;
+            }
         }
 
         public async Task<BirdPost> GetPostsAsync(Guid postId, Guid specieId)
@@ -44,6 +58,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                this.iLogger.LogError(ex.Message);
                 return null;
             }
         }
@@ -57,10 +72,9 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
+                this.iLogger.LogError(ex.Message);
+                return false;
             }
-
-            return false;
-
         }
     }
 }

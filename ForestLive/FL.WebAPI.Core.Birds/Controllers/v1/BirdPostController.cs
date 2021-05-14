@@ -3,12 +3,12 @@ using System.Linq;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.JwtToken;
-using FL.WebAPI.Core.Items.Api.Mapper.v1.Contracts;
-using FL.WebAPI.Core.Items.Application.Services.Contracts;
+using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
+using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FL.WebAPI.Core.Items.Controllers.v1
+namespace FL.WebAPI.Core.Birds.Controllers.v1
 {
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
@@ -17,12 +17,16 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
     {
         private readonly ILogger<BirdPostController> iLogger;
         private readonly IPostService iPostService;
-        private readonly IPostMapper iPostMapper;
+        private readonly IUserVoteService iUserVoteService;
+        private readonly IBirdSpeciePostMapper iPostMapper;
 
-        public BirdPostController(IPostService iPostService,
-            IPostMapper iPostMapper,
+        public BirdPostController(
+            IUserVoteService iUserVoteService,
+            IPostService iPostService,
+            IBirdSpeciePostMapper iPostMapper,
             ILogger<BirdPostController> iLogger)
         {
+            this.iUserVoteService = iUserVoteService;
             this.iLogger = iLogger;
             this.iPostService = iPostService ?? throw new ArgumentNullException(nameof(iPostService));
             this.iPostMapper = iPostMapper ?? throw new ArgumentNullException(nameof(iPostMapper));
@@ -48,13 +52,37 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 {
                     var postList = new Guid[] { postId };
 
-                    var postVotes = await this.iPostService.GetVoteByUserId(postList, webUserId);
+                    var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
 
-                    var itemResponse = this.iPostMapper.Convert(result, postVotes);
+                    var itemResponse = this.iPostMapper.ConvertPost(result, postVotes);
                     return this.Ok(itemResponse);
                 }
                 else
                     return this.NoContent();
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("GetModalInfo", Name = "GetModalInfo")]
+        public async Task<IActionResult> GetModalInfo(Guid postId)
+        {
+            try
+            {
+                var result = await this.iPostService.GetBirdPost(postId);
+
+                if (result != null)
+                {
+                    var itemResponse = this.iPostMapper.ModalConvert(result);
+                    return this.Ok(itemResponse);
+                }
+                else
+                    return this.BadRequest();
             }
             catch (Exception ex)
             {
@@ -78,9 +106,9 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 {
                     var postList = result.Select(x => x.PostId);
 
-                    var postVotes = await this.iPostService.GetVoteByUserId(postList, webUserId);
+                    var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
 
-                    var itemResponse = result.Select(x => this.iPostMapper.ConvertToList(x, postVotes));
+                    var itemResponse = result.Select(x => this.iPostMapper.Convert(x, postVotes));
                     return this.Ok(itemResponse);
                 }
                 else

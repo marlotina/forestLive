@@ -11,6 +11,9 @@ namespace FL.WebAPI.Core.Birds.Domain.Dto
         [JsonProperty(PropertyName = "title")]
         public string Title { get; set; }
 
+        [JsonProperty(PropertyName = "type")]
+        public string Type { get; set; }
+
         [JsonProperty(PropertyName = "text")]
         public string Text { get; set; }
 

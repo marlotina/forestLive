@@ -8,14 +8,12 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 {
     public interface IPostRepository
     {
-        Task<BirdPost> CreatePostAsync(BirdPost post);
+        Task<bool> CreatePostAsync(BirdPost post);
 
         Task<bool> DeletePostAsync(Guid id, string partitionKey);
 
         Task<bool> UpdatePostAsync(BirdPost post);
 
         Task<BirdPost> GetPostAsync(Guid postId);
-
-        Task<List<PostDto>> GetPostsAsync(string orderBy);
     }
 }

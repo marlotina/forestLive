@@ -13,7 +13,6 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts
 
         PostResponse ConvertPost(BirdPost source, IEnumerable<VotePostResponse> postVotes = null);
 
-
         ModalBirdPostResponse ModalConvert(BirdPost source);
 
         PostHomeResponse Convert(PostHomeDto source);

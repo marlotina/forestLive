@@ -25,28 +25,28 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IPostConfiguration iPostConfiguration;
         private readonly IBlobContainerRepository iBlobContainerRepository;
         private readonly IPostRepository iPostRepository;
-        private readonly ILogger<PostService> iLogger;
-        private readonly IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic;
+        private readonly ILogger<ManagePostService> iLogger;
         private readonly IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender;
         private readonly IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender;
-        private readonly IBirdSpeciesRepository iBirdSpeciesRepository;
+        private readonly ISpeciesRepository iSpeciesRepository;
+        private readonly IUserPostRepository iUserPostRepository;
         public ManagePostService(
-            IBirdSpeciesRepository iBirdSpeciesRepository,
+            ISpeciesRepository iSpeciesRepository,
             IPostConfiguration iPostConfiguration,
             IBlobContainerRepository iBlobContainerRepository,
             IPostRepository iPostRepository,
-            IServiceBusPostTopicSender<BirdPost> iServiceBusCreatedPostTopic,
+            IUserPostRepository iUserPostRepository,
             IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender,
             IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender,
-            ILogger<PostService> iLogger)
+            ILogger<ManagePostService> iLogger)
         {
             this.iBlobContainerRepository = iBlobContainerRepository;
             this.iPostConfiguration = iPostConfiguration;
             this.iPostRepository = iPostRepository;
-            this.iServiceBusCreatedPostTopic = iServiceBusCreatedPostTopic;
             this.iServiceBusLabelTopicSender = iServiceBusLabelTopicSender;
             this.iServiceBusAssignSpecieTopicSender = iServiceBusAssignSpecieTopicSender;
-            this.iBirdSpeciesRepository = iBirdSpeciesRepository;
+            this.iSpeciesRepository = iSpeciesRepository;
+            this.iUserPostRepository = iUserPostRepository;
             this.iLogger = iLogger;
         }
 
@@ -86,14 +86,21 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                         }
                     }
 
+
+                    await this.iPostRepository.CreatePostAsync(birdPost);
+                    await this.iUserPostRepository.CreatePostAsync(birdPost);
+
+                    if (birdPost.SpecieId.HasValue)
+                    {
+                        await this.iSpeciesRepository.CreatePostAsync(birdPost);
+                    }
+
                     if (birdPost.Labels != null && birdPost.Labels.Any())
                     {
                         var dtoLabels = this.GetListLabel(birdPost.Labels.ToList(), birdPost.UserId);
                         await this.iServiceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
                     }
 
-                    var post = await this.iPostRepository.CreatePostAsync(birdPost);
-                    await this.iServiceBusCreatedPostTopic.SendMessage(birdPost, TopicHelper.LABEL_POST_CREATED);
 
                     return birdPost;
                 }
@@ -122,8 +129,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     if (result)
                     {
                         result = await this.iPostRepository.DeletePostAsync(id, partitionKey);
-                        if(result)
-                            await this.iServiceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
+                        //if(result)
+                            //await this.iServiceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
                     }
 
                     return true;
@@ -198,16 +205,16 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         {
             try
             {
-                var post = await this.iBirdSpeciesRepository.GetPostsAsync(request.PostId, request.OldSpecieId);
+                var post = await this.iSpeciesRepository.GetPostsAsync(request.PostId, request.OldSpecieId);
                 if (userId == post.UserId)
                 {
                     post.SpecieId = request.SpecieId;
                     post.SpecieName = request.SpecieName;
                     post.Type = "bird";
-                    var response = await this.iBirdSpeciesRepository.DeletePostAsync(request.PostId, request.OldSpecieId);
+                    var response = await this.iSpeciesRepository.DeletePostAsync(request.PostId, request.OldSpecieId);
                     if (response)
                     {
-                        var newPost = await this.iBirdSpeciesRepository.CreatePostAsync(post);
+                        var newPost = await this.iSpeciesRepository.CreatePostAsync(post);
                         if (newPost != null)
                         {
                             //var respone = await this.iPostRepository.UpdatePostAsync(post);

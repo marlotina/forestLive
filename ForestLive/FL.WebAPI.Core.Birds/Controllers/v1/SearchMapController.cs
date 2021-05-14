@@ -49,29 +49,5 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                 return this.Problem();
             }
         }
-
-        [HttpGet]
-        [AllowAnonymous]
-        [Route("GetModalInfo", Name = "GetModalInfo")]
-        public async Task<IActionResult> GetModalInfo(Guid postId, Guid specieId)
-        {
-            try
-            {
-                var result = await this.iSearchMapService.GetPostModalInfo(postId, specieId);
-
-                if (result != null)
-                {
-                    var itemResponse = this.iBirdSpeciePostMapper.ModalConvert(result);
-                    return this.Ok(itemResponse);
-                }
-                else
-                    return this.BadRequest();
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex);
-                return this.Problem();
-            }
-        }
     }
 }

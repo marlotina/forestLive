@@ -20,11 +20,11 @@ namespace FL.WebAPI.Core.Birds.IoC
 
             services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
 
-            services.AddTransient<IBirdSpeciesService, BirdSpeciesService>();
+            services.AddTransient<ISpeciesService, SpeciesService>();
             services.AddTransient<ISearchMapService, SearchMapService>();
 
             services.AddTransient<IUserVotesRestRepository, UserVotesRestRepository>();
-            services.AddTransient<IBirdSpeciesRepository, BirdSpeciesRepository>();
+            services.AddTransient<ISpeciesRepository, SpeciesRepository>();
             services.AddTransient<ISearchMapRepository, SearchMapRepository>();
 
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Application.Services.Contracts
 {
-    public interface IBirdSpeciesService
+    public interface ISpeciesService
     {
         Task<List<PostDto>> GetBirdBySpecie(Guid birdSpecieId, int orderBy);
 

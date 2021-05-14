@@ -8,14 +8,14 @@ using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
 {
-    public class BirdSpeciesService : IBirdSpeciesService
+    public class SpeciesService : ISpeciesService
     {
-        private readonly IBirdSpeciesRepository iBirdSpeciesRepository;
+        private readonly ISpeciesRepository iBirdSpeciesRepository;
         private readonly IUserVotesRestRepository iUserVotesRepository;
 
-        public BirdSpeciesService(
+        public SpeciesService(
             IUserVotesRestRepository iUserVotesRepository,
-            IBirdSpeciesRepository iBirdSpeciesRepository)
+            ISpeciesRepository iBirdSpeciesRepository)
         {
             this.iBirdSpeciesRepository = iBirdSpeciesRepository;
             this.iUserVotesRepository = iUserVotesRepository;
