@@ -28,7 +28,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     CreationDate = source.CreationDate,
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
-                    SpecieId = source.SpecieId.Value,
+                    SpecieId = source.SpecieId,
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
