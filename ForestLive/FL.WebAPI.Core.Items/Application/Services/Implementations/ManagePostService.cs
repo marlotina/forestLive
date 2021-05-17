@@ -86,7 +86,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                         }
                     }
 
-
                     await this.iPostRepository.CreatePostAsync(birdPost);
                     await this.iUserPostRepository.CreatePostAsync(birdPost);
 

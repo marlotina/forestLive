@@ -49,7 +49,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 if (result != null)
                 {
                     var postResponse = this.iPostMapper.Convert(result);
-                    return this.CreatedAtRoute("GetPost", new { id = postResponse.Id }, postResponse);
+                    return this.Ok(postResponse);
                 }
                 else
                     return this.BadRequest();
@@ -60,8 +60,6 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 return this.Problem();
             }
         }
-
-
 
         [HttpPut]
         [Route("UpdateSpecieId", Name = "UpdateSpecieId")]

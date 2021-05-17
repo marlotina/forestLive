@@ -31,7 +31,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
         {
             var config = this.iPostConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosSpecieContainer);
         }
 
         public async Task<bool> CreatePostAsync(BirdPost post)

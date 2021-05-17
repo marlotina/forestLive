@@ -38,7 +38,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
         {
             try
             {
-                await this.userContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.SpecieId.ToString()));
+                await this.userContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.UserId.ToString()));
                 return true;
             }
             catch (Exception ex)
