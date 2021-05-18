@@ -5,18 +5,14 @@ namespace FL.Functions.Posts.Services
 {
     public interface IPostCosmosService
     {
-        Task CreatePostAsync(Model.BirdPost post);
-
-        Task DeletePostAsync(Model.BirdPost post);
-
         Task UpdatePostAsync(Model.BirdPost post);
 
-        Task AddCommentPostAsync(CommentBaseDto comment);
+        Task AddCommentPostCountAsync(CommentBaseDto comment);
 
-        Task DeleteCommentPostAsync(CommentBaseDto comment);
+        Task DeleteCommentPostCountAsync(CommentBaseDto comment);
 
-        Task AddVotePostAsync(VotePostBaseDto vote);
+        Task AddVotePostCountAsync(VotePostBaseDto vote);
 
-        Task DeleteVotePostAsync(VotePostBaseDto vote);
+        Task DeleteVotePostCountAsync(VotePostBaseDto vote);
     }
 }

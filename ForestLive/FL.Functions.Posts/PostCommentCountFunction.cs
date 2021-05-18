@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.Posts
 {
-    public class PostCommentFunction
+    public class PostCommentCountFunction
     {
         private readonly IPostCosmosService iPostDbService;
 
-        public PostCommentFunction(IPostCosmosService iPostDbService)
+        public PostCommentCountFunction(IPostCosmosService iPostDbService)
         {
             this.iPostDbService = iPostDbService;
         }
@@ -33,11 +33,11 @@ namespace FL.Functions.Posts
                 {
                     if (message.Label == "commentCreated")
                     {
-                        this.iPostDbService.AddCommentPostAsync(post);
+                        this.iPostDbService.AddCommentPostCountAsync(post);
                     }
                     else if (message.Label == "commentDeleted")
                     {
-                        this.iPostDbService.DeleteCommentPostAsync(post);
+                        this.iPostDbService.DeleteCommentPostCountAsync(post);
                     }
                 }
             }

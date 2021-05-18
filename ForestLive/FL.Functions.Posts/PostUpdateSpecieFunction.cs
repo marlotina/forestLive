@@ -9,11 +9,11 @@ using FL.Functions.Posts.Model;
 
 namespace FL.Functions.UserPost
 {
-    public class ChangeSpecieFunction
+    public class PostUpdateSpecieFunction
     {
         private readonly IPostCosmosService iPostCosmosDbService;
 
-        public ChangeSpecieFunction(IPostCosmosService iPostCosmosDbService)
+        public PostUpdateSpecieFunction(IPostCosmosService iPostCosmosDbService)
         {
             this.iPostCosmosDbService = iPostCosmosDbService;
         }

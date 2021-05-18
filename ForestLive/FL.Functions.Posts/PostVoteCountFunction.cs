@@ -9,11 +9,11 @@ using Newtonsoft.Json;
 
 namespace FL.Functions.Posts
 {
-    public class VotePostFunction
+    public class PostVoteCountFunction
     {
         private readonly IPostCosmosService iPostCosmosService;
 
-        public VotePostFunction(IPostCosmosService iPostCosmosService)
+        public PostVoteCountFunction(IPostCosmosService iPostCosmosService)
         {
             this.iPostCosmosService = iPostCosmosService;
         }
@@ -32,11 +32,11 @@ namespace FL.Functions.Posts
                 
                 if (message.Label == "voteCreated")
                 {
-                    this.iPostCosmosService.AddVotePostAsync(vote);
+                    this.iPostCosmosService.AddVotePostCountAsync(vote);
                 }
                 else if (message.Label == "voteDeleted")
                 {
-                    this.iPostCosmosService.DeleteVotePostAsync(vote);
+                    this.iPostCosmosService.DeleteVotePostCountAsync(vote);
                 }
                 
                 

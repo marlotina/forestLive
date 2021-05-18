@@ -8,25 +8,11 @@ namespace FL.Functions.Posts.Services
 {
     public class PostCosmosService : IPostCosmosService
     {
-        private Container specieContainer;
         private Container postContainer;
 
         public PostCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.specieContainer = dbClient.GetContainer(databaseName, "specie");
             this.postContainer = dbClient.GetContainer(databaseName, "post");
-        }
-
-        public async Task CreatePostAsync(Model.BirdPost post)
-        {
-            try
-            {
-                await this.specieContainer.CreateItemAsync(post, new PartitionKey(post.SpecieId.ToString()));
-            }
-            catch (Exception ex)
-            {
-
-            }
         }
 
         public async Task UpdatePostAsync(BirdPost post)
@@ -41,60 +27,48 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task DeletePostAsync(Model.BirdPost post)
-        {
-            try
-            {
-                await this.specieContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.PostId.ToString()));
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        public async Task AddCommentPostAsync(CommentBaseDto comment)
+        public async Task AddCommentPostCountAsync(CommentBaseDto comment)
         {
             try
             {
                 var obj = new dynamic[] { comment.PostId };
-                var result = await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("increaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<BirdComment>("increaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
             }
         }
 
-        public async Task AddVotePostAsync(VotePostBaseDto vote)
+        public async Task AddVotePostCountAsync(VotePostBaseDto vote)
         {
             try
             {
                 var obj = new dynamic[] { vote.PostId };
-                var result = await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
             }
         }
 
-        public async Task DeleteCommentPostAsync(CommentBaseDto comment)
+        public async Task DeleteCommentPostCountAsync(CommentBaseDto comment)
         {
             try
             {
                 var obj = new dynamic[] { comment.PostId };
-                var result = await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
             }
         }
 
-        public async Task DeleteVotePostAsync(VotePostBaseDto vote)
+        public async Task DeleteVotePostCountAsync(VotePostBaseDto vote)
         {
             try
             {
                 var obj = new dynamic[] { vote.PostId };
-                var result = await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.PostId.ToString()), obj);
             }
             catch (Exception ex)
             {
