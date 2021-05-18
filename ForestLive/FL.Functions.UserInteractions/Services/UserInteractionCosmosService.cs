@@ -2,6 +2,7 @@
 using FL.Functions.UserInteractions.Model;
 using FL.Functions.UserInteractions.Services;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Scripts;
 using System;
 using System.Threading.Tasks;
 
@@ -12,12 +13,14 @@ namespace FL.Functions.UserPost.Services
         private Container usersCommentContainer;
         private Container usersVoteContainer;
         private Container usersCommentVoteContainer;
+        private Container usersContainer;
 
         public UserInteractionCosmosService(CosmosClient dbClient, string databaseName)
         {
             this.usersCommentContainer = dbClient.GetContainer(databaseName, "comment");
             this.usersVoteContainer = dbClient.GetContainer(databaseName, "vote");
             this.usersCommentVoteContainer = dbClient.GetContainer(databaseName, "commentvote");
+            this.usersContainer = dbClient.GetContainer(databaseName, "user");
         }
 
         public async Task AddCommentPostAsync(CommentDto comment)
@@ -86,6 +89,48 @@ namespace FL.Functions.UserPost.Services
             }
             catch (Exception ex)
             {
+            }
+        }
+
+        public async Task AddFollowerAsync(UserFollowDto follower)
+        {
+            try
+            {
+                var followerRequest = new FollowerUser()
+                {
+                    Id = follower.Id,
+                    CreationDate = follower.CreationDate,
+                    Type = follower.Type,
+                    UserId = follower.UserId,
+                    FollowUserId = follower.FollowUserId
+                };
+
+                var obj = new dynamic[] { followerRequest, follower.SystemUserId.ToString() };
+                //await this.usersFollowContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseFollowerCount", new PartitionKey(follower.UserId), obj);
+
+                StoredProcedureExecuteResponse<string> sprocResponse2 =
+                    await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>(
+                    "increaseFollowerCount",
+                    new PartitionKey(follower.UserId),
+                    obj);
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public async Task DeleteFollowerAsync(UserFollowDto follower)
+        {
+            try
+            {
+                var obj = new dynamic[] { follower.Id, follower.SystemUserId.ToString() };
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseFollowerCount", new PartitionKey(follower.FollowUserId), obj);
+            }
+            catch (Exception ex)
+            {
+
             }
         }
 

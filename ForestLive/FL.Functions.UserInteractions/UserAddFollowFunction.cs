@@ -1,6 +1,5 @@
-using FL.Functions.UserPost.Dto;
-using FL.Functions.UserPost.Model;
-using FL.Functions.UserPost.Services;
+using FL.Functions.UserInteractions.Dto;
+using FL.Functions.UserInteractions.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -10,13 +9,13 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class UserFollow
+    public class UserAddFollowFunction
     {
-        private readonly IUserPostCosmosService iUserPostCosmosDbService;
+        private readonly IUserInterationCosmosService iUserInterationCosmosService;
 
-        public UserFollow(IUserPostCosmosService iUserPostCosmosDbService)
+        public UserAddFollowFunction(IUserInterationCosmosService iUserInterationCosmosService)
         {
-            this.iUserPostCosmosDbService = iUserPostCosmosDbService;
+            this.iUserInterationCosmosService = iUserInterationCosmosService;
         }
 
         [FunctionName("UserFollow")]
@@ -32,11 +31,11 @@ namespace FL.Functions.BirdPost
                 
                 if (message.Label == "createFollow")
                 {
-                    this.iUserPostCosmosDbService.AddFollowerAsync(follower);
+                    this.iUserInterationCosmosService.AddFollowerAsync(follower);
                 }
                 else if (message.Label == "deleteFollow")
                 {
-                    this.iUserPostCosmosDbService.DeleteFollowerAsync(follower);
+                    this.iUserInterationCosmosService.DeleteFollowerAsync(follower);
                 }
                 
             }

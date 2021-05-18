@@ -11,11 +11,11 @@ using System.Text;
 
 namespace FL.Functions.UserInteractions
 {
-    public class CommentUserFunction
+    public class UserAddCommentFunction
     {
         private readonly IUserInterationCosmosService userLabelCosmosService;
 
-        public CommentUserFunction(IUserInterationCosmosService userLabelCosmosService)
+        public UserAddCommentFunction(IUserInterationCosmosService userLabelCosmosService)
         {
             this.userLabelCosmosService = userLabelCosmosService;
         }

@@ -9,11 +9,11 @@ using Newtonsoft.Json;
 
 namespace FL.Functions.UserInteractions
 {
-    public class VoteUserFunction
+    public class UserAddVoteFunction
     {
         private readonly IUserInterationCosmosService postCosmosService;
 
-        public VoteUserFunction(IUserInterationCosmosService postCosmosService)
+        public UserAddVoteFunction(IUserInterationCosmosService postCosmosService)
         {
             this.postCosmosService = postCosmosService;
         }
