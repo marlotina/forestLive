@@ -15,9 +15,9 @@ namespace FL.Functions.UserPost.Services
 
         public UserInteractionCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.usersCommentContainer = dbClient.GetContainer(databaseName, "usercomment");
-            this.usersVoteContainer = dbClient.GetContainer(databaseName, "uservote");
-            this.usersCommentVoteContainer = dbClient.GetContainer(databaseName, "usercommentvote");
+            this.usersCommentContainer = dbClient.GetContainer(databaseName, "comment");
+            this.usersVoteContainer = dbClient.GetContainer(databaseName, "vote");
+            this.usersCommentVoteContainer = dbClient.GetContainer(databaseName, "commentvote");
         }
 
         public async Task AddCommentPostAsync(CommentDto comment)
@@ -91,9 +91,7 @@ namespace FL.Functions.UserPost.Services
 
         private VotePost ConvertVote(VotePostDto source) 
         {
-            var response = default(VotePost);
-
-            response = new VotePost() {
+            return new VotePost() {
                 Id = source.Id,
                 Type = source.Type,
                 PostId = source.PostId,
@@ -103,8 +101,6 @@ namespace FL.Functions.UserPost.Services
                 CreationDate = source.CreationDate,
                 SpecieId = source.SpecieId
             };
-
-            return response;
         }
     }
 }

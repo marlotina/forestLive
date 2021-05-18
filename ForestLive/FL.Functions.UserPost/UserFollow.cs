@@ -21,8 +21,8 @@ namespace FL.Functions.BirdPost
 
         [FunctionName("UserFollow")]
         public void Run([ServiceBusTrigger(
-            "followuser",
-            "followsubscription",
+            "follower",
+            "followerUserSubscription",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
