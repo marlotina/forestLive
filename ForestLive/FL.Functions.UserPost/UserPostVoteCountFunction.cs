@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class UserVoteCountFunction
+    public class UserPostVoteCountFunction
     {
         private readonly IUserPostCosmosService iUserPostCosmosDbService;
 
-        public UserVoteCountFunction(IUserPostCosmosService iUserPostCosmosDbService)
+        public UserPostVoteCountFunction(IUserPostCosmosService iUserPostCosmosDbService)
         {
             this.iUserPostCosmosDbService = iUserPostCosmosDbService;
         }

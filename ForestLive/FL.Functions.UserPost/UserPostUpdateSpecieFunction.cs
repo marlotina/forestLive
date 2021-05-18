@@ -8,11 +8,11 @@ using FL.Functions.UserPost.Services;
 
 namespace FL.Functions.UserPost
 {
-    public class UserSpecieFunction
+    public class UserPostUpdateSpecieFunction
     {
         private readonly IUserPostCosmosService iUserPostCosmosDbService;
 
-        public UserSpecieFunction(IUserPostCosmosService iUserPostCosmosDbService)
+        public UserPostUpdateSpecieFunction(IUserPostCosmosService iUserPostCosmosDbService)
         {
             this.iUserPostCosmosDbService = iUserPostCosmosDbService;
         }
