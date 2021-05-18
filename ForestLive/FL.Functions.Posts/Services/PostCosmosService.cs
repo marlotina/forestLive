@@ -15,28 +15,11 @@ namespace FL.Functions.Posts.Services
             this.postContainer = dbClient.GetContainer(databaseName, "post");
         }
 
-        public async Task CreatePostAsync(Model.BirdPost post)
-        {
-            try
-            {
-                await this.postContainer.CreateItemAsync(post, new PartitionKey(post.PostId.ToString()));
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
         public async Task UpdatePostAsync(BirdPost post)
         {
-            await this.postContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
-        }
-
-        public async Task DeletePostAsync(Model.BirdPost post)
-        {
             try
             {
-                await this.postContainer.DeleteItemAsync<Model.BirdPost>(post.Id.ToString(), new PartitionKey(post.PostId.ToString()));
+                await this.postContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(post.PostId.ToString()));
             }
             catch (Exception ex)
             {
@@ -44,7 +27,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task AddCommentPostAsync(CommentBaseDto comment)
+        public async Task AddCommentPostCountAsync(CommentBaseDto comment)
         {
             try
             {
@@ -56,7 +39,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task AddVotePostAsync(VotePostBaseDto vote)
+        public async Task AddVotePostCountAsync(VotePostBaseDto vote)
         {
             try
             {
@@ -68,7 +51,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task DeleteCommentPostAsync(CommentBaseDto comment)
+        public async Task DeleteCommentPostCountAsync(CommentBaseDto comment)
         {
             try
             {
@@ -80,7 +63,7 @@ namespace FL.Functions.Posts.Services
             }
         }
 
-        public async Task DeleteVotePostAsync(VotePostBaseDto vote)
+        public async Task DeleteVotePostCountAsync(VotePostBaseDto vote)
         {
             try
             {

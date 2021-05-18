@@ -406,3 +406,17 @@ ForestLive/FL.Web.API.Core.Bird.Pending/nlog.Development.config
 ForestLive/FL.Web.API.Core.User.Interactions/appsettings.json
 ForestLive/FL.Web.API.Core.User.Interactions/appsettings.QA.json
 ForestLive/FL.Web.API.Core.User.Interactions/appsettings.Development.json
+ForestLive/FL.WebAPI.Core.Posts/appsettings.QA.json
+ForestLive/FL.WebAPI.Core.Posts/appsettings.Prod.json
+ForestLive/FL.WebAPI.Core.Posts/appsettings.Development.json
+ForestLive/FL.WebAPI.Core.Posts/appsettings.json
+ForestLive/FL.Web.API.Core.UserLabels/appsettings.Prod.json
+ForestLive/FL.Web.API.Core.User.Posts/appsettings.Prod.json
+ForestLive/FL.Web.API.Core.User.Interactions/appsettings.Prod.json
+ForestLive/FL.Web.API.Core.Species/appsettings.Prod.json
+ForestLive/FL.WebAPI.Core.Items/appsettings.Prod.json
+ForestLive/FL.Web.API.Core.User.Interactions/nlog.Prod.config
+ForestLive/FL.WebAPI.Core.Items/nlog.Prod.config
+ForestLive/FL.Web.API.Core.Bird.Pending/appsettings.Prod.json
+ForestLive/FL.Web.API.Core.User.Posts/nlog.Prod.config
+ForestLive/FL.WebAPI.Core.Birds/appsettings.Prod.json

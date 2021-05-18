@@ -70,7 +70,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             var votes = new List<VotePost>();
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.type='votePost' AND p.userId = @UserId";
+                var queryString = $"SELECT * FROM p WHERE p.type='vote' AND p.userId = @UserId";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@UserId", userId);

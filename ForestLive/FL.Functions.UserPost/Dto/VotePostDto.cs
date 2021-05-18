@@ -20,13 +20,11 @@ namespace FL.Functions.UserPost.Dto
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
-        [JsonProperty(PropertyName = "titlePost")]
-        public string TitlePost { get; set; }
-
         [JsonProperty(PropertyName = "creationDate")]
         public DateTime CreationDate { get; set; }
 
         [JsonProperty(PropertyName = "specieId")]
         public Guid? SpecieId { get; set; }
     }
+
 }

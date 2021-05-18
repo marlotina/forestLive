@@ -41,7 +41,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
                     return null;
 
                 if (string.IsNullOrWhiteSpace(request.UserId)
-                    || request.PostId == Guid.Empty || request.PostId == null)
+                    || request.PostId == Guid.Empty)
                     return this.BadRequest();
 
                 var votePost = this.voteMapper.Convert(request);

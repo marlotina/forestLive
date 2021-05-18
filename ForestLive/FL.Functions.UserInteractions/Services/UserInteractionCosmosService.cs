@@ -2,6 +2,7 @@
 using FL.Functions.UserInteractions.Model;
 using FL.Functions.UserInteractions.Services;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.Cosmos.Scripts;
 using System;
 using System.Threading.Tasks;
 
@@ -12,12 +13,14 @@ namespace FL.Functions.UserPost.Services
         private Container usersCommentContainer;
         private Container usersVoteContainer;
         private Container usersCommentVoteContainer;
+        private Container usersContainer;
 
         public UserInteractionCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.usersCommentContainer = dbClient.GetContainer(databaseName, "usercomment");
-            this.usersVoteContainer = dbClient.GetContainer(databaseName, "uservote");
-            this.usersCommentVoteContainer = dbClient.GetContainer(databaseName, "usercommentvote");
+            this.usersCommentContainer = dbClient.GetContainer(databaseName, "comment");
+            this.usersVoteContainer = dbClient.GetContainer(databaseName, "vote");
+            this.usersCommentVoteContainer = dbClient.GetContainer(databaseName, "commentvote");
+            this.usersContainer = dbClient.GetContainer(databaseName, "user");
         }
 
         public async Task AddCommentPostAsync(CommentDto comment)
@@ -89,11 +92,51 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
+        public async Task AddFollowerAsync(UserFollowDto follower)
+        {
+            try
+            {
+                var followerRequest = new FollowerUser()
+                {
+                    Id = follower.Id,
+                    CreationDate = follower.CreationDate,
+                    Type = follower.Type,
+                    UserId = follower.FollowUserId,
+                    FollowUserId = follower.UserId
+                };
+
+                var obj = new dynamic[] { follower.SystemUserId.ToString() };
+                
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>(
+                    "increaseFollowerCount",
+                    new PartitionKey(followerRequest.UserId),
+                    obj);
+
+                await this.usersContainer.CreateItemAsync(followerRequest, new PartitionKey(followerRequest.UserId));
+
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
+        public async Task DeleteFollowerAsync(UserFollowDto follower)
+        {
+            try
+            {
+                var obj = new dynamic[] { follower.Id, follower.SystemUserId.ToString() };
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseFollowerCount", new PartitionKey(follower.FollowUserId), obj);
+            }
+            catch (Exception ex)
+            {
+
+            }
+        }
+
         private VotePost ConvertVote(VotePostDto source) 
         {
-            var response = default(VotePost);
-
-            response = new VotePost() {
+            return new VotePost() {
                 Id = source.Id,
                 Type = source.Type,
                 PostId = source.PostId,
@@ -103,8 +146,6 @@ namespace FL.Functions.UserPost.Services
                 CreationDate = source.CreationDate,
                 SpecieId = source.SpecieId
             };
-
-            return response;
         }
     }
 }

@@ -16,5 +16,9 @@ namespace FL.Functions.UserInteractions.Services
         Task AddCommentVotePostAsync(VoteCommentPostDto vote);
 
         Task DeleteCommentVotePostAsync(VoteCommentPostDto vote);
+
+        Task AddFollowerAsync(UserFollowDto follower);
+
+        Task DeleteFollowerAsync(UserFollowDto follower);
     }
 }

@@ -38,20 +38,18 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 if (request == null)
                     return null;
 
-                if (string.IsNullOrWhiteSpace(request.UserId)
-                    || string.IsNullOrWhiteSpace(request.ImageData))
+                if (string.IsNullOrWhiteSpace(request.UserId))
                     return this.BadRequest();
 
                 var post = this.iPostMapper.Convert(request);
-                var bytes = Convert.FromBase64String(request.ImageData.Split(',')[1]);
 
 
-                var result = await this.iManagePostService.AddBirdPost(post, bytes, request.ImageName, request.isPost);
+                var result = await this.iManagePostService.AddBirdPost(post, request.ImageData, request.ImageName, request.isPost);
                 
                 if (result != null)
                 {
                     var postResponse = this.iPostMapper.Convert(result);
-                    return this.CreatedAtRoute("GetPost", new { id = postResponse.Id }, postResponse);
+                    return this.Ok(postResponse);
                 }
                 else
                     return this.BadRequest();
@@ -59,6 +57,32 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             catch (Exception ex)
             {
                 this.iLogger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
+        [HttpPut]
+        [Route("UpdateSpecieId", Name = "UpdateSpecieId")]
+        public async Task<IActionResult> UpdateSpecieId([FromBody] UpdateSpecieRequest request)
+        {
+            try
+            {
+                if (request == null || string.IsNullOrWhiteSpace(request.SpecieName))
+                    return this.BadRequest();
+
+                var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                var result = await this.iManagePostService.UpdateSpecieToPost(request, userId);
+
+                if (result)
+                {
+                    return this.Ok();
+                }
+                else
+                    return this.BadRequest();
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogError(ex);
                 return this.Problem();
             }
         }

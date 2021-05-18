@@ -37,6 +37,7 @@ namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
             var dbClient = this.clientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserLabelContainer);
         }
+
         public async Task<List<UserLabelDto>> GetUserLabelsByUserId(string userId)
         {
             var labels = new List<UserLabelDto>();

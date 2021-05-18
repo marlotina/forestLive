@@ -116,7 +116,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             catch (Exception ex)
             {
                 this.iLogger.LogError(ex.Message);
-                return false,
+                return false;
             }
 
         }

@@ -18,9 +18,5 @@ namespace FL.WebAPI.Core.Birds.Configuration.Implementations
         public string VoteApiDomain => this.configuration.GetSection("VoteApiDomain").Get<string>();
 
         public string VoteUrlService => this.configuration.GetSection("VoteUrlService").Get<string>();
-
-        public string BirdPhotoContainer => this.configuration.GetSection("BirdPhotoContainer").Get<string>();
-
-        public ServiceBusConfig ServiceBusConfig => this.configuration.GetSection("ServiceBusConfig").Get<ServiceBusConfig>();
     }
 }

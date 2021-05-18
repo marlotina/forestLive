@@ -14,7 +14,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         private IClientFactory iClientFactory;
         private IVoteConfiguration iVoteConfiguration;
         private readonly ILogger<FollowRepository> iLogger;
-        private Container followContainer;
+        private Container userContainer;
 
         public FollowRepository(
             IClientFactory iClientFactory,
@@ -23,7 +23,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         {
             this.iClientFactory = iClientFactory;
             this.iVoteConfiguration = iVoteConfiguration;
-            this.followContainer = InitialCLient();
+            this.userContainer = InitialCLient();
             this.iLogger = iLogger;
         }
 
@@ -31,14 +31,14 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         {
             var config = this.iVoteConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosFollowContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
         public async Task<FollowUser> AddFollow(FollowUser followUser)
         {
             try
             {
-                return await this.followContainer.CreateItemAsync<FollowUser>(followUser, new PartitionKey(followUser.UserId));
+                return await this.userContainer.CreateItemAsync<FollowUser>(followUser, new PartitionKey(followUser.UserId));
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -47,11 +47,11 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteFollow(string userId, string id)
+        public async Task<bool> DeleteFollow(string followId, string userId)
         {
             try
             {
-                await this.followContainer.DeleteItemAsync<FollowUser>(userId, new PartitionKey(id));
+                await this.userContainer.DeleteItemAsync<FollowUser>(followId, new PartitionKey(userId));
                 return true;
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         {
             try
             {
-                var response = await this.followContainer.ReadItemAsync<FollowUser>(followUserId, new PartitionKey(userId));
+                var response = await this.userContainer.ReadItemAsync<FollowUser>(followUserId, new PartitionKey(userId));
                 var ru = response.RequestCharge;
                 return response.Resource;
             }

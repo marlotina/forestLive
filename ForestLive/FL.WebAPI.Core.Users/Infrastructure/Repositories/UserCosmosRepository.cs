@@ -136,7 +136,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
                     return response.Resource.FirstOrDefault();
                 }
             }
-            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            catch (Exception ex)
             {
                 this.iLogger.LogError(ex.Message);
             }

@@ -15,12 +15,15 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
     [ApiController]
     public class SpeciesSearchController : Controller
     {
-        private readonly IBirdSpeciesService iBirdSpeciesService;
-        private readonly IBirdSpeciePostMapper iBirdSpeciePostMapper;
+        private readonly ISpeciesService iBirdSpeciesService;
+        private readonly IPostMapper iBirdSpeciePostMapper;
+        private readonly IUserVoteService iUserVoteService;
         public SpeciesSearchController(
-            IBirdSpeciesService iBirdSpeciesService,
-            IBirdSpeciePostMapper iBirdSpeciePostMapper)
+            IUserVoteService iUserVoteService,
+            ISpeciesService iBirdSpeciesService,
+            IPostMapper iBirdSpeciePostMapper)
         {
+            this.iUserVoteService = iUserVoteService;
             this.iBirdSpeciesService = iBirdSpeciesService;
             this.iBirdSpeciePostMapper = iBirdSpeciePostMapper;
         }
@@ -59,7 +62,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
                 var postList = result.Select(x => x.PostId);
-                var postVotes = await this.iBirdSpeciesService.GetVoteByUserId(postList, webUserId);
+                var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
 
                 var response = result.Select(x => this.iBirdSpeciePostMapper.Convert(x, postVotes));
                 return this.Ok(response);
@@ -68,19 +71,20 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             return this.NoContent();
         }
 
-        [HttpGet, Route("GetPost", Name = "GetPost")]
-        public async Task<IActionResult> GetPost(Guid postId, Guid specieId)
+        [HttpGet, Route("GetPendings", Name = "GetPendings")]
+        public async Task<IActionResult> GetPendings(int orderBy)
         {
-            var result = await this.iBirdSpeciesService.GetPost(postId, specieId);
+            var result = default(List<PostDto>);
+            
+            result = await this.iBirdSpeciesService.GetBirdBySpecie(Guid.Parse(StatusSpecie.NoSpecieId), orderBy);
 
-            if (result != null)
+            if (result.Any())
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                var postList = result.Select(x => x.PostId);
+                var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
 
-                var postList = new Guid[] { postId };
-                var postVotes = await this.iBirdSpeciesService.GetVoteByUserId(postList, webUserId);
-
-                var response = this.iBirdSpeciePostMapper.ConvertPost(result, postVotes);
+                var response = result.Select(x => this.iBirdSpeciePostMapper.Convert(x, postVotes));
                 return this.Ok(response);
             }
 
