@@ -8,7 +8,7 @@
 
         public const string LIKE_TYPE = "like";
 
-        public const string VOTE_POST_TYPE = "votePost";
+        public const string VOTE_POST_TYPE = "vote";
 
         public const string VOTE_COMMENT_TYPE = "voteComment";
 

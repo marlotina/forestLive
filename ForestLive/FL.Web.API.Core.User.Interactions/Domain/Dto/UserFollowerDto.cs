@@ -3,7 +3,7 @@ using System;
 
 namespace FL.Web.API.Core.User.Interactions.Domain.Dto
 {
-    public class UserFollowDto
+    public class UserFollowerDto
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }

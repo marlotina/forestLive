@@ -1,29 +1,29 @@
 ﻿using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.User.Interactions.Configuration.Contracts;
-using FL.Web.API.Core.User.Interactions.Infrastructure.ServiceBus.Contracts;
+using FL.WebAPI.Core.User.Interactions.Infrastructure.ServiceBus.Contracts;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json;
 using System;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FL.Web.API.Core.User.Interactions.Infrastructure.ServiceBus.Implementations
+namespace FL.WebAPI.Core.User.Interactions.Infrastructure.ServiceBus.Implementations
 {
-    public class ServiceBusFollowTopicSender<T> : IServiceBusFollowTopicSender<T> where T : class
+    public class ServiceBusFollowerTopicSender<T> : IServiceBusFollowerTopicSender<T> where T : class
     {
         private readonly TopicClient topicClient;
-        private readonly IVoteConfiguration iBirdsConfiguration;
-        private readonly ILogger<ServiceBusFollowTopicSender<T>> logger;
+        private readonly IVoteConfiguration iPostConfiguration;
+        private readonly ILogger<ServiceBusFollowerTopicSender<T>> logger;
 
-        public ServiceBusFollowTopicSender(
-            IVoteConfiguration iBirdsConfiguration,
-            ILogger<ServiceBusFollowTopicSender<T>> logger)
+        public ServiceBusFollowerTopicSender(
+            IVoteConfiguration iPostConfiguration,
+            ILogger<ServiceBusFollowerTopicSender<T>> logger)
         {
-            this.iBirdsConfiguration = iBirdsConfiguration;
+            this.iPostConfiguration = iPostConfiguration;
             this.logger = logger;
             topicClient = new TopicClient(
-                this.iBirdsConfiguration.ServiceBusConfig.ConnectionString,
-                this.iBirdsConfiguration.ServiceBusConfig.TopicFollow
+                this.iPostConfiguration.ServiceBusConfig.ConnectionString,
+                this.iPostConfiguration.ServiceBusConfig.TopicFollow
             );
         }
 
@@ -38,7 +38,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.ServiceBus.Implementa
             }
             catch (Exception e)
             {
-                logger.LogError(e.Message);
+                logger.LogError($"{e.Message}, {JsonConvert.SerializeObject(messageRequest)}");
             }
         }
         public async Task CloseAsync()

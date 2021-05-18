@@ -1,4 +1,6 @@
-﻿namespace FL.Web.API.Core.User.Interactions.Api.Models.v1.Request
+﻿using System;
+
+namespace FL.Web.API.Core.User.Interactions.Api.Models.v1.Request
 {
     public class FollowUserResponse
     {

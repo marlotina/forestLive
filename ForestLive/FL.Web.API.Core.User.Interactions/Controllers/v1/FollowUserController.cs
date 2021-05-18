@@ -63,8 +63,7 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
             try
             {
                 if (request == null)
-                    return null;
-
+                    return this.BadRequest();
 
                 var follow = this.voteMapper.Convert(request);
 
@@ -87,16 +86,16 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
 
         [HttpDelete]
         [Route("DeleteFollowUser", Name = "DeleteFollowUser")]
-        public async Task<IActionResult> DeleteFollowUser(string followId, string followUserId, Guid userSystemId)
+        public async Task<IActionResult> DeleteFollowUser(string followId, Guid userSystemId)
         {
             try
             {
-                if (string.IsNullOrEmpty(followId) || string.IsNullOrEmpty(followUserId))
+                if (string.IsNullOrEmpty(followId) || userSystemId == Guid.Empty)
                     return this.BadRequest();
 
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.iFollowService.DeleteFollow(followId, followUserId, userId, userSystemId);
+                var result = await this.iFollowService.DeleteFollow(followId, userId, userSystemId);
 
                 if (result)
                 {
