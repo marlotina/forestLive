@@ -10,11 +10,11 @@ using Newtonsoft.Json;
 namespace FL.Functions.BirdPost
 
 {
-    public class VotePostFunction
+    public class SpeciePostVoteCountFunction
     {
-        private readonly IBirdsCosmosService iBirdsCosmosService;
+        private readonly ISpeciePostCosmosService iBirdsCosmosService;
 
-        public VotePostFunction(IBirdsCosmosService iBirdsCosmosService)
+        public SpeciePostVoteCountFunction(ISpeciePostCosmosService iBirdsCosmosService)
         {
             this.iBirdsCosmosService = iBirdsCosmosService;
         }
@@ -34,11 +34,11 @@ namespace FL.Functions.BirdPost
                     
                     if (message.Label == "voteCreated")
                     {
-                        this.iBirdsCosmosService.AddVotePostAsync(vote);
+                        this.iBirdsCosmosService.AddVotePostCountAsync(vote);
                     }
                     else if (message.Label == "voteDeleted")
                     {
-                        this.iBirdsCosmosService.DeleteVotePostAsync(vote);
+                        this.iBirdsCosmosService.DeleteVotePostCountAsync(vote);
                     }
                    
                 }

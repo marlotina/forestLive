@@ -9,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class CommentFunction
+    public class SpeciePostCommentCountFunction
     {
-        private readonly IBirdsCosmosService iBirdsCosmosService;
+        private readonly ISpeciePostCosmosService iBirdsCosmosService;
 
-        public CommentFunction(IBirdsCosmosService iBirdsCosmosService)
+        public SpeciePostCommentCountFunction(ISpeciePostCosmosService iBirdsCosmosService)
         {
             this.iBirdsCosmosService = iBirdsCosmosService;
         }
@@ -34,11 +34,11 @@ namespace FL.Functions.BirdPost
                     {
                         if (message.Label == "commentCreated")
                         {
-                            this.iBirdsCosmosService.AddCommentAsync(comment);
+                            this.iBirdsCosmosService.AddCommentCountAsync(comment);
                         }
                         else if (message.Label == "commentDeleted")
                         {
-                            this.iBirdsCosmosService.DeleteCommentAsync(comment);
+                            this.iBirdsCosmosService.DeleteCommentCountAsync(comment);
                         }
                     }
                 }
