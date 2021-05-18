@@ -1,5 +1,4 @@
 using FL.Functions.UserPost.Dto;
-using FL.Functions.UserPost.Model;
 using FL.Functions.UserPost.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
@@ -10,11 +9,11 @@ using System.Text;
 
 namespace FL.Functions.BirdPost
 {
-    public class UserVote
+    public class UserVoteCountFunction
     {
         private readonly IUserPostCosmosService iUserPostCosmosDbService;
 
-        public UserVote(IUserPostCosmosService iUserPostCosmosDbService)
+        public UserVoteCountFunction(IUserPostCosmosService iUserPostCosmosDbService)
         {
             this.iUserPostCosmosDbService = iUserPostCosmosDbService;
         }
@@ -28,7 +27,7 @@ namespace FL.Functions.BirdPost
         {
             try
             {
-                var vote = JsonConvert.DeserializeObject<VotePostBaseDto>(Encoding.UTF8.GetString(message.Body));
+                var vote = JsonConvert.DeserializeObject<VotePostDto>(Encoding.UTF8.GetString(message.Body));
                 
                 if (message.Label == "voteCreated")
                 {

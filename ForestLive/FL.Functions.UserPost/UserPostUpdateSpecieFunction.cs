@@ -5,15 +5,14 @@ using System;
 using Microsoft.Azure.ServiceBus;
 using System.Text;
 using FL.Functions.UserPost.Services;
-using FL.Functions.UserPost.Model;
 
 namespace FL.Functions.UserPost
 {
-    public class UserSpecie
+    public class UserSpecieFunction
     {
         private readonly IUserPostCosmosService iUserPostCosmosDbService;
 
-        public UserSpecie(IUserPostCosmosService iUserPostCosmosDbService)
+        public UserSpecieFunction(IUserPostCosmosService iUserPostCosmosDbService)
         {
             this.iUserPostCosmosDbService = iUserPostCosmosDbService;
         }
@@ -28,7 +27,7 @@ namespace FL.Functions.UserPost
         {
             try
             {
-                var post = JsonConvert.DeserializeObject<Model.BirdPost>(Encoding.UTF8.GetString(message.Body));
+                var post = JsonConvert.DeserializeObject<Model.Post>(Encoding.UTF8.GetString(message.Body));
 
                 if (post.Id != null && post.Id != Guid.Empty)
                 {

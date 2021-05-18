@@ -1,27 +1,22 @@
 ﻿using FL.Functions.UserPost.Dto;
-using FL.Functions.UserPost.Model;
 using System.Threading.Tasks;
 
 namespace FL.Functions.UserPost.Services
 {
     public interface IUserPostCosmosService
     {
-        Task CreatePostAsync(Model.BirdPost post);
+        Task CreatePostAsync(Model.Post post);
 
-        Task UpdatePostAsync(Model.BirdPost post);
+        Task UpdatePostAsync(Model.Post post);
 
-        Task DeletePostAsync(Model.BirdPost post);
+        Task DeletePostAsync(Model.Post post);
 
-        Task AddVoteAsync(VotePostBaseDto vote);
+        Task AddVoteAsync(VotePostDto vote);
 
-        Task DeleteVoteAsync(VotePostBaseDto vote);
+        Task DeleteVoteAsync(VotePostDto vote);
 
-        Task AddCommentAsync(CommentBaseDto comment);
+        Task AddCommentAsync(CommentDto comment);
 
-        Task DeleteCommentAsync(CommentBaseDto comment);
-
-        Task AddFollowerAsync(UserFollowDto follower);
-
-        Task DeleteFollowerAsync(UserFollowDto follower);
+        Task DeleteCommentAsync(CommentDto comment);
     }
 }

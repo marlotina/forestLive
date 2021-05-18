@@ -3,7 +3,7 @@ using System;
 
 namespace FL.Functions.UserPost.Dto
 {
-    public class CommentBaseDto
+    public class CommentDto
     {
         [JsonProperty(PropertyName = "id")]
         public Guid Id { get; set; }

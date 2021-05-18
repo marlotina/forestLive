@@ -1,9 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System;
 
-namespace FL.Functions.UserPost.Model
+namespace FL.Functions.UserInteractions.Dto
 {
-    public class FollowerUser
+    public class UserFollowDto
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -18,6 +18,10 @@ namespace FL.Functions.UserPost.Model
         public string UserId { get; set; }
 
         [JsonProperty(PropertyName = "followUserId")]
-        public string FollowerUserId { get; set; }
+        public string FollowUserId { get; set; }
+
+        [JsonProperty(PropertyName = "systemUserId")]
+        public Guid SystemUserId { get; set; }
     }
+
 }
