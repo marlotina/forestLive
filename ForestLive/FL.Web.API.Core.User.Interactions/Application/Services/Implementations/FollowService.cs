@@ -40,7 +40,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
                     SystemUserId = userSystemId
                 };
 
-                await this.iServiceBusFollowerTopicSender.SendMessage(followerUser, "CreateFollow");
+                await this.iServiceBusFollowerTopicSender.SendMessage(followerUser, "createFollow");
             }
 
             return result;
@@ -62,7 +62,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
                         SystemUserId = userSystemId
                     };
 
-                    await this.iServiceBusFollowerTopicSender.SendMessage(followerUser, "CreateFollow");
+                    await this.iServiceBusFollowerTopicSender.SendMessage(followerUser, "deleteFollow");
                     return true;
                 }
             }            

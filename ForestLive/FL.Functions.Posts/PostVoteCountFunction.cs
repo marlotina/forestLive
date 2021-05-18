@@ -21,7 +21,7 @@ namespace FL.Functions.Posts
         [FunctionName("VotePosts")]
         public void Run([ServiceBusTrigger(
                 "vote",
-                "votePostTopic",
+                "votePostSubscription",
                 Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {

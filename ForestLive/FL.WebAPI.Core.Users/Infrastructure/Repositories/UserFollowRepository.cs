@@ -12,8 +12,8 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
     public class UserFollowRepository : IUserFollowRepository
     {
-        private IUserConfiguration iUserConfiguration;
-        private ILogger<UserFollowRepository> iLogger;
+        private readonly IUserConfiguration iUserConfiguration;
+        private readonly ILogger<UserFollowRepository> iLogger;
         public UserFollowRepository(
             ILogger<UserFollowRepository> iLogger,
             IUserConfiguration iUserConfiguration)
@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
 
                 restRequest.AddQueryParameter("userId", userId);
-                restRequest.AddQueryParameter("followUserId", followUserId);
+                restRequest.AddQueryParameter("followUserId", $"{userId}_{followUserId}");
 
                 var response = await client.ExecuteAsync<FollowUserResponse>(restRequest);
 

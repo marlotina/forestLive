@@ -101,18 +101,18 @@ namespace FL.Functions.UserPost.Services
                     Id = follower.Id,
                     CreationDate = follower.CreationDate,
                     Type = follower.Type,
-                    UserId = follower.UserId,
-                    FollowUserId = follower.FollowUserId
+                    UserId = follower.FollowUserId,
+                    FollowUserId = follower.UserId
                 };
 
-                var obj = new dynamic[] { followerRequest, follower.SystemUserId.ToString() };
-                //await this.usersFollowContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseFollowerCount", new PartitionKey(follower.UserId), obj);
-
-                StoredProcedureExecuteResponse<string> sprocResponse2 =
-                    await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>(
+                var obj = new dynamic[] { follower.SystemUserId.ToString() };
+                
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>(
                     "increaseFollowerCount",
-                    new PartitionKey(follower.UserId),
+                    new PartitionKey(followerRequest.UserId),
                     obj);
+
+                await this.usersContainer.CreateItemAsync(followerRequest, new PartitionKey(followerRequest.UserId));
 
             }
             catch (Exception ex)

@@ -21,7 +21,7 @@ namespace FL.Functions.BirdPost
         [FunctionName("FunctionBirdComment")]
         public void Run([ServiceBusTrigger(
             "comment",
-            "specieCommentSubscription",
+            "commentSpecieSubscription",
             Connection = "ServiceBusConnectionString")] Message message,
             ILogger log)
         {
