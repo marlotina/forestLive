@@ -15,7 +15,7 @@ namespace FL.Functions.UserPost.Services
 
         public UserLabelCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.usersContainer = dbClient.GetContainer(databaseName, "userLabels");
+            this.usersContainer = dbClient.GetContainer(databaseName, "userlabels");
         }
 
         public async Task AddLabelAsync(IEnumerable<LabelItem> labels)
