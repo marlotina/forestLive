@@ -96,7 +96,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
                     if (birdPost.Labels != null && birdPost.Labels.Any())
                     {
-                        var dtoLabels = this.GetListLabel(birdPost.Labels.ToList(), birdPost.UserId);
+                        var dtoLabels = GetListLabel(birdPost.Labels.ToList(), birdPost.UserId);
                         await this.iServiceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
                     }
 
@@ -150,16 +150,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
         public async Task<BirdPost> GetBirdPost(Guid birdPostId)
         {
-            try
-            {
-                return await this.iPostRepository.GetPostAsync(birdPostId);
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex, "GetBirdItem");
-            }
-
-            return null;
+            return await this.iPostRepository.GetPostAsync(birdPostId);
         }
 
 
@@ -180,7 +171,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return await this.iBlobContainerRepository.UploadFileToStorage(stream, imageName, this.iPostConfiguration.BirdPhotoContainer, folder);
         }
 
-        private List<UserLabel> GetListLabel(List<string> labels, string userId)
+        private static List<UserLabel> GetListLabel(List<string> labels, string userId)
         {
             var listLabel = new List<UserLabel>();
 
@@ -202,34 +193,25 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
         public async Task<bool> UpdateSpecieToPost(UpdateSpecieRequest request, string userId)
         {
-            try
+            var post = await this.iSpeciesRepository.GetPostsAsync(request.PostId, request.OldSpecieId);
+            if (userId == post.UserId)
             {
-                var post = await this.iSpeciesRepository.GetPostsAsync(request.PostId, request.OldSpecieId);
-                if (userId == post.UserId)
+                post.SpecieId = request.SpecieId;
+                post.SpecieName = request.SpecieName;
+                post.Type = "bird";
+                var response = await this.iSpeciesRepository.DeletePostAsync(request.PostId, request.OldSpecieId);
+                if (response)
                 {
-                    post.SpecieId = request.SpecieId;
-                    post.SpecieName = request.SpecieName;
-                    post.Type = "bird";
-                    var response = await this.iSpeciesRepository.DeletePostAsync(request.PostId, request.OldSpecieId);
-                    if (response)
+                    if (await this.iSpeciesRepository.CreatePostAsync(post))
                     {
-                        var newPost = await this.iSpeciesRepository.CreatePostAsync(post);
-                        if (newPost != null)
-                        {
-                            //var respone = await this.iPostRepository.UpdatePostAsync(post);
-                            await this.iServiceBusAssignSpecieTopicSender.SendMessage(post, TopicHelper.LABEL_UPDATE_SPECIE);
-                            return true;
-                        }
+                        await this.iServiceBusAssignSpecieTopicSender.SendMessage(post, TopicHelper.LABEL_UPDATE_SPECIE);
+                        return true;
                     }
                 }
-                else
-                {
-                    throw new UnauthorizedRemove();
-                }
             }
-            catch (Exception ex)
+            else
             {
-                //this.iLogger.LogError(ex, "DeleteBirdItem");
+                throw new UnauthorizedRemove();
             }
 
             return false;

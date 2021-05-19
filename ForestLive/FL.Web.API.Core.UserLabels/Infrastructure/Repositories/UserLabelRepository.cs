@@ -17,7 +17,7 @@ namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
         private readonly IClientFactory clientFactory;
         private readonly IUserLabelConfiguration iUserPostConfiguration;
         private readonly ILogger<UserLabelRepository> iLogger;
-        private Container usersContainer;
+        private readonly Container usersContainer;
 
 
         public UserLabelRepository(
@@ -102,9 +102,9 @@ namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex);
+                return null;
             }
-
-            return null;
         }
 
         public async Task<List<UserLabel>> GetUserLabelsDetails(string userId)
@@ -128,6 +128,7 @@ namespace FL.WebAPI.Core.UserLabels.Infrastructure.Repositories
             }
             catch (Exception ex)
             {
+                this.iLogger.LogError(ex);
             }
 
             return labels;

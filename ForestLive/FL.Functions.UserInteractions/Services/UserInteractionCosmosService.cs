@@ -10,10 +10,10 @@ namespace FL.Functions.UserPost.Services
 {
     public class UserInteractionCosmosService : IUserInterationCosmosService
     {
-        private Container usersCommentContainer;
-        private Container usersVoteContainer;
-        private Container usersCommentVoteContainer;
-        private Container usersContainer;
+        private readonly Container usersCommentContainer;
+        private readonly Container usersVoteContainer;
+        private readonly Container usersCommentVoteContainer;
+        private readonly Container usersContainer;
 
         public UserInteractionCosmosService(CosmosClient dbClient, string databaseName)
         {

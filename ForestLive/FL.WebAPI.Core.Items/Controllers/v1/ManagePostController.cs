@@ -82,7 +82,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
             }
             catch (Exception ex)
             {
-                //this.logger.LogError(ex);
+                this.iLogger.LogError(ex);
                 return this.Problem();
             }
         }

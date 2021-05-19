@@ -72,8 +72,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         {
             try
             {
-                Guid userId;
-                var isValid = Guid.TryParse(request.UserId, out userId);
+                var isValid = Guid.TryParse(request.UserId, out Guid userId);
                 if (!string.IsNullOrWhiteSpace(request.Code) || isValid)
                 {
                     await this.accountService.ConfirmEmailAsync(userId, request.Code);
@@ -144,7 +143,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
             try
             {
                 if (string.IsNullOrWhiteSpace(request.Code) 
-                    || string.IsNullOrWhiteSpace(request.NewPassword) || request.UserId == null)
+                    || string.IsNullOrWhiteSpace(request.NewPassword) || request.UserId == Guid.Empty)
                     return this.BadRequest();
 
                 await this.accountService.ResetPasswordAsync(request.UserId, request.Code, request.NewPassword);
