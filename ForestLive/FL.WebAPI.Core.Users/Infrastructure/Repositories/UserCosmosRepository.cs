@@ -94,11 +94,11 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
         public async Task<IEnumerable<UserInfo>> GetUsersAsync()
         {
-            var posts = new List<UserInfo>();
+            var users = new List<UserInfo>();
 
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.Type='user'";
+                var queryString = $"SELECT * FROM p WHERE p.type='user'";
 
                 var queryDef = new QueryDefinition(queryString);
                 var query = this.userContainer.GetItemQueryIterator<UserInfo>(queryDef);
@@ -107,7 +107,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
                 {
                     var response = await query.ReadNextAsync();
                     var ru = response.RequestCharge;
-                    posts.AddRange(response.ToList());
+                    users.AddRange(response.ToList());
                 }
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -115,7 +115,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
                 this.iLogger.LogError(ex.Message);
             }
 
-            return posts;
+            return users;
         }
 
         public async Task<UserInfo> GetUserByName(string userNameId)
