@@ -24,16 +24,17 @@ namespace FL.Web.API.Core.User.Interactions.IoC
 
             services.AddSingleton<IVoteConfiguration, VoteConfiguration>();
 
-
             services.AddTransient<IVotePostService, VotePostService>();
             services.AddTransient<IVoteCommentService, VoteCommentService>();
             services.AddTransient<IFollowService, FollowService>();
             services.AddTransient<ICommentService, CommentService>();
+            services.AddTransient<IFollowerService, FollowerService>();
 
             services.AddSingleton<IVotePostRepository, VotePostRepository>();
             services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();
             services.AddSingleton<IFollowRepository, FollowRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
+            services.AddSingleton<IFollowerRepository, FollowerRepository>();
 
             services.AddTransient(typeof(IServiceBusFollowerTopicSender<>), typeof(ServiceBusFollowerTopicSender<>));
 

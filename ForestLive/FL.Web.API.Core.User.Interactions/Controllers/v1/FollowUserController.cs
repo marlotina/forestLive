@@ -111,5 +111,32 @@ namespace FL.Web.API.Core.User.Interactions.Controllers.v1
             }
         }
 
+        [HttpGet]
+        [Route("GetFollowByUserId", Name = "GetFollowByUserId")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFollowByUserId(string userId)
+        {
+            try
+            {
+                if (string.IsNullOrEmpty(userId))
+                    return null;
+
+                var result = await this.iFollowService.GetFollowByUserId(userId);
+
+                if (result != null)
+                {
+                    var response = result.Select(x => this.voteMapper.ConvertList(x));
+                    return this.Ok(response);
+                }
+                else
+                    return this.NotFound();
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+        }
+
     }
 }

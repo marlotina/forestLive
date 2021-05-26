@@ -4,6 +4,7 @@ using FL.Web.API.Core.User.Interactions.Domain.Entities;
 using FL.Web.API.Core.User.Interactions.Domain.Repositories;
 using FL.WebAPI.Core.User.Interactions.Infrastructure.ServiceBus.Contracts;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
@@ -73,6 +74,11 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
         public async Task<FollowUser> GetFollow(string userId, string followUserId)
         {
             return  await this.iFollowRepository.GetFollow(userId, followUserId);
+        }
+
+        public async Task<List<FollowUser>> GetFollowByUserId(string userId)
+        {
+            return await this.iFollowRepository.GetFollowByUserId(userId);
         }
     }
 }

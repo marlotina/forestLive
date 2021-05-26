@@ -1,5 +1,6 @@
 ﻿using FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Contracts;
 using FL.Web.API.Core.User.Interactions.Api.Models.v1.Request;
+using FL.Web.API.Core.User.Interactions.Api.Models.v1.Response;
 using FL.Web.API.Core.User.Interactions.Domain.Entities;
 
 namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation
@@ -30,6 +31,23 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation
                 result = new FollowUserResponse()
                 {
                     FollowerId = source.Id
+                };
+            }
+
+            return result;
+        }
+
+        public FollowListResponse ConvertList(FollowUser source)
+        {
+            var result = default(FollowListResponse);
+            if (source != null)
+            {
+                result = new FollowListResponse()
+                {
+                    FollowUserId = source.FollowUserId,
+                    UserId = source.UserId,
+                    Id = source.Id,
+                    CreationDate = source.CreationDate
                 };
             }
 

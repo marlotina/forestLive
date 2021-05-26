@@ -11,21 +11,21 @@ using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
 {
-    public class FollowRepository : IFollowRepository
+    public class FollowerRepository : IFollowerRepository
     {
         private readonly IClientFactory iClientFactory;
         private readonly IVoteConfiguration iVoteConfiguration;
         private readonly ILogger<FollowRepository> iLogger;
-        private readonly Container followContainer;
+        private readonly Container followerContainer;
 
-        public FollowRepository(
+        public FollowerRepository(
             IClientFactory iClientFactory,
             IVoteConfiguration iVoteConfiguration,
             ILogger<FollowRepository> iLogger)
         {
             this.iClientFactory = iClientFactory;
             this.iVoteConfiguration = iVoteConfiguration;
-            this.followContainer = InitialCLient();
+            this.followerContainer = InitialCLient();
             this.iLogger = iLogger;
         }
 
@@ -36,58 +36,16 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosFollowerContainer);
         }
 
-        public async Task<FollowUser> AddFollow(FollowUser followUser)
-        {
-            try
-            {
-                return await this.followContainer.CreateItemAsync<FollowUser>(followUser, new PartitionKey(followUser.UserId));
-            }
-            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                this.iLogger.LogError(ex.Message);
-                return null;
-            }
-        }
-
-        public async Task<bool> DeleteFollow(string followId, string userId)
-        {
-            try
-            {
-                await this.followContainer.DeleteItemAsync<FollowUser>(followId, new PartitionKey(userId));
-                return true;
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex.Message);
-                return false;
-            }
-        }
-
-        public async Task<FollowUser> GetFollow(string userId, string followUserId)
-        {
-            try
-            {
-                var response = await this.followContainer.ReadItemAsync<FollowUser>(followUserId, new PartitionKey(userId));
-                var ru = response.RequestCharge;
-                return response.Resource;
-            }
-            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
-            {
-                this.iLogger.LogError(ex.Message);
-                return null;
-            }
-        }
-
-        public async Task<List<FollowUser>> GetFollowByUserId(string userId)
+        public async Task<List<FollowUser>> GetFollowersByUserId(string userId)
         {
             var follow = new List<FollowUser>();
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.userId = @UserId";
+                var queryString = $"SELECT * FROM p WHERE p.type='follower' AND p.userId = @UserId";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@UserId", userId);
-                var query = this.followContainer.GetItemQueryIterator<FollowUser>(queryDef);
+                var query = this.followerContainer.GetItemQueryIterator<FollowUser>(queryDef);
 
                 while (query.HasMoreResults)
                 {

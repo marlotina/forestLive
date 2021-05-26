@@ -10,6 +10,6 @@
 
         public string CosmosCommentVoteContainer { get; set; }
 
-        public string CosmosUserContainer { get; set; }
+        public string CosmosFollowerContainer { get; set; }
     }
 }
