@@ -35,10 +35,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
         {
             try
             {
-                if (request == null)
-                    return null;
-
-                if (string.IsNullOrWhiteSpace(request.UserId))
+                if (request == null && string.IsNullOrWhiteSpace(request.UserId))
                     return this.BadRequest();
 
                 var post = this.iPostMapper.Convert(request);

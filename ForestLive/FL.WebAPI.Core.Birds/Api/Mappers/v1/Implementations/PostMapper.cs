@@ -69,6 +69,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
                     HasVote = false,
+                    IsPost = source.Type == "post",
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
                     UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
                 };

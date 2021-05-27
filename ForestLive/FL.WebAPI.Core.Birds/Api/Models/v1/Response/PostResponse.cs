@@ -10,6 +10,8 @@ namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 
         public string Text { get; set; }
 
+        public bool IsPost { get; set; }
+
         public string ImageUrl { get; set; }
 
         public string AltImage { get; set; }

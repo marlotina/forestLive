@@ -6,6 +6,7 @@ using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Entities;
+using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Domain.Repository;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
@@ -65,6 +66,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 {
                     var postId = Guid.NewGuid();
                     birdPost.PostId = postId;
+                    birdPost.Type = isPost ? ItemHelper.POST_TYPE : ItemHelper.BIRD_TYPE;
                     birdPost.Id = postId;
                     birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
