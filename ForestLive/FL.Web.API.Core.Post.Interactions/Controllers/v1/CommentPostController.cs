@@ -106,7 +106,7 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-
+                
                 var result = await this.commentService.DeleteComment(commentId, postId, userId);
 
                 if (result)

@@ -9,7 +9,7 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Repositories
     {
         Task<BirdComment> CreateCommentAsync(BirdComment comment);
 
-        Task<bool> DeleteCommentAsync(Guid commentId, Guid postId);
+        Task<bool> DeleteCommentAsync(BirdComment comment);
 
         Task<List<BirdComment>> GetCommentsByPostIdAsync(Guid postId);
 

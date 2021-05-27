@@ -91,11 +91,11 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             return comment;
         }
 
-        public async Task<bool> DeleteCommentAsync(Guid commentId, Guid postId)
+        public async Task<bool> DeleteCommentAsync(BirdComment comment)
         {
             try
             {
-                await this.commentContainer.DeleteItemAsync<BirdComment>(commentId.ToString(), new PartitionKey(postId.ToString()));
+                await this.commentContainer.UpsertItemAsync<BirdComment>(comment, new PartitionKey(comment.PostId.ToString()));
                 return true;
             }
             catch (Exception ex)

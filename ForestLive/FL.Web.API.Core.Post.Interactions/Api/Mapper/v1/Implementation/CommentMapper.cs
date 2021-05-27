@@ -36,7 +36,7 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
             var result = default(CommentResponse);
             if (source != null)
             {
-                var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.CommentId == source.Id) : null;
+                var vote = postVotes?.FirstOrDefault(x => x.CommentId == source.Id);
                 result = new CommentResponse()
                 {
                     Id = source.Id,
@@ -46,7 +46,7 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
                     VoteCount = source.VoteCount,
                     HasVote = false,
                     CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
-                    UserImage = source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
+                    UserImage = string.IsNullOrEmpty(source.UserId) ? string.Empty : source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
                     Replies = new List<CommentResponse>()
                 };
 

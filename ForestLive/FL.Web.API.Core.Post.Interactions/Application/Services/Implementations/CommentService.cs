@@ -45,7 +45,10 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             var comment = await this.iCommentRepository.GetCommentAsync(commentId, postId);
             if (userId == comment.UserId && comment != null)
             {
-                var result = await this.iCommentRepository.DeleteCommentAsync(commentId, postId);
+                comment.UserId = null;
+                comment.Text = string.Empty;
+                comment.VoteCount = 0;
+                var result = await this.iCommentRepository.DeleteCommentAsync(comment);
 
                 if (result)
                 {
