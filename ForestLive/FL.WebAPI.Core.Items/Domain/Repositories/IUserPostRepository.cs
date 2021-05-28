@@ -8,6 +8,6 @@ namespace FL.WebAPI.Core.Items.Domain.Repository
     {
         Task<bool> CreatePostAsync(BirdPost post);
 
-        Task<bool> DeletePostAsync(Guid postId, Guid specieId);
+        Task<bool> DeletePostAsync(Guid postId, string userId);
     }
 }

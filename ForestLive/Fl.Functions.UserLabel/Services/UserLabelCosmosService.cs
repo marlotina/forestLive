@@ -61,7 +61,7 @@ namespace FL.Functions.UserPost.Services
                     foreach (var label in removeLabels)
                     {
                         var obj = new dynamic[] { label.Label };
-                        await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("updateLabel", new PartitionKey(label.UserId), obj);
+                        await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deletePostLabelCount", new PartitionKey(label.UserId), obj);
                     }
                 }
             }

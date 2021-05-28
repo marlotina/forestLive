@@ -1,13 +1,10 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
-using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using Microsoft.Azure.Cosmos;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
@@ -92,6 +89,23 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
                 this.iLogger.LogError(ex.Message);
                 return null;
             }
+        }
+
+
+        public async Task<bool> DeletePostVotestAsync(Guid postId)
+        {
+            try
+            {
+                var obj = new dynamic[] { $"SELECT * FROM p WHERE p.type = 'vote' AND p.postId ='{postId}'" };
+                var result = await this.postContainer.Scripts.ExecuteStoredProcedureAsync<string>("DeleteVotesPost", new PartitionKey(postId.ToString()), obj);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex.Message);
+            }
+
+            return false;
         }
     }
 }

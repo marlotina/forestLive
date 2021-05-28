@@ -9,5 +9,7 @@
         public string TopicLabel { get; set; }
 
         public string TopicAssignSpecie { get; set; }
+
+        public string TopicDeletePost { get; set; }
     }
 }

@@ -1,7 +1,5 @@
-﻿using FL.WebAPI.Core.Items.Domain.Dto;
-using FL.WebAPI.Core.Items.Domain.Entities;
+﻿using FL.WebAPI.Core.Items.Domain.Entities;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Items.Domain.Repositories
@@ -15,5 +13,7 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
         Task<bool> UpdatePostAsync(BirdPost post);
 
         Task<BirdPost> GetPostAsync(Guid postId);
+
+        Task<bool> DeletePostVotestAsync(Guid postId);
     }
 }

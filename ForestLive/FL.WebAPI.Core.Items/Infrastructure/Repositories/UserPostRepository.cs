@@ -48,11 +48,11 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeletePostAsync(Guid postId, Guid specieId)
+        public async Task<bool> DeletePostAsync(Guid postId, string userId)
         {
             try
             {
-                await this.userContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(specieId.ToString()));
+                await this.userContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(userId));
                 return true;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
@@ -61,7 +61,6 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             }
 
             return false;
-
         }
     }
 }

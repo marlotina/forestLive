@@ -5,6 +5,7 @@ using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
+using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repositories;
@@ -27,7 +28,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBlobContainerRepository iBlobContainerRepository;
         private readonly IPostRepository iPostRepository;
         private readonly ILogger<ManagePostService> iLogger;
-        private readonly IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender;
+        private readonly IServiceBusLabelTopicSender<IEnumerable<UserLabel>> iServiceBusLabelTopicSender;
+        private readonly IServiceBusLabelTopicSender<IEnumerable<RemoveLabelDto>> iServiceBusDeleteLabelTopicSender;
         private readonly IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender;
         private readonly ISpeciesRepository iSpeciesRepository;
         private readonly IUserPostRepository iUserPostRepository;
@@ -37,7 +39,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             IBlobContainerRepository iBlobContainerRepository,
             IPostRepository iPostRepository,
             IUserPostRepository iUserPostRepository,
-            IServiceBusLabelTopicSender<List<UserLabel>> iServiceBusLabelTopicSender,
+            IServiceBusLabelTopicSender<IEnumerable<UserLabel>> iServiceBusLabelTopicSender,
+            IServiceBusLabelTopicSender<IEnumerable<RemoveLabelDto>> iServiceBusDeleteLabelTopicSender,
             IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender,
             ILogger<ManagePostService> iLogger)
         {
@@ -46,6 +49,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             this.iPostRepository = iPostRepository;
             this.iServiceBusLabelTopicSender = iServiceBusLabelTopicSender;
             this.iServiceBusAssignSpecieTopicSender = iServiceBusAssignSpecieTopicSender;
+            this.iServiceBusDeleteLabelTopicSender = iServiceBusDeleteLabelTopicSender;
             this.iSpeciesRepository = iSpeciesRepository;
             this.iUserPostRepository = iUserPostRepository;
             this.iLogger = iLogger;
@@ -98,7 +102,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
                     if (birdPost.Labels != null && birdPost.Labels.Any())
                     {
-                        var dtoLabels = GetListLabel(birdPost.Labels.ToList(), birdPost.UserId);
+                        var dtoLabels = birdPost.Labels.Select(x => GetListLabel(x, birdPost.UserId));
                         await this.iServiceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
                     }
 
@@ -121,17 +125,38 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 var post = await this.iPostRepository.GetPostAsync(birdPostId);
                 if (userId == post.UserId)
                 {
-                    var image = post.ImageUrl;
-                    var partitionKey = post.PostId.ToString();
-                    var id = post.Id;
-                    var userPartitionKey = post.UserId;
-                    var result = await this.iBlobContainerRepository.DeleteFileToStorage(image, this.iPostConfiguration.BirdPhotoContainer);
+                    var result = await this.iBlobContainerRepository.DeleteFileToStorage(post.ImageUrl, this.iPostConfiguration.BirdPhotoContainer);
 
                     if (result)
                     {
-                        result = await this.iPostRepository.DeletePostAsync(id, partitionKey);
-                        //if(result)
-                            //await this.iServiceBusCreatedPostTopic.SendMessage(post, TopicHelper.LABEL_POST_DELETED);
+                        var specieId = post.SpecieId;
+                        var type = post.Type;
+                        var postLabels = post?.Labels.ToList();
+                        post.ImageUrl = string.Empty;
+                        post.UserId = null;
+                        post.Title = string.Empty;
+                        post.SpecieId = null;
+                        post.SpecieName = string.Empty;
+                        post.ObservationDate = null;
+                        post.Location = null;
+                        post.Labels = null;
+                        post.Text = string.Empty;
+                        post.Type = "deleted";
+                        post.VoteCount = 0;
+                        post.CommentCount = 0;
+                        post.AltImage = string.Empty;
+                        result = await this.iPostRepository.UpdatePostAsync(post);
+                        if (type == "bird") {
+                            result = await this.iSpeciesRepository.DeletePostAsync(post.PostId, specieId.Value);
+                        }
+                        result = await this.iUserPostRepository.DeletePostAsync(post.PostId, userId);
+                        result = await this.iPostRepository.DeletePostVotestAsync(post.PostId);
+
+                        if (result)
+                        {
+                            var removeLabelDto = postLabels.Select(x => GetListDeleteLabel(x, userId));
+                            await this.iServiceBusDeleteLabelTopicSender.SendMessage(removeLabelDto, TopicHelper.LABEL_POST_DELETED);
+                        }
                     }
 
                     return true;
@@ -172,25 +197,25 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
             return await this.iBlobContainerRepository.UploadFileToStorage(stream, imageName, this.iPostConfiguration.BirdPhotoContainer, folder);
         }
-
-        private static List<UserLabel> GetListLabel(List<string> labels, string userId)
+        private static RemoveLabelDto GetListDeleteLabel(string label, string userId)
         {
-            var listLabel = new List<UserLabel>();
-
-            foreach (var label in labels)
-            {
-                listLabel.Add(new UserLabel()
+            return new RemoveLabelDto()
                 {
-                    Type = "label",
-                    UserId = userId,
-                    Id = label,
-                    PostCount = 1,
-                    CreationDate = DateTime.UtcNow
+                    Label = label,
+                    UserId = userId
+                };
+        }
 
-                });
-            }
-
-            return listLabel;
+        private static UserLabel GetListLabel(string label, string userId)
+        {
+            return new UserLabel()
+            {
+                Type = "label",
+                UserId = userId,
+                Id = label,
+                PostCount = 1,
+                CreationDate = DateTime.UtcNow
+            };
         }
 
         public async Task<bool> UpdateSpecieToPost(UpdateSpecieRequest request, string userId)
