@@ -12,7 +12,7 @@ namespace FL.WebAPI.Core.Users.Models.v1.Response
 
         public bool IsCompany { get; set; }
 
-        public DateTime RegistrationDate { get; set; }
+        public string RegistrationDate { get; set; }
 
         public Guid LanguageId { get; set; }
 

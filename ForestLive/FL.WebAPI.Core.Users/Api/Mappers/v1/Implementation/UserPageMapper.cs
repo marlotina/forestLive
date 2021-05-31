@@ -42,7 +42,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
                     Id = source.Id,
                     UrlWebSite = source.UrlWebSite,
                     IsCompany = source.IsCompany,
-                    RegistrationDate = source.RegistrationDate,
+                    RegistrationDate = source.RegistrationDate.ToString("dd/MM/yyyy"),
                     LanguageId = source.LanguageId,
                     Description = source.Description,
                     Photo = source.Photo,

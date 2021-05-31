@@ -108,7 +108,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                     UserId = user.Id,
                     UserName = user.UserName,
                     Code = token,
-                    LanguageId = user.LanguageId
+                    LanguageId = user.LanguageId,
                 });
             }
             else
