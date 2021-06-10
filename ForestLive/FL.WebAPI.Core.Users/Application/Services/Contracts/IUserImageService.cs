@@ -1,13 +1,13 @@
-﻿using System;
-using System.IO;
+﻿using FL.WebAPI.Core.Users.Api.Models.v1.Request;
+using System;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Contracts
 {
     public interface IUserImageService
     {
-        Task<bool> DeleteImageAsync (Guid userId, string webUserId);
+        Task<bool> DeleteImageAsync (Guid userId, string webUserId, string imageName);
 
-        Task<bool> UploadImageAsync (Stream fileStream, string fileName, Guid userId, string webUserId);
+        Task<bool> UploadImageAsync (ImageProfileRequest request, string webUserId);
     }
 }

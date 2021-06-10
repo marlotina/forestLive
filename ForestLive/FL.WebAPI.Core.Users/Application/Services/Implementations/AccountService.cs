@@ -37,28 +37,37 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public async Task ConfirmEmailAsync(Guid userId, string code)
         {
-            if (string.IsNullOrWhiteSpace(code))
-                throw new Exception("NO_CODE");
-
-            var user = await this.userManager.FindByIdAsync(userId.ToString());
-            if (user == null)
+            try
             {
-                throw new UserNotFoundException();
+                if (string.IsNullOrWhiteSpace(code))
+                    throw new Exception("NO_CODE");
+
+                var user = await this.userManager.FindByIdAsync(userId.ToString());
+                if (user == null)
+                {
+                    throw new UserNotFoundException();
+                }
+                var identityResult = await this.userManager.ConfirmEmailAsync(user, code);
+
+                if (!identityResult.Succeeded)
+                {
+                    throw new Exception("INVALID_CONFIRMATION");
+                }
+
+                await this.iUserCosmosRepository.CreateUserInfoAsync(new Domain.Entities.UserInfo
+                {
+                    Id = user.Id,
+                    UserId = user.UserName.ToLower(),
+                    RegistrationDate = user.RegistrationDate,
+                    Type = "user",
+                    Photo = "profile.png",
+                    LanguageId = user.LanguageId
+                });
+
             }
-            var identityResult = await this.userManager.ConfirmEmailAsync(user, code);
-
-            await this.iUserCosmosRepository.CreateUserInfoAsync(new Domain.Entities.UserInfo { 
-                Id = user.Id,
-                UserId = user.UserName.ToLower(),
-                RegistrationDate = user.RegistrationDate,
-                Type = "user",
-                Photo = "profile.png",
-                LanguageId = user.LanguageId
-            });
-
-            if (!identityResult.Succeeded)
-            {
-                throw new Exception("INVALID_CONFIRMATION");
+            catch (Exception ex) 
+            { 
+            
             }
         }
 

@@ -2,8 +2,6 @@
 using FL.WebAPI.Core.Users.Application.Services.Implementations;
 using FL.WebAPI.Core.Users.Configuration.Contracts;
 using FL.WebAPI.Core.Users.Configuration.Implementations;
-using FL.WebAPI.Core.Users.Domain.Repositories;
-using FL.WebAPI.Core.Users.Infrastructure.AzureStorage;
 using FL.WebAPI.Core.Users.Infrastructure.Services.Contracts;
 using FL.WebAPI.Core.Users.Infrastructure.Services.Implementations;
 using FL.WebAPI.Core.Users.Mappers.v1.Contracts;
@@ -31,7 +29,6 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddTransient<IUserImageService, UserImageService>();
             services.AddTransient<IAccountService, AccountService>();
 
-            services.AddTransient<IUserImageRepository, UserImageRepository>();
             services.AddTransient<IUserCosmosRepository, UserCosmosRepository>();
             services.AddTransient<IUserFollowRepository, UserFollowRepository>();
 

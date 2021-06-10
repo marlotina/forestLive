@@ -9,6 +9,7 @@ using FL.WebAPI.Core.Users.Api.Models.v1.Request;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Images;
 using FL.Pereza.Helpers.Standard.JwtToken;
+using System.Drawing;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
@@ -41,20 +42,10 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                     || string.IsNullOrWhiteSpace(request.ImageBase64) || string.IsNullOrWhiteSpace(request.ImageName))
                     return this.BadRequest();
 
-                var fileExtension = request.ImageName.Split('.')[1];
-                var imageBase64 = request.ImageBase64.Split(',')[1];
-
-                var image = fileExtension == ImageHelper.PNG_EXTENSION ? ImageHelper.FromBase64PNGToBase64JPG(imageBase64) : imageBase64;
-                var nameFile = $"{request.UserName}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}";
-                var bytes = Convert.FromBase64String(request.ImageBase64.Split(',')[1]);
-
-                var contents = new StreamContent(new MemoryStream(bytes));
-                var imageStream = await contents.ReadAsStreamAsync();
-
-
+                
                 var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
 
-                var result = await this.iUserImageService.UploadImageAsync(imageStream, nameFile, request.UserId, userWebId);
+                var result = await this.iUserImageService.UploadImageAsync(request, userWebId);
                 if (result)
                 {
                     return this.Ok();
@@ -70,17 +61,17 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         }
 
         [HttpDelete, Route("DeleteImage")]
-        public async Task<IActionResult> DeleteImage([FromQuery] Guid userId)
+        public async Task<IActionResult> DeleteImage([FromQuery] Guid userId, string imageName)
         {
             try
             {
-                if (userId == Guid.Empty)
+                if (userId == Guid.Empty || string.IsNullOrEmpty(imageName))
                     return this.BadRequest();
 
                 var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
 
-                if (await this.iUserImageService.DeleteImageAsync(userId, userWebId))
-                    return NoContent();
+                if (await this.iUserImageService.DeleteImageAsync(userId, userWebId, imageName))
+                    return this.Ok();
                 else
                     return this.NotFound();
             }
