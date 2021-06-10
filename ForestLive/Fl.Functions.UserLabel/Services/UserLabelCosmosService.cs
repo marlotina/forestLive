@@ -36,7 +36,7 @@ namespace FL.Functions.UserPost.Services
                         if (response != null && !string.IsNullOrEmpty(response.Resource.Id))
                         {
                             var obj = new dynamic[] { response.Resource.Id };
-                            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("updateLabel", new PartitionKey(response.Resource.UserId), obj);
+                            await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("updateLabelCount", new PartitionKey(response.Resource.UserId), obj);
                         }
                         else
                         {
