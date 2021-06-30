@@ -8,7 +8,7 @@ namespace FL.WebAPI.Core.Users.Api.Models.v1.Response
 
         public string Surname { get; set; }
 
-        public string UserName { get; set; }
+        public string Id { get; set; }
 
         public string Description { get; set; }
 
@@ -28,6 +28,6 @@ namespace FL.WebAPI.Core.Users.Api.Models.v1.Response
 
         public bool IsCompany { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid UserSystemId { get; set; }
     }
 }

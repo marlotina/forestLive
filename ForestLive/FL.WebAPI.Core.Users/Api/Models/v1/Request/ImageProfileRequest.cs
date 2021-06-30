@@ -8,9 +8,7 @@ namespace FL.WebAPI.Core.Users.Api.Models.v1.Request
 
         public string ImageName { get; set; }
 
-        public Guid UserId { get; set; }
-
-        public string UserName { get; set; }
+        public string UserId { get; set; }
 
         public bool Hasmage { get; set; }
     }

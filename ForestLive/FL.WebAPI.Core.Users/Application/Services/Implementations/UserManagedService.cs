@@ -21,16 +21,16 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             this.logger = logger;
         }
 
-        public async Task<bool> DeleteAsync(Guid userId, string userWebId)
+        public async Task<bool> DeleteAsync(string userId, string userWebId)
         {
             var result = false;
             try
             {
                 var entityUser = await this.iUserCosmosRepository.GetUser(userId, userWebId);
 
-                if (entityUser != null && entityUser.UserId == userWebId)
+                if (entityUser != null && entityUser.Id == userWebId)
                 {
-                    return await this.iUserCosmosRepository.DeleteUserInfoAsync(entityUser.Id, entityUser.UserId);
+                    return await this.iUserCosmosRepository.DeleteUserInfoAsync(entityUser.Id, entityUser.Id);
                 }
             }
             catch (Exception ex) 
@@ -47,7 +47,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             {
                 var user = await this.iUserCosmosRepository.GetUser(newUserData.Id, userIdRequest);
 
-                if (user != null && user.UserId == userIdRequest)
+                if (user != null && user.Id == userIdRequest)
                 {
                     user.Name = newUserData.Name;
                     user.Surname = newUserData.Surname;
@@ -82,7 +82,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             return await this.iUserCosmosRepository.GetUserByName(userId);
         }
 
-        public async Task<UserInfo> GetUserAsync(Guid userId, string userName)
+        public async Task<UserInfo> GetUserAsync(string userId, string userName)
         {
             return await this.iUserCosmosRepository.GetUser(userId, userName);
         }

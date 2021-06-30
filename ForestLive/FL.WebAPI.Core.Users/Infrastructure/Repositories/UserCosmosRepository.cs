@@ -39,7 +39,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             try
             {
-                return await this.userContainer.CreateItemAsync<UserInfo>(user, new PartitionKey(user.UserId.ToString()));
+                return await this.userContainer.CreateItemAsync<UserInfo>(user, new PartitionKey(user.Id));
             }
             catch (Exception ex) 
             {
@@ -52,7 +52,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
         {
             try
             {
-                await this.userContainer.UpsertItemAsync<UserInfo>(user, new PartitionKey(user.UserId.ToString()));
+                await this.userContainer.UpsertItemAsync<UserInfo>(user, new PartitionKey(user.Id));
                 return true;
             }
             catch (Exception ex)
@@ -62,12 +62,12 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             }
         }
 
-        public async Task<bool> DeleteUserInfoAsync(Guid userId, string userNameId)
+        public async Task<bool> DeleteUserInfoAsync(string userId, string userNameId)
         {
 
             try
             {
-                await this.userContainer.DeleteItemAsync<UserInfo>(userId.ToString(), new PartitionKey(userNameId));
+                await this.userContainer.DeleteItemAsync<UserInfo>(userId, new PartitionKey(userNameId));
                 return true;
             }
             catch (Exception ex)
@@ -77,11 +77,11 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
             }
         }
 
-        public async Task<UserInfo> GetUser(Guid userId, string userNameId)
+        public async Task<UserInfo> GetUser(string userId, string userNameId)
         {
             try
             {
-                var response = await this.userContainer.ReadItemAsync<UserInfo>(userId.ToString(), new PartitionKey(userNameId));
+                var response = await this.userContainer.ReadItemAsync<UserInfo>(userId, new PartitionKey(userNameId));
                 var ru = response.RequestCharge;
                 return response.Resource;
             }

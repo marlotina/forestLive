@@ -3,27 +3,23 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using FL.WebAPI.Core.Users.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
-using System.Net.Http;
-using System.IO;
 using FL.WebAPI.Core.Users.Api.Models.v1.Request;
 using FL.LogTrace.Contracts.Standard;
-using FL.Pereza.Helpers.Standard.Images;
 using FL.Pereza.Helpers.Standard.JwtToken;
-using System.Drawing;
 
 namespace FL.WebAPI.Core.Users.Controllers.v1
 {
     [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class UserImageController : ControllerBase
+    public class ManageUserImageController : ControllerBase
     {
-        private readonly ILogger<UserController> iLogger;
+        private readonly ILogger<ManageUserController> iLogger;
         private readonly IUserImageService iUserImageService;
 
-        public UserImageController(
+        public ManageUserImageController(
             IUserImageService iUserImageService,
-            ILogger<UserController> iLogger)
+            ILogger<ManageUserController> iLogger)
         {
             this.iLogger = iLogger;
             this.iUserImageService = iUserImageService;
@@ -38,12 +34,15 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                 if (request == null)
                     return null;
 
-                if (string.IsNullOrWhiteSpace(request.UserName) || request.UserId == Guid.Empty 
+                if (string.IsNullOrWhiteSpace(request.UserId)
                     || string.IsNullOrWhiteSpace(request.ImageBase64) || string.IsNullOrWhiteSpace(request.ImageName))
                     return this.BadRequest();
 
                 
                 var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+
+                if (userWebId != request.UserId)
+                    return this.Unauthorized();
 
                 var result = await this.iUserImageService.UploadImageAsync(request, userWebId);
                 if (result)
@@ -61,11 +60,11 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
         }
 
         [HttpDelete, Route("DeleteImage")]
-        public async Task<IActionResult> DeleteImage([FromQuery] Guid userId, string imageName)
+        public async Task<IActionResult> DeleteImage([FromQuery] string userId, string imageName)
         {
             try
             {
-                if (userId == Guid.Empty || string.IsNullOrEmpty(imageName))
+                if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrEmpty(imageName))
                     return this.BadRequest();
 
                 var userWebId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);

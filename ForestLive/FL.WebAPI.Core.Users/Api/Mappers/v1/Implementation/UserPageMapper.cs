@@ -14,7 +14,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
             {
                 result = new UserPageResponse()
                 {
-                    UserId = source.Id,
+                    Id = source.Id,
                     Name = source.Name,
                     Surname = source.Surname,
                     UrlWebSite = source.UrlWebSite,
@@ -22,7 +22,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
                     Description = source.Description,
                     Photo = source.Photo,
                     Location = source.Location,
-                    UserName = source.UserId,
+                    UserSystemId = source.UserSystemId,
                     FacebookUrl = source.FacebookUrl,
                     InstagramUrl = source.InstagramUrl,
                     TwitterUrl = source.TwitterUrl,
@@ -47,7 +47,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
                     Description = source.Description,
                     Photo = source.Photo,
                     Location = source.Location,
-                    UserName = source.UserId,
+                    UserName = source.Id,
                     FacebookUrl = source.FacebookUrl,
                     InstagramUrl = source.InstagramUrl,
                     TwitterUrl = source.TwitterUrl,

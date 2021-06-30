@@ -14,13 +14,13 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
     [ApiController]
     public class UserPageController : ControllerBase
     {
-        private readonly ILogger<UserController> logger;
+        private readonly ILogger<ManageUserController> logger;
         private readonly IUserService usersService;
         private readonly IUserPageMapper userPageMapper;
 
         public UserPageController(
             IUserService usersService,
-            ILogger<UserController> logger,
+            ILogger<ManageUserController> logger,
             IUserPageMapper userPageMapper)
         {
             this.logger = logger;

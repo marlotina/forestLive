@@ -32,11 +32,11 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
             this.blobContainerRepository = blobContainerRepository;
         }
 
-        public async Task<bool> DeleteImageAsync(Guid userId, string webUserId, string imageName)
+        public async Task<bool> DeleteImageAsync(string userId, string webUserId, string imageName)
         {
              var user = await this.iUserCosmosRepository.GetUser(userId, webUserId);
 
-            if (user != null && user.UserId == webUserId && imageName != "profile.png")
+            if (user != null && user.Id == webUserId && imageName != "profile.png")
             {
                 if (await this.blobContainerRepository.DeleteFileToStorage(imageName, this.userConfiguration.ImageProfileContainer))
                 {
@@ -53,7 +53,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
         {
             var user = await this.iUserCosmosRepository.GetUser(request.UserId, webUserId);
 
-            if (user != null && user.UserId == webUserId)
+            if (user != null && user.Id == webUserId)
             {
                 if (request.Hasmage)
                 {
@@ -62,7 +62,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 }
 
                 //var fileStream = await this.SavePhoto(fileData);
-                var fileName = $"{request.UserName}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}";
+                var fileName = $"{request.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}";
 
                 if (await this.SavePhoto(request.ImageBase64, fileName)) {
                     if (user.Photo != fileName)

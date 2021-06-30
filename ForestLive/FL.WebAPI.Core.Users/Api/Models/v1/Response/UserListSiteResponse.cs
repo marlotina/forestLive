@@ -4,7 +4,9 @@ namespace FL.WebAPI.Core.Users.Models.v1.Response
 {
     public class UserListSiteResponse
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
+
+        public string UseriSystemId { get; set; }
 
         public string UserName { get; set; }
 

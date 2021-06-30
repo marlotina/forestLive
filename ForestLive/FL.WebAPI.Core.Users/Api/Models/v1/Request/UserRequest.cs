@@ -6,10 +6,7 @@ namespace FL.WebAPI.Core.Users.Models.v1.Request
     public class UserRequest
     {
         [Required]
-        public Guid Id { get; set; }
-
-        [Required]
-        public string UserName { get; set; }
+        public string Id { get; set; }
 
         public string Name { get; set; }
 

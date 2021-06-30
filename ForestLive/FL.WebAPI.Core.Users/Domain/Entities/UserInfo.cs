@@ -4,9 +4,11 @@ namespace FL.WebAPI.Core.Users.Domain.Entities
 {
     public class UserInfo
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
 
         public string UserId { get; set; }
+
+        public Guid UserSystemId { get; set; }
 
         public string Name { get; set; }
 

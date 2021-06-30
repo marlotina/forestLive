@@ -11,9 +11,9 @@ namespace FL.WebAPI.Core.Items.Domain.Repositories
 
         Task<bool> UpdateUserInfoAsync(UserInfo user);
 
-        Task<bool> DeleteUserInfoAsync(Guid userId, string userNameId);
+        Task<bool> DeleteUserInfoAsync(string userId, string userNameId);
 
-        Task<UserInfo> GetUser(Guid userId, string userNameId);
+        Task<UserInfo> GetUser(string userId, string userNameId);
 
 
         Task<UserInfo> GetUserByName(string userNameId);

@@ -13,6 +13,7 @@ using System.Security.Claims;
 using FL.Mailing.Contracts.Standard;
 using FL.Mailing.Contracts.Standard.Models;
 using FL.WebAPI.Core.Items.Domain.Repositories;
+using FL.LogTrace.Contracts.Standard;
 
 namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 {
@@ -37,38 +38,32 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
 
         public async Task ConfirmEmailAsync(Guid userId, string code)
         {
-            try
+            if (string.IsNullOrWhiteSpace(code))
+                throw new Exception("NO_CODE");
+
+            var user = await this.userManager.FindByIdAsync(userId.ToString());
+            if (user == null)
             {
-                if (string.IsNullOrWhiteSpace(code))
-                    throw new Exception("NO_CODE");
-
-                var user = await this.userManager.FindByIdAsync(userId.ToString());
-                if (user == null)
-                {
-                    throw new UserNotFoundException();
-                }
-                var identityResult = await this.userManager.ConfirmEmailAsync(user, code);
-
-                if (!identityResult.Succeeded)
-                {
-                    throw new Exception("INVALID_CONFIRMATION");
-                }
-
-                await this.iUserCosmosRepository.CreateUserInfoAsync(new Domain.Entities.UserInfo
-                {
-                    Id = user.Id,
-                    UserId = user.UserName.ToLower(),
-                    RegistrationDate = user.RegistrationDate,
-                    Type = "user",
-                    Photo = "profile.png",
-                    LanguageId = user.LanguageId
-                });
-
+                throw new UserNotFoundException();
             }
-            catch (Exception ex) 
-            { 
-            
+            var identityResult = await this.userManager.ConfirmEmailAsync(user, code);
+
+            if (!identityResult.Succeeded)
+            {
+                throw new Exception("INVALID_CONFIRMATION");
             }
+
+            await this.iUserCosmosRepository.CreateUserInfoAsync(new Domain.Entities.UserInfo
+            {
+                UserSystemId = user.Id,
+                Id = user.UserName.ToLower(),
+                UserId = user.UserName.ToLower(),
+                RegistrationDate = user.RegistrationDate,
+                LastModification = DateTime.UtcNow,
+                Type = "user",
+                Photo = "profile.png",
+                LanguageId = user.LanguageId
+            });
         }
 
         public async Task<string> ForgotPasswordAsync(string email)
@@ -107,10 +102,9 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                     ? await this.userManager.CreateAsync(user)
                     : await this.userManager.CreateAsync(user, password);
 
-            string token = string.Empty;
             if (identityResult.Succeeded)
             {
-                token = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
+                var token = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                 await this.iEmailAccountService.SendConfirmEmail(new AccountEmailModel
                 {
                     Email = user.Email,
@@ -119,6 +113,8 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                     Code = token,
                     LanguageId = user.LanguageId,
                 });
+
+                return token;
             }
             else
             {
@@ -133,7 +129,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 }
             }
 
-            return token;
+            return string.Empty;
         }
 
         public async Task<AuthResponse> Authenticate(string username, string password)
@@ -163,7 +159,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 };
 
                 var token = tokenHandler.CreateToken(tokenDescriptor);
-                var userImage = await this.iUserCosmosRepository.GetUser(user.Id, user.UserName);
+                var userImage = await this.iUserCosmosRepository.GetUser(user.UserName, user.UserName);
 
                 return new AuthResponse
                 {

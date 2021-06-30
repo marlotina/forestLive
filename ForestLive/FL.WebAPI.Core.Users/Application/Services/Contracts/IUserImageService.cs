@@ -6,7 +6,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
 {
     public interface IUserImageService
     {
-        Task<bool> DeleteImageAsync (Guid userId, string webUserId, string imageName);
+        Task<bool> DeleteImageAsync (string userId, string webUserId, string imageName);
 
         Task<bool> UploadImageAsync (ImageProfileRequest request, string webUserId);
     }

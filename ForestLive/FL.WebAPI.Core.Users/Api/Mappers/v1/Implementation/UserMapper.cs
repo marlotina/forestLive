@@ -15,6 +15,7 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
                 result = new UserInfo()
                 {
                     Id = source.Id,
+                    UserId = source.Id,
                     Name = source.Name,
                     Surname = source.Surname,
                     UrlWebSite = source.UrlWebSite,
@@ -23,7 +24,6 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
                     Description = source.Description,
                     Photo = source.Photo,
                     Location = source.Location,
-                    UserId = source.UserName,
                     FacebookUrl = source.FacebookUrl,
                     InstagramUrl = source.InstagramUrl,
                     TwitterUrl = source.TwitterUrl,
@@ -51,7 +51,6 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
                     Description = source.Description,
                     Photo = source.Photo,
                     Location = source.Location,
-                    UserName = source.UserId,
                     FacebookUrl = source.FacebookUrl,
                     InstagramUrl = source.InstagramUrl,
                     TwitterUrl = source.TwitterUrl,

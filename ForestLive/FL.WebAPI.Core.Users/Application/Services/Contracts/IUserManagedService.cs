@@ -8,11 +8,11 @@ namespace FL.WebAPI.Core.Users.Application.Services.Contracts
     {
         Task<bool> UpdateAsync(UserInfo newUserData, string userIdRequest);
 
-        Task<bool> DeleteAsync(Guid userId, string userIdRequest);
+        Task<bool> DeleteAsync(string userId, string userIdRequest);
 
         Task<UserInfo> GetUserAsync(string userId);
 
-        Task<UserInfo> GetUserAsync(Guid userId, string userName);
+        Task<UserInfo> GetUserAsync(string userSystemId, string userName);
         
     }
 }

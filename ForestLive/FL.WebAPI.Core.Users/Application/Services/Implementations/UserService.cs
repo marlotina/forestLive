@@ -41,12 +41,12 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 this.customMemoryCache.Add("users", itemsCache);
             }
             var request = keys.ToLower().NormalizeName();
-            var filter = itemsCache.Where(x => x.UserId.ToLower().Contains(request));
+            var filter = itemsCache.Where(x => x.Id.ToLower().Contains(request));
 
             if (filter != null && filter.Any())
             {
                 return filter.Select(x => new AutocompleteResponse {
-                    UserName = x.UserId,
+                    UserName = x.Id,
                     UserPhoto = x.Photo
                 });
             }
@@ -65,7 +65,7 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                 this.customMemoryCache.Add("users", itemsCache);
             }
             var request = keys.ToUpper().NormalizeName();
-            var filter = itemsCache.Where(x => x.UserId.ToLower().Contains(request));
+            var filter = itemsCache.Where(x => x.Id.ToLower().Contains(request));
 
             return filter;
         }
