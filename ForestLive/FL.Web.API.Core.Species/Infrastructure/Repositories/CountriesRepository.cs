@@ -9,40 +9,39 @@ using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Species.Infrastructure.Repositories
 {
-    public class SpeciesRepository : ISpeciesRepository
+    public class CountriesRepository : ICountriesRepository
     {
         private readonly IBirdsConfiguration iBirdsConfiguration;
-        private readonly ILogger<SpeciesRepository> iLogger;
+        private readonly ILogger<CountriesRepository> iLogger;
 
-        public SpeciesRepository(
-            ILogger<SpeciesRepository> iLogger,
+        public CountriesRepository(
+            ILogger<CountriesRepository> iLogger,
             IBirdsConfiguration iBirdsConfiguration)
         {
             this.iLogger = iLogger;
             this.iBirdsConfiguration = iBirdsConfiguration;
         }
 
-        public async Task<List<SpecieItem>> GetSpeciesByLanguage(Guid languageId)
+        public async Task<List<CountryItem>> GetCountryByLanguage(Guid languageId)
         {
-            var result = new List<SpecieItem>();
+            var result = new List<CountryItem>();
 
             SqlConnection conn = new SqlConnection(this.iBirdsConfiguration.ConnectionString);
             conn.Open();
 
             try
             {
-                SqlCommand command = new SqlCommand($"SELECT c.SpecieId, c.Name, b.ScienceName FROM BirdSpeciesLanguages c INNER JOIN BirdSpecies b ON b.SpeciesId = c.SpecieId WHERE LanguageId = @languageId", conn);
+                SqlCommand command = new SqlCommand($"SELECT c.CountryId, c.Name FROM CountyLanguages c WHERE c.LanguageId = @languageId", conn);
                 command.Parameters.AddWithValue("@languageId", languageId);
 
                 using (SqlDataReader reader = await command.ExecuteReaderAsync())
                 {
                     while (reader.Read())
                     {
-                        result.Add(new SpecieItem()
+                        result.Add(new CountryItem()
                         {
-                            SpecieId = Guid.Parse(reader["SpecieId"].ToString()),
-                            Name = reader["Name"].ToString(),
-                            ScienceName = reader["ScienceName"].ToString()
+                            CountryId = reader["CountryId"].ToString(),
+                            Name = reader["Name"].ToString()
                         });
                     }
                 }

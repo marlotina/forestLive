@@ -1,5 +1,4 @@
 ﻿using FL.Pereza.Helpers.Standard.Language;
-using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
 using FL.Web.API.Core.Species.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -11,11 +10,11 @@ namespace FL.Web.API.Core.Species.Controllers.v1
     [ApiController]
     public class AutocompleteController : Controller
     {
-        private readonly IAutocompleteService autocompleteService;
+        private readonly IAutocompleteSpeciesService iAutocompleteSpeciesService;
         public AutocompleteController(
-            IAutocompleteService autocompleteService)
+            IAutocompleteSpeciesService iAutocompleteSpeciesService)
         {
-            this.autocompleteService = autocompleteService;
+            this.iAutocompleteSpeciesService = iAutocompleteSpeciesService;
         }
 
         [HttpGet, Route("GetNames", Name = "GetNames")]
@@ -27,7 +26,7 @@ namespace FL.Web.API.Core.Species.Controllers.v1
 
             var languageId = LanguageHelper.GetLanguageByCode(languageCode);
 
-            var result = await this.autocompleteService.GetSpeciesByKeys(text, languageId); 
+            var result = await this.iAutocompleteSpeciesService.GetSpeciesByKeys(text, languageId); 
 
             if (result.Any()) {
 

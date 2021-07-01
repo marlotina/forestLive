@@ -1,8 +1,4 @@
-﻿using FL.Cache.Standard.Contracts;
-using FL.Cache.Standard.Implementations;
-using FL.DependencyInjection.Standard.Contracts;
-using FL.Logging.Implementation.Standard;
-using FL.LogTrace.Contracts.Standard;
+﻿using FL.DependencyInjection.Standard.Contracts;
 using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
 using FL.Web.API.Core.Species.Api.Mappers.v1.Implementations;
 using FL.Web.API.Core.Species.Application.Services.Contracts;
@@ -11,7 +7,6 @@ using FL.Web.API.Core.Species.Configuration.Contracts;
 using FL.Web.API.Core.Species.Configuration.Implementations;
 using FL.Web.API.Core.Species.Domain.Repository;
 using FL.Web.API.Core.Species.Infrastructure.Repositories;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace FL.Web.API.Core.Species.IoC
 {
@@ -23,9 +18,11 @@ namespace FL.Web.API.Core.Species.IoC
 
             services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
 
-            services.AddTransient<IAutocompleteService, AutocompleteService>();
+            services.AddTransient<IAutocompleteSpeciesService, AutocompleteSpeciesService>();
+            services.AddTransient<ICountriesService, CountriesService>();
 
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
+            services.AddTransient<ICountriesRepository, CountriesRepository>();
         }
     }
 }
