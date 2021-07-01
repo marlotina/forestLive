@@ -21,6 +21,7 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddSingleton<IUserMapper, UserMapper>();
             services.AddSingleton<IUserPageMapper, UserPageMapper>();
             services.AddSingleton<IRegisterMapper, RegisterMapper>();
+            services.AddSingleton<IUserLabelMapper, UserLabelMapper>();
 
             services.AddSingleton<IUserConfiguration, UserConfiguration>();
 
@@ -28,7 +29,12 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddTransient<IUserManagedService, UserManagedService>();
             services.AddTransient<IUserImageService, UserImageService>();
             services.AddTransient<IAccountService, AccountService>();
+            services.AddTransient<IUserLabelService, UserLabelService>();
 
+
+
+
+            services.AddTransient<IUserLabelRepository, UserLabelRepository>();
             services.AddTransient<IUserCosmosRepository, UserCosmosRepository>();
             services.AddTransient<IUserFollowRepository, UserFollowRepository>();
 
