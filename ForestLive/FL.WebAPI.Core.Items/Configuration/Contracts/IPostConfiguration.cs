@@ -6,16 +6,8 @@ namespace FL.WebAPI.Core.Items.Configuration.Contracts
     {
         string BirdPhotoContainer { get; }
 
-        string Secret { get; }
-
-        string Host { get; }
-
         CosmosConfiguration CosmosConfiguration { get; }
 
         ServiceBusConfig ServiceBusConfig { get;  }
-
-        string VoteUrlService { get; }
-
-        string VoteApiDomain { get; }
     }
 }

@@ -64,6 +64,10 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                 if (!string.IsNullOrEmpty(imageBytes))
                 {
                     result = await this.SavePhoto(imageBytes, imageName, folder);
+                    birdPost.ImageUrl = folder + "/" + imageName;
+                }
+                else {
+                    birdPost.ImageUrl = string.Empty;
                 }
 
                 if (result)
@@ -75,7 +79,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     birdPost.VoteCount = 0;
                     birdPost.CommentCount = 0;
                     birdPost.CreationDate = DateTime.UtcNow;
-                    birdPost.ImageUrl = folder + "/" + imageName;
                     birdPost.VoteCount = 0;
 
                     if (isPost)
@@ -106,7 +109,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                         await this.iServiceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
                     }
 
-
                     return birdPost;
                 }
             }
@@ -131,7 +133,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     {
                         var specieId = post.SpecieId;
                         var type = post.Type;
-                        var postLabels = post?.Labels.ToList();
+                        var postLabels = post?.Labels != null ? post.Labels.ToList() : null;
                         post.ImageUrl = string.Empty;
                         post.UserId = null;
                         post.Title = string.Empty;

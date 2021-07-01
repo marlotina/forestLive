@@ -38,9 +38,13 @@ namespace FL.Infrastructure.Standard.Implementations
 
                 // Create the blob client.
                 BlobClient blobClient = new BlobClient(blobUri, storageCredentials);
+                var blobHttpHeader = new BlobHttpHeaders
+                {
+                    ContentType = "image/jpg"
+                };
 
                 // Upload the file
-                await blobClient.UploadAsync(fileStream);
+                await blobClient.UploadAsync(fileStream, blobHttpHeader);
 
 
                 return await Task.FromResult(true);

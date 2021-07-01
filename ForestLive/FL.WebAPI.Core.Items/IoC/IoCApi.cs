@@ -33,8 +33,6 @@ namespace FL.WebAPI.Core.Items.IoC
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
             services.AddTransient<IUserPostRepository, UserPostRepository>();
             
-            services.AddTransient<IUserVotesRepository, UserVotesRepository>();
-
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }

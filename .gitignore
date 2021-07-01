@@ -420,3 +420,6 @@ ForestLive/FL.WebAPI.Core.Items/nlog.Prod.config
 ForestLive/FL.Web.API.Core.Bird.Pending/appsettings.Prod.json
 ForestLive/FL.Web.API.Core.User.Posts/nlog.Prod.config
 ForestLive/FL.WebAPI.Core.Birds/appsettings.Prod.json
+ForestLive/FL.WebAPI.Core.Items/nlog.QA.config
+ForestLive/FL.WebAPI.Core.Items/nlog.Development.config
+ForestLive/FL.WebAPI.Core.Items/nlog.config
