@@ -2,12 +2,8 @@
 
 namespace FL.Web.API.Core.User.Interactions.Configuration.Contracts
 {
-    public interface IVoteConfiguration
+    public interface IUserInteractionsConfiguration
     {
-        string Secret { get; }
-
-        string Host { get; }
-
         CosmosConfiguration CosmosConfiguration { get; }
 
         ServiceBusConfig ServiceBusConfig { get; }

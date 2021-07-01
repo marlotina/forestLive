@@ -22,7 +22,7 @@ namespace FL.Web.API.Core.User.Interactions.IoC
             services.AddSingleton<IFollowMapper, FollowMapper>();
             services.AddSingleton<ICommentMapper, CommentMapper>();
 
-            services.AddSingleton<IVoteConfiguration, VoteConfiguration>();
+            services.AddSingleton<IUserInteractionsConfiguration, UserInteractionsConfiguration>();
 
             services.AddTransient<IVotePostService, VotePostService>();
             services.AddTransient<IVoteCommentService, VoteCommentService>();

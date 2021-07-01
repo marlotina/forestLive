@@ -12,11 +12,11 @@ namespace FL.WebAPI.Core.User.Interactions.Infrastructure.ServiceBus.Implementat
     public class ServiceBusFollowerTopicSender<T> : IServiceBusFollowerTopicSender<T> where T : class
     {
         private readonly TopicClient topicClient;
-        private readonly IVoteConfiguration iPostConfiguration;
+        private readonly IUserInteractionsConfiguration iPostConfiguration;
         private readonly ILogger<ServiceBusFollowerTopicSender<T>> logger;
 
         public ServiceBusFollowerTopicSender(
-            IVoteConfiguration iPostConfiguration,
+            IUserInteractionsConfiguration iPostConfiguration,
             ILogger<ServiceBusFollowerTopicSender<T>> logger)
         {
             this.iPostConfiguration = iPostConfiguration;

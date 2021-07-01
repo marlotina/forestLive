@@ -14,13 +14,13 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
     public class FollowerRepository : IFollowerRepository
     {
         private readonly IClientFactory iClientFactory;
-        private readonly IVoteConfiguration iVoteConfiguration;
+        private readonly IUserInteractionsConfiguration iVoteConfiguration;
         private readonly ILogger<FollowRepository> iLogger;
         private readonly Container followerContainer;
 
         public FollowerRepository(
             IClientFactory iClientFactory,
-            IVoteConfiguration iVoteConfiguration,
+            IUserInteractionsConfiguration iVoteConfiguration,
             ILogger<FollowRepository> iLogger)
         {
             this.iClientFactory = iClientFactory;

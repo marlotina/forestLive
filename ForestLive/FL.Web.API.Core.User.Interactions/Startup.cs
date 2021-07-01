@@ -1,5 +1,4 @@
 using FL.DependencyInjection.Standard.Extensions;
-using FL.Web.API.Core.User.Interactions.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;

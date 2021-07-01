@@ -14,13 +14,13 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
     public class FollowRepository : IFollowRepository
     {
         private readonly IClientFactory iClientFactory;
-        private readonly IVoteConfiguration iVoteConfiguration;
+        private readonly IUserInteractionsConfiguration iVoteConfiguration;
         private readonly ILogger<FollowRepository> iLogger;
         private readonly Container followContainer;
 
         public FollowRepository(
             IClientFactory iClientFactory,
-            IVoteConfiguration iVoteConfiguration,
+            IUserInteractionsConfiguration iVoteConfiguration,
             ILogger<FollowRepository> iLogger)
         {
             this.iClientFactory = iClientFactory;
@@ -33,7 +33,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         {
             var config = this.iVoteConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosFollowerContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosFollowContainer);
         }
 
         public async Task<FollowUser> AddFollow(FollowUser followUser)

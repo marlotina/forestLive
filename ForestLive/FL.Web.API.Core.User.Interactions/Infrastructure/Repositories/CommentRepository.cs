@@ -14,13 +14,13 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
     public class CommentRepository : ICommentRepository
     {
         private readonly IClientFactory iClientFactory;
-        private readonly IVoteConfiguration iItemConfiguration;
+        private readonly IUserInteractionsConfiguration iItemConfiguration;
         private readonly ILogger<CommentRepository> iLogger;
         private Container commentContainer;
 
         public CommentRepository(
             IClientFactory iClientFactory,
-            IVoteConfiguration iItemConfiguration,
+            IUserInteractionsConfiguration iItemConfiguration,
             ILogger<CommentRepository> iLogger)
         {
             this.iClientFactory = iClientFactory;

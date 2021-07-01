@@ -14,14 +14,14 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
     public class VotePostRepository : IVotePostRepository
     {
         private readonly IClientFactory iClientFactory;
-        private readonly IVoteConfiguration iVoteConfiguration;
+        private readonly IUserInteractionsConfiguration iVoteConfiguration;
         private readonly ILogger<VotePostRepository> iLogger;
         private Container voteContainer;
 
         public VotePostRepository(
             IClientFactory iClientFactory,
             ILogger<VotePostRepository> iLogger,
-            IVoteConfiguration iVoteConfiguration)
+            IUserInteractionsConfiguration iVoteConfiguration)
         {
             this.iClientFactory = iClientFactory;
             this.iVoteConfiguration = iVoteConfiguration;
