@@ -6,7 +6,6 @@ using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Domain.Enum;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
 using FL.Web.API.Core.Post.Interactions.Infrastructure.ServiceBus.Contracts;
-using Microsoft.Azure.Cosmos;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

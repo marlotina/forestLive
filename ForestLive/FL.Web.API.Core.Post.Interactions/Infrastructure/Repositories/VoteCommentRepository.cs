@@ -13,8 +13,8 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
 {
     public class VoteCommentRepository : IVoteCommentRepository
     {
-        private IClientFactory iClientFactory;
-        private IPostConfiguration iVoteConfiguration;
+        private readonly IClientFactory iClientFactory;
+        private readonly IPostConfiguration iVoteConfiguration;
         private readonly ILogger<VotePostRepository> iLogger;
         private Container voteCommentContainer;
 
@@ -33,7 +33,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
         {
             var config = this.iVoteConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosCommentVoteContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosPostContainer);
         }
 
         public async Task<VoteCommentPost> GetVoteAsync(string voteId, Guid postId)
@@ -71,7 +71,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             try
             {
                 //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
-                var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
+                var queryString = $"SELECT * FROM p WHERE p.type='voteComment' AND p.postId = @PostId ORDER BY p.creationDate ASC";
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@PostId", postId);
                 var query = this.voteCommentContainer.GetItemQueryIterator<VoteCommentPost>(queryDef);

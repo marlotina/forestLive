@@ -33,7 +33,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
         {
             var config = this.iVoteConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosVoteContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosPostContainer);
         }
 
         public async Task<VotePost> GetVoteAsync(string voteId, Guid postId)
@@ -87,8 +87,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             var votes = new List<VotePost>();
             try
             {
-                //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
-                var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
+                var queryString = $"SELECT * FROM p WHERE p.type='vote' AND p.postId = @PostId ORDER BY p.creationDate ASC";
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@PostId", postId);
                 var query = this.voteContainer.GetItemQueryIterator<VotePost>(queryDef);

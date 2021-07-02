@@ -15,11 +15,7 @@ namespace FL.Web.API.Core.Post.Interactions.Configuration.Implementations
 
         public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
 
-        public string Host => this.configuration.GetSection("Host").Get<string>();
-
         public ServiceBusConfig ServiceBusConfig => this.configuration.GetSection("ServiceBusConfig").Get<ServiceBusConfig>();
-
-        public string Secret => this.configuration.GetSection("Secret").Get<string>();
 
         public string VoteApiDomain => this.configuration.GetSection("VoteApiDomain").Get<string>();
 

@@ -14,7 +14,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
 {
     public class UserVotesRestRepository : IUserVotesRestRepository
     {
-        private IPostConfiguration iVoteConfiguration;
+        private readonly IPostConfiguration iVoteConfiguration;
         private readonly ILogger<VotePostRepository> iLogger;
 
         public UserVotesRestRepository(
@@ -27,24 +27,33 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
 
         public async Task<IEnumerable<VotePostResponse>> GetUserVoteByComments(IEnumerable<Guid> listComments, string userId)
         {
-            if (string.IsNullOrEmpty(userId) || listComments == null || !listComments.Any()) {
-                return null;
-            }
-
-            var client = new RestClient(this.iVoteConfiguration.VoteApiDomain);
-            var restRequest = new RestRequest(this.iVoteConfiguration.VoteUrlService, Method.POST);
-            
-            var requestVoteUser = new VotePostRequest() {
-                ListComments = listComments,
-                UserId = userId
-            };
-
-            restRequest.AddJsonBody(requestVoteUser);
-
-            var response = await client.ExecuteAsync<IEnumerable<VotePostResponse>>(restRequest);
-            if (response.StatusCode == HttpStatusCode.OK)
+            try
             {
-                return JsonConvert.DeserializeObject<IEnumerable<VotePostResponse>>(response.Content);
+                if (string.IsNullOrEmpty(userId) || listComments == null || !listComments.Any())
+                {
+                    return null;
+                }
+
+                var client = new RestClient(this.iVoteConfiguration.VoteApiDomain);
+                var restRequest = new RestRequest(this.iVoteConfiguration.VoteUrlService, Method.POST);
+
+                var requestVoteUser = new VotePostRequest()
+                {
+                    ListComments = listComments,
+                    UserId = userId
+                };
+
+                restRequest.AddJsonBody(requestVoteUser);
+
+                var response = await client.ExecuteAsync<IEnumerable<VotePostResponse>>(restRequest);
+                if (response.StatusCode == HttpStatusCode.OK)
+                {
+                    return JsonConvert.DeserializeObject<IEnumerable<VotePostResponse>>(response.Content);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex);
             }
 
             return null;

@@ -13,8 +13,8 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
 {
     public class CommentRepository : ICommentRepository
     {
-        private IClientFactory iClientFactory;
-        private IPostConfiguration iItemConfiguration;
+        private readonly IClientFactory iClientFactory;
+        private readonly IPostConfiguration iItemConfiguration;
         private readonly ILogger<VotePostRepository> iLogger;
         private Container commentContainer;
 
@@ -33,7 +33,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
         {
             var config = this.iItemConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosCommentContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosPostContainer);
         }
 
         public async Task<List<BirdComment>> GetCommentsByPostIdAsync(Guid postId)
@@ -41,8 +41,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             var comments = new List<BirdComment>();
             try
             {
-                //var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.userId = @UserId ORDER BY p.createDate ASC";
-                var queryString = $"SELECT * FROM p WHERE p.postId = @PostId ORDER BY p.creationDate ASC";
+                var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.postId = @PostId ORDER BY p.creationDate ASC";
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@PostId", postId);
                 var query = this.commentContainer.GetItemQueryIterator<BirdComment>(queryDef);
@@ -110,7 +109,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             try
             {
                 var obj = new dynamic[] { commentId.ToString() };
-                await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCount", new PartitionKey(postId.ToString()), obj);
+                await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("increaseVoteCommentCount", new PartitionKey(postId.ToString()), obj);
                 return true;
             }
             catch (Exception ex)
@@ -126,7 +125,7 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             try
             {
                 var obj = new dynamic[] { commentId.ToString() };
-                await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(postId.ToString()), obj);
+                await this.commentContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCommentCount", new PartitionKey(postId.ToString()), obj);
                 return true;
             }
             catch (Exception ex)
