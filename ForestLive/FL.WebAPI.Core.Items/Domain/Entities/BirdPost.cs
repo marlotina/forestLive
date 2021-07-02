@@ -54,5 +54,8 @@ namespace FL.WebAPI.Core.Items.Domain.Entities
 
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime? ObservationDate { get; set; }
+
+        [JsonProperty(PropertyName = "countryCode")]
+        public string CountryCode { get; set; }
     }
 }

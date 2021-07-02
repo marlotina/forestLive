@@ -27,7 +27,8 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     Type = source.Type,
                     AltImage = source.AltImage,
                     ObservationDate = source.ObservationDate,
-                    SpecieId = source.SpecieId
+                    SpecieId = source.SpecieId,
+                    CountryCode = source.CountryCode
                 };
 
                 if (source.Longitude.HasValue && source.Latitude.HasValue) {
@@ -57,6 +58,7 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
+                    CountryCode = source.CountryCode,
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
@@ -74,74 +76,6 @@ namespace FL.WebAPI.Core.Items.Api.Mapper.v1.Implementation
                 if (source.Location != null) {
                     result.Latitude = source.Location.Position.Latitude;
                     result.Longitude = source.Location.Position.Longitude;
-                }
-            }
-            return result;
-        }
-
-        public PostResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
-        {
-            var result = default(PostResponse);
-            if (source != null)
-            {
-                var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.PostId == source.PostId) : null;
-                result = new PostResponse()
-                {
-                    Id = source.PostId,
-                    PostId = source.PostId,
-                    Title = source.Title,
-                    Text = source.Text,
-                    ImageUrl = source.ImageUrl,
-                    AltImage = source.AltImage,
-                    CreationDate = source.CreationDate,
-                    UserId = source.UserId,
-                    BirdSpecie = source.SpecieName,
-                    SpecieId = source.SpecieId,
-                    HasVote = false,
-                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
-                    VoteCount = source.VoteCount,
-                    CommentCount = source.CommentCount,
-                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
-                };
-
-                if (vote != null)
-                {
-                    result.HasVote = true;
-                    result.VoteId = vote.VoteId;
-                }
-            }
-            return result;
-        }
-
-        public PostListResponse ConvertToList(PostDto source, IEnumerable<VotePostResponse> postVotes = null)
-        {
-            var result = default(PostListResponse);
-            if (source != null)
-            {
-                var vote = postVotes != null ? postVotes.FirstOrDefault(x => x.PostId == source.PostId) : null;
-                result = new PostListResponse()
-                {
-                    PostId = source.PostId,
-                    Title = source.Title,
-                    Text = source.Text,
-                    ImageUrl = source.ImageUrl,
-                    Type = "post",
-                    AltImage = source.AltImage,
-                    CreationDate = source.CreationDate,
-                    UserId = source.UserId,
-                    BirdSpecie = source.SpecieName,
-                    SpecieId = source.SpecieId,
-                    HasVote = false,
-                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
-                    VoteCount = source.VoteCount,
-                    CommentCount = source.CommentCount,
-                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
-                };
-
-                if (vote != null)
-                {
-                    result.HasVote = true;
-                    result.VoteId = vote.VoteId;
                 }
             }
             return result;

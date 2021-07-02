@@ -26,6 +26,8 @@ namespace FL.WebAPI.Core.Items.Api.Models.v1.Request
 
         public Guid? SpecieId { get; set; }
 
+        public string CountryCode { get; set; }
+
         public string[] Labels { get; set; }
 
         public DateTime? ObservationDate { get; set; }
