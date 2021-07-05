@@ -15,7 +15,7 @@ namespace FL.Pereza.Helpers.Standard.Extensions
                     sbReturn.Append(letter);
             }
 
-            return sbReturn.ToString();
+            return sbReturn.ToString().ToLower();
         }
     }
 }

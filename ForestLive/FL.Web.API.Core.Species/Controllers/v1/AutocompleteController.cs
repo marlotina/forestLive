@@ -20,16 +20,36 @@ namespace FL.Web.API.Core.Species.Controllers.v1
         [HttpGet, Route("GetNames", Name = "GetNames")]
         public async Task<IActionResult> GetNames(string text, string languageCode)
         {
-            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode)) {
+         if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode)) {
                 return this.BadRequest();
             }
 
             var languageId = LanguageHelper.GetLanguageByCode(languageCode);
 
-            var result = await this.iAutocompleteSpeciesService.GetSpeciesByKeys(text, languageId); 
+            var result = await this.iAutocompleteSpeciesService.GetSpeciesByName(text, languageId); 
 
             if (result.Any()) {
 
+                return this.Ok(result);
+            }
+
+            return this.NoContent();
+        }
+
+        [HttpGet, Route("GetScienceNames", Name = "GetScienceNames")]
+        public async Task<IActionResult> GetScienceNames(string text, string languageCode)
+        {
+            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode))
+            {
+                return this.BadRequest();
+            }
+
+            var languageId = LanguageHelper.GetLanguageByCode(languageCode);
+
+            var result = await this.iAutocompleteSpeciesService.GetSpeciesByScienceName(text, languageId);
+
+            if (result.Any())
+            {
                 return this.Ok(result);
             }
 
