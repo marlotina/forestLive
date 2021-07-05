@@ -23,7 +23,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
         public async Task<IEnumerable<VotePostResponse>> GetUserVoteByPosts(IEnumerable<Guid> listPosts, string userId)
         {
             var client = new RestClient(this.iBirdsConfiguration.VoteApiDomain);
-            var restRequest = new RestRequest(this.iBirdsConfiguration.VoteUrlService, Method.POST);
+            var restRequest = new RestRequest(this.iBirdsConfiguration.VoteUrlService, Method.GET);
             
             var requestVoteUser = new VotePostRequest() {
                 ListPosts = listPosts,

@@ -10,27 +10,52 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
     public class SpeciesService : ISpeciesService
     {
         private readonly ISpeciesRepository iBirdSpeciesRepository;
+        private readonly IUserInfoService iUserInfoService;
 
         public SpeciesService(
-            ISpeciesRepository iBirdSpeciesRepository)
+            ISpeciesRepository iBirdSpeciesRepository,
+            IUserInfoService iUserInfoService)
         {
             this.iBirdSpeciesRepository = iBirdSpeciesRepository;
+            this.iUserInfoService = iUserInfoService;
         }
 
         public async Task<List<PostDto>> GetBirdBySpecie(Guid birdSpecieId, int orderBy)
         {
             var orderCondition = this.GerOrderCondition(orderBy);
-            return await this.iBirdSpeciesRepository.GetPostsBySpecieAsync(birdSpecieId, orderCondition);
+
+            var result = await this.iBirdSpeciesRepository.GetPostsBySpecieAsync(birdSpecieId, orderCondition);
+
+            foreach (var post in result)
+            {
+                post.UserImage = await this.iUserInfoService.GetUserImageById(post.UserId);
+            }
+
+            return result;
         }
 
         public async Task<List<PostDto>> GetBirds(int orderBy)
         {
-            return await this.iBirdSpeciesRepository.GetAllSpecieAsync(this.GerOrderCondition(orderBy));
+            var result = await this.iBirdSpeciesRepository.GetAllSpecieAsync(this.GerOrderCondition(orderBy));
+
+            foreach (var post in result) 
+            {
+                post.UserImage = await this.iUserInfoService.GetUserImageById(post.UserId);
+            }
+
+            return result;
         }
 
         public async Task<List<PostHomeDto>> GetLastBirds()
         {
-            return await this.iBirdSpeciesRepository.GetLastSpecieAsync();
+            var result = await this.iBirdSpeciesRepository.GetLastSpecieAsync();
+
+            foreach (var post in result)
+            {
+                post.UserImage = await this.iUserInfoService.GetUserImageById(post.UserId);
+            }
+
+            return result;
         }
 
         private string GerOrderCondition(int orderBy)

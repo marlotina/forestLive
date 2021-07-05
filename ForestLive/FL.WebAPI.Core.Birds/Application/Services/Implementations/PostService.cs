@@ -12,13 +12,16 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
     public class PostService : IPostService
     {
         private readonly IPostRepository iPostRepository;
+        private readonly IUserInfoService iUserInfoService;
         private readonly ILogger<PostService> iLogger;
 
         public PostService(
+            IUserInfoService iUserInfoService,
             IPostRepository iPostRepository,
             ILogger<PostService> iLogger)
         {
             this.iPostRepository = iPostRepository;
+            this.iUserInfoService = iUserInfoService;
             this.iLogger = iLogger;
         }
 
@@ -41,7 +44,15 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             try
             {
                 var order = this.GerOrderCondition(orderBy);
-                return await this.iPostRepository.GetPostsAsync(order);
+                var result = await this.iPostRepository.GetPostsAsync(order);
+
+                foreach (var post in result)
+                {
+                    post.UserImage = await this.iUserInfoService.GetUserImageById(post.UserId);
+                }
+
+                return result;
+
             }
             catch (Exception ex)
             {

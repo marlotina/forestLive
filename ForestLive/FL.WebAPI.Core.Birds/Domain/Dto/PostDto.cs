@@ -44,6 +44,9 @@ namespace FL.WebAPI.Core.Birds.Domain.Dto
         [JsonProperty(PropertyName = "userId")]
         public string UserId { get; set; }
 
+        [JsonProperty(PropertyName = "userImage")]
+        public string UserImage { get; set; }
+
         [JsonProperty(PropertyName = "observationDate")]
         public DateTime? ObservationDate { get; set; }
     }

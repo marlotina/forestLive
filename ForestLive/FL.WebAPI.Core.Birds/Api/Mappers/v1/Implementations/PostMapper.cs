@@ -2,6 +2,7 @@
 using FL.Web.API.Core.User.Posts.Domain.Dto;
 using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Api.Models.v1.Response;
+using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Dto;
 using FL.WebAPI.Core.Birds.Domain.Model;
 using System.Collections.Generic;
@@ -29,12 +30,12 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
-                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] :  source.Labels,
+                    Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
                     VoteCount = source.VoteCount,
                     CommentCount = source.CommentCount,
                     HasVote = false,
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy"): string.Empty,
-                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
+                    UserPhoto = source.UserImage
                 };
 
                 if (vote != null)
@@ -71,7 +72,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     HasVote = false,
                     IsPost = source.Type == "post",
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
-                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
+                    //UserPhoto = source.UserImage
                 };
 
                 if (vote != null)
@@ -146,7 +147,7 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
-                    UserPhoto = $"{source.UserId}{ImageHelper.USER_PROFILE_IMAGE_EXTENSION}"
+                    UserPhoto = source.UserImage
                 };
             }
 

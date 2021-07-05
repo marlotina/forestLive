@@ -15,7 +15,7 @@ namespace FL.WebAPI.Core.Birds.IoC
 {
     public class IoCApi: IModule
     {
-        public void RegisterServices(DependencyInjection.Standard.Contracts.IServiceCollection services)
+        public void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton<IPostMapper, PostMapper>();
 
@@ -26,14 +26,14 @@ namespace FL.WebAPI.Core.Birds.IoC
             services.AddTransient<IPostService, PostService>();
             services.AddTransient<IUserVoteService, UserVoteService>();
             services.AddTransient<IUserPostService, UserPostService>();
+            services.AddTransient<IUserInfoService, UserInfoService>();
 
             services.AddTransient<IUserVotesRestRepository, UserVotesRestRepository>();
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
             services.AddTransient<ISearchMapRepository, SearchMapRepository>();
             services.AddTransient<IPostRepository, PostCosmosRepository>();
             services.AddTransient<IUserPostRepository, UserPostCosmosRepository>();
-
-
+            services.AddTransient<IUserInfoRestRepository, UserInfoRestRepository>();
 
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }

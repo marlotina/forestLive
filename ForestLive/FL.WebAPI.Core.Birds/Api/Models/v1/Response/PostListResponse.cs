@@ -20,6 +20,8 @@ namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 
         public string UserId { get; set; }
 
+        public string UserImage { get; set; }
+
         public int VoteCount { get; set; }
 
         public int CommentCount { get; set; }

@@ -9,5 +9,9 @@ namespace FL.WebAPI.Core.Birds.Configuration.Contracts
         string VoteApiDomain { get; }
 
         string VoteUrlService { get; }
+
+        string UserApiDomain { get; }
+
+        string UserUrlService { get; }
     }
 }

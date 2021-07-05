@@ -1,10 +1,12 @@
 ﻿using System;
 
-namespace FL.WebAPI.Core.Users.Models.v1.Response
+namespace FL.WebAPI.Core.Birds.Domain.Dto
 {
-    public class UserListSiteResponse
+    public class InfoUserResponse
     {
         public string Id { get; set; }
+
+        public string UserId { get; set; }
 
         public string UserName { get; set; }
 
@@ -35,6 +37,5 @@ namespace FL.WebAPI.Core.Users.Models.v1.Response
         public bool HasFollow { get; set; }
 
         public int FollowerCount { get; set; }
-        
     }
 }
