@@ -96,23 +96,12 @@ namespace FL.Functions.UserPost.Services
         {
             try
             {
-                var followerRequest = new FollowerUser()
-                {
-                    Id = follower.Id,
-                    CreationDate = follower.CreationDate,
-                    Type = follower.Type,
-                    UserId = follower.FollowUserId,
-                    FollowUserId = follower.UserId
-                };
-
-                var obj = new dynamic[] { follower.SystemUserId.ToString() };
+                var obj = new dynamic[] { follower.UserId };
                 
                 await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>(
                     "increaseFollowerCount",
-                    new PartitionKey(followerRequest.UserId),
+                    new PartitionKey(follower.UserId),
                     obj);
-
-                await this.usersContainer.CreateItemAsync(followerRequest, new PartitionKey(followerRequest.UserId));
 
             }
             catch (Exception ex)
@@ -125,8 +114,8 @@ namespace FL.Functions.UserPost.Services
         {
             try
             {
-                var obj = new dynamic[] { follower.Id, follower.SystemUserId.ToString() };
-                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseFollowerCount", new PartitionKey(follower.FollowUserId), obj);
+                var obj = new dynamic[] { follower.UserId };
+                await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseFollowerCount", new PartitionKey(follower.UserId), obj);
             }
             catch (Exception ex)
             {

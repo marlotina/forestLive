@@ -6,7 +6,7 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Contracts
 {
     public interface IFollowMapper
     {
-        FollowUser Convert(FollowUserRequest source);
+        FollowUser Convert(FollowerUserRequest source);
 
         FollowUserResponse Convert(FollowUser source);
 

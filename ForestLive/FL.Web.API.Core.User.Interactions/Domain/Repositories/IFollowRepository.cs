@@ -6,7 +6,7 @@ namespace FL.Web.API.Core.User.Interactions.Domain.Repositories
 {
     public interface IFollowRepository
     {
-        Task<FollowUser> AddFollow(FollowUser followUser);
+        Task<Follow> AddFollow(Follow followUser);
 
         Task<bool> DeleteFollow(string followId, string userId);
 

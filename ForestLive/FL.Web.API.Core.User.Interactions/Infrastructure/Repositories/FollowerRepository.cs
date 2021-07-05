@@ -33,7 +33,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         {
             var config = this.iVoteConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosFollowerContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
         public async Task<List<FollowUser>> GetFollowersByUserId(string userId)

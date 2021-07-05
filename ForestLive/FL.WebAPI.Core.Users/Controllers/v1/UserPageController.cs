@@ -71,7 +71,7 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
                     if (!string.IsNullOrWhiteSpace(webUserId)) {
 
                         if (await this.usersService.IsFollow(webUserId, userName)) {
-                            response.FollowId = $"{webUserId}_{userName}";
+                            response.FollowId = $"{webUserId}Follow{userName}";
                             response.HasFollow = true;
                         }
                     }

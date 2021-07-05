@@ -33,14 +33,14 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
         {
             var config = this.iVoteConfiguration.CosmosConfiguration;
             var dbClient = this.iClientFactory.InitializeCosmosBlogClientInstanceAsync(config.CosmosDatabaseId);
-            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosFollowContainer);
+            return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task<FollowUser> AddFollow(FollowUser followUser)
+        public async Task<Follow> AddFollow(Follow followUser)
         {
             try
             {
-                return await this.followContainer.CreateItemAsync<FollowUser>(followUser, new PartitionKey(followUser.UserId));
+                return await this.followContainer.CreateItemAsync<Follow>(followUser, new PartitionKey(followUser.UserId));
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
             {
@@ -65,6 +65,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
 
         public async Task<FollowUser> GetFollow(string userId, string followUserId)
         {
+
             try
             {
                 var response = await this.followContainer.ReadItemAsync<FollowUser>(followUserId, new PartitionKey(userId));
@@ -83,7 +84,7 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             var follow = new List<FollowUser>();
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.userId = @UserId";
+                var queryString = $"SELECT * FROM p WHERE p.type='follow' AND p.userId = @UserId";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@UserId", userId);

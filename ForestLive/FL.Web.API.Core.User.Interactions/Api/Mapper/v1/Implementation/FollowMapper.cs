@@ -8,15 +8,16 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation
     public class FollowMapper : IFollowMapper
     {
 
-        public FollowUser Convert(FollowUserRequest source)
+        public FollowUser Convert(FollowerUserRequest source)
         {
             var result = default(FollowUser);
             if (source != null)
             {
                 result = new FollowUser()
                 {
-                    FollowUserId = source.FollowUserId,
-                    UserId = source.UserId
+                    Id = $"{source.UserId}Follow{source.FollowUserId}",
+                    UserId = source.UserId,
+                    FollowUserId = source.FollowUserId
                 };
             }
 

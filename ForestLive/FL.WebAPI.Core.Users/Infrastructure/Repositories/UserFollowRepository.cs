@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 
 
                 restRequest.AddQueryParameter("userId", userId);
-                restRequest.AddQueryParameter("followUserId", $"{userId}_{followUserId}");
+                restRequest.AddQueryParameter("followUserId", $"{userId}Follow{followUserId}");
 
                 var response = await client.ExecuteAsync<FollowUserResponse>(restRequest);
 
