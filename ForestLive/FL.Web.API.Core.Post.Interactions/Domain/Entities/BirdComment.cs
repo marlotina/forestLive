@@ -34,5 +34,6 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Entities
 
         [JsonProperty(PropertyName = "authorPostId")]
         public string AuthorPostId { get; set; }
+        
     }
 }

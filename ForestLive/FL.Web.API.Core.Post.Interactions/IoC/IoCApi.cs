@@ -16,16 +16,17 @@ namespace FL.Web.Api.Core.Post.Interactions.IoC
 {
     public class IoCApi : IModule
     {
-        public void RegisterServices(DependencyInjection.Standard.Contracts.IServiceCollection services)
+        public void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton<IVoteMapper, VoteMapper>();
             services.AddSingleton<ICommentMapper, CommentMapper>();
-
             services.AddSingleton<IPostConfiguration, PostConfiguration>();
 
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IVotePostService, VotePostService>();
             services.AddTransient<IVoteCommentService, VoteCommentService>();
+            services.AddTransient<IUserInfoService, UserInfoService>();
+
             services.AddTransient(typeof(IServiceBusVotePostTopicSender<>), typeof(ServiceBusVotePostTopicSender<>));
             services.AddTransient(typeof(IServiceBusCommentTopicSender<>), typeof(ServiceBusCommentTopicSender<>));
             services.AddTransient(typeof(IServiceBusVoteCommentTopicSender<>), typeof(ServiceBusVoteCommentTopicSender<>));
@@ -34,6 +35,7 @@ namespace FL.Web.Api.Core.Post.Interactions.IoC
             services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
             services.AddSingleton<IUserVotesRestRepository, UserVotesRestRepository>();
+            services.AddSingleton<IUserInfoRestRepository, UserInfoRestRepository>();
         }
     }
 }

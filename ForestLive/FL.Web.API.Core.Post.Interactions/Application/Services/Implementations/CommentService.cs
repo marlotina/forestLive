@@ -67,7 +67,9 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
 
         public async Task<List<BirdComment>> GetCommentByPost(Guid postId)
         {
-            return await this.iCommentRepository.GetCommentsByPostIdAsync(postId);
+
+            var result = await this.iCommentRepository.GetCommentsByPostIdAsync(postId);
+            return result;
         }
 
         public BirdComment Convert(CommentDto source)

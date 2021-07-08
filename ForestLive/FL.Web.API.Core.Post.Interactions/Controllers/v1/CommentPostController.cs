@@ -5,6 +5,7 @@ using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
 using FL.Web.API.Core.Post.Interactions.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Models.v1.Request;
+using FL.Web.API.Core.Post.Interactions.Models.v1.Response;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -22,17 +23,19 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
         private readonly ICommentMapper commentMapper;
         private readonly ICommentService commentService;
         private readonly IUserVotesRestRepository iUserVotesRestRepository;
-
+        private readonly IUserInfoService iUserInfoService;
 
         public CommentPostController(
             ICommentMapper commentMapper,
             IUserVotesRestRepository iUserVotesRestRepository,
             ICommentService commentService,
+            IUserInfoService iUserInfoService,
             ILogger<CommentPostController> logger)
         {
             this.iUserVotesRestRepository = iUserVotesRestRepository;
             this.commentService = commentService;
             this.commentMapper = commentMapper;
+            this.iUserInfoService = iUserInfoService;
             this.logger = logger;
         }
 
@@ -83,6 +86,14 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
                     var votes = await this.iUserVotesRestRepository.GetUserVoteByComments(listComments, userId);
 
                     var response = this.commentMapper.ConvertList(result, votes);
+
+
+                    foreach (var comment in response)
+                    {
+                        await this.AddRepliesLoop(comment);
+
+                    }
+
                     return this.Ok(response);
                 }
                 else
@@ -92,6 +103,15 @@ namespace FL.Web.API.Core.Post.Interactions.Controllers.v1
             {
                 this.logger.LogError(ex);
                 return this.Problem();
+            }
+        }
+
+        private async Task AddRepliesLoop(CommentResponse comment)
+        {
+            comment.UserImage = await this.iUserInfoService.GetUserImageById(comment.UserId);
+            foreach (var reply in comment.Replies)
+            {
+                await AddRepliesLoop(reply);
             }
         }
 

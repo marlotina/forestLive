@@ -46,7 +46,6 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Implementation
                     VoteCount = source.VoteCount,
                     HasVote = false,
                     CreationDate = source.CreationDate.ToString("dd/MM/yyyy hh:mm"),
-                    UserImage = string.IsNullOrEmpty(source.UserId) ? string.Empty : source.UserId + ImageHelper.USER_PROFILE_IMAGE_EXTENSION,
                     Replies = new List<CommentResponse>()
                 };
 

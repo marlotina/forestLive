@@ -20,5 +20,9 @@ namespace FL.Web.API.Core.Post.Interactions.Configuration.Implementations
         public string VoteApiDomain => this.configuration.GetSection("VoteApiDomain").Get<string>();
 
         public string VoteUrlService => this.configuration.GetSection("VoteUrlService").Get<string>();
+
+        public string UserUrlService => this.configuration.GetSection("UserUrlService").Get<string>();
+
+        public string UserApiDomain => this.configuration.GetSection("UserApiDomain").Get<string>();
     }
 }

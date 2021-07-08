@@ -25,6 +25,7 @@ namespace FL.Web.API.Core.Post.Interactions
         {
             services.AddLibraryServices(new IoCApi(),
                 new FL.CosmosDb.Standard.IoC.IocModule(),
+                new FL.Cache.Standard.IoC.IocModule(),
                 new FL.Logging.Implementation.Standard.IoC.IocModule());
 
             services.AddCors();

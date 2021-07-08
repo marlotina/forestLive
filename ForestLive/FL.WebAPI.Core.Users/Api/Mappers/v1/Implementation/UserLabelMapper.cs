@@ -29,8 +29,10 @@ namespace FL.WebAPI.Core.Users.Mappers.v1.Implementation
             {
                 result = new UserLabelResponse()
                 {
+                    UserId = source.UserId,
                     Label = source.Id,
-                    PostCount = source.PostCount
+                    PostCount = source.PostCount,
+                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy")
                 };
             }
 
