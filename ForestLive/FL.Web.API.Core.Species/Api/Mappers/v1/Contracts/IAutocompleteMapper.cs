@@ -9,5 +9,7 @@ namespace FL.Web.API.Core.Species.Api.Mappers.v1.Contracts
         AutocompleteResponse Convert (SpeciesCacheItem source);
 
         SpeciesCacheItem Convert(SpecieItem source);
+
+        SpecieResponse ConvertSpecie(SpecieItem source);
     }
 }

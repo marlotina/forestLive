@@ -6,6 +6,6 @@ namespace FL.Web.API.Core.User.Interactions.Domain.Repositories
 {
     public interface IFollowerRepository
     {
-        Task<List<FollowUser>> GetFollowersByUserId(string userId);
+        Task<List<FollowerUser>> GetFollowersByUserId(string userId);
     }
 }

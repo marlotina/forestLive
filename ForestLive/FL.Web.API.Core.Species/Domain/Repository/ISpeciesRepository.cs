@@ -8,5 +8,7 @@ namespace FL.Web.API.Core.Species.Domain.Repository
     public interface ISpeciesRepository
     {
         Task<List<SpecieItem>> GetSpeciesByLanguage(Guid languageId);
+
+        Task<List<SpecieItem>> GetAllSpecies();
     }
 }

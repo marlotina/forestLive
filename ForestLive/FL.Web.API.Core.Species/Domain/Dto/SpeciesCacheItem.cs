@@ -15,5 +15,7 @@ namespace FL.Web.API.Core.Species.Domain.Dto
         public string NormalizeScienceName { get; set; }
 
         public string NameComplete { get; set; }
+
+        public string UrlSpecie { get; set; }
     }
 }

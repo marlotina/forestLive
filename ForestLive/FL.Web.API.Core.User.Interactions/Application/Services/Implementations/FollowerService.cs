@@ -16,7 +16,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
             this.iFollowerRepository = iFollowerRepository;
         }
 
-        public async Task<List<FollowUser>> GetFollowerByUserId(string userId)
+        public async Task<List<FollowerUser>> GetFollowerByUserId(string userId)
         {
             return await this.iFollowerRepository.GetFollowersByUserId(userId);
         }

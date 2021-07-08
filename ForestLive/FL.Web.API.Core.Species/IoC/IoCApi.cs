@@ -20,7 +20,8 @@ namespace FL.Web.API.Core.Species.IoC
 
             services.AddTransient<IAutocompleteSpeciesService, AutocompleteSpeciesService>();
             services.AddTransient<ICountriesService, CountriesService>();
-
+            services.AddTransient<ISpeciesService, SpeciesService>();
+            
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
             services.AddTransient<ICountriesRepository, CountriesRepository>();
         }

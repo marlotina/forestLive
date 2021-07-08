@@ -48,7 +48,24 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation
                     FollowUserId = source.FollowUserId,
                     UserId = source.UserId,
                     Id = source.Id,
-                    CreationDate = source.CreationDate
+                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy")
+                };
+            }
+
+            return result;
+        }
+
+        public FollowListResponse ConvertList(FollowerUser source)
+        {
+            var result = default(FollowListResponse);
+            if (source != null)
+            {
+                result = new FollowListResponse()
+                {
+                    FollowUserId = source.FollowerUserId,
+                    UserId = source.UserId,
+                    Id = source.Id,
+                    CreationDate = source.CreationDate.ToString("dd/MM/yyyy")
                 };
             }
 

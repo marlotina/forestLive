@@ -36,16 +36,16 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
-        public async Task<List<FollowUser>> GetFollowersByUserId(string userId)
+        public async Task<List<FollowerUser>> GetFollowersByUserId(string userId)
         {
-            var follow = new List<FollowUser>();
+            var follow = new List<FollowerUser>();
             try
             {
                 var queryString = $"SELECT * FROM p WHERE p.type='follower' AND p.userId = @UserId";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@UserId", userId);
-                var query = this.followerContainer.GetItemQueryIterator<FollowUser>(queryDef);
+                var query = this.followerContainer.GetItemQueryIterator<FollowerUser>(queryDef);
 
                 while (query.HasMoreResults)
                 {

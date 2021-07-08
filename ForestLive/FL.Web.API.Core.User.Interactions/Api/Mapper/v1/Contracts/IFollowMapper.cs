@@ -10,7 +10,8 @@ namespace FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Contracts
 
         FollowUserResponse Convert(FollowUser source);
 
-
         FollowListResponse ConvertList(FollowUser source);
+
+        FollowListResponse ConvertList(FollowerUser source);
     }
 }
