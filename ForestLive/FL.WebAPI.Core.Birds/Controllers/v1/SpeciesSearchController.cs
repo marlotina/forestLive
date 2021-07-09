@@ -71,6 +71,33 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             return this.NoContent();
         }
 
+        [HttpGet, Route("GetBirdsByName", Name = "GetBirdsByName")]
+        public async Task<IActionResult> GetBirdsByName(int orderBy, string specieName)
+        {
+            var result = default(List<PostDto>);
+
+            if (!string.IsNullOrWhiteSpace(specieName))
+            {
+                result = await this.iBirdSpeciesService.GetBirdBySpecieName(specieName, orderBy);
+            }
+            else
+            {
+                result = await this.iBirdSpeciesService.GetBirds(orderBy);
+            }
+
+            if (result.Any())
+            {
+                var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
+                var postList = result.Select(x => x.PostId);
+                var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
+
+                var response = result.Select(x => this.iBirdSpeciePostMapper.Convert(x, postVotes));
+                return this.Ok(response);
+            }
+
+            return this.NoContent();
+        }
+
         [HttpGet, Route("GetPendings", Name = "GetPendings")]
         public async Task<IActionResult> GetPendings(int orderBy)
         {

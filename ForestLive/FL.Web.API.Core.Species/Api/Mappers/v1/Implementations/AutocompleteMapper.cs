@@ -47,6 +47,24 @@ namespace FL.Web.API.Core.Species.Api.Mappers.v1.Implementations
             return result;
         }
 
+        public AutocompleteResponse ConvertInfo(SpecieItem source)
+        {
+            var result = default(AutocompleteResponse);
+            if (source != null)
+            {
+                result = new AutocompleteResponse()
+                {
+                    SpecieId = source.SpecieId,
+                    ScienceName = source.ScienceName,
+                    Name = source.Name,
+                    UrlSpecie = source.UrlSpecie,
+                    NameComplete = $"{HttpUtility.HtmlDecode(source.Name.ToLower())} ({HttpUtility.HtmlDecode(source.ScienceName.ToLower())})",
+                };
+            }
+
+            return result;
+        }
+
         public SpecieResponse ConvertSpecie(SpecieItem source)
         {
             var result = default(SpecieResponse);

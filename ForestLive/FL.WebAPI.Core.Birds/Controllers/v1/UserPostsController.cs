@@ -41,7 +41,9 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                 if (string.IsNullOrWhiteSpace(userId))
                     return this.BadRequest();
 
-                var result = await this.iUserPostService.GetUserPosts(userId, label, type);
+                var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
+
+                var result = await this.iUserPostService.GetUserPosts(userId, label, type, languageId);
 
                 if (result != null && result.Any())
                 {

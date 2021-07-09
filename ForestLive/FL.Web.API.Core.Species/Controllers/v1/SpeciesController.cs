@@ -2,6 +2,7 @@
 using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
 using FL.Web.API.Core.Species.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,6 +30,19 @@ namespace FL.Web.API.Core.Species.Controllers.v1
             if (result.Any()) {
 
                 return this.Ok(result.Select(x => this.iAutocompleteMapper.ConvertSpecie(x)));
+            }
+
+            return this.NoContent();
+        }
+
+        [HttpGet, Route("GetSpeciesByLanguage", Name = "GetSpeciesByLanguage")]
+        public async Task<IActionResult> GetSpeciesByLanguage(string languageId)
+        {
+            var result = await this.iSpeciesService.GetAllSpeciesByLanguageId(Guid.Parse(languageId));
+
+            if (result.Any())
+            {
+                return this.Ok(result.Select(x => this.iAutocompleteMapper.ConvertInfo(x)));
             }
 
             return this.NoContent();

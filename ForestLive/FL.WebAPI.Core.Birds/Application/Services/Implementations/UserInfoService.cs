@@ -34,7 +34,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
 
             var filter = itemCache.FirstOrDefault(x => x.Id == userId);
 
-            return filter != null ? filter.Photo : "porfile.png"; ;              
+            return filter != null ? filter.Photo : "porfile.png";             
         }
 
     }

@@ -2,6 +2,8 @@
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Dto;
 using FL.WebAPI.Core.Birds.Domain.Repositories;
+using FL.WebAPI.Core.Birds.Domain.Repository;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -11,13 +13,16 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
     {
         private readonly IUserPostRepository iUserRepository;
         private readonly IUserInfoService iUserInfoService;
+        private readonly ISpecieInfoService iSpecieInfoService;
 
         public UserPostService(
             IUserInfoService iUserInfoService,
+            ISpecieInfoService iSpecieInfoService,
             IUserPostRepository iUserRepository)
         {
             this.iUserRepository = iUserRepository;
             this.iUserInfoService = iUserInfoService;
+            this.iSpecieInfoService = iSpecieInfoService;
         }
 
         public async Task<IEnumerable<PointPostDto>> GetMapPointsByUserId(string userId)
@@ -25,12 +30,21 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             return await this.iUserRepository.GetMapPointsByUserAsync(userId);
         }
 
-        public async Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type)
+        public async Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type, string langugeId)
         {
             var result = await this.iUserRepository.GetUserPosts(userId, label, type);
 
             foreach (var post in result)
             {
+                if (post.SpecieId.HasValue)
+                {
+                    var specie = await this.iSpecieInfoService.GetSpecieById(post.SpecieId.Value, langugeId);
+                    if (specie != null)
+                    {
+                        post.SpecieName = specie.NameComplete;
+                        post.SpecieUrl = specie.UrlSpecie;
+                    }
+                }
                 post.UserImage = await this.iUserInfoService.GetUserImageById(post.UserId);
             }
 

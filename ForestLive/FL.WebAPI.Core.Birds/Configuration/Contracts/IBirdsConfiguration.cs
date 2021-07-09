@@ -1,4 +1,5 @@
 ﻿using FL.WebAPI.Core.Birds.Configuration.Models;
+using RestSharp;
 
 namespace FL.WebAPI.Core.Birds.Configuration.Contracts
 {
@@ -13,5 +14,11 @@ namespace FL.WebAPI.Core.Birds.Configuration.Contracts
         string UserApiDomain { get; }
 
         string UserUrlService { get; }
+
+        string SpecieApiDomain { get; }
+
+        string SpecieUrlService { get; }
+
+        string SpecieLanguageUrlService { get; }
     }
 }

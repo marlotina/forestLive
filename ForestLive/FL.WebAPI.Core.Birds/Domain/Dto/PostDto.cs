@@ -23,6 +23,9 @@ namespace FL.WebAPI.Core.Birds.Domain.Dto
         [JsonProperty(PropertyName = "specieId")]
         public Guid? SpecieId { get; set; }
 
+        [JsonProperty(PropertyName = "specieUrl")]
+        public string SpecieUrl { get; set; }
+
         [JsonProperty(PropertyName = "imageUrl")]
         public string ImageUrl { get; set; }
 

@@ -32,6 +32,8 @@ namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
 
         public Guid? SpecieId { get; set; }
 
+        public string SpecieUrl { get; set; }
+
         public string UserUrl { get; set; }
 
         public string UserPhoto { get; set; }
