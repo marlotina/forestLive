@@ -19,15 +19,18 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         private readonly IPostService iPostService;
         private readonly IUserVoteService iUserVoteService;
         private readonly IPostMapper iPostMapper;
+        private readonly ISpecieInfoService iSpecieInfoService;
 
         public PostController(
             IUserVoteService iUserVoteService,
             IPostService iPostService,
             IPostMapper iPostMapper,
+            ISpecieInfoService iSpecieInfoService,
             ILogger<PostController> iLogger)
         {
             this.iUserVoteService = iUserVoteService;
             this.iLogger = iLogger;
+            this.iSpecieInfoService = iSpecieInfoService;
             this.iPostService = iPostService ?? throw new ArgumentNullException(nameof(iPostService));
             this.iPostMapper = iPostMapper ?? throw new ArgumentNullException(nameof(iPostMapper));
         } 
@@ -40,7 +43,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             try
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                
+                var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
                 if (postId == Guid.Empty)
                 {
                     this.BadRequest();
@@ -53,8 +56,15 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                     var postList = new Guid[] { postId };
 
                     var postVotes = await this.iUserVoteService.GetVoteByUserId(postList, webUserId);
-
                     var itemResponse = this.iPostMapper.ConvertPost(result, postVotes);
+
+                    if (itemResponse.SpecieId.HasValue)
+                    {
+                        var specieInfo = await this.iSpecieInfoService.GetSpecieById(result.SpecieId.Value, languageId);
+                        itemResponse.SpecieUrl = specieInfo.UrlSpecie;
+                        itemResponse.BirdSpecie = specieInfo.NameComplete;
+                    }
+
                     return this.Ok(itemResponse);
                 }
                 else
@@ -75,10 +85,18 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             try
             {
                 var result = await this.iPostService.GetPost(postId);
+                var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
 
                 if (result != null)
                 {
                     var itemResponse = this.iPostMapper.ModalConvert(result);
+                    if (itemResponse.SpecieId.HasValue)
+                    {
+                        var specieInfo = await this.iSpecieInfoService.GetSpecieById(result.SpecieId.Value, languageId);
+                        itemResponse.SpecieUrl = specieInfo.UrlSpecie;
+                        itemResponse.BirdSpecie = specieInfo.NameComplete;
+                    }
+
                     return this.Ok(itemResponse);
                 }
                 else

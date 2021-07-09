@@ -10,11 +10,11 @@ namespace FL.Web.API.Core.Species.Controllers.v1
 {
     [Route("api/v1/[controller]")]
     [ApiController]
-    public class SpeciesController : Controller
+    public class SpeciesInfoController : Controller
     {
         private readonly ISpeciesService iSpeciesService;
         private readonly IAutocompleteMapper iAutocompleteMapper;
-        public SpeciesController(
+        public SpeciesInfoController(
             IAutocompleteMapper iAutocompleteMapper,
             ISpeciesService iSpeciesService)
         {
@@ -23,7 +23,7 @@ namespace FL.Web.API.Core.Species.Controllers.v1
         }
 
         [HttpGet, Route("GetAllSpecies", Name = "GetAllSpecies")]
-        public async Task<IActionResult> GetNames()
+        public async Task<IActionResult> GetAllSpecies()
         {
             var result = await this.iSpeciesService.GetAllSpecies(); 
 

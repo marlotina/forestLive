@@ -25,7 +25,7 @@ namespace FL.WebAPI.Core.Birds.Configuration.Implementations
 
         public string SpecieApiDomain => this.configuration.GetSection("SpecieApiDomain").Get<string>();
 
-        public string SpecieUrlService => this.configuration.GetSection("UserUrlService").Get<string>();
+        public string SpecieUrlService => this.configuration.GetSection("SpecieUrlService").Get<string>();
 
         public string SpecieLanguageUrlService => this.configuration.GetSection("SpecieLanguageUrlService").Get<string>();
     }

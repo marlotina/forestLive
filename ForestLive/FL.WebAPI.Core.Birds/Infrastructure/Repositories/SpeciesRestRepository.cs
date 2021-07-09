@@ -20,15 +20,15 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             this.iBirdsConfiguration = iBirdsConfiguration;
         }
 
-        public async Task<IEnumerable<SpecieResponse>> GetAllSpecies()
+        public async Task<IEnumerable<SpecieInfoResponse>> GetAllSpecies()
         {
             var client = new RestClient(this.iBirdsConfiguration.SpecieApiDomain);
             var restRequest = new RestRequest(this.iBirdsConfiguration.SpecieUrlService, Method.GET);
 
-            var response = await client.ExecuteAsync<IEnumerable<SpecieResponse>>(restRequest);
+            var response = await client.ExecuteAsync<IEnumerable<SpecieInfoResponse>>(restRequest);
             if (response.StatusCode == HttpStatusCode.OK)
             {
-                return JsonConvert.DeserializeObject<IEnumerable<SpecieResponse>>(response.Content);
+                return JsonConvert.DeserializeObject<IEnumerable<SpecieInfoResponse>>(response.Content);
             }
 
             return null;

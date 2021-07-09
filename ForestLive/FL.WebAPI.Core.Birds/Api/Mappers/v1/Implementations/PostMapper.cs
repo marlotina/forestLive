@@ -66,7 +66,6 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     CreationDate = source.CreationDate,
                     UserId = source.UserId,
                     BirdSpecie = source.SpecieName,
-                    //SpecieUrl = source.SpecieUrl,
                     SpecieId = source.SpecieId,
                     Labels = source.Labels == null || !source.Labels.Any() ? new string[0] : source.Labels,
                     VoteCount = source.VoteCount,
@@ -128,28 +127,6 @@ namespace FL.WebAPI.Core.Birds.Api.Mappers.v1.Implementations
                     BirdSpecie = source.SpecieName,
                     SpecieId = source.SpecieId,
                     ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty
-                };
-            }
-
-            return result;
-        }
-
-        public PostHomeResponse Convert(PostHomeDto source)
-        {
-            var result = default(PostHomeResponse);
-            if (source != null)
-            {
-                result = new PostHomeResponse()
-                {
-                    PostId = source.PostId,
-                    Title = source.Title,
-                    ImageUrl = source.ImageUrl,
-                    AltImage = source.AltImage,
-                    UserId = source.UserId,
-                    BirdSpecie = source.SpecieName,
-                    SpecieId = source.SpecieId,
-                    ObservationDate = source.ObservationDate.HasValue ? source.ObservationDate.Value.ToString("dd/MM/yyyy") : string.Empty,
-                    UserPhoto = source.UserImage
                 };
             }
 

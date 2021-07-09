@@ -23,5 +23,7 @@ namespace FL.WebAPI.Core.Birds.Api.Models.v1.Response
         public Guid? SpecieId { get; set; }
 
         public string ObservationDate { get; set; }
+
+        public object SpecieUrl { get; set; }
     }
 }

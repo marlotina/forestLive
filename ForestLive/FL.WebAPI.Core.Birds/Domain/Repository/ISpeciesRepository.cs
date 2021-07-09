@@ -11,7 +11,5 @@ namespace FL.WebAPI.Core.Birds.Domain.Repository
         Task<List<PostDto>> GetPostsBySpecieAsync(Guid specieId, string orderCondition);
 
         Task<List<PostDto>> GetAllSpecieAsync(string orderCondition);
-
-        Task<List<PostHomeDto>> GetLastSpecieAsync();
     }
 }

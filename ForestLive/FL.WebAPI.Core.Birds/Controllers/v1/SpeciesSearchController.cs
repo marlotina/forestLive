@@ -28,34 +28,21 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             this.iBirdSpeciePostMapper = iBirdSpeciePostMapper;
         }
 
-        [HttpGet, Route("GetLastBirds", Name = "GetLastBirds")]
-        public async Task<IActionResult> GetLastBirds()
-        {
-            var result = default(List<PostHomeDto>);
-            result = await this.iBirdSpeciesService.GetLastBirds();
-
-            if (result.Any())
-            {
-                var response = result.Select(x => this.iBirdSpeciePostMapper.Convert(x));
-                return this.Ok(response);
-            }
-
-            return this.NoContent();
-        }
-
         [HttpGet, Route("GetBirds", Name = "GetBirds")]
         public async Task<IActionResult> GetBirds(int orderBy, string specieId)
         {
             var result = default(List<PostDto>);
 
+            var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
+
             if (!string.IsNullOrWhiteSpace(specieId) && specieId != "null")
             {
                 var specieIdGuid = Guid.Parse(specieId);
-                result = await this.iBirdSpeciesService.GetBirdBySpecie(specieIdGuid, orderBy);
+                result = await this.iBirdSpeciesService.GetBirdBySpecie(specieIdGuid, orderBy, languageId);
             }
             else 
             {
-                result = await this.iBirdSpeciesService.GetBirds(orderBy);
+                result = await this.iBirdSpeciesService.GetBirds(orderBy, languageId);
             }
 
             if (result.Any())
@@ -75,14 +62,15 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         public async Task<IActionResult> GetBirdsByName(int orderBy, string specieName)
         {
             var result = default(List<PostDto>);
+            var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
 
             if (!string.IsNullOrWhiteSpace(specieName))
             {
-                result = await this.iBirdSpeciesService.GetBirdBySpecieName(specieName, orderBy);
+                result = await this.iBirdSpeciesService.GetBirdBySpecieName(specieName, orderBy, languageId);
             }
             else
             {
-                result = await this.iBirdSpeciesService.GetBirds(orderBy);
+                result = await this.iBirdSpeciesService.GetBirds(orderBy, languageId);
             }
 
             if (result.Any())
@@ -103,7 +91,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         {
             var result = default(List<PostDto>);
             
-            result = await this.iBirdSpeciesService.GetBirdBySpecie(Guid.Parse(StatusSpecie.NoSpecieId), orderBy);
+            result = await this.iBirdSpeciesService.GetBirdBySpecie(Guid.Parse(StatusSpecie.NoSpecieId), orderBy, "");
 
             if (result.Any())
             {

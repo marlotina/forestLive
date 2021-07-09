@@ -34,7 +34,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
                 this.iCustomMemoryCache.Add(CACHE_SPECIE_LANGUAGE_ID + languageId, itemCache);
             }
 
-            return itemCache?.FirstOrDefault(x => x.SpecieId == specieId);
+            return itemCache.FirstOrDefault(x => x.SpecieId == specieId);
         }
 
     }

@@ -7,7 +7,7 @@ namespace FL.WebAPI.Core.Birds.Domain.Repository
 {
     public interface ISpecieRestRepository
     {
-        Task<IEnumerable<SpecieResponse>> GetAllSpecies();
+        Task<IEnumerable<SpecieInfoResponse>> GetAllSpecies();
 
         Task<IEnumerable<SpecieResponse>> GetAllSpeciesByLanguageId(Guid languageId);
     }

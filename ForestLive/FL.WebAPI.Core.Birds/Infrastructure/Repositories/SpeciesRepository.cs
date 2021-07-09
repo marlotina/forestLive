@@ -41,7 +41,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             var posts = new List<PostDto>();
             try
             {
-                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p WHERE p.specieId = @SpecieId ORDER BY p.{orderCondition}";
+                var queryString = $"SELECT p.postId, p.title, p.text, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p WHERE p.specieId = @SpecieId ORDER BY p.{orderCondition}";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@SpecieId", specieId);
@@ -67,35 +67,10 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             var posts = new List<PostDto>();
             try
             {
-                var queryString = $"SELECT p.postId, p.title, p.text, p.specieName, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p ORDER BY p.{orderCondition}";
+                var queryString = $"SELECT p.postId, p.title, p.text, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p ORDER BY p.{orderCondition}";
 
                 var queryDef = new QueryDefinition(queryString);
                 var query = this.birdContainer.GetItemQueryIterator<PostDto>(queryDef);
-
-                while (query.HasMoreResults)
-                {
-                    var response = await query.ReadNextAsync();
-                    var ru = response.RequestCharge;
-                    posts.AddRange(response.ToList());
-                }
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex.Message);
-            }
-
-            return posts;
-        }
-
-        public async Task<List<PostHomeDto>> GetLastSpecieAsync()
-        {
-            var posts = new List<PostHomeDto>();
-            try
-            {
-                var queryString = $"SELECT TOP 6 p.postId, p.title, p.specieName, p.specieId, p.imageUrl, p.altImage, p.userId, p.observationDate FROM p ORDER BY p.creationDate";
-
-                var queryDef = new QueryDefinition(queryString);
-                var query = this.birdContainer.GetItemQueryIterator<PostHomeDto>(queryDef);
 
                 while (query.HasMoreResults)
                 {

@@ -32,7 +32,7 @@ namespace FL.Web.API.Core.Species.Infrastructure.Repositories
 
             try
             {
-                SqlCommand command = new SqlCommand($"SELECT c.SpecieId, c.Name, b.ScienceName, b.UrlSpecie FROM BirdSpecies", conn);
+                SqlCommand command = new SqlCommand($"SELECT SpeciesId, ScienceName, UrlSpecie FROM BirdSpecies", conn);
                 
 
                 using (SqlDataReader reader = await command.ExecuteReaderAsync())
@@ -41,8 +41,7 @@ namespace FL.Web.API.Core.Species.Infrastructure.Repositories
                     {
                         result.Add(new SpecieItem()
                         {
-                            SpecieId = Guid.Parse(reader["SpecieId"].ToString()),
-                            Name = reader["Name"].ToString(),
+                            SpecieId = Guid.Parse(reader["SpeciesId"].ToString()),
                             ScienceName = reader["ScienceName"].ToString(),
                             UrlSpecie = reader["UrlSpecie"].ToString()
                         });
