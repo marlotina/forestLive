@@ -48,8 +48,8 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
                 var specie = await this.iSpecieInfoService.GetSpecieById(birdSpecieId, languageId.Value);
                 if (specie != null)
                 {
-                    specieName = specie.NameComplete;
-                    specieUrl = specie.UrlSpecie;
+                    specieName = specie?.NameComplete;
+                    specieUrl = specie?.UrlSpecie;
                 }
             }
 
@@ -93,8 +93,8 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
                     var specie = await this.iSpecieInfoService.GetSpecieById(post.SpecieId.Value, languageId);
                     if (specie != null)
                     {
-                        post.SpecieName = specie.NameComplete;
-                        post.SpecieUrl = specie.UrlSpecie;
+                        post.SpecieName = specie?.NameComplete;
+                        post.SpecieUrl = specie?.UrlSpecie;
                     }
                 }
 

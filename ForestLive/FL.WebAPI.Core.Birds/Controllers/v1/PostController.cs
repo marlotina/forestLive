@@ -62,8 +62,8 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                     if (itemResponse.SpecieId.HasValue)
                     {
                         var specieInfo = await this.iSpecieInfoService.GetSpecieById(result.SpecieId.Value, languageId);
-                        itemResponse.SpecieUrl = specieInfo.UrlSpecie;
-                        itemResponse.BirdSpecie = specieInfo.NameComplete;
+                        itemResponse.SpecieUrl = specieInfo?.UrlSpecie;
+                        itemResponse.BirdSpecie = specieInfo?.NameComplete;
                     }
 
                     return this.Ok(itemResponse);
@@ -94,8 +94,8 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
                     if (itemResponse.SpecieId.HasValue)
                     {
                         var specieInfo = await this.iSpecieInfoService.GetSpecieById(result.SpecieId.Value, languageId);
-                        itemResponse.SpecieUrl = specieInfo.UrlSpecie;
-                        itemResponse.BirdSpecie = specieInfo.NameComplete;
+                        itemResponse.SpecieUrl = specieInfo?.UrlSpecie;
+                        itemResponse.BirdSpecie = specieInfo?.NameComplete;
                     }
 
                     return this.Ok(itemResponse);

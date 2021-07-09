@@ -41,8 +41,8 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
                     var specie = await this.iSpecieInfoService.GetSpecieById(post.SpecieId.Value, langugeId);
                     if (specie != null)
                     {
-                        post.SpecieName = specie.NameComplete;
-                        post.SpecieUrl = specie.UrlSpecie;
+                        post.SpecieName = specie?.NameComplete;
+                        post.SpecieUrl = specie?.UrlSpecie;
                     }
                 }
                 post.UserImage = await this.iUserInfoService.GetUserImageById(post.UserId);

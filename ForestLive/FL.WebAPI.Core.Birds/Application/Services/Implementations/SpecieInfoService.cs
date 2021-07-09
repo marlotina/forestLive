@@ -33,7 +33,12 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
                 this.iCustomMemoryCache.Add(CACHE_SPECIE_LANGUAGE_ID + languageId.ToString(), itemCache);
             }
 
-            return itemCache.FirstOrDefault(x => x.SpecieId == specieId);
+            if (itemCache != null)
+            {
+                return itemCache.FirstOrDefault(x => x.SpecieId == specieId);
+            }
+
+            return null;
         }
 
     }
