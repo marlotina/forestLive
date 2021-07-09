@@ -137,5 +137,29 @@ namespace FL.WebAPI.Core.Users.Controllers.v1
 
             return NotFound();
         }
+
+        [HttpGet, Route("GetUsersMap", Name = "GetUsersMap")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetUsersMap(string userId)
+        {
+            try
+            {
+                var result = await this.usersService.GetByUserNameAsync(userId);
+
+                if (result != null)
+                {
+
+                    var response = this.userPageMapper.ConvertUserMap(result);
+                    return Ok(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                this.logger.LogError(ex);
+                return this.Problem();
+            }
+
+            return NotFound();
+        }
     }
 }

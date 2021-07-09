@@ -41,5 +41,9 @@ namespace FL.WebAPI.Core.Users.Domain.Entities
         public DateTime RegistrationDate { get; set; }
 
         public int FollowerCount { get; set; }
+
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
     }
 }
