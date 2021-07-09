@@ -35,7 +35,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             this.iSpecieInfoService = iSpecieInfoService;
         }
 
-        public async Task<List<PostDto>> GetBirdBySpecie(Guid birdSpecieId, int orderBy, string languageId)
+        public async Task<List<PostDto>> GetBirdBySpecie(Guid birdSpecieId, int orderBy, Guid? languageId)
         {
             var orderCondition = this.GerOrderCondition(orderBy);
 
@@ -45,7 +45,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             var specieUrl = string.Empty;
 
             if (birdSpecieId != Guid.Parse(StatusSpecie.NoSpecieId)) {
-                var specie = await this.iSpecieInfoService.GetSpecieById(birdSpecieId, languageId);
+                var specie = await this.iSpecieInfoService.GetSpecieById(birdSpecieId, languageId.Value);
                 if (specie != null)
                 {
                     specieName = specie.NameComplete;
@@ -63,7 +63,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             return result;
         }
 
-        public async Task<List<PostDto>> GetBirdBySpecieName(string urlSpecie, int orderBy, string languageId)
+        public async Task<List<PostDto>> GetBirdBySpecieName(string urlSpecie, int orderBy, Guid languageId)
         {
             var itemCache = this.iCustomMemoryCache.Get(CACHE_SPECIEID);
 
@@ -82,7 +82,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             return new List<PostDto>();
         }
 
-        public async Task<List<PostDto>> GetBirds(int orderBy, string languageId)
+        public async Task<List<PostDto>> GetBirds(int orderBy, Guid languageId)
         {
             var result = await this.iBirdSpeciesRepository.GetAllSpecieAsync(this.GerOrderCondition(orderBy));
 

@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.JwtToken;
+using FL.Pereza.Helpers.Standard.Language;
 using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -38,12 +39,12 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         [HttpGet]
         [AllowAnonymous]
         [Route("GetPost", Name = "GetPost")]
-        public async Task<IActionResult> GetPost(Guid postId)
+        public async Task<IActionResult> GetPost(Guid postId, string languageCode)
         {
             try
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
+                var languageId = LanguageHelper.GetLanguageByCode(languageCode);
                 if (postId == Guid.Empty)
                 {
                     this.BadRequest();
@@ -80,12 +81,12 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         [HttpGet]
         [AllowAnonymous]
         [Route("GetModalInfo", Name = "GetModalInfo")]
-        public async Task<IActionResult> GetModalInfo(Guid postId)
+        public async Task<IActionResult> GetModalInfo(Guid postId, string languageCode)
         {
             try
             {
                 var result = await this.iPostService.GetPost(postId);
-                var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
+                var languageId = LanguageHelper.GetLanguageByCode(languageCode);
 
                 if (result != null)
                 {

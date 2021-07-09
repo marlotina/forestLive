@@ -1,5 +1,6 @@
 ﻿using FL.Pereza.Helpers.Standard.Enums;
 using FL.Pereza.Helpers.Standard.JwtToken;
+using FL.Pereza.Helpers.Standard.Language;
 using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Dto;
@@ -29,11 +30,10 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         }
 
         [HttpGet, Route("GetBirds", Name = "GetBirds")]
-        public async Task<IActionResult> GetBirds(int orderBy, string specieId)
+        public async Task<IActionResult> GetBirds(int orderBy, string specieId, string languageCode)
         {
             var result = default(List<PostDto>);
-
-            var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
+            var languageId = LanguageHelper.GetLanguageByCode(languageCode);
 
             if (!string.IsNullOrWhiteSpace(specieId) && specieId != "null")
             {
@@ -59,10 +59,10 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         }
 
         [HttpGet, Route("GetBirdsByName", Name = "GetBirdsByName")]
-        public async Task<IActionResult> GetBirdsByName(int orderBy, string specieName)
+        public async Task<IActionResult> GetBirdsByName(int orderBy, string specieName, string languageCode)
         {
             var result = default(List<PostDto>);
-            var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
+            var languageId = LanguageHelper.GetLanguageByCode(languageCode);
 
             if (!string.IsNullOrWhiteSpace(specieName))
             {
@@ -90,8 +90,9 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         public async Task<IActionResult> GetPendings(int orderBy)
         {
             var result = default(List<PostDto>);
-            
-            result = await this.iBirdSpeciesService.GetBirdBySpecie(Guid.Parse(StatusSpecie.NoSpecieId), orderBy, "");
+
+
+            result = await this.iBirdSpeciesService.GetBirdBySpecie(Guid.Parse(StatusSpecie.NoSpecieId), orderBy, null);
 
             if (result.Any())
             {

@@ -2,7 +2,6 @@
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Dto;
 using FL.WebAPI.Core.Birds.Domain.Repository;
-using FL.WebAPI.Core.Birds.Infrastructure.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,14 +23,14 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             this.iCustomMemoryCache = iCustomMemoryCache;
         }
 
-        public async Task<SpecieResponse> GetSpecieById(Guid specieId, string languageId)
+        public async Task<SpecieResponse> GetSpecieById(Guid specieId, Guid languageId)
         {
-            var itemCache = this.iCustomMemoryCache.Get(CACHE_SPECIE_LANGUAGE_ID + languageId);
+            var itemCache = this.iCustomMemoryCache.Get(CACHE_SPECIE_LANGUAGE_ID + languageId.ToString());
 
             if (itemCache == null || !itemCache.Any())
             {
-                itemCache = await this.iSpecieRestRepository.GetAllSpeciesByLanguageId(Guid.Parse(languageId));
-                this.iCustomMemoryCache.Add(CACHE_SPECIE_LANGUAGE_ID + languageId, itemCache);
+                itemCache = await this.iSpecieRestRepository.GetAllSpeciesByLanguageId(languageId);
+                this.iCustomMemoryCache.Add(CACHE_SPECIE_LANGUAGE_ID + languageId.ToString(), itemCache);
             }
 
             return itemCache.FirstOrDefault(x => x.SpecieId == specieId);

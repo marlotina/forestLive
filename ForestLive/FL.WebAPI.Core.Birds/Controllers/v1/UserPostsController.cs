@@ -1,5 +1,6 @@
 ﻿using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.JwtToken;
+using FL.Pereza.Helpers.Standard.Language;
 using FL.WebAPI.Core.Birds.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using Microsoft.AspNetCore.Authorization;
@@ -34,14 +35,14 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
         [HttpGet]
         [AllowAnonymous]
         [Route("GetUserPosts", Name = "GetUserPosts")]
-        public async Task<IActionResult> GetUserPosts(string userId, string type, string label)
+        public async Task<IActionResult> GetUserPosts(string userId, string type, string label, string languageCode)
         {
             try
             {
                 if (string.IsNullOrWhiteSpace(userId))
                     return this.BadRequest();
 
-                var languageId = JwtTokenHelper.GetClaimByValue(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER], "role");
+                var languageId = LanguageHelper.GetLanguageByCode(languageCode);
 
                 var result = await this.iUserPostService.GetUserPosts(userId, label, type, languageId);
 

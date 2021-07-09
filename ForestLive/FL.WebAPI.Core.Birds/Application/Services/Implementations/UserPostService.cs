@@ -30,7 +30,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
             return await this.iUserRepository.GetMapPointsByUserAsync(userId);
         }
 
-        public async Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type, string langugeId)
+        public async Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type, Guid langugeId)
         {
             var result = await this.iUserRepository.GetUserPosts(userId, label, type);
 
