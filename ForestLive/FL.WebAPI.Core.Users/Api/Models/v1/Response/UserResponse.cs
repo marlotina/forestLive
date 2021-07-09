@@ -35,5 +35,9 @@ namespace FL.WebAPI.Core.Users.Models.v1.Response
         public string TwitterUrl { get; set; }
 
         public string FacebookUrl { get; set; }
+
+        public double Latitude { get; set; }
+
+        public double Longitude { get; set; }
     }
 }

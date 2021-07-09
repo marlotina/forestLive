@@ -59,5 +59,20 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Implementation
 
             return result;
         }
+
+        public UserMapResponse ConvertUserMap(UserInfo source)
+        {
+            var result = default(UserMapResponse);
+            if (source != null)
+            {
+                result = new UserMapResponse()
+                {
+                    Latitude = source.Latitude,
+                    Longitude = source.Longitude
+                };
+            }
+
+            return result;
+        }
     }
 }

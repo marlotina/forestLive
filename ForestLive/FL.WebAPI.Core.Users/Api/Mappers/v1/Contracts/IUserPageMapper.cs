@@ -9,5 +9,7 @@ namespace FL.WebAPI.Core.Users.Api.Mappers.v1.Contracts
         UserPageResponse Convert(UserInfo source);
 
         UserListSiteResponse ConvertList(UserInfo source);
+
+        UserMapResponse ConvertUserMap(UserInfo source);
     }
 }

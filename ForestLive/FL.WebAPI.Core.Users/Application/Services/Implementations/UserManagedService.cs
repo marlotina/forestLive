@@ -62,6 +62,8 @@ namespace FL.WebAPI.Core.Users.Application.Services.Implementations
                     user.InstagramUrl = newUserData.InstagramUrl;
                     user.LinkedlinUrl = newUserData.LinkedlinUrl;
                     user.LastModification = DateTime.UtcNow;
+                    user.Latitude = newUserData.Latitude;
+                    user.Longitude = newUserData.Longitude;
 
                     return await this.iUserCosmosRepository.UpdateUserInfoAsync(user);
                 }
