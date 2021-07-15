@@ -5,7 +5,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
 WORKDIR /src
 COPY ["FL.Web.API.Core.Species/FL.Web.API.Core.Species.csproj", "FL.Web.API.Core.Species/"]
 RUN dotnet restore "FL.Web.API.Core.Species/FL.Web.API.Core.Species.csproj"
