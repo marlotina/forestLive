@@ -1,6 +1,8 @@
 ﻿using FL.DependencyInjection.Standard.Contracts;
 using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
 using FL.Web.API.Core.Species.Api.Mappers.v1.Implementations;
+using FL.Web.API.Core.Species.Application.Mappers.Contracts;
+using FL.Web.API.Core.Species.Application.Mappers.Implementations;
 using FL.Web.API.Core.Species.Application.Services.Contracts;
 using FL.Web.API.Core.Species.Application.Services.Implementations;
 using FL.Web.API.Core.Species.Configuration.Contracts;
@@ -15,10 +17,12 @@ namespace FL.Web.API.Core.Species.IoC
         public void RegisterServices(DependencyInjection.Standard.Contracts.IServiceCollection services)
         {
             services.AddSingleton<IAutocompleteMapper, AutocompleteMapper>();
+            services.AddSingleton<ISpecieMapper, SpecieMapper>();
+            services.AddSingleton<ISpecieCacheMapper, SpecieCacheMapper>();
 
             services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
 
-            services.AddTransient<IAutocompleteSpeciesService, AutocompleteSpeciesService>();
+            services.AddTransient<IAutocompleteService, AutocompleteService>();
             services.AddTransient<ICountriesService, CountriesService>();
             services.AddTransient<ISpeciesService, SpeciesService>();
             

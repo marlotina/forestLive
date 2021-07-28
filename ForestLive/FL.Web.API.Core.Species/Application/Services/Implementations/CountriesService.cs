@@ -1,6 +1,6 @@
 ﻿using FL.Cache.Standard.Contracts;
 using FL.Web.API.Core.Species.Application.Services.Contracts;
-using FL.Web.API.Core.Species.Domain.Model;
+using FL.Web.API.Core.Species.Domain.Dto;
 using FL.Web.API.Core.Species.Domain.Repository;
 using System;
 using System.Collections.Generic;

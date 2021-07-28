@@ -1,6 +1,6 @@
 ﻿using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Species.Configuration.Contracts;
-using FL.Web.API.Core.Species.Domain.Model;
+using FL.Web.API.Core.Species.Domain.Dto;
 using FL.Web.API.Core.Species.Domain.Repository;
 using System;
 using System.Collections.Generic;
@@ -57,6 +57,5 @@ namespace FL.Web.API.Core.Species.Infrastructure.Repositories
 
             return result;
         }
-
     }
 }

@@ -1,4 +1,4 @@
-﻿using FL.Pereza.Helpers.Standard.Language;
+﻿using FL.Web.API.Core.Species.Api.Mappers.v1.Contracts;
 using FL.Web.API.Core.Species.Application.Services.Contracts;
 using Microsoft.AspNetCore.Mvc;
 using System.Linq;
@@ -10,27 +10,29 @@ namespace FL.Web.API.Core.Species.Controllers.v1
     [ApiController]
     public class AutocompleteController : Controller
     {
-        private readonly IAutocompleteSpeciesService iAutocompleteSpeciesService;
+        private readonly IAutocompleteService iAutocompleteSpeciesService;
+        private readonly IAutocompleteMapper iAutocompleteMapper;
+
         public AutocompleteController(
-            IAutocompleteSpeciesService iAutocompleteSpeciesService)
+            IAutocompleteMapper iAutocompleteMapper,
+            IAutocompleteService iAutocompleteSpeciesService)
         {
             this.iAutocompleteSpeciesService = iAutocompleteSpeciesService;
+            this.iAutocompleteMapper = iAutocompleteMapper;
         }
 
         [HttpGet, Route("GetNames", Name = "GetNames")]
         public async Task<IActionResult> GetNames(string text, string languageCode)
         {
-         if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode)) {
+            if (string.IsNullOrEmpty(text) || string.IsNullOrEmpty(languageCode)) {
                 return this.BadRequest();
             }
 
-            var languageId = LanguageHelper.GetLanguageByCode(languageCode);
-
-            var result = await this.iAutocompleteSpeciesService.GetSpeciesByName(text, languageId); 
+            var result = await this.iAutocompleteSpeciesService.GetSpeciesByName(text, languageCode); 
 
             if (result.Any()) {
 
-                return this.Ok(result);
+                return this.Ok(result.Select(x => this.iAutocompleteMapper.Convert(x)));
             }
 
             return this.NoContent();
@@ -44,13 +46,11 @@ namespace FL.Web.API.Core.Species.Controllers.v1
                 return this.BadRequest();
             }
 
-            var languageId = LanguageHelper.GetLanguageByCode(languageCode);
-
-            var result = await this.iAutocompleteSpeciesService.GetSpeciesByScienceName(text, languageId);
+            var result = await this.iAutocompleteSpeciesService.GetSpeciesByScienceName(text, languageCode);
 
             if (result.Any())
             {
-                return this.Ok(result);
+                return this.Ok(result.Select(x => this.iAutocompleteMapper.Convert(x)));
             }
 
             return this.NoContent();

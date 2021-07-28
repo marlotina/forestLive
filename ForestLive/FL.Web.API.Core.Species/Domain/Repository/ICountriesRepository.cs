@@ -1,4 +1,4 @@
-﻿using FL.Web.API.Core.Species.Domain.Model;
+﻿using FL.Web.API.Core.Species.Domain.Dto;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;

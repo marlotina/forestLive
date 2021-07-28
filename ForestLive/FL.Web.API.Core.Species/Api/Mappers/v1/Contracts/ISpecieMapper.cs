@@ -3,10 +3,10 @@ using FL.Web.API.Core.Species.Domain.Dto;
 
 namespace FL.Web.API.Core.Species.Api.Mappers.v1.Contracts
 {
-    public interface IAutocompleteMapper
+    public interface ISpecieMapper
     {
-        AutocompleteResponse Convert (SpeciesCacheItem source);
+        SpecieResponse Convert(SpecieItem source);
 
-        AutocompleteResponse ConvertInfo(SpecieItem source);
+        SpecieInfoReponse ConvertInfo(SpecieItem source);
     }
 }

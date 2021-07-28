@@ -12,14 +12,16 @@ namespace FL.Web.API.Core.Species.Controllers.v1
     [ApiController]
     public class SpeciesInfoController : Controller
     {
+        private readonly ISpecieMapper iSpecieMapper1;
         private readonly ISpeciesService iSpeciesService;
-        private readonly IAutocompleteMapper iAutocompleteMapper;
+        private readonly ISpecieMapper iSpecieMapper;
         public SpeciesInfoController(
-            IAutocompleteMapper iAutocompleteMapper,
+            ISpecieMapper iSpecieMapper,
             ISpeciesService iSpeciesService)
         {
+            iSpecieMapper1 = iSpecieMapper;
             this.iSpeciesService = iSpeciesService;
-            this.iAutocompleteMapper = iAutocompleteMapper;
+            this.iSpecieMapper = iSpecieMapper;
         }
 
         [HttpGet, Route("GetAllSpecies", Name = "GetAllSpecies")]
@@ -29,7 +31,7 @@ namespace FL.Web.API.Core.Species.Controllers.v1
 
             if (result.Any()) {
 
-                return this.Ok(result.Select(x => this.iAutocompleteMapper.ConvertSpecie(x)));
+                return this.Ok(result.Select(x => this.iSpecieMapper.Convert(x)));
             }
 
             return this.NoContent();
@@ -42,7 +44,7 @@ namespace FL.Web.API.Core.Species.Controllers.v1
 
             if (result.Any())
             {
-                return this.Ok(result.Select(x => this.iAutocompleteMapper.ConvertInfo(x)));
+                return this.Ok(result.Select(x => this.iSpecieMapper.ConvertInfo(x)));
             }
 
             return this.NoContent();

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace FL.Web.API.Core.Species.Domain.Model
+﻿namespace FL.Web.API.Core.Species.Domain.Dto
 {
     public class CountryItem
     {

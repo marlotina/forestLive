@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace FL.Web.API.Core.Species.Domain.Model
+namespace FL.Web.API.Core.Species.Api.Models.v1.Response
 {
-    public class SpecieItem
+    public class SpecieInfoReponse
     {
         public Guid SpecieId { get; set; }
 
@@ -10,7 +10,8 @@ namespace FL.Web.API.Core.Species.Domain.Model
 
         public string ScienceName { get; set; }
 
+        public string NameComplete { get; set; }
+
         public string UrlSpecie { get; set; }
-        
     }
 }

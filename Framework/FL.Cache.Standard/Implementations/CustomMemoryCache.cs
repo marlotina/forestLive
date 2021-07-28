@@ -9,6 +9,7 @@ namespace FL.Cache.Standard.Implementations
     {
         private readonly MemoryCache cache;
         private readonly ILogger<CustomMemoryCache<T>> iLogger; 
+
         public CustomMemoryCache(ILogger<CustomMemoryCache<T>> iLogger)
         {
             this.iLogger = iLogger;

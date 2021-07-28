@@ -5,32 +5,30 @@ using System.Web;
 
 namespace FL.Web.API.Core.Species.Api.Mappers.v1.Implementations
 {
-    public class AutocompleteMapper : IAutocompleteMapper
+    public class SpecieMapper : ISpecieMapper
     {
-        public AutocompleteResponse Convert(SpeciesCacheItem source)
+        public SpecieResponse Convert(SpecieItem source)
         {
-            var result = default(AutocompleteResponse);
+            var result = default(SpecieResponse);
             if (source != null)
             {
-                result = new AutocompleteResponse()
+                result = new SpecieResponse()
                 {
                     SpecieId = source.SpecieId,
-                    ScienceName = source.ScienceName,
-                    Name = source.Name,
-                    UrlSpecie = source.UrlSpecie,
-                    NameComplete = $"{HttpUtility.HtmlDecode(source.Name.ToLower())} ({HttpUtility.HtmlDecode(source.ScienceName.ToLower())})",
+                    ScienceName = source.ScienceName.ToLower(),
+                    UrlSpecie = source.UrlSpecie
                 };
             }
 
             return result;
         }
 
-        public AutocompleteResponse ConvertInfo(SpecieItem source)
+        public SpecieInfoReponse ConvertInfo(SpecieItem source)
         {
-            var result = default(AutocompleteResponse);
+            var result = default(SpecieInfoReponse);
             if (source != null)
             {
-                result = new AutocompleteResponse()
+                result = new SpecieInfoReponse()
                 {
                     SpecieId = source.SpecieId,
                     ScienceName = source.ScienceName,
