@@ -59,7 +59,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.Pereza.Helpers.Standard"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.DependencyInjection.Standard", "..\Framework\FL.DependencyInjection.Standard\FL.DependencyInjection.Standard.csproj", "{BC28D735-61C5-47A3-949D-DBDB6310A1D6}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Species", "Species", "{B011F062-91CC-4C7D-B34F-3651EF6DAF72}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{B011F062-91CC-4C7D-B34F-3651EF6DAF72}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FL.Web.API.Core.ExternalData", "FL.Web.API.Core.ExternalData\FL.Web.API.Core.ExternalData.csproj", "{D14D10D7-9529-4CDE-AB3A-E117824620A6}"
 EndProject

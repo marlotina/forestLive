@@ -27,13 +27,13 @@ namespace FL.ServiceBus.Standard.Implementations
             );
         }
 
-        public async Task SendMessage(T messageRequest)
+        public async Task SendMessage(T messageRequest, string label)
         {
             try
             {
                 string data = JsonConvert.SerializeObject(messageRequest);
                 Message message = new Message(Encoding.UTF8.GetBytes(data));
-                
+                message.Label = label;
                 await topicClient.SendAsync(message);
             }
             catch (Exception e)

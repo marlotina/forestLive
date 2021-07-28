@@ -5,7 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace FL.Web.API.Core.Species
+namespace FL.Web.API.Core.ExternalData
 {
     public class Startup
     {
