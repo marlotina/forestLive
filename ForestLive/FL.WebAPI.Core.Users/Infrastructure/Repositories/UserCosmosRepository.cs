@@ -13,10 +13,10 @@ namespace FL.WebAPI.Core.Items.Infrastructure.Repositories
 {
     public class UserCosmosRepository : IUserCosmosRepository
     {
-        private IClientFactory iClientFactory;
-        private IUserConfiguration iUserConfiguration; 
+        private readonly IClientFactory iClientFactory;
+        private readonly IUserConfiguration iUserConfiguration; 
         private Container userContainer;
-        private ILogger<UserCosmosRepository> iLogger;
+        private readonly ILogger<UserCosmosRepository> iLogger;
         public UserCosmosRepository(
             IClientFactory iClientFactory,
             ILogger<UserCosmosRepository> iLogger,

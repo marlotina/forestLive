@@ -31,9 +31,6 @@ namespace FL.WebAPI.Core.Users.IoC
             services.AddTransient<IAccountService, AccountService>();
             services.AddTransient<IUserLabelService, UserLabelService>();
 
-
-
-
             services.AddTransient<IUserLabelRepository, UserLabelRepository>();
             services.AddTransient<IUserCosmosRepository, UserCosmosRepository>();
             services.AddTransient<IUserFollowRepository, UserFollowRepository>();
