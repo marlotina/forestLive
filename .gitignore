@@ -427,3 +427,7 @@ ForestLive/FL.WebAPI.Core.Birds/nlog.config
 ForestLive/FL.WebAPI.Core.Birds/nlog.Development.config
 ForestLive/FL.Web.API.Core.User.Interactions/nlog.config
 ForestLive/FL.Web.API.Core.User.Interactions/nlog.QA.config
+ForestLive/FL.WebAPI.Core.Posts/nlog.config
+ForestLive/FL.WebAPI.Core.Posts/nlog.QA.config
+ForestLive/FL.WebAPI.Core.Posts/nlog.Prod.config
+ForestLive/FL.WebAPI.Core.Posts/nlog.Development.config
