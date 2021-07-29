@@ -1,10 +1,8 @@
-﻿using Fl.Functions.UserInteractions.Dto;
-using Fl.Functions.UserInteractions.Model;
+﻿using Fl.Functions.UserInteractions.Model;
 using FL.Functions.UserInteractions.Dto;
 using FL.Functions.UserInteractions.Model;
 using FL.Functions.UserInteractions.Services;
 using Microsoft.Azure.Cosmos;
-using Microsoft.Azure.Cosmos.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,13 +12,11 @@ namespace FL.Functions.UserPost.Services
 {
     public class UserInteractionCosmosService : IUserInterationCosmosService
     {
-        private readonly Container usersCommentContainer;
         private readonly Container usersVoteContainer;
         private readonly Container usersContainer;
 
         public UserInteractionCosmosService(CosmosClient dbClient, string databaseName)
         {
-            this.usersCommentContainer = dbClient.GetContainer(databaseName, "comment");
             this.usersVoteContainer = dbClient.GetContainer(databaseName, "vote");
             this.usersContainer = dbClient.GetContainer(databaseName, "user");
         }

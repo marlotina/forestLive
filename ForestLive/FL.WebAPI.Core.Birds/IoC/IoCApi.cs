@@ -22,20 +22,19 @@ namespace FL.WebAPI.Core.Birds.IoC
 
             services.AddTransient<ISpeciesService, SpeciesService>();
             services.AddTransient<ISearchMapService, SearchMapService>();
-            services.AddTransient<IPostService, PostService>();
             services.AddTransient<IUserVoteService, UserVoteService>();
             services.AddTransient<IUserPostService, UserPostService>();
             services.AddTransient<IUserInfoService, UserInfoService>();
             services.AddTransient<ISpecieInfoService, SpecieInfoService>();
 
-            services.AddTransient<IUserVotesRestRepository, UserVotesRestRepository>();
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
             services.AddTransient<ISearchMapRepository, SearchMapRepository>();
-            services.AddTransient<IPostRepository, PostCosmosRepository>();
             services.AddTransient<IUserPostRepository, UserPostCosmosRepository>();
+
+            services.AddTransient<IUserVotesRestRepository, UserVotesRestRepository>();
             services.AddTransient<IUserInfoRestRepository, UserInfoRestRepository>();
             services.AddTransient<ISpecieRestRepository, SpecieRestRepository>();
-            
+
             services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }

@@ -1,6 +1,7 @@
 ﻿using FL.Web.API.Core.User.Posts.Domain.Dto;
 using FL.WebAPI.Core.Birds.Application.Services.Contracts;
 using FL.WebAPI.Core.Birds.Domain.Dto;
+using FL.WebAPI.Core.Birds.Domain.Model;
 using FL.WebAPI.Core.Birds.Domain.Repositories;
 using FL.WebAPI.Core.Birds.Domain.Repository;
 using System;
@@ -28,6 +29,11 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
         public async Task<IEnumerable<PointPostDto>> GetMapPointsByUserId(string userId)
         {
             return await this.iUserRepository.GetMapPointsByUserAsync(userId);
+        }
+
+        public async Task<BirdPost> GetPost(Guid birdPostId, string userId)
+        {
+            return await this.iUserRepository.GetPostAsync(birdPostId, userId);
         }
 
         public async Task<IEnumerable<PostDto>> GetUserPosts(string userId, string label, string type, Guid langugeId)

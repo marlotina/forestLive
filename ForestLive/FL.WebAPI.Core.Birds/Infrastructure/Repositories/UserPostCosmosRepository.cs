@@ -115,5 +115,20 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
 
             return posts;
         }
+
+        public async Task<BirdPost> GetPostAsync(Guid birdPostId, string userId)
+        {
+            try
+            {
+                var response = await this.usersContainer.ReadItemAsync<BirdPost>(birdPostId.ToString(), new PartitionKey(userId));
+                var ru = response.RequestCharge;
+                return response.Resource;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                this.iLogger.LogError(ex.Message);
+                return null;
+            }
+        }
     }
 }

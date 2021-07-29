@@ -1,5 +1,4 @@
-﻿using Fl.Functions.UserInteractions.Dto;
-using Fl.Functions.UserInteractions.Model;
+﻿using Fl.Functions.UserInteractions.Model;
 using FL.Functions.UserInteractions.Dto;
 using System.Collections.Generic;
 using System.Threading.Tasks;

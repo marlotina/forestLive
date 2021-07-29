@@ -1,4 +1,3 @@
-using Fl.Functions.UserInteractions.Dto;
 using Fl.Functions.UserInteractions.Model;
 using FL.Functions.UserInteractions.Services;
 using Microsoft.Azure.ServiceBus;
