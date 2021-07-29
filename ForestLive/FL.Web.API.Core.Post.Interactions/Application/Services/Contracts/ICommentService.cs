@@ -1,4 +1,5 @@
-﻿using FL.Web.API.Core.Post.Interactions.Domain.Dto;
+﻿using FL.Web.API.Core.Post.Interactions.Api.Models.v1.Response;
+using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Models.v1.Response;
 using System;
@@ -13,6 +14,6 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Contracts
 
         Task<bool> DeleteComment(Guid commentId, Guid postId, string userId);
 
-        Task<IEnumerable<CommentResponse>> GetCommentByPost(Guid postId, string userId);
+        Task<PostDataResponse> GetCommentByPost(Guid postId, string userId);
     }
 }

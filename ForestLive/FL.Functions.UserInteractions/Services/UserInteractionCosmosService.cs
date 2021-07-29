@@ -34,17 +34,6 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task AddCommentVotePostAsync(VoteCommentPostDto vote)
-        {
-            try
-            {
-                await this.usersCommentVoteContainer.CreateItemAsync<VoteCommentPostDto>(vote, new PartitionKey(vote.UserId));
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
         public async Task AddVotePostAsync(VotePostDto vote)
         {
             try
@@ -63,17 +52,6 @@ namespace FL.Functions.UserPost.Services
             try
             {
                 await this.usersCommentContainer.DeleteItemAsync<CommentDto>(comment.Id.ToString(), new PartitionKey(comment.UserId));
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        public async Task DeleteCommentVotePostAsync(VoteCommentPostDto vote)
-        {
-            try
-            {
-                await this.usersCommentVoteContainer.DeleteItemAsync<VoteCommentPostDto>(vote.Id.ToString(), new PartitionKey(vote.UserId));
             }
             catch (Exception ex)
             {

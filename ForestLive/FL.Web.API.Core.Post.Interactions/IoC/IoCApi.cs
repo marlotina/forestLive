@@ -32,7 +32,6 @@ namespace FL.Web.Api.Core.Post.Interactions.IoC
 
             services.AddTransient(typeof(IServiceBusVotePostTopicSender<>), typeof(ServiceBusVotePostTopicSender<>));
             services.AddTransient(typeof(IServiceBusCommentTopicSender<>), typeof(ServiceBusCommentTopicSender<>));
-            services.AddTransient(typeof(IServiceBusVoteCommentTopicSender<>), typeof(ServiceBusVoteCommentTopicSender<>));
 
             services.AddSingleton<IVotePostRepository, VotePostRepository>();
             services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();

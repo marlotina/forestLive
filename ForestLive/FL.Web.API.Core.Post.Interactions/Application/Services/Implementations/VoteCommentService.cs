@@ -13,7 +13,6 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
 {
     public class VoteCommentService : IVoteCommentService
     {
-        private readonly IServiceBusVoteCommentTopicSender<VoteCommentPostDto> iServiceBusVoteCommentTopicSender;
         private readonly IVoteCommentRepository iVoteCommentRepository;
         private readonly ICommentRepository iCommentRepository;
 
@@ -23,13 +22,11 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
         }
 
         public VoteCommentService(
-            IServiceBusVoteCommentTopicSender<VoteCommentPostDto> iServiceBusVoteCommentTopicSender,
             ICommentRepository iVotePostRepository,
             IVoteCommentRepository iVoteCommentRepository)
         {
             this.iVoteCommentRepository = iVoteCommentRepository;
             this.iCommentRepository = iVotePostRepository;
-            this.iServiceBusVoteCommentTopicSender = iServiceBusVoteCommentTopicSender;
         }
 
         public async Task<VoteCommentPost> AddVoteCommentPost(VoteCommentPostDto votePost)
@@ -39,11 +36,13 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             votePost.Type = ItemHelper.VOTE_COMMENT_TYPE;
 
             var vote = this.Convert(votePost);
+            //OJO unify in a stored procedured?
             var result = await this.iVoteCommentRepository.AddCommentVoteAsync(vote);
             if (await this.iCommentRepository.IncreaseVoteCommentCountAsync(votePost.CommentId, vote.PostId)) {
-                await this.iServiceBusVoteCommentTopicSender.SendMessage(votePost, TopicHelper.LABEL_VOTE_COMMENT_CREATED);
-            }
 
+                return result;
+            }
+            //OJO
             return result;
         }
 

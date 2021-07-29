@@ -13,10 +13,6 @@ namespace FL.Functions.UserInteractions.Services
 
         Task DeleteVotePostAsync(VotePostBaseDto vote);
 
-        Task AddCommentVotePostAsync(VoteCommentPostDto vote);
-
-        Task DeleteCommentVotePostAsync(VoteCommentPostDto vote);
-
         Task AddFollowerAsync(UserFollowDto follower);
 
         Task DeleteFollowerAsync(UserFollowDto follower);

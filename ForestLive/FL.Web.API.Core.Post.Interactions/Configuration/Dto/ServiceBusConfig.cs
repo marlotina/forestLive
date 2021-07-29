@@ -7,7 +7,5 @@
         public string TopicComment { get; set; }
 
         public string TopicVote { get; set; }
-
-        public string TopicCommentVote { get; set; }
     }
 }

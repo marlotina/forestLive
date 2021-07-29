@@ -1,14 +1,10 @@
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using NLog.Web;
 
-namespace FL.Web.API.Core.Species
+namespace FL.Web.API.Core.ExternalData
 {
     public class Program
     {

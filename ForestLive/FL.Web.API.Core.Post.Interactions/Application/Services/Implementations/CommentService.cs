@@ -1,4 +1,5 @@
 ﻿using FL.Pereza.Helpers.Standard.Enums;
+using FL.Web.API.Core.Post.Interactions.Api.Models.v1.Response;
 using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
 using FL.Web.API.Core.Post.Interactions.Application.Mapper.Contracts;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
@@ -73,9 +74,9 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             return false;
         }
 
-        public async Task<IEnumerable<CommentResponse>> GetCommentByPost(Guid postId, string userId)
+        public async Task<PostDataResponse> GetCommentByPost(Guid postId, string userId)
         {
-            var response = new List<CommentResponse>();
+            var response = new PostDataResponse();
             try
             {
                 var result = await this.iCommentRepository.GetCommentsByPostIdAsync(postId, userId);
@@ -83,13 +84,16 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
                 {
                     var comments = result.Where(x => x.Type == "comment");
                     var votesComments = result.Where(x => x.Type == "voteComment");
+                    var postVote = result.FirstOrDefault(x => x.Type == "vote");
+                    response.Comments = this.iPostDataMapper.ConvertAll(comments, votesComments).ToList();
 
-                    response = this.iPostDataMapper.ConvertAll(comments, votesComments).ToList();
-
-                    foreach (var comment in response)
+                    foreach (var comment in response.Comments)
                     {
                         await this.AddRepliesLoop(comment);
                     }
+
+                    response.HasPostVote = postVote != null;
+                    response.VotePostId = postVote != null ? postVote.Id : string.Empty;
                 }
             }
             catch (Exception ex)
