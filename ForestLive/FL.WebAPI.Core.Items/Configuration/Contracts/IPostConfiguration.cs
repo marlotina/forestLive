@@ -7,7 +7,5 @@ namespace FL.WebAPI.Core.Items.Configuration.Contracts
         string BirdPhotoContainer { get; }
 
         CosmosConfiguration CosmosConfiguration { get; }
-
-        ServiceBusConfig ServiceBusConfig { get;  }
     }
 }

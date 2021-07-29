@@ -24,6 +24,7 @@ namespace FL.Web.API.Core.User.Interactions
         {
             services.AddLibraryServices(new IoC.IoCApi(),
                 new FL.CosmosDb.Standard.IoC.IocModule(),
+                new FL.ServiceBus.Standard.IoC.IocModule(),
                 new FL.Logging.Implementation.Standard.IoC.IocModule());
 
             services.AddCors();

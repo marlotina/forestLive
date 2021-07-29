@@ -15,6 +15,5 @@ namespace FL.Web.API.Core.User.Interactions.Configuration.Implementations
 
         public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
 
-        public ServiceBusConfig ServiceBusConfig => this.configuration.GetSection("ServiceBusConfig").Get<ServiceBusConfig>();
     }
 }

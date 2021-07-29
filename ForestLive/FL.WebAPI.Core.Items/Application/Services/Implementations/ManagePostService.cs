@@ -1,15 +1,14 @@
 ﻿using FL.Infrastructure.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Enums;
+using FL.ServiceBus.Standard.Contracts;
 using FL.WebAPI.Core.Items.Api.Models.v1.Request;
 using FL.WebAPI.Core.Items.Application.Exceptions;
 using FL.WebAPI.Core.Items.Application.Services.Contracts;
 using FL.WebAPI.Core.Items.Configuration.Contracts;
-using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
 using FL.WebAPI.Core.Items.Domain.Repository;
-using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -26,7 +25,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IPostConfiguration iPostConfiguration;
         private readonly IBlobContainerRepository iBlobContainerRepository;
         private readonly ILogger<ManagePostService> iLogger;
-        private readonly IServiceBusLabelTopicSender<IEnumerable<UserLabel>> iServiceBusLabelTopicSender;
+        private readonly IServiceBusTopicSender<IEnumerable<UserLabel>> iServiceBusTopicSender;
         private readonly ISpeciesRepository iSpeciesRepository;
         private readonly IUserPostRepository iUserPostRepository;
         public ManagePostService(
@@ -34,12 +33,12 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             IPostConfiguration iPostConfiguration,
             IBlobContainerRepository iBlobContainerRepository,
             IUserPostRepository iUserPostRepository,
-            IServiceBusLabelTopicSender<IEnumerable<UserLabel>> iServiceBusLabelTopicSender,
+            IServiceBusTopicSender<IEnumerable<UserLabel>> iServiceBusTopicSender,
             ILogger<ManagePostService> iLogger)
         {
             this.iBlobContainerRepository = iBlobContainerRepository;
             this.iPostConfiguration = iPostConfiguration;
-            this.iServiceBusLabelTopicSender = iServiceBusLabelTopicSender;
+            this.iServiceBusTopicSender = iServiceBusTopicSender;
             this.iSpeciesRepository = iSpeciesRepository;
             this.iUserPostRepository = iUserPostRepository;
             this.iLogger = iLogger;
@@ -95,7 +94,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                     if (birdPost.Labels != null && birdPost.Labels.Any())
                     {
                         var dtoLabels = birdPost.Labels.Select(x => GetListLabel(x, birdPost.UserId));
-                        await this.iServiceBusLabelTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
+                        await this.iServiceBusTopicSender.SendMessage(dtoLabels, TopicHelper.LABEL_USER_LABEL_CREATED);
                     }
 
                     return birdPost;
@@ -132,7 +131,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                         if (result)
                         {
                             var removeLabelDto = postLabels.Select(x => GetListLabel(x, userId));
-                            await this.iServiceBusLabelTopicSender.SendMessage(removeLabelDto, TopicHelper.LABEL_POST_DELETED);
+                            await this.iServiceBusTopicSender.SendMessage(removeLabelDto, TopicHelper.LABEL_POST_DELETED);
                         }
                     }
 

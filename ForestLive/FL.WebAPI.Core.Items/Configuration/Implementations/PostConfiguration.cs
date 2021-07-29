@@ -15,8 +15,6 @@ namespace FL.WebAPI.Core.Items.Configuration.Implementations
 
         public CosmosConfiguration CosmosConfiguration => this.configuration.GetSection("CosmosConfiguration").Get<CosmosConfiguration>();
 
-        public ServiceBusConfig ServiceBusConfig => this.configuration.GetSection("ServiceBusConfig").Get<ServiceBusConfig>();
-
         public string BirdPhotoContainer => this.configuration.GetSection("BirdPhotoContainer").Get<string>();
     }
 }

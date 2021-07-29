@@ -1,4 +1,6 @@
 ﻿using FL.DependencyInjection.Standard.Contracts;
+using FL.ServiceBus.Standard.Contracts;
+using FL.ServiceBus.Standard.Implementations;
 using FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Contracts;
 using FL.Web.API.Core.User.Interactions.Api.Mapper.v1.Implementation;
 using FL.Web.API.Core.User.Interactions.Application.Services.Contracts;
@@ -9,8 +11,6 @@ using FL.Web.API.Core.User.Interactions.Domain.Repositories;
 using FL.Web.API.Core.User.Interactions.Infrastructure.Repositories;
 using FL.Web.API.Core.User.Interactions.Mapper.v1.Contracts;
 using FL.Web.API.Core.User.Interactions.Mapper.v1.Implementation;
-using FL.WebAPI.Core.User.Interactions.Infrastructure.ServiceBus.Contracts;
-using FL.WebAPI.Core.User.Interactions.Infrastructure.ServiceBus.Implementations;
 
 namespace FL.Web.API.Core.User.Interactions.IoC
 {
@@ -36,7 +36,7 @@ namespace FL.Web.API.Core.User.Interactions.IoC
             services.AddSingleton<ICommentRepository, CommentRepository>();
             services.AddSingleton<IFollowerRepository, FollowerRepository>();
 
-            services.AddTransient(typeof(IServiceBusFollowerTopicSender<>), typeof(ServiceBusFollowerTopicSender<>));
+            services.AddTransient(typeof(IServiceBusTopicSender<>), typeof(ServiceBusTopicSender<>));
 
         }
     }

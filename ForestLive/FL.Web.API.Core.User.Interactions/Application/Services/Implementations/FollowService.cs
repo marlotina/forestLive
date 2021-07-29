@@ -1,9 +1,8 @@
-﻿using FL.Web.API.Core.User.Interactions.Api.Models.v1.Request;
+﻿using FL.ServiceBus.Standard.Contracts;
 using FL.Web.API.Core.User.Interactions.Application.Services.Contracts;
 using FL.Web.API.Core.User.Interactions.Domain.Dto;
 using FL.Web.API.Core.User.Interactions.Domain.Entities;
 using FL.Web.API.Core.User.Interactions.Domain.Repositories;
-using FL.WebAPI.Core.User.Interactions.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -13,13 +12,13 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
     public class FollowService : IFollowService
     {
         private readonly IFollowRepository iFollowRepository;
-        private readonly IServiceBusFollowerTopicSender<UserFollowerDto> iServiceBusFollowerTopicSender;
+        private readonly IServiceBusTopicSender<UserFollowerDto> iServiceBusTopicSender;
 
         public FollowService(
-            IServiceBusFollowerTopicSender<UserFollowerDto> iServiceBusFollowerTopicSender,
+            IServiceBusTopicSender<UserFollowerDto> iServiceBusTopicSender,
             IFollowRepository iFollowRepository)
         {
-            this.iServiceBusFollowerTopicSender = iServiceBusFollowerTopicSender;
+            this.iServiceBusTopicSender = iServiceBusTopicSender;
             this.iFollowRepository = iFollowRepository;
         }
 
@@ -48,7 +47,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
                     UserId = followUser.FollowUserId
                 };
 
-                await this.iServiceBusFollowerTopicSender.SendMessage(followerUserDto, "createFollow");
+                await this.iServiceBusTopicSender.SendMessage(followerUserDto, "createFollow");
             }
 
             return followUser;
@@ -68,7 +67,7 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
                         UserId = follow.FollowUserId
                     };
 
-                    await this.iServiceBusFollowerTopicSender.SendMessage(followerUser, "deleteFollow");
+                    await this.iServiceBusTopicSender.SendMessage(followerUser, "deleteFollow");
                     return true;
                 }
             }            
