@@ -37,35 +37,6 @@ namespace FL.Web.API.Core.User.Interactions.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosCommentVoteContainer);
         }
 
-        public async Task<List<VoteInfoDto>> GetVoteCommentsAsync(List<Guid> listComment, string userId)
-        {
-            var votes = new List<VoteInfoDto>();
-
-            try
-            {
-                var queryString = $"SELECT p.commentId, p.id FROM p WHERE p.userId = @UserId AND ARRAY_CONTAINS(@ListComment, p.commentId) ORDER BY p.creationDate DESC";
-
-                var queryDef = new QueryDefinition(queryString);
-                queryDef.WithParameter("@UserId", userId);
-                queryDef.WithParameter("@ListComment", listComment.ToArray());
-                var query = this.commentVoteContainer.GetItemQueryIterator<VoteInfoDto>(queryDef);
-
-                while (query.HasMoreResults)
-                {
-                    var response = await query.ReadNextAsync();
-                    var ru = response.RequestCharge;
-                    votes.AddRange(response.ToList());
-                }
-
-            }
-            catch (Exception ex)
-            {
-                this.iLogger.LogError(ex.Message);
-            }
-
-            return votes;
-        }
-
         public async Task<List<VoteCommentPost>> GetVotesByUserId(string userId)
         {
             var votes = new List<VoteCommentPost>();

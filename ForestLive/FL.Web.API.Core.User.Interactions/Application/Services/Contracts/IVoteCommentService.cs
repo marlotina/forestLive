@@ -8,8 +8,6 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Contracts
 {
     public interface IVoteCommentService
     {
-        Task<List<VoteInfoDto>> GetVoteUserByComment(List<Guid> listComment, string userId);
-
         Task<List<VoteCommentPost>> GetCommentVotesByUserId(string userId);
     }
 }

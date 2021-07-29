@@ -22,10 +22,5 @@ namespace FL.Web.API.Core.User.Interactions.Application.Services.Implementations
         {
             return await this.voteCommentRepository.GetVotesByUserId(userId);
         }
-
-        public async Task<List<VoteInfoDto>> GetVoteUserByComment(List<Guid> lisComment, string userId)
-        {
-            return await this.voteCommentRepository.GetVoteCommentsAsync(lisComment, userId);
-        }
     }
 }
