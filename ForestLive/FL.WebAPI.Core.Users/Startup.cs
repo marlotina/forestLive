@@ -31,7 +31,7 @@ namespace FL.WebAPI.Core.Users
             services.AddLibraryServices(new IoCApi(),
                 new FL.CosmosDb.Standard.IoC.IocModule(),
                 new FL.Cache.Standard.IoC.IocModule(),
-                new FL.Infrastructure.Standard.IoC.IoCModule(),
+                new FL.BlobContainer.Standard.IoC.IoCModule(),
                 new FL.Logging.Implementation.Standard.IoC.IocModule(),
                 new FL.Sendgrid.Implementation.Standard.IoC.IocModule());
 

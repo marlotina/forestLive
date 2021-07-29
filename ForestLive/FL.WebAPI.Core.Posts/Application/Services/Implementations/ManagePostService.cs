@@ -1,4 +1,4 @@
-﻿using FL.Infrastructure.Standard.Contracts;
+﻿using FL.BlobContainer.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.Pereza.Helpers.Standard.Enums;
 using FL.ServiceBus.Standard.Contracts;

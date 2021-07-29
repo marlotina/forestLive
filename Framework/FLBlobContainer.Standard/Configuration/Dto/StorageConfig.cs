@@ -1,4 +1,4 @@
-﻿namespace FL.Infrastructure.Standard.Configuration.Dto
+﻿namespace FL.BlobContainer.Standard.Configuration.Dto
 {
     public class StorageConfig
     {

@@ -1,13 +1,13 @@
-﻿using FL.Infrastructure.Standard.Configuration.Contracts;
+﻿using FL.BlobContainer.Standard.Configuration.Contracts;
 using System;
 using System.IO;
 using System.Threading.Tasks;
 using Azure.Storage;
 using Azure.Storage.Blobs;
 using Azure.Storage.Blobs.Models;
-using FL.Infrastructure.Standard.Contracts;
+using FL.BlobContainer.Standard.Contracts;
 
-namespace FL.Infrastructure.Standard.Implementations
+namespace FL.BlobContainer.Standard.Implementations
 {
     public class BlobContainerRepository : IBlobContainerRepository
     {

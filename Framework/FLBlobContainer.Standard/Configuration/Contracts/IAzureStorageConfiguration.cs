@@ -1,6 +1,6 @@
-﻿using FL.Infrastructure.Standard.Configuration.Dto;
+﻿using FL.BlobContainer.Standard.Configuration.Dto;
 
-namespace FL.Infrastructure.Standard.Configuration.Contracts
+namespace FL.BlobContainer.Standard.Configuration.Contracts
 {
     public interface IAzureStorageConfiguration
     {

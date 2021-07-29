@@ -1,13 +1,13 @@
 ﻿using FL.DependencyInjection.Standard.Contracts;
-using FL.Infrastructure.Standard.Configuration.Contracts;
-using FL.Infrastructure.Standard.Configuration.Implementations;
-using FL.Infrastructure.Standard.Contracts;
-using FL.Infrastructure.Standard.Implementations;
+using FL.BlobContainer.Standard.Configuration.Contracts;
+using FL.BlobContainer.Standard.Configuration.Implementations;
+using FL.BlobContainer.Standard.Contracts;
+using FL.BlobContainer.Standard.Implementations;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace FL.Infrastructure.Standard.IoC
+namespace FL.BlobContainer.Standard.IoC
 {
     public class IoCModule : IModule
     {

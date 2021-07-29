@@ -1,8 +1,8 @@
-﻿using FL.Infrastructure.Standard.Configuration.Contracts;
-using FL.Infrastructure.Standard.Configuration.Dto;
+﻿using FL.BlobContainer.Standard.Configuration.Contracts;
+using FL.BlobContainer.Standard.Configuration.Dto;
 using Microsoft.Extensions.Configuration;
 
-namespace FL.Infrastructure.Standard.Configuration.Implementations
+namespace FL.BlobContainer.Standard.Configuration.Implementations
 {
     public class AzureStorageConfiguration : IAzureStorageConfiguration
     {

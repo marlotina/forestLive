@@ -26,7 +26,6 @@ namespace FL.WebAPI.Core.Searchs
             services.AddLibraryServices(new IoCApi(),
                 new FL.CosmosDb.Standard.IoC.IocModule(),
                 new FL.Logging.Implementation.Standard.IoC.IocModule(),
-                new FL.Infrastructure.Standard.IoC.IoCModule(),
                 new FL.Cache.Standard.IoC.IocModule());
 
             services.AddCors();

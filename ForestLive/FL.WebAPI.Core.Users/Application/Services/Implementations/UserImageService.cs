@@ -4,7 +4,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using FL.Infrastructure.Standard.Contracts;
+using FL.BlobContainer.Standard.Contracts;
 using FL.Pereza.Helpers.Standard.Images;
 using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Users.Api.Models.v1.Request;
