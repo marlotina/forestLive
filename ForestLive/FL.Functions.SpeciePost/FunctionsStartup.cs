@@ -1,12 +1,12 @@
-﻿using FL.Functions.BirdPost.Services;
+﻿using FL.Functions.SpeciePost.Services;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Fluent;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-[assembly: FunctionsStartup(typeof(FL.Functions.BirdPost.Startup))]
-namespace FL.Functions.BirdPost
+[assembly: FunctionsStartup(typeof(FL.Functions.SpeciePost.Startup))]
+namespace FL.Functions.SpeciePost
 {
     public class Startup : FunctionsStartup
     {

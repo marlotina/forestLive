@@ -1,5 +1,5 @@
-using FL.Functions.BirdPost.Dto;
-using FL.Functions.BirdPost.Services;
+using FL.Functions.SpeciePost.Dto;
+using FL.Functions.SpeciePost.Services;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Text;
 
-namespace FL.Functions.BirdPost
+namespace FL.Functions.SpeciePost
 {
     public class SpeciePostCommentCountFunction
     {

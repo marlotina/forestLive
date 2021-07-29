@@ -1,7 +1,7 @@
-﻿using FL.Functions.BirdPost.Dto;
+﻿using FL.Functions.SpeciePost.Dto;
 using System.Threading.Tasks;
 
-namespace FL.Functions.BirdPost.Services
+namespace FL.Functions.SpeciePost.Services
 {
     public interface ISpeciePostCosmosService
     {

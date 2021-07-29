@@ -1,9 +1,9 @@
-﻿using FL.Functions.BirdPost.Dto;
+﻿using FL.Functions.SpeciePost.Dto;
 using Microsoft.Azure.Cosmos;
 using System;
 using System.Threading.Tasks;
 
-namespace FL.Functions.BirdPost.Services
+namespace FL.Functions.SpeciePost.Services
 {
     public class SpeciePostCosmosService : ISpeciePostCosmosService
     {
