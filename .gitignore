@@ -448,3 +448,4 @@ ForestLive/FL.Web.API.Core.ExternalData/appsettings.QA.json
 ForestLive/FL.Web.API.Core.ExternalData/appsettings.Prod.json
 ForestLive/FL.WebAPI.Core.Searchs/nlog.QA.config
 ForestLive/FL.WebAPI.Core.Searchs/nlog.Prod.config
+ForestLive/FL.Web.API.Core.User.Interactions/nlog.Development.config

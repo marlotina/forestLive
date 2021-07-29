@@ -1,6 +1,4 @@
 ﻿using FL.DependencyInjection.Standard.Contracts;
-using FL.Logging.Implementation.Standard;
-using FL.LogTrace.Contracts.Standard;
 using FL.ServiceBus.Standard.Contracts;
 using FL.ServiceBus.Standard.Implementations;
 using FL.WebAPI.Core.Posts.Infrastructure.Repositories;
@@ -28,8 +26,6 @@ namespace FL.WebAPI.Core.Posts.IoC
 
             services.AddTransient<ISpeciesRepository, SpeciesRepository>();
             services.AddTransient<IUserPostRepository, UserPostRepository>();
-            
-            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }

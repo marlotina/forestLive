@@ -1,6 +1,4 @@
 ﻿using FL.DependencyInjection.Standard.Contracts;
-using FL.Logging.Implementation.Standard;
-using FL.LogTrace.Contracts.Standard;
 using FL.WebAPI.Core.Searchs.Api.Mappers.v1.Contracts;
 using FL.WebAPI.Core.Searchs.Api.Mappers.v1.Implementations;
 using FL.WebAPI.Core.Searchs.Application.Services.Contracts;
@@ -34,8 +32,6 @@ namespace FL.WebAPI.Core.Searchs.IoC
             services.AddTransient<IUserVotesRestRepository, UserVotesRestRepository>();
             services.AddTransient<IUserInfoRestRepository, UserInfoRestRepository>();
             services.AddTransient<ISpecieRestRepository, SpecieRestRepository>();
-
-            services.AddTransient(typeof(ILogger<>), typeof(Logger<>));
         }
     }
 }
