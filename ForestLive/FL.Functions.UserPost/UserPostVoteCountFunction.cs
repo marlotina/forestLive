@@ -31,11 +31,11 @@ namespace FL.Functions.BirdPost
                 
                 if (message.Label == "voteCreated")
                 {
-                    this.iUserPostCosmosDbService.AddVoteAsync(vote);
+                    this.iUserPostCosmosDbService.AddVoteCountAsync(vote);
                 }
                 else if (message.Label == "voteDeleted")
                 {
-                    this.iUserPostCosmosDbService.DeleteVoteAsync(vote);
+                    this.iUserPostCosmosDbService.DeleteVoteCountAsync(vote);
                 }
                 
             }

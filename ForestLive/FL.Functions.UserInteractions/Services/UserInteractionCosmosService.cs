@@ -12,26 +12,13 @@ namespace FL.Functions.UserPost.Services
     {
         private readonly Container usersCommentContainer;
         private readonly Container usersVoteContainer;
-        private readonly Container usersCommentVoteContainer;
         private readonly Container usersContainer;
 
         public UserInteractionCosmosService(CosmosClient dbClient, string databaseName)
         {
             this.usersCommentContainer = dbClient.GetContainer(databaseName, "comment");
             this.usersVoteContainer = dbClient.GetContainer(databaseName, "vote");
-            this.usersCommentVoteContainer = dbClient.GetContainer(databaseName, "commentvote");
             this.usersContainer = dbClient.GetContainer(databaseName, "user");
-        }
-
-        public async Task AddCommentPostAsync(CommentDto comment)
-        {
-            try
-            {
-                await this.usersCommentContainer.CreateItemAsync<CommentDto>(comment, new PartitionKey(comment.UserId));
-            }
-            catch (Exception ex)
-            {
-            }
         }
 
         public async Task AddVotePostAsync(VotePostDto vote)
@@ -41,17 +28,6 @@ namespace FL.Functions.UserPost.Services
                 var request = this.ConvertVote(vote);
                 var obj = new dynamic[] { request };
                 await this.usersVoteContainer.Scripts.ExecuteStoredProcedureAsync<VotePost>("addVote", new PartitionKey(vote.UserId), obj);
-            }
-            catch (Exception ex)
-            {
-            }
-        }
-
-        public async Task DeleteCommentPostAsync(CommentBaseDto comment)
-        {
-            try
-            {
-                await this.usersCommentContainer.DeleteItemAsync<CommentDto>(comment.Id.ToString(), new PartitionKey(comment.UserId));
             }
             catch (Exception ex)
             {

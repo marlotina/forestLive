@@ -5,10 +5,6 @@ namespace FL.Functions.UserInteractions.Services
 {
     public interface IUserInterationCosmosService
     {
-        Task AddCommentPostAsync(CommentDto comment);
-
-        Task DeleteCommentPostAsync(CommentBaseDto comment);
-
         Task AddVotePostAsync(VotePostDto vote);
 
         Task DeleteVotePostAsync(VotePostBaseDto vote);

@@ -33,11 +33,11 @@ namespace FL.Functions.BirdPost
                 {
                     if (message.Label == "commentCreated")
                     {
-                        this.iUserPostCosmosService.AddCommentAsync(comment);
+                        this.iUserPostCosmosService.AddCommentCountAsync(comment);
                     }
                     else if (message.Label == "commentDeleted")
                     {
-                        this.iUserPostCosmosService.DeleteCommentAsync(comment);
+                        this.iUserPostCosmosService.DeleteCommentCountAsync(comment);
                     }
                 }
             }

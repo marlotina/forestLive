@@ -5,18 +5,12 @@ namespace FL.Functions.UserPost.Services
 {
     public interface IUserPostCosmosService
     {
-        Task CreatePostAsync(Model.Post post);
+        Task AddVoteCountAsync(VotePostDto vote);
 
-        Task UpdatePostAsync(Model.Post post);
+        Task DeleteVoteCountAsync(VotePostDto vote);
 
-        Task DeletePostAsync(Model.Post post);
+        Task AddCommentCountAsync(CommentDto comment);
 
-        Task AddVoteAsync(VotePostDto vote);
-
-        Task DeleteVoteAsync(VotePostDto vote);
-
-        Task AddCommentAsync(CommentDto comment);
-
-        Task DeleteCommentAsync(CommentDto comment);
+        Task DeleteCommentCountAsync(CommentDto comment);
     }
 }

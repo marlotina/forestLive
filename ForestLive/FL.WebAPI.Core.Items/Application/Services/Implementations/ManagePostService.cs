@@ -8,7 +8,6 @@ using FL.WebAPI.Core.Items.Configuration.Contracts;
 using FL.WebAPI.Core.Items.Domain.Dto;
 using FL.WebAPI.Core.Items.Domain.Entities;
 using FL.WebAPI.Core.Items.Domain.Enum;
-using FL.WebAPI.Core.Items.Domain.Repositories;
 using FL.WebAPI.Core.Items.Domain.Repository;
 using FL.WebAPI.Core.Items.Infrastructure.ServiceBus.Contracts;
 using System;
@@ -26,29 +25,23 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
     {
         private readonly IPostConfiguration iPostConfiguration;
         private readonly IBlobContainerRepository iBlobContainerRepository;
-        private readonly IPostRepository iPostRepository;
         private readonly ILogger<ManagePostService> iLogger;
         private readonly IServiceBusLabelTopicSender<IEnumerable<UserLabel>> iServiceBusLabelTopicSender;
         private readonly IServiceBusLabelTopicSender<IEnumerable<RemoveLabelDto>> iServiceBusDeleteLabelTopicSender;
-        private readonly IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender;
         private readonly ISpeciesRepository iSpeciesRepository;
         private readonly IUserPostRepository iUserPostRepository;
         public ManagePostService(
             ISpeciesRepository iSpeciesRepository,
             IPostConfiguration iPostConfiguration,
             IBlobContainerRepository iBlobContainerRepository,
-            IPostRepository iPostRepository,
             IUserPostRepository iUserPostRepository,
             IServiceBusLabelTopicSender<IEnumerable<UserLabel>> iServiceBusLabelTopicSender,
             IServiceBusLabelTopicSender<IEnumerable<RemoveLabelDto>> iServiceBusDeleteLabelTopicSender,
-            IServiceBusAssignSpecieTopicSender<BirdPost> iServiceBusAssignSpecieTopicSender,
             ILogger<ManagePostService> iLogger)
         {
             this.iBlobContainerRepository = iBlobContainerRepository;
             this.iPostConfiguration = iPostConfiguration;
-            this.iPostRepository = iPostRepository;
             this.iServiceBusLabelTopicSender = iServiceBusLabelTopicSender;
-            this.iServiceBusAssignSpecieTopicSender = iServiceBusAssignSpecieTopicSender;
             this.iServiceBusDeleteLabelTopicSender = iServiceBusDeleteLabelTopicSender;
             this.iSpeciesRepository = iSpeciesRepository;
             this.iUserPostRepository = iUserPostRepository;
@@ -95,7 +88,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                         }
                     }
 
-                    await this.iPostRepository.CreatePostAsync(birdPost);
                     await this.iUserPostRepository.CreatePostAsync(birdPost);
 
                     if (birdPost.SpecieId.HasValue)
@@ -120,11 +112,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return null;
         }
 
-        public async Task<bool> DeletePost(Guid birdPostId, string userId)
+        public async Task<bool> DeletePost(Guid postId, string userId)
         {
             try
             {
-                var post = await this.iPostRepository.GetPostAsync(birdPostId);
+                var post = await this.iUserPostRepository.GetPostAsync(postId, userId);
                 if (userId == post.UserId)
                 {
                     var result = await this.iBlobContainerRepository.DeleteFileToStorage(post.ImageUrl, this.iPostConfiguration.BirdPhotoContainer);
@@ -134,25 +126,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
                         var specieId = post.SpecieId;
                         var type = post.Type;
                         var postLabels = post?.Labels != null ? post.Labels.ToList() : null;
-                        post.ImageUrl = string.Empty;
-                        post.UserId = null;
-                        post.Title = string.Empty;
-                        post.SpecieId = null;
-                        post.SpecieName = string.Empty;
-                        post.ObservationDate = null;
-                        post.Location = null;
-                        post.Labels = null;
-                        post.Text = string.Empty;
-                        post.Type = "deleted";
-                        post.VoteCount = 0;
-                        post.CommentCount = 0;
-                        post.AltImage = string.Empty;
-                        result = await this.iPostRepository.UpdatePostAsync(post);
+
                         if (type == "bird") {
                             result = await this.iSpeciesRepository.DeletePostAsync(post.PostId, specieId.Value);
                         }
                         result = await this.iUserPostRepository.DeletePostAsync(post.PostId, userId);
-                        result = await this.iPostRepository.DeletePostVotestAsync(post.PostId);
 
                         if (result)
                         {
@@ -174,12 +152,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             }
 
             return false;
-        }
-
-
-        public async Task<BirdPost> GetBirdPost(Guid birdPostId)
-        {
-            return await this.iPostRepository.GetPostAsync(birdPostId);
         }
 
 
@@ -227,13 +199,14 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             {
                 post.SpecieId = request.SpecieId;
                 post.SpecieName = request.SpecieName;
-                post.Type = "bird";
+                //OJO review return values
+                var response1 = await this.iUserPostRepository.UpdatePostAsync(post, userId);
+
                 var response = await this.iSpeciesRepository.DeletePostAsync(request.PostId, request.OldSpecieId);
                 if (response)
                 {
                     if (await this.iSpeciesRepository.CreatePostAsync(post))
                     {
-                        await this.iServiceBusAssignSpecieTopicSender.SendMessage(post, TopicHelper.LABEL_UPDATE_SPECIE);
                         return true;
                     }
                 }

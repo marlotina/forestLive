@@ -13,7 +13,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
     {
         private readonly IClientFactory iClientFactory;
         private readonly IPostConfiguration iPostConfiguration;
-        private readonly Container userContainer;
+        private readonly Container userPostContainer;
         private readonly ILogger<UserPostRepository> iLogger;
 
         public UserPostRepository(
@@ -24,7 +24,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             this.iClientFactory = iClientFactory;
             this.iPostConfiguration = iPostConfiguration;
             this.iLogger = iLogger;
-            this.userContainer = this.InitialClient();
+            this.userPostContainer = this.InitialClient();
         }
 
         private Container InitialClient()
@@ -34,11 +34,40 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosUserContainer);
         }
 
+        public async Task<BirdPost> GetPostAsync(Guid postId, string userId)
+        {
+            try
+            {
+                var response = await this.userPostContainer.ReadItemAsync<BirdPost>(postId.ToString(), new PartitionKey(userId));
+                var ru = response.RequestCharge;
+                return response.Resource;
+            }
+            catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+            {
+                this.iLogger.LogError(ex.Message);
+                return null;
+            }
+        }
+
         public async Task<bool> CreatePostAsync(BirdPost post)
         {
             try
             {
-                await this.userContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.UserId.ToString()));
+                await this.userPostContainer.CreateItemAsync<BirdPost>(post, new PartitionKey(post.UserId.ToString()));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                this.iLogger.LogError(ex.Message);
+                return false;
+            }
+        }
+
+        public async Task<bool> UpdatePostAsync(BirdPost post, string userId)
+        {
+            try
+            {
+                await this.userPostContainer.UpsertItemAsync<BirdPost>(post, new PartitionKey(userId));
                 return true;
             }
             catch (Exception ex)
@@ -52,7 +81,7 @@ namespace FL.WebAPI.Core.Birds.Infrastructure.Repositories
         {
             try
             {
-                await this.userContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(userId));
+                await this.userPostContainer.DeleteItemAsync<BirdPost>(postId.ToString(), new PartitionKey(userId));
                 return true;
             }
             catch (CosmosException ex) when (ex.StatusCode == System.Net.HttpStatusCode.NotFound)

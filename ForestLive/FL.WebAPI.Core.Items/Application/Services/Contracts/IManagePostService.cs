@@ -9,7 +9,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
     {
         Task<BirdPost> AddPost(BirdPost birdPost, string imageBytes, string imageName, bool isPost);
 
-        Task<bool> DeletePost(Guid birdPostId, string userId);
+        Task<bool> DeletePost(Guid postId, string userId);
 
         Task<bool> UpdateSpeciePost(UpdateSpecieRequest request, string userId);
     }

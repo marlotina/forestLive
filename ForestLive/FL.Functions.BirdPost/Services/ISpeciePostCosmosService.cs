@@ -5,8 +5,6 @@ namespace FL.Functions.BirdPost.Services
 {
     public interface ISpeciePostCosmosService
     {
-        Task CreatePostAsync(Dto.BirdPost post);
-
         Task AddCommentCountAsync(CommentBaseDto comment);
 
         Task DeleteCommentCountAsync(CommentBaseDto comment);

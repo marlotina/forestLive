@@ -14,43 +14,7 @@ namespace FL.Functions.UserPost.Services
             this.usersPostContainer = dbClient.GetContainer(databaseName, "user");
         }
 
-        public async Task CreatePostAsync(Model.Post post)
-        {
-            try
-            {
-                await usersPostContainer.CreateItemAsync(post, new PartitionKey(post.UserId));
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        public async Task UpdatePostAsync(Model.Post post)
-        {
-            try
-            {
-                await this.usersPostContainer.UpsertItemAsync(post, new PartitionKey(post.UserId));
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        public async Task DeletePostAsync(Model.Post post)
-        {
-            try
-            {
-                await this.usersPostContainer.DeleteItemAsync<Model.Post>(post.Id.ToString(), new PartitionKey(post.UserId));
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
-
-        public async Task AddVoteAsync(VotePostDto vote)
+        public async Task AddVoteCountAsync(VotePostDto vote)
         {
             try
             {
@@ -63,14 +27,14 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task DeleteVoteAsync(VotePostDto vote)
+        public async Task DeleteVoteCountAsync(VotePostDto vote)
         {
 
             var obj = new dynamic[] { vote.PostId };
             await this.usersPostContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.AuthorPostId), obj);
         }
 
-        public async Task AddCommentAsync(CommentDto comment)
+        public async Task AddCommentCountAsync(CommentDto comment)
         {
             try
             {
@@ -84,7 +48,7 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task DeleteCommentAsync(CommentDto comment)
+        public async Task DeleteCommentCountAsync(CommentDto comment)
         {
             var obj = new dynamic[] { comment.PostId };
             await this.usersPostContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseCommentCount", new PartitionKey(comment.AuthorPostId), obj);

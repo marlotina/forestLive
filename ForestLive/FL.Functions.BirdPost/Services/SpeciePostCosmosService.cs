@@ -44,17 +44,5 @@ namespace FL.Functions.BirdPost.Services
             var obj = new dynamic[] { vote.PostId };
             await this.specieContainer.Scripts.ExecuteStoredProcedureAsync<string>("decreaseVoteCount", new PartitionKey(vote.SpecieId.ToString()), obj);
         }
-
-        public async Task CreatePostAsync(Dto.BirdPost post)
-        {
-            try
-            {
-                await this.specieContainer.UpsertItemAsync(post, new PartitionKey(post.PostId.ToString()));
-            }
-            catch (Exception ex)
-            {
-
-            }
-        }
     }
 }

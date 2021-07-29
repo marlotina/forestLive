@@ -9,5 +9,9 @@ namespace FL.WebAPI.Core.Items.Domain.Repository
         Task<bool> CreatePostAsync(BirdPost post);
 
         Task<bool> DeletePostAsync(Guid postId, string userId);
+
+        Task<bool> UpdatePostAsync(BirdPost post, string userId);
+
+        Task<BirdPost> GetPostAsync(Guid postId, string userId);
     }
 }
