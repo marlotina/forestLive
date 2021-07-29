@@ -41,7 +41,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 var post = this.iPostMapper.Convert(request);
 
 
-                var result = await this.iManagePostService.AddBirdPost(post, request.ImageData, request.ImageName, request.isPost);
+                var result = await this.iManagePostService.AddPost(post, request.ImageData, request.ImageName, request.isPost);
                 
                 if (result != null)
                 {
@@ -68,7 +68,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                     return this.BadRequest();
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.iManagePostService.UpdateSpecieToPost(request, userId);
+                var result = await this.iManagePostService.UpdateSpeciePost(request, userId);
 
                 if (result)
                 {
@@ -95,7 +95,7 @@ namespace FL.WebAPI.Core.Items.Controllers.v1
                 }
 
                 var userId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var result = await this.iManagePostService.DeleteBirdPost(postId, userId);
+                var result = await this.iManagePostService.DeletePost(postId, userId);
 
                 if (result)
                 {

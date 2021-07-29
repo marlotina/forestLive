@@ -39,6 +39,11 @@
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Preserve Newest</CopyToOutputDirectory>
     </Content>
+    <Content Update="nlog.Prod.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 

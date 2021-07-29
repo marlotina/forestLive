@@ -1,4 +1,5 @@
-﻿using FL.Web.API.Core.Post.Interactions.Domain.Entities;
+﻿using FL.Web.API.Core.Post.Interactions.Domain.Dto;
+using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -11,7 +12,7 @@ namespace FL.Web.API.Core.Post.Interactions.Domain.Repositories
 
         Task<bool> DeleteCommentAsync(BirdComment comment);
 
-        Task<List<BirdComment>> GetCommentsByPostIdAsync(Guid postId);
+        Task<List<PostDetails>> GetCommentsByPostIdAsync(Guid postId, string userId);
 
         Task<BirdComment> GetCommentAsync(Guid commentId, Guid postId);
 

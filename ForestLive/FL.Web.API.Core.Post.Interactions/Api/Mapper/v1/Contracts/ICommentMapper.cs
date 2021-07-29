@@ -10,8 +10,6 @@ namespace FL.Web.API.Core.Post.Interactions.Mapper.v1.Contracts
     {
         CommentDto Convert(CommentRequest source);
 
-        CommentResponse Convert(BirdComment source, IEnumerable<VotePostResponse> postVotes = null);
-
-        IEnumerable<CommentResponse> ConvertList(IEnumerable<BirdComment> source, IEnumerable<VotePostResponse> postVotes = null);
+        CommentResponse Convert(BirdComment source);
     }
 }

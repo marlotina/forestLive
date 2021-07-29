@@ -84,7 +84,7 @@ namespace FL.WebAPI.Core.Birds.Application.Services.Implementations
 
         public async Task<List<PostDto>> GetBirds(int orderBy, Guid languageId)
         {
-            var result = await this.iBirdSpeciesRepository.GetAllSpecieAsync(this.GerOrderCondition(orderBy));
+            var result = await this.iBirdSpeciesRepository.GetPostsBySpecieAsync(null, this.GerOrderCondition(orderBy));
 
             foreach (var post in result) 
             {

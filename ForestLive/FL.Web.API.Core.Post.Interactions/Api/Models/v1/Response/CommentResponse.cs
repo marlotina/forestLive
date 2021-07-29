@@ -25,4 +25,4 @@ namespace FL.Web.API.Core.Post.Interactions.Models.v1.Response
 
         public string UserImage { get; set; }
     }
-}
+ }

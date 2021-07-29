@@ -1,13 +1,16 @@
 ﻿using FL.Pereza.Helpers.Standard.Enums;
 using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
+using FL.Web.API.Core.Post.Interactions.Application.Mapper.Contracts;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
 using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Domain.Enum;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
 using FL.Web.API.Core.Post.Interactions.Infrastructure.ServiceBus.Contracts;
+using FL.Web.API.Core.Post.Interactions.Models.v1.Response;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
@@ -16,12 +19,17 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
     {
         private readonly ICommentRepository iCommentRepository;
         private readonly IServiceBusCommentTopicSender<CommentBaseDto> iServiceBusCommentTopicSender;
-
+        private readonly IPostDataMapper iPostDataMapper;
+        private readonly IUserInfoService iUserInfoService;
         public CommentService(
             ICommentRepository iCommentRepository,
+            IPostDataMapper iPostDataMapper,
+            IUserInfoService iUserInfoService,
             IServiceBusCommentTopicSender<CommentBaseDto> iServiceBusCommentTopicSender)
         {
+            this.iPostDataMapper = iPostDataMapper;
             this.iCommentRepository = iCommentRepository;
+            this.iUserInfoService = iUserInfoService;
             this.iServiceBusCommentTopicSender = iServiceBusCommentTopicSender;
         }
 
@@ -65,11 +73,41 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
             return false;
         }
 
-        public async Task<List<BirdComment>> GetCommentByPost(Guid postId)
+        public async Task<IEnumerable<CommentResponse>> GetCommentByPost(Guid postId, string userId)
         {
+            var response = new List<CommentResponse>();
+            try
+            {
+                var result = await this.iCommentRepository.GetCommentsByPostIdAsync(postId, userId);
+                if (result != null)
+                {
+                    var comments = result.Where(x => x.Type == "comment");
+                    var votesComments = result.Where(x => x.Type == "voteComment");
 
-            var result = await this.iCommentRepository.GetCommentsByPostIdAsync(postId);
-            return result;
+                    response = this.iPostDataMapper.ConvertAll(comments, votesComments).ToList();
+
+                    foreach (var comment in response)
+                    {
+                        await this.AddRepliesLoop(comment);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.LogError(ex);
+                //return this.Problem();
+            }
+
+            return response;
+        }
+
+        private async Task AddRepliesLoop(CommentResponse comment)
+        {
+            comment.UserImage = await this.iUserInfoService.GetUserImageById(comment.UserId);
+            foreach (var reply in comment.Replies)
+            {
+                await AddRepliesLoop(reply);
+            }
         }
 
         public BirdComment Convert(CommentDto source)

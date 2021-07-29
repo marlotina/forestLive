@@ -1,6 +1,7 @@
 ﻿using FL.DependencyInjection.Standard.Contracts;
 using FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Contracts;
 using FL.Web.API.Core.Post.Interactions.Api.Mapper.v1.Implementation;
+using FL.Web.API.Core.Post.Interactions.Application.Mapper.Contracts;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Implementations;
 using FL.Web.API.Core.Post.Interactions.Configuration.Contracts;
@@ -22,6 +23,8 @@ namespace FL.Web.Api.Core.Post.Interactions.IoC
             services.AddSingleton<ICommentMapper, CommentMapper>();
             services.AddSingleton<IPostConfiguration, PostConfiguration>();
 
+            services.AddSingleton<IPostDataMapper, PostDataMapper>();
+
             services.AddTransient<ICommentService, CommentService>();
             services.AddTransient<IVotePostService, VotePostService>();
             services.AddTransient<IVoteCommentService, VoteCommentService>();
@@ -34,7 +37,6 @@ namespace FL.Web.Api.Core.Post.Interactions.IoC
             services.AddSingleton<IVotePostRepository, VotePostRepository>();
             services.AddSingleton<IVoteCommentRepository, VoteCommentRepository>();
             services.AddSingleton<ICommentRepository, CommentRepository>();
-            services.AddSingleton<IUserVotesRestRepository, UserVotesRestRepository>();
             services.AddSingleton<IUserInfoRestRepository, UserInfoRestRepository>();
         }
     }

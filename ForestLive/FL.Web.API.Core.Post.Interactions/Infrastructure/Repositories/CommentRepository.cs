@@ -1,6 +1,7 @@
 ﻿using FL.CosmosDb.Standard.Contracts;
 using FL.LogTrace.Contracts.Standard;
 using FL.Web.API.Core.Post.Interactions.Configuration.Contracts;
+using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
 using Microsoft.Azure.Cosmos;
@@ -36,15 +37,16 @@ namespace FL.Web.API.Core.Post.Interactions.Infrastructure.Repositories
             return dbClient.GetContainer(config.CosmosDatabaseId, config.CosmosPostContainer);
         }
 
-        public async Task<List<BirdComment>> GetCommentsByPostIdAsync(Guid postId)
+        public async Task<List<PostDetails>> GetCommentsByPostIdAsync(Guid postId, string userId)
         {
-            var comments = new List<BirdComment>();
+            var comments = new List<PostDetails>();
             try
             {
-                var queryString = $"SELECT * FROM p WHERE p.type='comment' AND p.postId = @PostId ORDER BY p.creationDate ASC";
+                var queryString = $"SELECT c.id, c.type, c.postId, c.userId, c.creationDate, c.commentId, c.text, c.voteCount, c.parentId FROM c WHERE c.postId = @PostId AND c.type='comment' OR  (c.type='vote' AND c.userId = @UserId) OR (c.type='voteComment' AND c.userId = @UserId)";
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@PostId", postId);
-                var query = this.commentContainer.GetItemQueryIterator<BirdComment>(queryDef);
+                queryDef.WithParameter("@UserId", userId);
+                var query = this.commentContainer.GetItemQueryIterator<PostDetails>(queryDef);
 
                 while (query.HasMoreResults)
                 {

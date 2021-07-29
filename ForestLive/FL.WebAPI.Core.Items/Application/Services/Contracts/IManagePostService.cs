@@ -7,10 +7,10 @@ namespace FL.WebAPI.Core.Items.Application.Services.Contracts
 {
     public interface IManagePostService
     {
-        Task<BirdPost> AddBirdPost(BirdPost birdPost, string imageBytes, string imageName, bool isPost);
+        Task<BirdPost> AddPost(BirdPost birdPost, string imageBytes, string imageName, bool isPost);
 
-        Task<bool> DeleteBirdPost(Guid birdPostId, string userId);
+        Task<bool> DeletePost(Guid birdPostId, string userId);
 
-        Task<bool> UpdateSpecieToPost(UpdateSpecieRequest request, string userId);
+        Task<bool> UpdateSpeciePost(UpdateSpecieRequest request, string userId);
     }
 }

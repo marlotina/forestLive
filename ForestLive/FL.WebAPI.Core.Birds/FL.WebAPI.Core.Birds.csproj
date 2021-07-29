@@ -7,6 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="nlog.config" />
+    <_ContentIncludedByDefault Remove="nlog.Development.config" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.4" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.16.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.9" />
@@ -34,6 +39,16 @@
   <ItemGroup>
     <Content Update="nlog.config">
       <CopyToOutputDirectory>Preserve Newest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="nlog.Prod.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Update="nlog.QA.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 

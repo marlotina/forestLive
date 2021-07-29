@@ -55,7 +55,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             this.iLogger = iLogger;
         }
 
-        public async Task<BirdPost> AddBirdPost(BirdPost birdPost, string imageBytes, string imageName, bool isPost)
+        public async Task<BirdPost> AddPost(BirdPost birdPost, string imageBytes, string imageName, bool isPost)
         {
             try
             {
@@ -120,7 +120,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             return null;
         }
 
-        public async Task<bool> DeleteBirdPost(Guid birdPostId, string userId)
+        public async Task<bool> DeletePost(Guid birdPostId, string userId)
         {
             try
             {
@@ -220,7 +220,7 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             };
         }
 
-        public async Task<bool> UpdateSpecieToPost(UpdateSpecieRequest request, string userId)
+        public async Task<bool> UpdateSpeciePost(UpdateSpecieRequest request, string userId)
         {
             var post = await this.iSpeciesRepository.GetPostsAsync(request.PostId, request.OldSpecieId);
             if (userId == post.UserId)

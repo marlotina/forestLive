@@ -32,7 +32,7 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
                 this.iCustomMemoryCache.Add(CACHE_USERID, itemCache);
             }
 
-            var filter = itemCache.FirstOrDefault(x => x.Id == userId);
+            var filter = itemCache != null ? itemCache.FirstOrDefault(x => x.Id == userId) : null;
 
             return filter != null ? filter.Photo : "porfile.png"; ;              
         }

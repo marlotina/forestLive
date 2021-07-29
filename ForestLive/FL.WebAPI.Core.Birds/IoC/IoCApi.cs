@@ -18,7 +18,6 @@ namespace FL.WebAPI.Core.Birds.IoC
         public void RegisterServices(IServiceCollection services)
         {
             services.AddSingleton<IPostMapper, PostMapper>();
-
             services.AddSingleton<IBirdsConfiguration, BirdsConfiguration>();
 
             services.AddTransient<ISpeciesService, SpeciesService>();

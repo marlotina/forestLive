@@ -44,7 +44,7 @@ namespace FL.WebAPI.Core.Birds.Controllers.v1
             try
             {
                 var webUserId = JwtTokenHelper.GetClaim(HttpContext.Request.Headers[JwtTokenHelper.TOKEN_HEADER]);
-                var languageId = LanguageHelper.GetLanguageByCode(languageCode);
+                var languageId = LanguageHelper.GetLanguageByCode("en");
                 if (postId == Guid.Empty)
                 {
                     this.BadRequest();
