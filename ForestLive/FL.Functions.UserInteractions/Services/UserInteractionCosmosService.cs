@@ -115,7 +115,7 @@ namespace FL.Functions.UserPost.Services
             }
         }
 
-        public async Task RemovePostLabelAsync(IEnumerable<RemoveLabelDto> removeLabels)
+        public async Task RemovePostLabelAsync(IEnumerable<UserLabel> removeLabels)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace FL.Functions.UserPost.Services
                 {
                     foreach (var label in removeLabels)
                     {
-                        var obj = new dynamic[] { label.Label };
+                        var obj = new dynamic[] { label.Id };
                         await this.usersContainer.Scripts.ExecuteStoredProcedureAsync<string>("deletePostLabelCount", new PartitionKey(label.UserId), obj);
                     }
                 }

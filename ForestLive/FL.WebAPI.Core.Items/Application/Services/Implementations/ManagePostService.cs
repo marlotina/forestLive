@@ -27,7 +27,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
         private readonly IBlobContainerRepository iBlobContainerRepository;
         private readonly ILogger<ManagePostService> iLogger;
         private readonly IServiceBusLabelTopicSender<IEnumerable<UserLabel>> iServiceBusLabelTopicSender;
-        private readonly IServiceBusLabelTopicSender<IEnumerable<RemoveLabelDto>> iServiceBusDeleteLabelTopicSender;
         private readonly ISpeciesRepository iSpeciesRepository;
         private readonly IUserPostRepository iUserPostRepository;
         public ManagePostService(
@@ -36,13 +35,11 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             IBlobContainerRepository iBlobContainerRepository,
             IUserPostRepository iUserPostRepository,
             IServiceBusLabelTopicSender<IEnumerable<UserLabel>> iServiceBusLabelTopicSender,
-            IServiceBusLabelTopicSender<IEnumerable<RemoveLabelDto>> iServiceBusDeleteLabelTopicSender,
             ILogger<ManagePostService> iLogger)
         {
             this.iBlobContainerRepository = iBlobContainerRepository;
             this.iPostConfiguration = iPostConfiguration;
             this.iServiceBusLabelTopicSender = iServiceBusLabelTopicSender;
-            this.iServiceBusDeleteLabelTopicSender = iServiceBusDeleteLabelTopicSender;
             this.iSpeciesRepository = iSpeciesRepository;
             this.iUserPostRepository = iUserPostRepository;
             this.iLogger = iLogger;
@@ -134,8 +131,8 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
 
                         if (result)
                         {
-                            var removeLabelDto = postLabels.Select(x => GetListDeleteLabel(x, userId));
-                            await this.iServiceBusDeleteLabelTopicSender.SendMessage(removeLabelDto, TopicHelper.LABEL_POST_DELETED);
+                            var removeLabelDto = postLabels.Select(x => GetListLabel(x, userId));
+                            await this.iServiceBusLabelTopicSender.SendMessage(removeLabelDto, TopicHelper.LABEL_POST_DELETED);
                         }
                     }
 
@@ -170,14 +167,6 @@ namespace FL.WebAPI.Core.Items.Application.Services.Implementations
             stream.Position = 0;
 
             return await this.iBlobContainerRepository.UploadFileToStorage(stream, imageName, this.iPostConfiguration.BirdPhotoContainer, folder);
-        }
-        private static RemoveLabelDto GetListDeleteLabel(string label, string userId)
-        {
-            return new RemoveLabelDto()
-                {
-                    Label = label,
-                    UserId = userId
-                };
         }
 
         private static UserLabel GetListLabel(string label, string userId)

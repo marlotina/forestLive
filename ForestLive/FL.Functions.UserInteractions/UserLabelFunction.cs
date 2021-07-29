@@ -36,7 +36,7 @@ namespace FL.Functions.UserInteractions
                 }
                 else if (message.Label == "labelPostRemove") 
                 {
-                    var labels = JsonConvert.DeserializeObject<IEnumerable<RemoveLabelDto>>(Encoding.UTF8.GetString(message.Body));
+                    var labels = JsonConvert.DeserializeObject<IEnumerable<UserLabel>>(Encoding.UTF8.GetString(message.Body));
                     this.postCosmosService.RemovePostLabelAsync(labels);
                 }
             }
