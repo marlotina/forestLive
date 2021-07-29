@@ -1,11 +1,9 @@
-﻿using FL.Pereza.Helpers.Standard.Enums;
-using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
+﻿using FL.Web.API.Core.Post.Interactions.Application.Exceptions;
 using FL.Web.API.Core.Post.Interactions.Application.Services.Contracts;
 using FL.Web.API.Core.Post.Interactions.Domain.Dto;
 using FL.Web.API.Core.Post.Interactions.Domain.Entities;
 using FL.Web.API.Core.Post.Interactions.Domain.Enum;
 using FL.Web.API.Core.Post.Interactions.Domain.Repositories;
-using FL.Web.API.Core.Post.Interactions.Infrastructure.ServiceBus.Contracts;
 using System;
 using System.Threading.Tasks;
 
@@ -61,7 +59,6 @@ namespace FL.Web.API.Core.Post.Interactions.Application.Services.Implementations
                 if (result)
                 {
                     var voteDto = this.Convert(vote);
-                    await this.iServiceBusVoteCommentTopicSender.SendMessage(voteDto, TopicHelper.LABEL_VOTE_COMMENT_DELETED);
                     return true;
                 }
 
