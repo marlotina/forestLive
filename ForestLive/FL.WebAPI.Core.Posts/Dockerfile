@@ -5,10 +5,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
-COPY ["FL.WebAPI.Core.Items/FL.WebAPI.Core.Posts.csproj", "FL.WebAPI.Core.Items/"]
-RUN dotnet restore "FL.WebAPI.Core.Items/FL.WebAPI.Core.Posts.csproj"
+COPY ["FL.WebAPI.Core.Posts/FL.WebAPI.Core.Posts.csproj", "FL.WebAPI.Core.Posts/"]
+RUN dotnet restore "FL.WebAPI.Core.Posts/FL.WebAPI.Core.Posts.csproj"
 COPY . .
-WORKDIR "/src/FL.WebAPI.Core.Items"
+WORKDIR "/src/FL.WebAPI.Core.Posts"
 RUN dotnet build "FL.WebAPI.Core.Posts.csproj" -c Release -o /app/build
 
 FROM build AS publish

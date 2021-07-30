@@ -46,7 +46,7 @@ namespace FL.WebAPI.Core.Searchs.Infrastructure.Repositories
 
                 var queryString = new StringBuilder();
                 var parameters = new Dictionary<string, string>();
-                queryString.Append($"SELECT p.postId, p.title, p.text, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p");
+                queryString.Append($"SELECT p.postId, p.title, p.text, p.specieId, p.imageUrl, p.altImage, p.labels, p.commentCount, p.voteCount, p.userId, p.creationDate, p.observationDate FROM p ");
                
                 if (specieId.HasValue)
                 {

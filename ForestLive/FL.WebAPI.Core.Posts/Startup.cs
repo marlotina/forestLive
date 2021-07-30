@@ -9,7 +9,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace FL.WebAPI.Core.Items
+namespace FL.WebAPI.Core.Posts
 {
     public class Startup
     {

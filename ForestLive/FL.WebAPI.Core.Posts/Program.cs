@@ -4,7 +4,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using NLog.Web;
 
-namespace FL.WebAPI.Core.Items
+namespace FL.WebAPI.Core.Posts
 {
     public class Program
     {
