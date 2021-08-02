@@ -1,16 +1,11 @@
-using System;
 using System.Text;
 using FL.DependencyInjection.Standard.Extensions;
-using FL.WebAPI.Core.Users.Entity.Database;
 using FL.WebAPI.Core.Users.IoC;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 
@@ -55,8 +50,6 @@ namespace FL.WebAPI.Core.Users
                    ValidateAudience = false
                };
            });
-
-           AddIdentity(services, Configuration.GetSection("ConnectionStringUsersSite").Get<string>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,38 +76,6 @@ namespace FL.WebAPI.Core.Users
             {
                 endpoints.MapControllers();
             });
-        }
-
-        private void AddIdentity(IServiceCollection services, string connectionString)
-        {
-            services.AddDbContext<UserDbContext>(options =>
-                options.UseSqlServer(connectionString));
-
-            services.AddIdentity<Domain.Entities.User, IdentityRole<Guid>>(options =>
-            {
-                //options.User.AllowedUserNameCharacters = AuthOptions.AllowedUserNameCharacters;
-                options.User.RequireUniqueEmail = true;
-                options.SignIn.RequireConfirmedEmail = true;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireDigit = false;
-                options.Password.RequiredLength = 0;
-                options.Password.RequiredUniqueChars = 0;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireLowercase = false;
-            })
-            .AddEntityFrameworkStores<UserDbContext>()
-            .AddDefaultTokenProviders();
-
-            services.TryAddScoped<SignInManager<Domain.Entities.User>>();
-
-            //services.ConfigureApplicationCookie(options =>
-            //{
-            //    options.Events.OnRedirectToLogin = context =>
-            //    {
-            //        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
-            //        return Task.CompletedTask;
-            //    };
-            //});
         }
     }
 }

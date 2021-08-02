@@ -16,7 +16,6 @@ namespace FL.WebAPI.Core.Account.IoC
     {
         public void RegisterServices(DependencyInjection.Standard.Contracts.IServiceCollection services)
         {
-            services.AddSingleton<IUserMapper, UserMapper>();
             services.AddSingleton<IRegisterMapper, RegisterMapper>();
 
             services.AddSingleton<IUserConfiguration, UserConfiguration>();

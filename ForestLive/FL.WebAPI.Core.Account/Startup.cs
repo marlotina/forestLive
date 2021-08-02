@@ -1,15 +1,23 @@
+using FL.DependencyInjection.Standard.Extensions;
+using FL.WebAPI.Core.Account.Entity.Database;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace FL.WebAPI.Core.Account
@@ -26,12 +34,34 @@ namespace FL.WebAPI.Core.Account
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLibraryServices(new IoC.IoCApi(),
+                new FL.CosmosDb.Standard.IoC.IocModule(),
+                new FL.Logging.Implementation.Standard.IoC.IocModule(),
+                new FL.Sendgrid.Implementation.Standard.IoC.IocModule());
 
+
+            services.AddCors();
             services.AddControllers();
-            services.AddSwaggerGen(c =>
+
+            services.AddAuthentication(x =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "FL.WebAPI.Core.Account", Version = "v1" });
-            });
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+           .AddJwtBearer(x =>
+           {
+               x.RequireHttpsMetadata = false;
+               x.SaveToken = true;
+               x.TokenValidationParameters = new TokenValidationParameters
+               {
+                   ValidateIssuerSigningKey = true,
+                   IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Configuration.GetSection("Secret").Get<string>())),
+                   ValidateIssuer = false,
+                   ValidateAudience = false
+               };
+           });
+            
+           AddIdentity(services, Configuration.GetSection("ConnectionStringUsersSite").Get<string>());
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,20 +70,58 @@ namespace FL.WebAPI.Core.Account
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FL.WebAPI.Core.Account v1"));
+                //app.UseSwagger();
+                //app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "FL.WebAPI.Core.Account v1"));
             }
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
+            app.UseCors(x => x
+               .AllowAnyOrigin()
+               .AllowAnyMethod()
+               .AllowAnyHeader());
+
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
+        }
+
+        private void AddIdentity(IServiceCollection services, string connectionString)
+        {
+            services.AddDbContext<UserDbContext>(options =>
+                options.UseSqlServer(connectionString));
+
+            services.AddIdentity<Domain.Entities.User, IdentityRole<Guid>>(options =>
+            {
+                //options.User.AllowedUserNameCharacters = AuthOptions.AllowedUserNameCharacters;
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireDigit = false;
+                options.Password.RequiredLength = 0;
+                options.Password.RequiredUniqueChars = 0;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+            })
+            .AddEntityFrameworkStores<UserDbContext>()
+            .AddDefaultTokenProviders();
+
+            services.TryAddScoped<SignInManager<Domain.Entities.User>>();
+
+            //services.ConfigureApplicationCookie(options =>
+            //{
+            //    options.Events.OnRedirectToLogin = context =>
+            //    {
+            //        context.Response.StatusCode = StatusCodes.Status401Unauthorized;
+            //        return Task.CompletedTask;
+            //    };
+            //});
         }
     }
 }

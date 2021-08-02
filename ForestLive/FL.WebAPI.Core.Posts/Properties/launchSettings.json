@@ -17,7 +17,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "FL.WebAPI.Core.Items": {
+    "FL.WebAPI.Core.Posts": {
       "commandName": "Project",
       "launchBrowser": true,
       "launchUrl": "weatherforecast",
@@ -30,13 +30,8 @@
       "commandName": "Docker",
       "launchBrowser": true,
       "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/weatherforecast",
-      "environmentVariables": {
-        "ASPNETCORE_URLS": "https://+:443;http://+:80",
-        "ASPNETCORE_HTTPS_PORT": "44305"
-      },
-      "httpPort": 60580,
-      "useSSL": true,
-      "sslPort": 44305
+      "publishAllPorts": true,
+      "useSSL": true
     }
   }
 }
