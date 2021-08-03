@@ -10,10 +10,10 @@ namespace FL.WebAPI.Core.Searchs.Api.Mappers.v1.Contracts
     {
         PostListResponse Convert(PostDto source, IEnumerable<VotePostResponse> postVotes = null);
 
-        BirdMapResponse Convert(PointPostDto source);
+        PostMapResponse Convert(PointPostDto source);
 
         PostResponse ConvertPost(BirdPost source, IEnumerable<VotePostResponse> postVotes = null);
 
-        ModalBirdPostResponse ModalConvert(BirdPost source);
+        ModalPostResponse ModalConvert(BirdPost source);
     }
 }

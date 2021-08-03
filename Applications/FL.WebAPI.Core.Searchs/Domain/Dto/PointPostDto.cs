@@ -9,6 +9,9 @@ namespace FL.Web.API.Core.User.Posts.Domain.Dto
         [JsonProperty(PropertyName = "postId")]
         public Guid PostId { get; set; }
 
+        [JsonProperty(PropertyName = "userId")]
+        public string UserId { get; set; }
+
         [JsonProperty(PropertyName = "location")]
         public Point Location { get; set; }
     }

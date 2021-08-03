@@ -40,7 +40,7 @@ namespace FL.WebAPI.Core.Searchs.Infrastructure.Repositories
         {
             try 
             {
-                var queryString = @"SELECT p.postId, p.location FROM p WHERE ST_DISTANCE(p.location, {'type': 'Point', 'coordinates':[@Longitude, @Latitude]}) < @Distance";
+                var queryString = @"SELECT p.postId, p.location, p.userId FROM p WHERE ST_DISTANCE(p.location, {'type': 'Point', 'coordinates':[@Longitude, @Latitude]}) < @Distance";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@Latitude", latitude);
@@ -70,7 +70,7 @@ namespace FL.WebAPI.Core.Searchs.Infrastructure.Repositories
             var posts = new List<PointPostDto>();
             try
             {
-                var queryString = @"SELECT p.postId, p.location FROM p WHERE p.specieId = @SpecieId  AND ST_DISTANCE(p.location, {'type': 'Point', 'coordinates':[@Longitude, @Latitude]}) < @Distance";
+                var queryString = @"SELECT p.postId, p.location, p.userId FROM p WHERE p.specieId = @SpecieId  AND ST_DISTANCE(p.location, {'type': 'Point', 'coordinates':[@Longitude, @Latitude]}) < @Distance";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@Latitude", latitude);

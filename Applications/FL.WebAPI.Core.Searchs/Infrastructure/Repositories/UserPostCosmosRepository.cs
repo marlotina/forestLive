@@ -45,7 +45,7 @@ namespace FL.WebAPI.Core.Searchs.Infrastructure.Repositories
 
             try
             {
-                var queryString = $"SELECT p.postId, p.location FROM p WHERE p.location != null AND p.userId = @UserId ORDER BY p.creationDate DESC";
+                var queryString = $"SELECT p.postId, p.location, p.userId FROM p WHERE p.location != null AND p.userId = @UserId ORDER BY p.creationDate DESC";
 
                 var queryDef = new QueryDefinition(queryString);
                 queryDef.WithParameter("@UserId", userId);

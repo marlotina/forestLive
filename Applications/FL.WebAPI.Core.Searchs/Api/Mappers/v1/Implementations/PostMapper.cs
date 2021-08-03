@@ -90,14 +90,15 @@ namespace FL.WebAPI.Core.Searchs.Api.Mappers.v1.Implementations
             return result;
         }
 
-        public BirdMapResponse Convert(PointPostDto source)
+        public PostMapResponse Convert(PointPostDto source)
         {
-            var result = default(BirdMapResponse);
+            var result = default(PostMapResponse);
             if (source != null)
             {
-                result = new BirdMapResponse()
+                result = new PostMapResponse()
                 {
                     PostId = source.PostId,
+                    UserId = source.UserId,
                     Location = new PositionResponse
                     {
                         Lat = source.Location.Position.Latitude,
@@ -109,12 +110,12 @@ namespace FL.WebAPI.Core.Searchs.Api.Mappers.v1.Implementations
             return result;
         }
 
-        public ModalBirdPostResponse ModalConvert(BirdPost source)
+        public ModalPostResponse ModalConvert(BirdPost source)
         {
-            var result = default(ModalBirdPostResponse);
+            var result = default(ModalPostResponse);
             if (source != null)
             {
-                result = new ModalBirdPostResponse()
+                result = new ModalPostResponse()
                 {
                     PostId = source.Id,
                     Title = source.Title,

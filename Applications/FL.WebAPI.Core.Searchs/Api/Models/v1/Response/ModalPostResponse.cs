@@ -2,7 +2,7 @@
 
 namespace FL.WebAPI.Core.Searchs.Api.Models.v1.Response
 {
-    public class ModalBirdPostResponse
+    public class ModalPostResponse
     {
         public Guid PostId { get; set; }
 
